@@ -10,8 +10,9 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
-            overflow: auto; /* PERMITE BAJAR (SCROLL) */
+            /* CORRECCIÓN CLAVE: */
+            min-height: 100vh; 
+            overflow-x: hidden; 
             background-color: #041016;
             font-family: 'Georgia', serif;
             color: white;
@@ -19,13 +20,13 @@
 
         /* FONDO OCEÁNICO */
         .ocean {
-            position: fixed; /* Fondo fijo para que no se corte al bajar */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             background: linear-gradient(180deg, #0f2e46 0%, #041016 100%);
-            z-index: -2;
+            z-index: -1;
         }
 
         /* RAYOS DE LUZ */
@@ -66,13 +67,12 @@
         .hero-content {
             position: relative;
             z-index: 10;
-            min-height: 100vh; /* Ocupa al menos toda la pantalla */
+            width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 40px 20px;
+            padding-top: 50px; 
+            padding-bottom: 100px; /* Espacio extra abajo */
         }
 
         h1 {
@@ -84,6 +84,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: fadeIn 3s ease-out;
+            text-align: center;
         }
 
         p.subtitle {
@@ -93,8 +94,10 @@
             line-height: 1.6;
             margin-bottom: 40px;
             animation: fadeIn 4s ease-out;
+            text-align: center;
         }
 
+        /* BOTÓN HISTORIA */
         .btn-main {
             padding: 15px 40px;
             font-size: 1.1rem;
@@ -108,7 +111,7 @@
             backdrop-filter: blur(5px);
             animation: fadeIn 5s ease-out;
             letter-spacing: 1px;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
         .btn-main:hover {
             background: rgba(255,255,255,0.2);
@@ -117,19 +120,40 @@
             border-color: #81d4fa;
         }
 
-        /* BOTONES DONACIÓN */
+        /* SECCIÓN DONACIONES */
+        .donations-wrapper {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            animation: fadeIn 6s ease-out;
+            width: 100%;
+        }
+
+        .donate-link {
+            text-decoration: none;
+        }
+
         .donate-btn {
-            display: block;
-            border-radius: 30px;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s;
+            padding: 15px 40px; 
+            color: white; 
+            font-size: 1.1rem; 
+            border-radius: 30px; 
+            cursor: pointer; 
+            backdrop-filter: blur(5px); 
+            transition: all 0.3s; 
             width: 280px;
             text-align: center;
-            margin: 10px 0;
-            padding: 15px 0;
-            font-size: 1.1rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
         }
+
+        .donate-btn:hover { transform: scale(1.05); }
+
+        /* Estilos específicos botones */
+        .btn-wave { border-color: #4fc3f7; background: rgba(79,195,247,0.2); }
+        .btn-ocean { background: linear-gradient(90deg, #ffd700, #ffb300); color: black; font-weight: bold; border: none; }
 
         @keyframes fadeIn {
             0% { opacity: 0; transform: translateY(20px); }
@@ -140,7 +164,6 @@
 <body>
 
     <div class="ocean">
-        <div class="light-ray"></div>
         <div class="light-ray"></div>
         <div class="light-ray"></div>
     </div>
@@ -164,7 +187,7 @@
 
     <div class="hero-content">
         
-        <h1>BlueSphere Consciousness</h1>
+        <img src="logo.png" alt="BlueSphere" style="max-width: 400px; width: 80%; margin-bottom: 20px; animation: fadeIn 3s ease-out;">
         <p class="subtitle">
             La conciencia es la nueva civilización.<br>
             Únete a la saga literaria que transformará el futuro del planeta.
@@ -172,32 +195,26 @@
         
         <a href="#" class="btn-main">Sumérgete en la Historia</a>
 
-        <div style="margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; animation: fadeIn 6s ease-out;">
+        <div class="donations-wrapper">
             
-            <p style="font-size: 1.2rem; color: #b3e5fc; margin-bottom: 15px; text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);">
+            <p style="font-size: 1.2rem; color: #b3e5fc; margin-bottom: 10px; text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);">
                 Elige tu nivel de impacto:
             </p>
 
-            <a href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" target="_blank" style="text-decoration: none;">
-                <div class="donate-btn" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white;"
-                     onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='scale(1.05)'"
-                     onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='scale(1)'">
+            <a href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" target="_blank" class="donate-link">
+                <div class="donate-btn">
                     💧 Semilla ($50 MXN)
                 </div>
             </a>
 
-            <a href="https://www.paypal.com/ncp/payment/7TL3MQ4BLAAEY" target="_blank" style="text-decoration: none;">
-                <div class="donate-btn" style="background: rgba(79,195,247,0.2); border: 1px solid #4fc3f7; color: white;"
-                     onmouseover="this.style.background='rgba(79,195,247,0.4)'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 15px #4fc3f7'"
-                     onmouseout="this.style.background='rgba(79,195,247,0.2)'; this.style.transform='scale(1)'; this.style.boxShadow='none'">
+            <a href="https://www.paypal.com/ncp/payment/7TL3MQ4BLAAEY" target="_blank" class="donate-link">
+                <div class="donate-btn btn-wave">
                     🌊 Ola de Cambio
                 </div>
             </a>
 
-            <a href="https://www.paypal.com/ncp/payment/KTB5T3PJHRVLQ" target="_blank" style="text-decoration: none;">
-                <div class="donate-btn" style="background: linear-gradient(90deg, #ffd700, #ffb300); color: #041016; font-weight: bold; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);"
-                     onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 40px rgba(255, 215, 0, 0.8)'"
-                     onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 20px rgba(255, 215, 0, 0.4)'">
+            <a href="https://www.paypal.com/ncp/payment/KTB5T3PJHRVLQ" target="_blank" class="donate-link">
+                <div class="donate-btn btn-ocean">
                     ✨ Océano (Monto Libre)
                 </div>
             </a>
