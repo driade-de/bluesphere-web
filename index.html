@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlueSphere Consciousness | La Nueva Civilización</title>
+    <title>BlueSphere Consciousness</title>
     <style>
-        /* ESTILO GENERAL */
+        /* ESTILO GENERAL Y SCROLL */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
-            /* CORRECCIÓN CLAVE: */
-            min-height: 100vh; 
-            overflow-x: hidden; 
+            min-height: 100vh;
+            overflow-x: hidden; /* Evita scroll lateral */
             background-color: #041016;
             font-family: 'Georgia', serif;
             color: white;
@@ -71,12 +70,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 50px; 
-            padding-bottom: 100px; /* Espacio extra abajo */
+            padding-top: 80px; 
+            padding-bottom: 150px; /* Espacio para bajar */
         }
 
+        /* TÍTULO DE TEXTO (TU PREFERIDO) */
         h1 {
             font-size: 3.5rem;
+            text-align: center;
             letter-spacing: 2px;
             margin-bottom: 10px;
             text-shadow: 0 0 20px rgba(79, 195, 247, 0.5);
@@ -84,20 +85,18 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: fadeIn 3s ease-out;
-            text-align: center;
         }
 
         p.subtitle {
             font-size: 1.2rem;
             color: #b0bec5;
             max-width: 600px;
+            text-align: center;
             line-height: 1.6;
             margin-bottom: 40px;
             animation: fadeIn 4s ease-out;
-            text-align: center;
         }
 
-        /* BOTÓN HISTORIA */
         .btn-main {
             padding: 15px 40px;
             font-size: 1.1rem;
@@ -106,11 +105,9 @@
             color: white;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.4s ease;
             text-decoration: none;
             backdrop-filter: blur(5px);
             animation: fadeIn 5s ease-out;
-            letter-spacing: 1px;
             margin-bottom: 50px;
         }
         .btn-main:hover {
@@ -120,40 +117,34 @@
             border-color: #81d4fa;
         }
 
-        /* SECCIÓN DONACIONES */
+        /* BOTONES DE DONACIÓN */
         .donations-wrapper {
-            margin-top: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 15px;
-            animation: fadeIn 6s ease-out;
             width: 100%;
+            animation: fadeIn 6s ease-out;
         }
 
-        .donate-link {
-            text-decoration: none;
-        }
+        .donate-link { text-decoration: none; }
 
         .donate-btn {
-            padding: 15px 40px; 
-            color: white; 
-            font-size: 1.1rem; 
-            border-radius: 30px; 
-            cursor: pointer; 
-            backdrop-filter: blur(5px); 
-            transition: all 0.3s; 
+            padding: 15px 0;
             width: 280px;
             text-align: center;
+            color: white;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
             border: 1px solid rgba(255,255,255,0.3);
             background: rgba(255,255,255,0.1);
+            transition: all 0.3s;
         }
-
         .donate-btn:hover { transform: scale(1.05); }
 
-        /* Estilos específicos botones */
         .btn-wave { border-color: #4fc3f7; background: rgba(79,195,247,0.2); }
-        .btn-ocean { background: linear-gradient(90deg, #ffd700, #ffb300); color: black; font-weight: bold; border: none; }
+        .btn-ocean { background: linear-gradient(90deg, #ffd700, #ffb300); color: black; font-weight: bold; border: none; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
 
         @keyframes fadeIn {
             0% { opacity: 0; transform: translateY(20px); }
@@ -164,6 +155,7 @@
 <body>
 
     <div class="ocean">
+        <div class="light-ray"></div>
         <div class="light-ray"></div>
         <div class="light-ray"></div>
     </div>
@@ -187,7 +179,8 @@
 
     <div class="hero-content">
         
-        <img src="logo.png" alt="BlueSphere" style="max-width: 400px; width: 80%; margin-bottom: 20px; animation: fadeIn 3s ease-out;">
+        <h1>BlueSphere Consciousness</h1>
+        
         <p class="subtitle">
             La conciencia es la nueva civilización.<br>
             Únete a la saga literaria que transformará el futuro del planeta.
