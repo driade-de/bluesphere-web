@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -11,15 +11,15 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
-            background-color: #041016; /* Fondo profundo */
+            overflow: auto; /* PERMITE BAJAR (SCROLL) */
+            background-color: #041016;
             font-family: 'Georgia', serif;
             color: white;
         }
 
-        /* FONDO OCEÁNICO ANIMADO (CSS PURO) */
+        /* FONDO OCEÁNICO */
         .ocean {
-            position: absolute;
+            position: fixed; /* Fondo fijo para que no se corte al bajar */
             top: 0;
             left: 0;
             width: 100%;
@@ -28,7 +28,7 @@
             z-index: -2;
         }
 
-        /* RAYOS DE LUZ (Efecto Ghibli) */
+        /* RAYOS DE LUZ */
         .light-ray {
             position: absolute;
             top: -20%;
@@ -48,7 +48,7 @@
             100% { transform: rotate(28deg) translateY(-20px); opacity: 0.4; }
         }
 
-        /* PARTÍCULAS (Burbujas/Polvo) */
+        /* PARTÍCULAS */
         .particle {
             position: absolute;
             bottom: -10px;
@@ -56,24 +56,23 @@
             border-radius: 50%;
             animation: rise 15s infinite ease-in;
         }
-
         @keyframes rise {
             0% { bottom: -10px; transform: translateX(0); opacity: 0; }
             50% { opacity: 1; }
             100% { bottom: 100%; transform: translateX(-20px); opacity: 0; }
         }
 
-        /* CONTENIDO CENTRAL */
+        /* CONTENEDOR PRINCIPAL */
         .hero-content {
             position: relative;
             z-index: 10;
-            height: 100%;
+            min-height: 100vh; /* Ocupa al menos toda la pantalla */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         h1 {
@@ -96,7 +95,6 @@
             animation: fadeIn 4s ease-out;
         }
 
-        /* BOTÓN INTERACTIVO */
         .btn-main {
             padding: 15px 40px;
             font-size: 1.1rem;
@@ -110,8 +108,8 @@
             backdrop-filter: blur(5px);
             animation: fadeIn 5s ease-out;
             letter-spacing: 1px;
+            margin-bottom: 40px;
         }
-
         .btn-main:hover {
             background: rgba(255,255,255,0.2);
             box-shadow: 0 0 30px rgba(129, 212, 250, 0.4);
@@ -119,11 +117,24 @@
             border-color: #81d4fa;
         }
 
+        /* BOTONES DONACIÓN */
+        .donate-btn {
+            display: block;
+            border-radius: 30px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+            width: 280px;
+            text-align: center;
+            margin: 10px 0;
+            padding: 15px 0;
+            font-size: 1.1rem;
+        }
+
         @keyframes fadeIn {
             0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
-
     </style>
 </head>
 <body>
@@ -152,81 +163,47 @@
     </script>
 
     <div class="hero-content">
+        
         <h1>BlueSphere Consciousness</h1>
         <p class="subtitle">
             La conciencia es la nueva civilización.<br>
             Únete a la saga literaria que transformará el futuro del planeta.
         </p>
-        <a href="#" class="btn-main">Sumérgete en la Historia</a>
-    </div>
-<div style="margin-top: 50px; display: flex; flex-direction: column; align-items: center; gap: 20px; animation: fadeIn 6s ease-out;">
         
-        <p style="font-size: 1.1rem; color: #81d4fa; margin-bottom: 15px; text-shadow: 0 0 10px rgba(129, 212, 250, 0.6);">
-            Elige tu nivel de impacto:
-        </p>
+        <a href="#" class="btn-main">Sumérgete en la Historia</a>
 
-        <a href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" target="_blank" style="text-decoration: none;">
-            <button style="
-                background: rgba(255, 255, 255, 0.1);
-                border: 1px solid rgba(255, 255, 255, 0.4);
-                padding: 15px 60px;
-                color: white;
-                font-size: 1.2rem;
-                border-radius: 50px;
-                cursor: pointer;
-                backdrop-filter: blur(10px);
-                transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-                width: 300px;
-            " onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 20px #4fc3f7'" 
-              onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.2)'">
-                🌱 Semilla de Vida
-            </button>
-        </a>
+        <div style="margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; animation: fadeIn 6s ease-out;">
+            
+            <p style="font-size: 1.2rem; color: #b3e5fc; margin-bottom: 15px; text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);">
+                Elige tu nivel de impacto:
+            </p>
 
-        <a href="https://www.paypal.com/ncp/payment/7TL3MQ4BLAAEY" target="_blank" style="text-decoration: none;">
-            <button style="
-                background: rgba(79, 195, 247, 0.2);
-                border: 1px solid rgba(79, 195, 247, 0.6);
-                padding: 15px 60px;
-                color: white;
-                font-size: 1.2rem;
-                border-radius: 50px;
-                cursor: pointer;
-                backdrop-filter: blur(10px);
-                transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-                width: 300px;
-            " onmouseover="this.style.background='rgba(79, 195, 247, 0.4)'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 25px #4fc3f7'" 
-              onmouseout="this.style.background='rgba(79, 195, 247, 0.2)'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.2)'">
-                🌊 Corriente Azul
-            </button>
-        </a>
+            <a href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" target="_blank" style="text-decoration: none;">
+                <div class="donate-btn" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white;"
+                     onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='scale(1.05)'"
+                     onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='scale(1)'">
+                    💧 Semilla ($50 MXN)
+                </div>
+            </a>
 
-        <a href="https://www.paypal.com/ncp/payment/KTB5T3PJHRVLQ" target="_blank" style="text-decoration: none;">
-            <button style="
-                background: linear-gradient(90deg, #ffd700, #ffb300);
-                border: none;
-                padding: 18px 60px;
-                color: #041016;
-                font-weight: bold;
-                font-size: 1.3rem;
-                border-radius: 50px;
-                cursor: pointer;
-                box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-                transition: transform 0.3s, box-shadow 0.3s;
-                width: 300px;
-            " onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 40px rgba(255, 215, 0, 0.8)'" 
-              onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 20px rgba(255, 215, 0, 0.4)'">
-                ✨ Océano Infinito
-            </button>
-        </a>
+            <a href="https://www.paypal.com/ncp/payment/7TL3MQ4BLAAEY" target="_blank" style="text-decoration: none;">
+                <div class="donate-btn" style="background: rgba(79,195,247,0.2); border: 1px solid #4fc3f7; color: white;"
+                     onmouseover="this.style.background='rgba(79,195,247,0.4)'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 15px #4fc3f7'"
+                     onmouseout="this.style.background='rgba(79,195,247,0.2)'; this.style.transform='scale(1)'; this.style.boxShadow='none'">
+                    🌊 Ola de Cambio
+                </div>
+            </a>
 
+            <a href="https://www.paypal.com/ncp/payment/KTB5T3PJHRVLQ" target="_blank" style="text-decoration: none;">
+                <div class="donate-btn" style="background: linear-gradient(90deg, #ffd700, #ffb300); color: #041016; font-weight: bold; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);"
+                     onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 40px rgba(255, 215, 0, 0.8)'"
+                     onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 20px rgba(255, 215, 0, 0.4)'">
+                    ✨ Océano (Monto Libre)
+                </div>
+            </a>
 
+        </div>
     </div>
-    </div>
+
 </body>
-
 </html>
-
-
