@@ -5,136 +5,327 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlueSphere Consciousness</title>
     <style>
-        /* ESTILO GENERAL */
+        /* ===== RESET CRÍTICO ===== */
+        * { box-sizing: border-box; }
+        
+        html, body {
+            overflow: visible !important;
+            overflow-x: visible !important;
+            overflow-y: visible !important;
+            height: auto !important;
+            min-height: 100vh !important;
+            width: 100% !important;
+            max-width: 100vw !important;
+        }
+
+        /* ===== ESTILO GENERAL ===== */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
-            min-height: 100vh; /* Garantiza que la página crezca */
+            min-height: 100vh;
             background-color: #041016;
             font-family: 'Georgia', serif;
             color: white;
-            overflow-x: hidden; /* Mantiene el ancho fijo, permite bajar */
         }
 
-        /* FONDO */
+        /* ===== FONDO OCEÁNICO ===== */
         .ocean {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
             background: linear-gradient(180deg, #0f2e46 0%, #041016 100%);
             z-index: -1;
+            overflow: hidden;
         }
 
-        /* CONTENEDOR PRINCIPAL */
+        /* ===== RAYOS DE LUZ ===== */
+        .light-ray {
+            position: absolute;
+            top: -20%;
+            left: 50%;
+            width: 100px;
+            height: 150%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 80%);
+            transform: rotate(25deg);
+            filter: blur(20px);
+            animation: lightMove 8s infinite alternate ease-in-out;
+        }
+        .light-ray:nth-child(2) { left: 30%; width: 60px; animation-duration: 11s; opacity: 0.5; }
+        .light-ray:nth-child(3) { left: 70%; width: 120px; animation-duration: 9s; opacity: 0.3; }
+
+        @keyframes lightMove {
+            0% { transform: rotate(25deg) translateY(0); opacity: 0.2; }
+            100% { transform: rotate(28deg) translateY(-20px); opacity: 0.4; }
+        }
+
+        /* ===== PARTÍCULAS ===== */
+        .particle {
+            position: absolute;
+            bottom: -10px;
+            background-color: rgba(200, 240, 255, 0.6);
+            border-radius: 50%;
+            animation: rise 15s infinite ease-in;
+        }
+
+        @keyframes rise {
+            0% { bottom: -10px; transform: translateX(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { bottom: 100%; transform: translateX(-20px); opacity: 0; }
+        }
+
+        /* ===== CONTENEDOR PRINCIPAL ===== */
         .hero-content {
             position: relative;
             z-index: 10;
             width: 100%;
+            max-width: 100vw;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 60px;
-            padding-bottom: 120px; /* Espacio vital para el final */
+            padding-top: 80px;
+            padding-bottom: 150px;
+            overflow: visible !important;
         }
 
-        /* TEXTOS */
+        /* ===== TÍTULO ===== */
         h1 {
-            font-size: 3.5rem; text-align: center; letter-spacing: 2px;
+            font-size: 3.5rem;
+            text-align: center;
+            letter-spacing: 2px;
             margin-bottom: 10px;
             text-shadow: 0 0 20px rgba(79, 195, 247, 0.5);
             background: linear-gradient(to right, #ffffff, #81d4fa);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             animation: fadeIn 3s ease-out;
         }
 
+        /* ===== SUBTÍTULO ===== */
         p.subtitle {
-            font-size: 1.2rem; color: #b0bec5; max-width: 600px;
-            text-align: center; line-height: 1.6; margin-bottom: 40px;
+            font-size: 1.2rem;
+            color: #b0bec5;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 40px;
             animation: fadeIn 4s ease-out;
         }
 
-        /* BOTÓN HISTORIA */
+        /* ===== BOTÓN PRINCIPAL ===== */
         .btn-main {
-            padding: 15px 40px; font-size: 1.1rem;
+            padding: 15px 40px;
+            font-size: 1.1rem;
             border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.05); color: white;
-            border-radius: 50px; cursor: pointer; text-decoration: none;
-            backdrop-filter: blur(5px); animation: fadeIn 5s ease-out;
-            margin-bottom: 50px; display: inline-block;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 5s ease-out;
+            margin-bottom: 50px;
+            display: inline-block;
+            transition: all 0.3s ease;
         }
+
         .btn-main:hover {
             background: rgba(255,255,255,0.2);
             box-shadow: 0 0 30px rgba(129, 212, 250, 0.4);
-            transform: translateY(-3px); border-color: #81d4fa;
+            transform: translateY(-3px);
+            border-color: #81d4fa;
         }
 
-        /* DONACIONES */
+        /* ===== SECCIÓN DE DONACIONES ===== */
         .donations-wrapper {
-            display: flex; flex-direction: column; align-items: center;
-            gap: 20px; width: 100%; animation: fadeIn 6s ease-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 100vw;
+            animation: fadeIn 6s ease-out;
+            margin-top: 20px;
+            padding: 30px;
+            border-radius: 15px;
+            background: rgba(0, 30, 60, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.1);
         }
 
-        .donate-link { text-decoration: none; }
+        .donation-title {
+            font-size: 1.3rem;
+            color: #b3e5fc;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+            text-align: center;
+        }
+
+        /* ===== BOTONES DE DONACIÓN ===== */
+        .donate-link {
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            max-width: 300px;
+        }
 
         .donate-btn {
-            display: block; /* Tu sugerencia aplicada */
-            width: 280px; padding: 15px 0; text-align: center;
-            color: white; font-size: 1.1rem; border-radius: 30px;
-            cursor: pointer; border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.1); transition: transform 0.2s;
+            width: 100%;
+            padding: 18px 0;
+            text-align: center;
+            color: white;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            display: block !important;
+            margin: 0 auto;
         }
-        .donate-btn:hover { transform: scale(1.05); }
-        .btn-wave { border-color: #4fc3f7; background: rgba(79,195,247,0.2); }
-        .btn-ocean { background: linear-gradient(90deg, #ffd700, #ffb300); color: black; font-weight: bold; border: none; }
 
-        /* ANIMACIONES */
-        .light-ray { position: absolute; top: -20%; left: 50%; width: 100px; height: 150%; background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 80%); transform: rotate(25deg); filter: blur(20px); animation: lightMove 8s infinite alternate; }
-        @keyframes lightMove { 0% { transform: rotate(25deg) translateY(0); } 100% { transform: rotate(28deg) translateY(-20px); } }
-        .particle { position: absolute; bottom: -10px; background-color: rgba(200, 240, 255, 0.6); border-radius: 50%; animation: rise 15s infinite ease-in; }
-        @keyframes rise { 0% { bottom: -10px; transform: translateX(0); opacity: 0; } 100% { bottom: 100%; transform: translateX(-20px); opacity: 0; } }
-        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+        .donate-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(79, 195, 247, 0.3);
+        }
+
+        .btn-wave {
+            border-color: #4fc3f7;
+            background: rgba(79, 195, 247, 0.2);
+        }
+
+        .btn-wave:hover {
+            box-shadow: 0 0 25px rgba(79, 195, 247, 0.5);
+        }
+
+        .btn-ocean {
+            background: linear-gradient(90deg, #ffd700, #ffb300);
+            color: black;
+            font-weight: bold;
+            border: none;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-ocean:hover {
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+        }
+
+        /* ===== ANIMACIONES ===== */
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .donations-wrapper { padding: 20px; }
+            .donate-link { max-width: 280px; }
+            .donate-btn { padding: 16px 0; font-size: 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            .subtitle { font-size: 1rem; padding: 0 20px; }
+            .hero-content { padding-top: 60px; padding-bottom: 100px; }
+            .donations-wrapper { padding: 15px; }
+        }
     </style>
 </head>
 <body>
-    <div class="ocean"><div class="light-ray"></div><div class="light-ray" style="left:30%;width:60px;"></div></div>
-    
+
+    <!-- FONDO ANIMADO -->
+    <div class="ocean">
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+    </div>
+
+    <!-- SCRIPT DE PARTÍCULAS -->
     <script>
-        const ocean = document.querySelector('.ocean');
-        for(let i=0; i<30; i++) {
-            let p = document.createElement('div');
-            p.className = 'particle';
-            p.style.left = Math.random() * 100 + '%';
-            p.style.width = Math.random() * 4 + 'px';
-            p.style.height = p.style.width;
-            p.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            p.style.animationDelay = Math.random() * 5 + 's';
-            ocean.appendChild(p);
+        function createParticles() {
+            const ocean = document.querySelector('.ocean');
+            for(let i = 0; i < 30; i++) {
+                let p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.width = Math.random() * 4 + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                p.style.animationDelay = Math.random() * 5 + 's';
+                ocean.appendChild(p);
+            }
         }
+        createParticles();
     </script>
 
+    <!-- CONTENIDO PRINCIPAL -->
     <div class="hero-content">
-        <h1>BlueSphere Consciousness</h1>
-        <p class="subtitle">La conciencia es la nueva civilización.<br>Únete a la saga literaria.</p>
         
+        <h1>BlueSphere Consciousness</h1>
+        
+        <p class="subtitle">
+            La conciencia es la nueva civilización.<br>
+            Únete a la saga literaria que transformará el futuro del planeta.
+        </p>
+        
+        <!-- BOTÓN PRINCIPAL SIN # PROBLEMÁTICO -->
         <a href="javascript:void(0)" class="btn-main">Sumérgete en la Historia</a>
 
+        <!-- SECCIÓN DE DONACIONES VISIBLE -->
         <div class="donations-wrapper">
-            <p style="color:#b3e5fc;">Elige tu nivel de impacto:</p>
             
-            <a href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" target="_blank" class="donate-link">
-                <div class="donate-btn">💧 Semilla ($50 MXN)</div>
+            <p class="donation-title">Elige tu nivel de impacto:</p>
+
+            <!-- BOTÓN SEMILLA -->
+            <a href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" 
+               target="_blank" 
+               class="donate-link">
+                <div class="donate-btn">
+                    💧 Semilla ($50 MXN)
+                </div>
             </a>
-            
-            <a href="https://www.paypal.com/ncp/payment/7TL3MQ4BLAAEY" target="_blank" class="donate-link">
-                <div class="donate-btn btn-wave">🌊 Ola de Cambio</div>
+
+            <!-- BOTÓN OLA DE CAMBIO -->
+            <a href="https://www.paypal.com/ncp/payment/7TL3MQ4BLAAEY" 
+               target="_blank" 
+               class="donate-link">
+                <div class="donate-btn btn-wave">
+                    🌊 Ola de Cambio
+                </div>
             </a>
-            
-            <a href="https://www.paypal.com/ncp/payment/KTB5T3PJHRVLQ" target="_blank" class="donate-link">
-                <div class="donate-btn btn-ocean">✨ Océano (Monto Libre)</div>
+
+            <!-- BOTÓN OCÉANO -->
+            <a href="https://www.paypal.com/ncp/payment/KTB5T3PJHRVLQ" 
+               target="_blank" 
+               class="donate-link">
+                <div class="donate-btn btn-ocean">
+                    ✨ Océano (Monto Libre)
+                </div>
             </a>
+
         </div>
     </div>
+
+    <!-- SCRIPT ADICIONAL PARA INTERACTIVIDAD -->
+    <script>
+        // Botón principal con funcionalidad futura
+        document.querySelector('.btn-main').addEventListener('click', function() {
+            alert('La saga literaria de BlueSphere Consciousness se revelará próximamente. Mientras tanto, tu apoyo permite que esta visión crezca.');
+        });
+
+        // Prevenir recarga de página en enlaces #
+        document.addEventListener('DOMContentLoaded', function() {
+            var links = document.querySelectorAll('a[href="#"]');
+            links.forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>
-
 
