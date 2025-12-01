@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlueSphere Consciousness</title>
     <style>
-        /* ESTILO GENERAL Y SCROLL */
+        /* ESTILO GENERAL */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
-            min-height: 100vh;
-            overflow-x: hidden; /* Evita scroll lateral */
+            min-height: 100vh; /* ESTO ES LO NUEVO */
+            overflow-x: hidden; 
+            /* YA NO ESTÁ EL OVERFLOW HIDDEN AQUÍ */
             background-color: #041016;
             font-family: 'Georgia', serif;
             color: white;
         }
 
-        /* FONDO OCEÁNICO */
         .ocean {
             position: fixed;
             top: 0;
@@ -28,192 +28,103 @@
             z-index: -1;
         }
 
-        /* RAYOS DE LUZ */
         .light-ray {
-            position: absolute;
-            top: -20%;
-            left: 50%;
-            width: 100px;
-            height: 150%;
+            position: absolute; top: -20%; left: 50%; width: 100px; height: 150%;
             background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 80%);
-            transform: rotate(25deg);
-            filter: blur(20px);
-            animation: lightMove 8s infinite alternate ease-in-out;
+            transform: rotate(25deg); filter: blur(20px); animation: lightMove 8s infinite alternate;
         }
-        .light-ray:nth-child(2) { left: 30%; width: 60px; animation-duration: 11s; opacity: 0.5; }
-        .light-ray:nth-child(3) { left: 70%; width: 120px; animation-duration: 9s; opacity: 0.3; }
+        @keyframes lightMove { 0% { transform: rotate(25deg) translateY(0); } 100% { transform: rotate(28deg) translateY(-20px); } }
 
-        @keyframes lightMove {
-            0% { transform: rotate(25deg) translateY(0); opacity: 0.2; }
-            100% { transform: rotate(28deg) translateY(-20px); opacity: 0.4; }
-        }
-
-        /* PARTÍCULAS */
         .particle {
-            position: absolute;
-            bottom: -10px;
-            background-color: rgba(200, 240, 255, 0.6);
-            border-radius: 50%;
-            animation: rise 15s infinite ease-in;
+            position: absolute; bottom: -10px; background-color: rgba(200, 240, 255, 0.6);
+            border-radius: 50%; animation: rise 15s infinite ease-in;
         }
         @keyframes rise {
             0% { bottom: -10px; transform: translateX(0); opacity: 0; }
-            50% { opacity: 1; }
             100% { bottom: 100%; transform: translateX(-20px); opacity: 0; }
         }
 
-        /* CONTENEDOR PRINCIPAL */
         .hero-content {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 80px; 
-            padding-bottom: 150px; /* Espacio para bajar */
+            position: relative; z-index: 10; width: 100%;
+            display: flex; flex-direction: column; align-items: center;
+            padding-top: 60px; padding-bottom: 120px;
         }
 
-        /* TÍTULO DE TEXTO (TU PREFERIDO) */
         h1 {
-            font-size: 3.5rem;
-            text-align: center;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
+            font-size: 3.5rem; text-align: center; letter-spacing: 2px; margin-bottom: 10px;
             text-shadow: 0 0 20px rgba(79, 195, 247, 0.5);
             background: linear-gradient(to right, #ffffff, #81d4fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: fadeIn 3s ease-out;
         }
 
         p.subtitle {
-            font-size: 1.2rem;
-            color: #b0bec5;
-            max-width: 600px;
-            text-align: center;
-            line-height: 1.6;
-            margin-bottom: 40px;
-            animation: fadeIn 4s ease-out;
+            font-size: 1.2rem; color: #b0bec5; max-width: 600px; text-align: center;
+            line-height: 1.6; margin-bottom: 40px; animation: fadeIn 4s ease-out;
         }
 
         .btn-main {
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.05);
-            color: white;
-            border-radius: 50px;
-            cursor: pointer;
-            text-decoration: none;
-            backdrop-filter: blur(5px);
-            animation: fadeIn 5s ease-out;
-            margin-bottom: 50px;
-        }
-        .btn-main:hover {
-            background: rgba(255,255,255,0.2);
-            box-shadow: 0 0 30px rgba(129, 212, 250, 0.4);
-            transform: translateY(-3px);
-            border-color: #81d4fa;
+            padding: 15px 40px; font-size: 1.1rem; border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.05); color: white; border-radius: 50px;
+            cursor: pointer; text-decoration: none; backdrop-filter: blur(5px);
+            animation: fadeIn 5s ease-out; margin-bottom: 50px; display: inline-block;
         }
 
-        /* BOTONES DE DONACIÓN */
         .donations-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            width: 100%;
-            animation: fadeIn 6s ease-out;
+            display: flex; flex-direction: column; align-items: center; gap: 20px;
+            width: 100%; animation: fadeIn 6s ease-out;
         }
-
-        .donate-link { text-decoration: none; }
 
         .donate-btn {
-            padding: 15px 0;
-            width: 280px;
-            text-align: center;
-            color: white;
-            font-size: 1.1rem;
-            border-radius: 30px;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.1);
-            transition: all 0.3s;
+            width: 280px; padding: 15px 0; text-align: center; color: white;
+            font-size: 1.1rem; border-radius: 30px; cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1);
+            transition: transform 0.2s; text-decoration: none;
         }
         .donate-btn:hover { transform: scale(1.05); }
+        .btn-ocean { background: linear-gradient(90deg, #ffd700, #ffb300); color: black; font-weight: bold; border: none; }
 
-        .btn-wave { border-color: #4fc3f7; background: rgba(79,195,247,0.2); }
-        .btn-ocean { background: linear-gradient(90deg, #ffd700, #ffb300); color: black; font-weight: bold; border: none; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-
-    <div class="ocean">
-        <div class="light-ray"></div>
-        <div class="light-ray"></div>
-        <div class="light-ray"></div>
-    </div>
-
+    <div class="ocean"><div class="light-ray"></div><div class="light-ray" style="left:30%;width:60px;"></div></div>
+    
     <script>
-        function createParticles() {
-            const ocean = document.querySelector('.ocean');
-            for(let i=0; i<30; i++) {
-                let p = document.createElement('div');
-                p.className = 'particle';
-                p.style.left = Math.random() * 100 + '%';
-                p.style.width = Math.random() * 4 + 'px';
-                p.style.height = p.style.width;
-                p.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                p.style.animationDelay = Math.random() * 5 + 's';
-                ocean.appendChild(p);
-            }
+        const ocean = document.querySelector('.ocean');
+        for(let i=0; i<30; i++) {
+            let p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.width = Math.random() * 4 + 'px';
+            p.style.height = p.style.width;
+            p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            p.style.animationDelay = Math.random() * 5 + 's';
+            ocean.appendChild(p);
         }
-        createParticles();
     </script>
 
     <div class="hero-content">
-        
         <h1>BlueSphere Consciousness</h1>
-        
-        <p class="subtitle">
-            La conciencia es la nueva civilización.<br>
-            Únete a la saga literaria que transformará el futuro del planeta.
-        </p>
-        
+        <p class="subtitle">La conciencia es la nueva civilización.<br>Únete a la saga literaria.</p>
         <a href="#" class="btn-main">Sumérgete en la Historia</a>
 
         <div class="donations-wrapper">
+            <p style="color:#b3e5fc;">Elige tu nivel de impacto:</p>
             
-            <p style="font-size: 1.2rem; color: #b3e5fc; margin-bottom: 10px; text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);">
-                Elige tu nivel de impacto:
-            </p>
-
-            <a href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" target="_blank" class="donate-link">
-                <div class="donate-btn">
-                    💧 Semilla ($50 MXN)
-                </div>
+            <a href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" target="_blank" style="text-decoration:none;">
+                <div class="donate-btn">💧 Semilla ($50 MXN)</div>
             </a>
-
-            <a href="https://www.paypal.com/ncp/payment/7TL3MQ4BLAAEY" target="_blank" class="donate-link">
-                <div class="donate-btn btn-wave">
-                    🌊 Ola de Cambio
-                </div>
+            
+            <a href="https://www.paypal.com/ncp/payment/7TL3MQ4BLAAEY" target="_blank" style="text-decoration:none;">
+                <div class="donate-btn" style="border-color:#4fc3f7; background:rgba(79,195,247,0.2);">🌊 Ola de Cambio</div>
             </a>
-
-            <a href="https://www.paypal.com/ncp/payment/KTB5T3PJHRVLQ" target="_blank" class="donate-link">
-                <div class="donate-btn btn-ocean">
-                    ✨ Océano (Monto Libre)
-                </div>
+            
+            <a href="https://www.paypal.com/ncp/payment/KTB5T3PJHRVLQ" target="_blank" style="text-decoration:none;">
+                <div class="donate-btn btn-ocean">✨ Océano (Monto Libre)</div>
             </a>
-
         </div>
     </div>
-
 </body>
 </html>
+
