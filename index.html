@@ -4,104 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlueSphere Consciousness</title>
-    
-    <!-- SCRIPT QUE SE EJECUTA ANTES DE TODO -->
-    <script>
-        // NÚCLEO: Matar overflow hidden ANTES de que se renderice
-        (function() {
-            // 1. Prevenir que se establezca overflow:hidden
-            const originalSetProperty = CSSStyleDeclaration.prototype.setProperty;
-            CSSStyleDeclaration.prototype.setProperty = function(property, value, priority) {
-                if (property === 'overflow' && value === 'hidden') return;
-                if (property === 'overflow-x' && value === 'hidden') return;
-                if (property === 'overflow-y' && value === 'hidden') return;
-                return originalSetProperty.call(this, property, value, priority);
-            };
-            
-            // 2. Inyectar estilos ANTES de que el body cargue
-            const style = document.createElement('style');
-            style.textContent = `
-                /* ESTILOS INYECTADOS POR JS - IMPOSIBLES DE BLOQUEAR */
-                body {
-                    overflow: visible !important;
-                    overflow-x: visible !important;
-                    overflow-y: visible !important;
-                    height: auto !important;
-                    min-height: 100vh !important;
-                    max-height: none !important;
-                }
-                html {
-                    overflow: visible !important;
-                    height: auto !important;
-                }
-                
-                /* BOTONES FLOTANTES - SE SALEN DEL CONTENEDOR */
-                .donations-escape-pod {
-                    position: fixed !important;
-                    top: 50% !important;
-                    left: 50% !important;
-                    transform: translate(-50%, -50%) !important;
-                    z-index: 999999 !important;
-                    width: 350px !important;
-                    background: rgba(0, 30, 60, 0.95) !important;
-                    border: 2px solid #4fc3f7 !important;
-                    border-radius: 20px !important;
-                    padding: 30px !important;
-                    box-shadow: 0 0 50px rgba(79, 195, 247, 0.7) !important;
-                    backdrop-filter: blur(10px) !important;
-                }
-                
-                .donate-btn-escape {
-                    width: 100% !important;
-                    padding: 18px !important;
-                    margin: 12px 0 !important;
-                    display: block !important;
-                    visibility: visible !important;
-                    opacity: 1 !important;
-                    text-align: center !important;
-                    border-radius: 30px !important;
-                    font-size: 1.2rem !important;
-                    text-decoration: none !important;
-                    cursor: pointer !important;
-                    border: 2px solid rgba(255,255,255,0.3) !important;
-                    background: rgba(255,255,255,0.15) !important;
-                    color: white !important;
-                    transition: all 0.3s !important;
-                }
-                
-                .donate-btn-escape:hover {
-                    transform: scale(1.05) !important;
-                    box-shadow: 0 0 25px rgba(79, 195, 247, 0.5) !important;
-                }
-            `;
-            document.head.appendChild(style);
-        })();
-    </script>
-    
-    <!-- TU CSS NORMAL (pero simplificado) -->
     <style>
-        /* SOLO LO ESENCIAL */
+        /* ESTILO GENERAL */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
-            min-height: 100vh;
+            min-height: 100vh; /* Garantiza que la página crezca */
             background-color: #041016;
             font-family: 'Georgia', serif;
             color: white;
-            overflow: visible !important;
+            overflow-x: auto; /* Mantiene el ancho fijo, permite bajar */
         }
 
+        /* FONDO */
         .ocean {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
+            top: 0; left: 0; width: 100%; height: 100vh;
             background: linear-gradient(180deg, #0f2e46 0%, #041016 100%);
             z-index: -1;
         }
 
+        /* CONTENEDOR PRINCIPAL */
         .hero-content {
             position: relative;
             z-index: 10;
@@ -109,128 +33,106 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 80px;
-            padding-bottom: 150px;
+            padding-top: 60px;
+            padding-bottom: 120px; /* Espacio vital para el final */
         }
 
+        /* TEXTOS */
         h1 {
-            font-size: 3.5rem;
-            text-align: center;
-            letter-spacing: 2px;
+            font-size: 3.5rem; text-align: center; letter-spacing: 2px;
             margin-bottom: 10px;
             text-shadow: 0 0 20px rgba(79, 195, 247, 0.5);
             background: linear-gradient(to right, #ffffff, #81d4fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: fadeIn 3s ease-out;
         }
 
         p.subtitle {
-            font-size: 1.2rem;
-            color: #b0bec5;
-            max-width: 600px;
-            text-align: center;
-            line-height: 1.6;
-            margin-bottom: 40px;
+            font-size: 1.2rem; color: #b0bec5; max-width: 600px;
+            text-align: center; line-height: 1.6; margin-bottom: 40px;
+            animation: fadeIn 4s ease-out;
         }
 
+        /* BOTÓN HISTORIA */
         .btn-main {
-            padding: 15px 40px;
-            font-size: 1.1rem;
+            padding: 15px 40px; font-size: 1.1rem;
             border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.05);
-            color: white;
-            border-radius: 50px;
-            cursor: pointer;
-            text-decoration: none;
-            backdrop-filter: blur(5px);
-            margin-bottom: 50px;
-            display: inline-block;
+            background: rgba(255,255,255,0.05); color: white;
+            border-radius: 50px; cursor: pointer; text-decoration: none;
+            backdrop-filter: blur(5px); animation: fadeIn 5s ease-out;
+            margin-bottom: 50px; display: inline-block;
         }
+        .btn-main:hover {
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 0 30px rgba(129, 212, 250, 0.4);
+            transform: translateY(-3px); border-color: #81d4fa;
+        }
+
+        /* DONACIONES */
+        .donations-wrapper {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 20px; width: 100%; animation: fadeIn 6s ease-out;
+        }
+
+        .donate-link { text-decoration: none; }
+
+        .donate-btn {
+            display: block; /* Tu sugerencia aplicada */
+            width: 280px; padding: 15px 0; text-align: center;
+            color: white; font-size: 1.1rem; border-radius: 30px;
+            cursor: pointer; border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1); transition: transform 0.2s;
+        }
+        .donate-btn:hover { transform: scale(1.05); }
+        .btn-wave { border-color: #4fc3f7; background: rgba(79,195,247,0.2); }
+        .btn-ocean { background: linear-gradient(90deg, #ffd700, #ffb300); color: black; font-weight: bold; border: none; }
+
+        /* ANIMACIONES */
+        .light-ray { position: absolute; top: -20%; left: 50%; width: 100px; height: 150%; background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 80%); transform: rotate(25deg); filter: blur(20px); animation: lightMove 8s infinite alternate; }
+        @keyframes lightMove { 0% { transform: rotate(25deg) translateY(0); } 100% { transform: rotate(28deg) translateY(-20px); } }
+        .particle { position: absolute; bottom: -10px; background-color: rgba(200, 240, 255, 0.6); border-radius: 50%; animation: rise 15s infinite ease-in; }
+        @keyframes rise { 0% { bottom: -10px; transform: translateX(0); opacity: 0; } 100% { bottom: 100%; transform: translateX(-20px); opacity: 0; } }
+        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-
-    <!-- FONDO SIMPLE -->
-    <div class="ocean"></div>
-
-    <!-- CONTENIDO PRINCIPAL -->
-    <div class="hero-content">
-        <h1>BlueSphere Consciousness</h1>
-        <p class="subtitle">
-            La conciencia es la nueva civilización.<br>
-            Únete a la saga literaria que transformará el futuro del planeta.
-        </p>
-        <a href="javascript:void(0)" class="btn-main">Sumérgete en la Historia</a>
-        
-        <!-- SECCIÓN DE DONACIONES ORIGINAL (por si acaso) -->
-        <div class="donations-wrapper" style="display: none;">
-            <p>Elige tu nivel de impacto:</p>
-            <!-- Tus botones originales aquí -->
-        </div>
-    </div>
-
-    <!-- "ESCAPE POD" - Botones que se ESCAPAN del overflow:hidden -->
-    <div id="donations-escape-pod" class="donations-escape-pod">
-        <p style="color: #b3e5fc; text-align: center; font-size: 1.3rem; margin-bottom: 25px; text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);">
-            🌊 Elige tu nivel de impacto:
-        </p>
-        
-        <a href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" target="_blank" class="donate-btn-escape">
-            💧 Semilla ($50 MXN)
-        </a>
-        
-        <a href="https://www.paypal.com/ncp/payment/7TL3MQ4BLAAEY" target="_blank" class="donate-btn-escape" style="border-color: #4fc3f7; background: rgba(79,195,247,0.25);">
-            🌊 Ola de Cambio
-        </a>
-        
-        <a href="https://www.paypal.com/ncp/payment/KTB5T3PJHRVLQ" target="_blank" class="donate-btn-escape" style="background: linear-gradient(90deg, #ffd700, #ffb300); color: black; font-weight: bold; border: none;">
-            ✨ Océano (Monto Libre)
-        </a>
-    </div>
-
-    <!-- SCRIPT DE EMERGENCIA -->
+    <div class="ocean"><div class="light-ray"></div><div class="light-ray" style="left:30%;width:60px;"></div></div>
+    
     <script>
-        // 1. MATAR overflow:hidden permanentemente
-        function killOverflowHidden() {
-            document.body.style.overflow = 'visible';
-            document.body.style.overflowX = 'visible';
-            document.body.style.overflowY = 'visible';
-            document.body.style.height = 'auto';
-            document.body.style.minHeight = '100vh';
-            
-            document.documentElement.style.overflow = 'visible';
-            document.documentElement.style.overflowX = 'visible';
-            document.documentElement.style.overflowY = 'visible';
-            document.documentElement.style.height = 'auto';
-            
-            // Eliminar cualquier clase que pueda tener overflow
-            document.body.classList.remove('overflow-hidden');
-            document.documentElement.classList.remove('overflow-hidden');
+        const ocean = document.querySelector('.ocean');
+        for(let i=0; i<30; i++) {
+            let p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.width = Math.random() * 4 + 'px';
+            p.style.height = p.style.width;
+            p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            p.style.animationDelay = Math.random() * 5 + 's';
+            ocean.appendChild(p);
         }
-        
-        // 2. Ejecutar inmediatamente y cada 100ms
-        killOverflowHidden();
-        setInterval(killOverflowHidden, 100);
-        
-        // 3. Anular cualquier MutationObserver que intente cambiar overflow
-        const originalObserve = MutationObserver.prototype.observe;
-        MutationObserver.prototype.observe = function(target, options) {
-            if (target === document.body || target === document.documentElement) {
-                return; // No observar body/html
-            }
-            return originalObserve.call(this, target, options);
-        };
-        
-        // 4. Verificar que los botones escape estén visibles
-        setTimeout(() => {
-            const escapePod = document.getElementById('donations-escape-pod');
-            if (escapePod) {
-                escapePod.style.display = 'block';
-                escapePod.style.visibility = 'visible';
-                escapePod.style.opacity = '1';
-            }
-        }, 500);
     </script>
 
+    <div class="hero-content">
+        <h1>BlueSphere Consciousness</h1>
+        <p class="subtitle">La conciencia es la nueva civilización.<br>Únete a la saga literaria.</p>
+        
+        <a href="javascript:void(0)" class="btn-main">Sumérgete en la Historia</a>
+
+        <div class="donations-wrapper">
+            <p style="color:#b3e5fc;">Elige tu nivel de impacto:</p>
+            
+            <a href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" target="_blank" class="donate-link">
+                <div class="donate-btn">💧 Semilla ($50 MXN)</div>
+            </a>
+            
+            <a href="https://www.paypal.com/ncp/payment/7TL3MQ4BLAAEY" target="_blank" class="donate-link">
+                <div class="donate-btn btn-wave">🌊 Ola de Cambio</div>
+            </a>
+            
+            <a href="https://www.paypal.com/ncp/payment/KTB5T3PJHRVLQ" target="_blank" class="donate-link">
+                <div class="donate-btn btn-ocean">✨ Océano (Monto Libre)</div>
+            </a>
+        </div>
+    </div>
 </body>
 </html>
