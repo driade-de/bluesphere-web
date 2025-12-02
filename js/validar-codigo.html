@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validar Código – BlueSphere</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<h1>Validación de Código – BlueSphere</h1>
+
+<p>Ingresa tu código BlueSphere para continuar:</p>
+
+<input type="text" id="codigo" placeholder="Ejemplo: GPR-AQUA-XXXX" style="padding:10px; width:260px">
+<button onclick="validar()">Validar</button>
+
+<p id="mensaje" style="margin-top:20px; font-weight:bold;"></p>
+
+<script>
+// Validación simulada
+function validar() {
+    const cod = document.getElementById("codigo").value.trim();
+
+    if (cod === "") {
+        document.getElementById("mensaje").innerText = "Por favor ingresa un código.";
+        document.getElementById("mensaje").style.color = "red";
+        return;
+    }
+
+    // Simulación
+    document.getElementById("mensaje").innerText = 
+        "✓ Código válido (simulación). Acceso permitido.";
+    
+    document.getElementById("mensaje").style.color = "green";
+
+    setTimeout(() => {
+        window.location.href = "certificado-bluesphere.html";
+    }, 1500);
+}
+</script>
+
+</body>
+</html>
