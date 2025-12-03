@@ -13,31 +13,66 @@
 <p>Ingresa tu código BlueSphere para continuar:</p>
 
 <input type="text" id="codigo" placeholder="Ejemplo: GPR-AQUA-XXXX" style="padding:10px; width:260px">
-<button onclick="validar()">Validar</button>
+<button id="btnValidar">Validar</button>
 
 <p id="mensaje" style="margin-top:20px; font-weight:bold;"></p>
 
-<script>
-// Validación simulada
-function validar() {
-    const cod = document.getElementById("codigo").value.trim();
+<script type="module">
+import { supabase } from './supabase-config.js';
+
+const input = document.getElementById("codigo");
+const btn = document.getElementById("btnValidar");
+const mensaje = document.getElementById("mensaje");
+
+btn.addEventListener("click", async () => {
+    const cod = input.value.trim();
 
     if (cod === "") {
-        document.getElementById("mensaje").innerText = "Por favor ingresa un código.";
-        document.getElementById("mensaje").style.color = "red";
+        mensaje.innerText = "Por favor ingresa un código.";
+        mensaje.style.color = "red";
         return;
     }
 
-    // Simulación
-    document.getElementById("mensaje").innerText = 
-        "✓ Código válido (simulación). Acceso permitido.";
-    
-    document.getElementById("mensaje").style.color = "green";
+    // Buscar el código en Supabase
+    const { data, error } = await supabase
+        .from('codigos')
+        .select('*')
+        .eq('codigo', cod)
+        .single();
+
+    if (error || !data) {
+        mensaje.innerText = "✖ Código inválido.";
+        mensaje.style.color = "red";
+        return;
+    }
+
+    if (data.usado) {
+        mensaje.innerText = "✖ Este código ya fue usado.";
+        mensaje.style.color = "orange";
+        return;
+    }
+
+    // Marcar código como usado
+    await supabase
+        .from('codigos')
+        .update({ usado: true })
+        .eq('id', data.id);
+
+    // Guardar registro en guardianes
+    await supabase
+        .from('guardianes')
+        .insert([{ nombre: "Nombre del guardián", codigo: cod }]);
+
+    mensaje.innerText = "✓ Código válido. Redirigiendo al certificado...";
+    mensaje.style.color = "green";
+
+    // Guardar código en sessionStorage para usarlo en certificado-bluesphere.html
+    sessionStorage.setItem('codigoValidado', cod);
 
     setTimeout(() => {
         window.location.href = "certificado-bluesphere.html";
     }, 1500);
-}
+});
 </script>
 
 </body>
