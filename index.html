@@ -1,502 +1,1002 @@
 <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlueSphere Consciousness</title>
 
-    <style>
-        /* ===========================
-           ESTILO GLOBAL
-        ============================ */
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100vh;
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background: #f4faff; /* Fondo claro premium */
-            color: #0a2a43;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
+    <meta charset="UTF-8">
 
-        /* ===========================
-           NAVBAR SUPERIOR PREMIUM
-        ============================ */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%;
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 40px;
-            z-index: 1000;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .navbar-logo {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #0a3d62;
-            letter-spacing: 1px;
-        }
+    <title>BlueSphere Consciousness</title>
 
-        .navbar-logo span {
-            margin-right: 8px;
-            font-size: 1.4rem;
-            color: #0a3d62;
-        }
 
-        .nav-links a {
-            margin-left: 25px;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 500;
-            color: #0a3659;
-            padding-bottom: 4px;
-            border-bottom: 2px solid transparent;
-            transition: 0.2s ease;
-        }
 
-        .nav-links a:hover {
-            border-bottom: 2px solid #0a76d3;
-            color: #0a76d3;
-        }
+    <style>
 
-        /* ==================================
-           HERO OSCURO (SE MANTIENE ORIGINAL)
-        ==================================== */
+        /* ===========================
 
-        .hero {
-            background: #030b12;
-            height: 100vh;
-            width: 100%;
-            text-align: center;
-            padding-top: 160px;
-            position: relative;
-            color: white;
-        }
+           ESTILO GLOBAL
 
-        /* Fondo halos */
-        .ocean-bg {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at 50% 20%, rgba(60,150,255,0.15), transparent 60%),
-                        radial-gradient(circle at 80% 60%, rgba(0,255,220,0.12), transparent 70%),
-                        linear-gradient(180deg, #0b1f30, #030b12);
-        }
+        ============================ */
 
-        /* Partículas */
-        .particle {
-            position: absolute;
-            bottom: -10px;
-            background-color: rgba(150, 220, 255, 0.6);
-            border-radius: 50%;
-            animation: rise 12s infinite ease-in;
-        }
-        @keyframes rise {
-            0% { bottom: -10px; opacity: 0; transform: translateX(0); }
-            40% { opacity: 1; }
-            100% { bottom: 100%; opacity: 0; transform: translateX(-20px); }
-        }
+        body, html {
 
-        h1 {
-            font-size: 4rem;
-            letter-spacing: 3px;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #ffffff, #7cd3ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+            margin: 0;
 
-        .subtitle {
-            font-size: 1.4rem;
-            color: #c8ecff;
-            max-width: 700px;
-            margin: 0 auto 40px auto;
-            line-height: 1.7;
-        }
+            padding: 0;
 
-        .btn-hero {
-            padding: 15px 50px;
-            margin: 10px;
-            border-radius: 40px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            backdrop-filter: blur(6px);
-            text-decoration: none;
-            font-size: 1.2rem;
-            transition: 0.25s;
-        }
-        .btn-hero:hover {
-            background: rgba(100,180,255,0.25);
-            box-shadow: 0 0 30px rgba(120,200,255,0.45);
-            transform: translateY(-3px);
-        }
+            width: 100%;
 
-        /* Transición hero → claro */
-        .transition-wave {
-            width: 100%;
-            height: 120px;
-            background: linear-gradient(180deg, #030b12, #f4faff);
-        }
+            min-height: 100vh;
 
-        /* ===========================
-           SECCIONES PREMIUM
-        ============================ */
+            font-family: 'Inter', 'Segoe UI', sans-serif;
 
-        section {
-            padding: 80px 20px;
-            max-width: 1100px;
-            margin: auto;
-        }
+            background: #f4faff; /* Fondo claro premium */
 
-        .card {
-            background: rgba(255,255,255,0.82);
-            backdrop-filter: blur(14px);
-            border-radius: 22px;
-            padding: 45px;
-            box-shadow: 0 8px 35px rgba(0,0,0,0.08);
-            margin-bottom: 60px;
-        }
+            color: #0a2a43;
 
-        .section-title {
-            font-size: 2rem;
-            font-weight: 600;
-            text-align: center;
-            color: #0a2a43;
-        }
+            overflow-x: hidden;
 
-        .section-desc {
-            color: #476b82;
-            text-align: center;
-            line-height: 1.6;
-            max-width: 750px;
-            margin: 0 auto 35px;
-        }
+            scroll-behavior: smooth;
 
-        .btn-primary {
-            display: inline-block;
-            padding: 14px 30px;
-            background: #0a76d3;
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 14px;
-            transition: 0.2s ease;
-        }
-        .btn-primary:hover {
-            background: #0c98ff;
-        }
+        }
 
-        .btn-outline {
-            display: inline-block;
-            padding: 14px 30px;
-            border: 2px solid #0a76d3;
-            color: #0a76d3;
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 14px;
-            margin-left: 10px;
-        }
-        .btn-outline:hover {
-            background: #e8f4ff;
-        }
 
-        /* ===========================
-           DONACIONES
-        ============================ */
 
-        .donation-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            max-width: 330px;
-            margin: 0 auto;
-        }
+        /* ===========================
 
-        .donate-btn {
-            padding: 14px 20px;
-            border-radius: 14px;
-            background: #ffffff;
-            border: 1px solid #bcd7ea;
-            color: #0a3d62;
-            text-decoration: none;
-            font-size: 1rem;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
-            transition: 0.25s;
-        }
-        .donate-btn:hover {
-            transform: scale(1.04);
-            background: #e8f4ff;
-        }
+           NAVBAR SUPERIOR PREMIUM
 
-        .stripe-btn {
-            background: linear-gradient(90deg, #00d2ff, #00a4ff);
-            color: #000;
-            border: none;
-        }
+        ============================ */
 
-        /* ===========================
-           FOOTER
-        ============================ */
+        .navbar {
 
-        footer {
-            text-align: center;
-            padding: 45px;
-            color: #5d7c92;
-        }
+            position: fixed;
 
-        footer a {
-            color: #0a76d3;
-            text-decoration: none;
-            font-weight: 600;
-        }
+            top: 0; left: 0;
 
-    </style>
+            width: 100%;
+
+            background: rgba(255,255,255,0.85);
+
+            backdrop-filter: blur(12px);
+
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 14px 40px;
+
+            z-index: 1000;
+
+        }
+
+
+
+        .navbar-logo {
+
+            font-size: 1.3rem;
+
+            font-weight: 700;
+
+            color: #0a3d62;
+
+            letter-spacing: 1px;
+
+        }
+
+
+
+        .navbar-logo span {
+
+            margin-right: 8px;
+
+            font-size: 1.4rem;
+
+            color: #0a3d62;
+
+        }
+
+
+
+        .nav-links a {
+
+            margin-left: 25px;
+
+            text-decoration: none;
+
+            font-size: 1rem;
+
+            font-weight: 500;
+
+            color: #0a3659;
+
+            padding-bottom: 4px;
+
+            border-bottom: 2px solid transparent;
+
+            transition: 0.2s ease;
+
+        }
+
+
+
+        .nav-links a:hover {
+
+            border-bottom: 2px solid #0a76d3;
+
+            color: #0a76d3;
+
+        }
+
+
+
+        /* ==================================
+
+           HERO OSCURO (SE MANTIENE ORIGINAL)
+
+        ==================================== */
+
+
+
+        .hero {
+
+            background: #030b12;
+
+            height: 100vh;
+
+            width: 100%;
+
+            text-align: center;
+
+            padding-top: 160px;
+
+            position: relative;
+
+            color: white;
+
+        }
+
+
+
+        /* Fondo halos */
+
+        .ocean-bg {
+
+            position: absolute;
+
+            top: 0; left: 0;
+
+            width: 100%; height: 100%;
+
+            z-index: -1;
+
+            background: radial-gradient(circle at 50% 20%, rgba(60,150,255,0.15), transparent 60%),
+
+                        radial-gradient(circle at 80% 60%, rgba(0,255,220,0.12), transparent 70%),
+
+                        linear-gradient(180deg, #0b1f30, #030b12);
+
+        }
+
+
+
+        /* Partículas */
+
+        .particle {
+
+            position: absolute;
+
+            bottom: -10px;
+
+            background-color: rgba(150, 220, 255, 0.6);
+
+            border-radius: 50%;
+
+            animation: rise 12s infinite ease-in;
+
+        }
+
+        @keyframes rise {
+
+            0% { bottom: -10px; opacity: 0; transform: translateX(0); }
+
+            40% { opacity: 1; }
+
+            100% { bottom: 100%; opacity: 0; transform: translateX(-20px); }
+
+        }
+
+
+
+        h1 {
+
+            font-size: 4rem;
+
+            letter-spacing: 3px;
+
+            margin-bottom: 10px;
+
+            background: linear-gradient(to right, #ffffff, #7cd3ff);
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+        }
+
+
+
+        .subtitle {
+
+            font-size: 1.4rem;
+
+            color: #c8ecff;
+
+            max-width: 700px;
+
+            margin: 0 auto 40px auto;
+
+            line-height: 1.7;
+
+        }
+
+
+
+        .btn-hero {
+
+            padding: 15px 50px;
+
+            margin: 10px;
+
+            border-radius: 40px;
+
+            background: rgba(255,255,255,0.08);
+
+            border: 1px solid rgba(255,255,255,0.2);
+
+            color: white;
+
+            backdrop-filter: blur(6px);
+
+            text-decoration: none;
+
+            font-size: 1.2rem;
+
+            transition: 0.25s;
+
+        }
+
+        .btn-hero:hover {
+
+            background: rgba(100,180,255,0.25);
+
+            box-shadow: 0 0 30px rgba(120,200,255,0.45);
+
+            transform: translateY(-3px);
+
+        }
+
+
+
+        /* Transición hero → claro */
+
+        .transition-wave {
+
+            width: 100%;
+
+            height: 120px;
+
+            background: linear-gradient(180deg, #030b12, #f4faff);
+
+        }
+
+
+
+        /* ===========================
+
+           SECCIONES PREMIUM
+
+        ============================ */
+
+
+
+        section {
+
+            padding: 80px 20px;
+
+            max-width: 1100px;
+
+            margin: auto;
+
+        }
+
+
+
+        .card {
+
+            background: rgba(255,255,255,0.82);
+
+            backdrop-filter: blur(14px);
+
+            border-radius: 22px;
+
+            padding: 45px;
+
+            box-shadow: 0 8px 35px rgba(0,0,0,0.08);
+
+            margin-bottom: 60px;
+
+        }
+
+
+
+        .section-title {
+
+            font-size: 2rem;
+
+            font-weight: 600;
+
+            text-align: center;
+
+            color: #0a2a43;
+
+        }
+
+
+
+        .section-desc {
+
+            color: #476b82;
+
+            text-align: center;
+
+            line-height: 1.6;
+
+            max-width: 750px;
+
+            margin: 0 auto 35px;
+
+        }
+
+
+
+        .btn-primary {
+
+            display: inline-block;
+
+            padding: 14px 30px;
+
+            background: #0a76d3;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            border-radius: 14px;
+
+            transition: 0.2s ease;
+
+        }
+
+        .btn-primary:hover {
+
+            background: #0c98ff;
+
+        }
+
+
+
+        .btn-outline {
+
+            display: inline-block;
+
+            padding: 14px 30px;
+
+            border: 2px solid #0a76d3;
+
+            color: #0a76d3;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            border-radius: 14px;
+
+            margin-left: 10px;
+
+        }
+
+        .btn-outline:hover {
+
+            background: #e8f4ff;
+
+        }
+
+
+
+        /* ===========================
+
+           DONACIONES
+
+        ============================ */
+
+
+
+        .donation-grid {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+
+            max-width: 330px;
+
+            margin: 0 auto;
+
+        }
+
+
+
+        .donate-btn {
+
+            padding: 14px 20px;
+
+            border-radius: 14px;
+
+            background: #ffffff;
+
+            border: 1px solid #bcd7ea;
+
+            color: #0a3d62;
+
+            text-decoration: none;
+
+            font-size: 1rem;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+
+            transition: 0.25s;
+
+        }
+
+        .donate-btn:hover {
+
+            transform: scale(1.04);
+
+            background: #e8f4ff;
+
+        }
+
+
+
+        .stripe-btn {
+
+            background: linear-gradient(90deg, #00d2ff, #00a4ff);
+
+            color: #000;
+
+            border: none;
+
+        }
+
+
+
+        /* ===========================
+
+           FOOTER
+
+        ============================ */
+
+
+
+        footer {
+
+            text-align: center;
+
+            padding: 45px;
+
+            color: #5d7c92;
+
+        }
+
+
+
+        footer a {
+
+            color: #0a76d3;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+        }
+
+
+
+    </style>
+
 </head>
+
+
 
 <body>
 
-    <!-- NAVBAR PREMIUM -->
-    <div class="navbar">
-    <div class="navbar-logo"><span>◉</span> BlueSphere</div>
-    <div class="nav-links">
-        <a href="#inicio">Inicio</a>
-        <a href="#donar">Donar</a>
-        <a href="#guardian">Acceso Guardián</a>
-        <a href="#pacto">Pacto Azul</a>
-        <a href="#camino">15/30 Días</a>
-        <a href="#dashboard">Dashboard</a>
-        <a href="manifiesto.html">Manifiesto</a>
-        <a href="#contacto">Contacto</a>
-    </div>
+
+
+    <!-- NAVBAR PREMIUM -->
+
+    <div class="navbar">
+
+    <div class="navbar-logo"><span>◉</span> BlueSphere</div>
+
+    <div class="nav-links">
+
+        <a href="#inicio">Inicio</a>
+
+        <a href="#donar">Donar</a>
+
+        <a href="#guardian">Acceso Guardián</a>
+
+        <a href="#pacto">Pacto Azul</a>
+
+        <a href="#camino">15/30 Días</a>
+
+        <a href="#dashboard">Dashboard</a>
+
+        <a href="manifiesto.html">Manifiesto</a>
+
+        <a href="#contacto">Contacto</a>
+
+    </div>
+
 </div>
-    
 
-    <!-- HERO OSCURO -->
-    <div class="hero" id="inicio">
-        <div class="ocean-bg"></div>
-        <script>
-            for (let i = 0; i < 35; i++) {
-                let p = document.createElement('div');
-                p.className = 'particle';
-                p.style.left = Math.random() * 100 + '%';
-                p.style.width = p.style.height = (Math.random() * 5 + 3) + 'px';
-                p.style.animationDuration = (10 + Math.random() * 10) + 's';
-                p.style.animationDelay = Math.random() * 4 + 's';
-                document.body.appendChild(p);
-            }
-        </script>
+    
 
-        <h1>BlueSphere Consciousness</h1>
-        <p class="subtitle">La conciencia es la nueva civilización.<br>Únete al movimiento que transformará al planeta.</p>
 
-        <a href="#donar" class="btn-hero">Apoyar el Movimiento</a>
-        <a href="#guardian" class="btn-hero">Acceso Guardián</a>
-    </div>
 
-    <!-- TRANSICIÓN -->
-    <div class="transition-wave"></div>
+    <!-- HERO OSCURO -->
 
-    <!-- =====================================
-         DONACIONES EN TARJETA PREMIUM
-    ======================================= -->
-    <section id="donar">
-        <div class="card">
-            <h2 class="section-title">Elige tu nivel de impacto</h2>
-            <p class="section-desc">Cada donación es una ola que despierta el océano. Tu aporte financia proyectos de reforestación, cultura y economía regenerativa.</p>
+    <div class="hero" id="inicio">
 
-            <div class="donation-grid"> 
-    <a class="donate-btn" href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" target="_blank">💧 Semilla</a>
-    <a class="donate-btn" href="https://www.paypal.com/ncp/payment/7TL3MQ4BLAAEY" target="_blank">🌊 Ola de Cambio</a>
-    <a class="donate-btn" href="https://www.paypal.com/ncp/payment/KTB5T3PJHRVLQ" target="_blank">✨ Océano (Libre)</a>
-    <a class="donate-btn" href="https://www.paypal.com/ncp/payment/3SSL6QC5UF48W" target="_blank">🔥 Impulso Azul</a>
-    <a class="donate-btn" href="https://www.paypal.com/ncp/payment/PVBZGLY735J9Y" target="_blank">🔱 Guardián del Horizonte</a>
+        <div class="ocean-bg"></div>
 
-    <!-- STRIPE -->
-    <a class="donate-btn stripe-btn" href="https://buy.stripe.com/8wMaHxcYbfJFeiIbII" target="_blank">💎 Donar vía Stripe</a>
+        <script>
 
-    <!-- BOTÓN DE TRANSFERENCIA BANCARIA -->
-    <button class="donate-btn bank-btn" onclick="openBankModal()">🏛 Transferencia Bancaria</button>
+            for (let i = 0; i < 35; i++) {
+
+                let p = document.createElement('div');
+
+                p.className = 'particle';
+
+                p.style.left = Math.random() * 100 + '%';
+
+                p.style.width = p.style.height = (Math.random() * 5 + 3) + 'px';
+
+                p.style.animationDuration = (10 + Math.random() * 10) + 's';
+
+                p.style.animationDelay = Math.random() * 4 + 's';
+
+                document.body.appendChild(p);
+
+            }
+
+        </script>
+
+
+
+        <h1>BlueSphere Consciousness</h1>
+
+        <p class="subtitle">La conciencia es la nueva civilización.<br>Únete al movimiento que transformará al planeta.</p>
+
+
+
+        <a href="#donar" class="btn-hero">Apoyar el Movimiento</a>
+
+        <a href="#guardian" class="btn-hero">Acceso Guardián</a>
+
+    </div>
+
+
+
+    <!-- TRANSICIÓN -->
+
+    <div class="transition-wave"></div>
+
+
+
+    <!-- =====================================
+
+         DONACIONES EN TARJETA PREMIUM
+
+    ======================================= -->
+
+    <section id="donar">
+
+        <div class="card">
+
+            <h2 class="section-title">Elige tu nivel de impacto</h2>
+
+            <p class="section-desc">Cada donación es una ola que despierta el océano. Tu aporte financia proyectos de reforestación, cultura y economía regenerativa.</p>
+
+
+
+            <div class="donation-grid"> 
+
+    <a class="donate-btn" href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" target="_blank">💧 Semilla</a>
+
+    <a class="donate-btn" href="https://www.paypal.com/ncp/payment/7TL3MQ4BLAAEY" target="_blank">🌊 Ola de Cambio</a>
+
+    <a class="donate-btn" href="https://www.paypal.com/ncp/payment/KTB5T3PJHRVLQ" target="_blank">✨ Océano (Libre)</a>
+
+    <a class="donate-btn" href="https://www.paypal.com/ncp/payment/3SSL6QC5UF48W" target="_blank">🔥 Impulso Azul</a>
+
+    <a class="donate-btn" href="https://www.paypal.com/ncp/payment/PVBZGLY735J9Y" target="_blank">🔱 Guardián del Horizonte</a>
+
+
+
+    <!-- STRIPE -->
+
+    <a class="donate-btn stripe-btn" href="https://buy.stripe.com/8wMaHxcYbfJFeiIbII" target="_blank">💎 Donar vía Stripe</a>
+
+
+
+    <!-- BOTÓN DE TRANSFERENCIA BANCARIA -->
+
+    <button class="donate-btn bank-btn" onclick="openBankModal()">🏛 Transferencia Bancaria</button>
+
 <!-- MODAL - TRANSFERENCIA BANCARIA -->
+
 <div id="bankModal" style="
-    display:none;
-    position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background:rgba(0,0,0,0.45);
-    backdrop-filter:blur(6px);
-    justify-content:center;
-    align-items:center;
-    z-index:2000;
+
+    display:none;
+
+    position:fixed;
+
+    top:0; left:0;
+
+    width:100%; height:100%;
+
+    background:rgba(0,0,0,0.45);
+
+    backdrop-filter:blur(6px);
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:2000;
+
 ">
-    <div style="
-        background:rgba(255,255,255,0.92);
-        backdrop-filter:blur(18px);
-        border-radius:22px;
-        padding:35px;
-        width:90%;
-        max-width:420px;
-        box-shadow:0 8px 30px rgba(0,0,0,0.15);
-        text-align:center;
-    ">
-        <h3 style="margin-top:0; font-size:1.6rem; color:#0a3d62;">Transferencia Bancaria</h3>
 
-        <p style="color:#183850;"><b>Banco:</b> Santander</p>
-        <p style="color:#183850;"><b>Titular:</b> JOSE CB / EL VUELO DE LA CONCIENCIA</p>
-        <p style="color:#183850;"><b>Cuenta:</b> 60632777105</p>
-        <p style="color:#183850;"><b>CLABE:</b> 014888606327771051</p>
-        <p style="color:#183850;"><b>Referencia:</b> DONACION GOTA DE CONCIENCIA</p>
+    <div style="
 
-        <br>
+        background:rgba(255,255,255,0.92);
 
-        <button onclick="closeBankModal()" style="
-            padding:12px 25px;
-            background:#0a76d3;
-            border:none;
-            color:white;
-            font-size:1rem;
-            font-weight:600;
-            border-radius:14px;
-            cursor:pointer;
-        ">Cerrar</button>
-    </div>
+        backdrop-filter:blur(18px);
+
+        border-radius:22px;
+
+        padding:35px;
+
+        width:90%;
+
+        max-width:420px;
+
+        box-shadow:0 8px 30px rgba(0,0,0,0.15);
+
+        text-align:center;
+
+    ">
+
+        <h3 style="margin-top:0; font-size:1.6rem; color:#0a3d62;">Transferencia Bancaria</h3>
+
+
+
+        <p style="color:#183850;"><b>Banco:</b> Santander</p>
+
+        <p style="color:#183850;"><b>Titular:</b> JOSE CB / EL VUELO DE LA CONCIENCIA</p>
+
+        <p style="color:#183850;"><b>Cuenta:</b> 60632777105</p>
+
+        <p style="color:#183850;"><b>CLABE:</b> 014888606327771051</p>
+
+        <p style="color:#183850;"><b>Referencia:</b> DONACION GOTA DE CONCIENCIA</p>
+
+
+
+        <br>
+
+
+
+        <button onclick="closeBankModal()" style="
+
+            padding:12px 25px;
+
+            background:#0a76d3;
+
+            border:none;
+
+            color:white;
+
+            font-size:1rem;
+
+            font-weight:600;
+
+            border-radius:14px;
+
+            cursor:pointer;
+
+        ">Cerrar</button>
+
+    </div>
+
 </div>
+
+
 
 <script>
+
 function openBankModal() {
-    document.getElementById('bankModal').style.display = 'flex';
+
+    document.getElementById('bankModal').style.display = 'flex';
+
 }
+
 function closeBankModal() {
-    document.getElementById('bankModal').style.display = 'none';
+
+    document.getElementById('bankModal').style.display = 'none';
+
 }
+
 </script>
 
+
+
 </div>
-        </div>
-    </section>
 
-    <!-- =====================================
-         ACCESO GUARDIÁN
-    ======================================= -->
-    <section id="guardian">
-        <div class="card">
-            <h2 class="section-title">Acceso del Guardián</h2>
-            <p class="section-desc">Activa tu código, recibe tu certificado y forma parte del Pacto Azul.</p>
+        </div>
 
-            <div style="text-align:center;">
-                <!-- ENLACE MODIFICADO: Apunta directamente al portal de firma exclusivo -->
-                <a href="portal-pacto-azul.html" class="btn-primary">Validar mi Código</a>
-                <a href="certificado-bluesphere.html" class="btn-outline">Ver Certificado</a>
-            </div>
+    </section>
 
-            <br><br>
-            <p class="section-desc"><b>¿Nuevo en BlueSphere?</b><br> Solicita un código o participa en nuestras campañas.</p>
 
-            <div style="text-align:center;">
-                <a href="generador-codigos.html" class="btn-outline">Generador de Códigos</a>
-            </div>
-        </div>
-    </section>
 
-    <!-- =====================================
-         PACTO AZUL
-    ======================================= -->
-    <section id="pacto">
-        <div class="card">
-            <h2 class="section-title">Pacto Azul</h2>
-            <p class="section-desc">El Pacto Azul es un compromiso sagrado con la Tierra, el Agua y la Conciencia.</p>
+    <!-- =====================================
 
-            <div style="text-align:center; font-size:3rem;">🔱</div>
+         ACCESO GUARDIÁN
 
-            <p class="section-desc">Firma el Pacto Azul y recibe tu constancia simbólica.</p>
+    ======================================= -->
 
-            <div style="text-align:center;">
-                <a href="pacto-azul.html" class="btn-primary">Leer y Aceptar</a>
-            </div>
-        </div>
-    </section>
+    <section id="guardian">
 
-    <!-- =====================================
-         CAMINO 15/30 DÍAS
-    ======================================= -->
-    <section id="camino">
-        <div class="card">
-            <h2 class="section-title">Camino de Transformación: 15 / 30 Días</h2>
-            <p class="section-desc">Hábitos diarios que transforman tu vida y alimentan el Dashboard Global.</p>
+        <div class="card">
 
-            <div style="text-align:center;">
-                <a href="modulo-seguimiento.html" class="btn-primary">Entrar al Camino</a>
-            </div>
-        </div>
-    </section>
+            <h2 class="section-title">Acceso del Guardián</h2>
 
-    <!-- =====================================
-         DASHBOARD GLOBAL
-    ======================================= -->
-    <section id="dashboard">
-        <div class="card">
-            <h2 class="section-title">Dashboard Global</h2>
-            <p class="section-desc">Visualiza el impacto colectivo del movimiento BlueSphere.</p>
+            <p class="section-desc">Activa tu código, recibe tu certificado y forma parte del Pacto Azul.</p>
 
-            <div style="text-align:center;">
-                <a href="dashboard-global-impacto.html" class="btn-primary">Ver Dashboard</a>
-            </div>
-        </div>
-    </section>
 
-    <!-- =====================================
-         CONTACTO
-    ======================================= -->
-    <section id="contacto">
-        <div class="card">
-    <h2 class="section-title">🌐 Conexión con BlueSphere</h2>
-    <p class="section-desc" style="color: #b0bec5; line-height: 1.6; max-width: 500px; margin: 0 auto 1.5rem;">
-        Para colaboraciones, preguntas sobre la comunidad, o si sientes el llamado a unirte al movimiento.
-    </p>
 
-    <div style="text-align: center; margin: 2rem 0;">
-        <a href="mailto:comunidad@bluesphereconsciousness.org" 
-           style="display: inline-block;
-                  padding: 1rem 2rem;
-                  background: linear-gradient(135deg, rgba(79, 195, 247, 0.15), rgba(33, 150, 243, 0.1));
-                  color: #4fc3f7;
-                  text-decoration: none;
-                  font-weight: 700;
-                  font-size: 1.1rem;
-                  border-radius: 12px;
-                  border: 2px solid rgba(79, 195, 247, 0.3);
-                  transition: all 0.3s ease;
-                  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-                  letter-spacing: 0.5px;">
-           
-            comunidad@bluesphereconsciousness.org
-           
-        </a>
-    </div>
+            <div style="text-align:center;">
 
-    <div style="text-align: center; color: #81c784; font-size: 0.9rem; line-height: 1.5;">
-        <p style="margin: 0.5rem 0;">
-            <strong>📬 Respuesta en 24-48 horas</strong>
-        </p>
-        <p style="margin: 0.5rem 0; color: #c8eaff;">
-            ¿Eres Guardián con código? Inclúyelo en tu mensaje para atención prioritaria.
-        </p>
-    </div>
+                <a href="validar-codigo.html" class="btn-primary">Validar mi Código</a>
+
+                <a href="certificado-bluesphere.html" class="btn-outline">Ver Certificado</a>
+
+            </div>
+
+
+
+            <br><br>
+
+            <p class="section-desc"><b>¿Nuevo en BlueSphere?</b><br> Solicita un código o participa en nuestras campañas.</p>
+
+
+
+            <div style="text-align:center;">
+
+                <a href="generador-codigos.html" class="btn-outline">Generador de Códigos</a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+
+         PACTO AZUL
+
+    ======================================= -->
+
+    <section id="pacto">
+
+        <div class="card">
+
+            <h2 class="section-title">Pacto Azul</h2>
+
+            <p class="section-desc">El Pacto Azul es un compromiso sagrado con la Tierra, el Agua y la Conciencia.</p>
+
+
+
+            <div style="text-align:center; font-size:3rem;">🔱</div>
+
+
+
+            <p class="section-desc">Firma el Pacto Azul y recibe tu constancia simbólica.</p>
+
+
+
+            <div style="text-align:center;">
+
+                <a href="pacto-azul.html" class="btn-primary">Leer y Aceptar</a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+
+         CAMINO 15/30 DÍAS
+
+    ======================================= -->
+
+    <section id="camino">
+
+        <div class="card">
+
+            <h2 class="section-title">Camino de Transformación: 15 / 30 Días</h2>
+
+            <p class="section-desc">Hábitos diarios que transforman tu vida y alimentan el Dashboard Global.</p>
+
+
+
+            <div style="text-align:center;">
+
+                <a href="modulo-seguimiento.html" class="btn-primary">Entrar al Camino</a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+
+         DASHBOARD GLOBAL
+
+    ======================================= -->
+
+    <section id="dashboard">
+
+        <div class="card">
+
+            <h2 class="section-title">Dashboard Global</h2>
+
+            <p class="section-desc">Visualiza el impacto colectivo del movimiento BlueSphere.</p>
+
+
+
+            <div style="text-align:center;">
+
+                <a href="dashboard-global-impacto.html" class="btn-primary">Ver Dashboard</a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+
+         CONTACTO
+
+    ======================================= -->
+
+    <section id="contacto">
+
+        <div class="card">
+
+    <h2 class="section-title">🌐 Conexión con BlueSphere</h2>
+
+    <p class="section-desc" style="color: #b0bec5; line-height: 1.6; max-width: 500px; margin: 0 auto 1.5rem;">
+
+        Para colaboraciones, preguntas sobre la comunidad, o si sientes el llamado a unirte al movimiento.
+
+    </p>
+
+
+
+    <div style="text-align: center; margin: 2rem 0;">
+
+        <a href="mailto:comunidad@bluesphereconsciousness.org" 
+
+           style="display: inline-block;
+
+                  padding: 1rem 2rem;
+
+                  background: linear-gradient(135deg, rgba(79, 195, 247, 0.15), rgba(33, 150, 243, 0.1));
+
+                  color: #4fc3f7;
+
+                  text-decoration: none;
+
+                  font-weight: 700;
+
+                  font-size: 1.1rem;
+
+                  border-radius: 12px;
+
+                  border: 2px solid rgba(79, 195, 247, 0.3);
+
+                  transition: all 0.3s ease;
+
+                  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+                  letter-spacing: 0.5px;">
+
+           
+
+            comunidad@bluesphereconsciousness.org
+
+           
+
+        </a>
+
+    </div>
+
+
+
+    <div style="text-align: center; color: #81c784; font-size: 0.9rem; line-height: 1.5;">
+
+        <p style="margin: 0.5rem 0;">
+
+            <strong>📬 Respuesta en 24-48 horas</strong>
+
+        </p>
+
+        <p style="margin: 0.5rem 0; color: #c8eaff;">
+
+            ¿Eres Guardián con código? Inclúyelo en tu mensaje para atención prioritaria.
+
+        </p>
+
+    </div>
+
 </div>
-    </section>
 
-    <footer>
-        © 2025 BlueSphere Consciousness · Todos los derechos reservados
-    </footer>
+    </section>
+
+
+
+    <footer>
+
+        © 2025 BlueSphere Consciousness · Todos los derechos reservados
+
+    </footer>
+
+
 
 </body>
+
 </html>
+
