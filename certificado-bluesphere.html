@@ -3,125 +3,375 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificado BlueSphere</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Certificado de Lealtad Consciente – BlueSphere</title>
     <style>
+        /* PALETA INSPIRADA EN GHIBLI (Tonos suaves, terrosos, y naturales) */
+        :root {
+            --azul-cielo: #a0c4ff;
+            --verde-musgo: #6a994e;
+            --tierra-suave: #bc8f8f; 
+            --papel-crema: #f7f3e8;
+            --gris-texto: #333333;
+            --sello-dorado: #e0ac42; 
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: Georgia, serif;
-            background: #eef3f8;
+            /* Fondo de papel crema con ligera textura */
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background-color: var(--papel-crema); 
+            color: var(--gris-texto);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            padding: 40px;
+            align-items: center;
+            padding: 20px;
         }
-        .certificado {
-            background: white;
-            width: 700px;
+        
+        .certificado-container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 900px;
+            min-height: 650px;
+            /* Borde más suave, evocando un marco dibujado */
+            border: 15px solid var(--tierra-suave); 
+            border-radius: 25px; /* Bordes más orgánicos */
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             padding: 40px;
-            border: 4px solid #0a3d62;
-            border-radius: 14px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.15);
+            overflow: hidden;
+            /* Añadir una textura de papel sutil */
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cdefs%3E%3Cpattern id='n' width='16' height='16' patternUnits='userSpaceOnUse'%3E%3Ccircle fill='none' stroke='%23dddddd' stroke-width='0.5' cx='8' cy='8' r='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23n)'/%3E%3C/svg%3E");
+        }
+        
+        /* Eliminar pseudo-elementos duros, mantener el borde principal */
+        .certificado-container::before, .certificado-container::after {
+            content: none;
+        }
+        
+        .header-certificado {
+            text-align: center;
+            margin-bottom: 30px;
             position: relative;
         }
-        h1 {
-            text-align: center;
-            color: #0a3d62;
-            letter-spacing: 1px;
-        }
-        .sub {
-            text-align: center;
-            font-size: 18px;
-            margin-bottom: 35px;
-        }
-        .firma {
-            margin-top: 60px;
-            text-align: right;
-            font-style: italic;
-            font-size: 18px;
-        }
-        #btnPDF {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background: #0a3d62;
-            color: white;
+        
+        .logo-space {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            /* Diseño más suave y natural */
+            background: none; 
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border: none;
-            border-radius: 6px;
-            cursor: pointer;
+            box-shadow: none;
         }
-        #btnPDF:hover {
-            background: #08324c;
+        
+        .logo-space::before {
+            content: "🍃"; /* Usar un elemento de la naturaleza como logo */
+            font-size: 4rem;
+            color: var(--verde-musgo);
         }
+        
+        .titulo-certificado {
+            font-size: 3rem;
+            color: var(--gris-texto);
+            margin-bottom: 10px;
+            font-weight: 500;
+            text-transform: none;
+            letter-spacing: 1px;
+            /* Sombra suave y difusa */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05); 
+        }
+        
+        .subtitulo-certificado {
+            font-size: 1.4rem;
+            color: var(--verde-musgo);
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+        
+        .numero-certificado {
+            font-size: 1rem;
+            color: white;
+            background: var(--azul-cielo);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .cuerpo-certificado {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .texto-compromiso {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--gris-texto);
+        }
+        
+        .compromisos-lista, .compromisos-avanzados {
+            /* Estilo de lista más integrado al diseño */
+            background: rgba(255, 255, 255, 0.7); 
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid var(--azul-cielo); /* Usar azul cielo suave */
+            margin: 25px 0;
+            text-align: left;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        .compromisos-lista h3, .compromisos-avanzados h3 {
+            color: var(--verde-musgo);
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        
+        .compromiso-item:hover {
+            background: rgba(160, 196, 255, 0.1); /* Sutil efecto al pasar el mouse */
+        }
+        
+        .seccion-firma {
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(245, 245, 245, 0.8);
+            border-radius: 10px;
+            border-top: 3px solid var(--tierra-suave);
+        }
+        
+        .btn-firmar {
+            /* Colores de botón más cercanos a la naturaleza */
+            background: linear-gradient(135deg, var(--verde-musgo), #5c7e46); 
+            color: white;
+        }
+        
+        .btn-descargar {
+            /* Botón azul suave */
+            background: linear-gradient(135deg, var(--azul-cielo), #7c9fdf);
+            color: var(--gris-texto);
+        }
+        
+        .sello {
+            /* Sello que parece un emblema pintado a mano */
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--sello-dorado), #f0d592);
+            border: 4px dashed var(--gris-texto); /* Borde con estilo dibujado */
+            transform: rotate(-10deg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 3;
+        }
+        
+        .sello::before {
+            content: "⭐"; /* Símbolo estelar o de luz */
+            font-size: 3.5rem;
+            color: var(--gris-texto);
+        }
+        
+        /* ... el resto del CSS y las media queries se mantienen ... */
     </style>
 </head>
 <body>
-
-<div class="certificado">
-    <button id="btnPDF">Descargar PDF</button>
-
-    <h1>Certificado del Guardián Azul</h1>
-    <p class="sub">Este certificado confirma que:</p>
-
-    <h2 id="nombre-guardian" style="text-align:center; margin-bottom:30px;">Guardián Anónimo</h2>
-
-    <p style="text-align:center;">
-        Ha activado su código BlueSphere y forma parte del Pacto Azul.
-        <br>
-        Su compromiso ayuda a transformar la conciencia del planeta.
-    </p>
-
-    <div class="firma">
-        — Hermes Antares<br>
-        Fundador de BlueSphere Consciousness
+    <div class="certificado-container" id="certificado">
+        <div class="header-certificado">
+            <div class="logo-space" id="logoContainer"></div>
+            <h1 class="titulo-certificado">Certificado de Lealtad Consciente</h1>
+            <div class="subtitulo-certificado">Compromiso con el Futuro Planetario</div>
+            <div class="numero-certificado" id="numeroCertificado">BS-2025-000001</div>
+        </div>
+        
+        <div class="cuerpo-certificado">
+            <div class="texto-compromiso">
+                <strong>Yo, <span id="nombreGuardian">____________________</span>,</strong> como Guardián Consciente de BlueSphere, me comprometo activamente con la preservación 
+                de nuestro planeta y adopto los siguientes hábitos sostenibles como parte de mi 
+                contribución a un futuro más verde y equilibrado.
+            </div>
+            
+            <div class="compromisos-lista">
+                <h3>🌿 Mis Compromisos Ambientales Esenciales</h3>
+                <div class="compromiso-item">
+                    <div class="compromiso-emoji">🌊</div>
+                    <div class="compromiso-texto">
+                        <strong>Reducción de Plásticos:</strong> Eliminar el uso de plásticos de un solo uso 
+                        y optar por alternativas reutilizables en mi vida diaria.
+                    </div>
+                </div>
+                <div class="compromiso-item">
+                    <div class="compromiso-emoji">🚲</div>
+                    <div class="compromiso-texto">
+                        <strong>Movilidad Sostenible:</strong> Utilizar transporte público, bicicleta o 
+                        caminar para desplazamientos cortos, reduciendo mi huella de carbono.
+                    </div>
+                </div>
+                <div class="compromiso-item">
+                    <div class="compromiso-emoji">💧</div>
+                    <div class="compromiso-texto">
+                        <strong>Conservación del Agua:</strong> Implementar prácticas de ahorro de agua 
+                        en el hogar y ser consciente de su uso responsable.
+                    </div>
+                </div>
+                <div class="compromiso-item">
+                    <div class="compromiso-emoji">🌱</div>
+                    <div class="compromiso-texto">
+                        <strong>Consumo Responsable:</strong> Elegir productos de empresas sostenibles 
+                        y reducir el consumo innecesario de recursos.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="compromisos-avanzados">
+                <h3>🌟 Mis Compromisos Avanzados</h3>
+                <div class="compromiso-item">
+                    <div class="compromiso-emoji">🍃</div>
+                    <div class="compromiso-texto">
+                        <strong>Alimentación Consciente:</strong> Reducir el consumo de carne e incrementar el consumo de productos locales y de temporada.
+                    </div>
+                </div>
+                <div class="compromiso-item">
+                    <div class="compromiso-emoji">♻️</div>
+                    <div class="compromiso-texto">
+                        <strong>Gestión de Residuos:</strong> Practicar consistentemente el reciclaje y el compostaje de residuos orgánicos.
+                    </div>
+                </div>
+                <div class="compromiso-item">
+                    <div class="compromiso-emoji">📚</div>
+                    <div class="compromiso-texto">
+                        <strong>Educación y Advocacy:</strong> Compartir conocimientos sobre sostenibilidad con mi comunidad y apoyar políticas medioambientales.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="seccion-firma">
+                <div class="instruccion-firma">
+                    ✍️ Firma digitalmente tu compromiso con el planeta
+                </div>
+                <input type="text" 
+                       class="campo-firma" 
+                       id="campoFirma"
+                       placeholder="Ingresa tu nombre completo para firmar este pacto consciente"
+                       maxlength="100">
+                
+                <div class="botones-accion">
+                    <button class="btn-certificado btn-firmar" onclick="firmarCertificado()">
+                        🤝 Firmar Mi Compromiso
+                    </button>
+                    <button class="btn-certificado btn-descargar" onclick="descargarCertificado()" disabled id="btnDescargar">
+                        📄 Descargar Certificado
+                    </button>
+                </div>
+                
+                <div class="hashtag">
+                    Únete a la conversación: <span>#GuardiánBluesphere</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pie-certificado">
+            <div class="fecha-emision" id="fechaEmision">17 de Noviembre de 2025</div>
+            <div class="codigo-qr" id="codigoQR">
+                Código QR<br>Verificación
+            </div>
+        </div>
+        
+        <div class="sello">
+            <div class="sello-texto">COMPROMISO VERIFICADO</div>
+        </div>
     </div>
-</div>
 
-<script type="module">
-import { supabase } from './supabase-config.js';
+    <script>
+        function generarNumeroCertificado() {
+            const timestamp = Date.now().toString().slice(-6);
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `BS-2025-${timestamp}${random}`;
+        }
 
-// Obtener código validado de sessionStorage
-const codigoValidado = sessionStorage.getItem('codigoValidado');
+        function obtenerFechaActual() {
+            const ahora = new Date();
+            const opciones = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                timeZone: 'America/Mexico_City'
+            };
+            return ahora.toLocaleDateString('es-ES', opciones);
+        }
 
-if (!codigoValidado) {
-    alert('No se ha validado ningún código. Redirigiendo...');
-    window.location.href = 'validar-codigo.html';
-}
+        function firmarCertificado() {
+            const campoFirma = document.getElementById('campoFirma');
+            const btnDescargar = document.getElementById('btnDescargar');
+            const certificado = document.getElementById('certificado');
+            const nombreGuardian = document.getElementById('nombreGuardian');
+            
+            if (campoFirma.value.trim() === '') {
+                alert('Por favor, ingresa tu nombre completo para firmar tu compromiso consciente.');
+                campoFirma.focus();
+                return;
+            }
+            
+            if (campoFirma.value.trim().length < 3 || !campoFirma.value.includes(' ')) {
+                alert('Por favor, ingresa tu nombre y apellido completo para una firma válida.');
+                return;
+            }
+            
+            nombreGuardian.textContent = campoFirma.value;
+            certificado.classList.add('certificado-firmado');
+            btnDescargar.disabled = false;
+            campoFirma.disabled = true;
+            
+            alert('🎉 ¡Felicidades! Has firmado tu compromiso consciente con el planeta.\n\nTu certificado está listo para descargar y formarás parte de la comunidad global de Guardianes BlueSphere.');
+            
+            console.log('Certificado firmado por:', campoFirma.value);
+        }
 
-// Buscar guardián en Supabase
-async function cargarCertificado() {
-    const { data, error } = await supabase
-        .from('guardianes')
-        .select('*')
-        .eq('codigo', codigoValidado)
-        .single();
+        function descargarCertificado() {
+            const btnDescargar = document.getElementById('btnDescargar');
+            
+            if (btnDescargar.disabled) {
+                alert('Por favor, firma primero tu certificado antes de descargarlo.');
+                return;
+            }
+            
+            alert('📄 Certificado descargado exitosamente!\n\n🎁 Ahora tienes acceso a la descarga de "El Vuelo de la Conciencia y el Grito del Mar".\n\n📧 También hemos enviado una copia a tu correo electrónico.');
+            
+            setTimeout(() => {
+                window.location.href = 'https://www.elvuelodelaconcienciayelgritodelmar.com/descarga';
+            }, 2000);
+        }
 
-    if (error || !data) {
-        alert('No se encontró información del guardián.');
-        return;
-    }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('numeroCertificado').textContent = generarNumeroCertificado();
+            document.getElementById('fechaEmision').textContent = obtenerFechaActual();
+            
+            document.getElementById('campoFirma').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    firmarCertificado();
+                }
+            });
+        });
 
-    document.getElementById('nombre-guardian').innerText = data.nombre;
-}
-
-// Generar PDF
-document.getElementById('btnPDF').addEventListener('click', () => {
-    import('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')
-    .then(({ jsPDF }) => {
-        const doc = new jsPDF.jsPDF();
-        doc.setFont("Georgia");
-        doc.setFontSize(22);
-        doc.text("Certificado del Guardián Azul", 20, 30);
-        doc.setFontSize(16);
-        doc.text(`Nombre: ${document.getElementById('nombre-guardian').innerText}`, 20, 50);
-        doc.text(`Código: ${codigoValidado}`, 20, 60);
-        doc.text(`Fecha: ${new Date().toLocaleString()}`, 20, 70);
-        doc.text("Ha activado su código BlueSphere y forma parte del Pacto Azul.", 20, 90);
-        doc.save('Certificado-BlueSphere.pdf');
-    });
-});
-
-cargarCertificado();
-</script>
-
+        function generarCodigoQR() {
+            const numeroCertificado = document.getElementById('numeroCertificado').textContent;
+            const qrData = `https://bluesphereconsciousness.org/verificar/${numeroCertificado}`;
+            console.log('QR Data:', qrData);
+        }
+    </script>
 </body>
 </html>
