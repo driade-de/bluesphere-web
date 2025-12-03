@@ -300,7 +300,7 @@
         function generarNumeroCertificado() {
             const timestamp = Date.now().toString().slice(-6);
             const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-            return `BS-2025-${timestamp}${random}`;
+            return `BS-2025-${timestamp}${random}`; // Código de fallback si no hay validación
         }
 
         function obtenerFechaActual() {
@@ -336,7 +336,7 @@
             btnDescargar.disabled = false;
             campoFirma.disabled = true;
             
-            alert('🎉 ¡Felicidades! Has firmado tu compromiso consciente con el planeta.\n\nTu certificado está listo para descargar y formarás parte de la comunidad global de Guardianes BlueSphere.');
+            alert('🎉 ¡Felicidades! Has firmado tu compromiso consciente con el planeta.\\n\\nTu certificado está listo para descargar y formarás parte de la comunidad global de Guardianes BlueSphere.');
             
             console.log('Certificado firmado por:', campoFirma.value);
         }
@@ -349,7 +349,7 @@
                 return;
             }
             
-            alert('📄 Certificado descargado exitosamente!\n\n🎁 Ahora tienes acceso a la descarga de "El Vuelo de la Conciencia y el Grito del Mar".\n\n📧 También hemos enviado una copia a tu correo electrónico.');
+            alert('📄 Certificado descargado exitosamente!\\n\\n🎁 Ahora tienes acceso a la descarga de "El Vuelo de la Conciencia y el Grito del Mar".\\n\\n📧 También hemos enviado una copia a tu correo electrónico.');
             
             setTimeout(() => {
                 window.location.href = 'https://www.elvuelodelaconcienciayelgritodelmar.com/descarga';
@@ -357,7 +357,18 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('numeroCertificado').textContent = generarNumeroCertificado();
+            // *** CORRECCIÓN CRUCIAL: Recuperar el código real de sessionStorage ***
+            const codigoGuardian = sessionStorage.getItem('codigoValidado');
+            
+            if (codigoGuardian) {
+                // Si encontramos el código validado, lo mostramos en el certificado.
+                document.getElementById('numeroCertificado').textContent = codigoGuardian;
+            } else {
+                // Si no hay código validado (acceso directo), usamos el temporal.
+                document.getElementById('numeroCertificado').textContent = generarNumeroCertificado();
+            }
+            // *******************************************************************
+
             document.getElementById('fechaEmision').textContent = obtenerFechaActual();
             
             document.getElementById('campoFirma').addEventListener('keypress', function(e) {
