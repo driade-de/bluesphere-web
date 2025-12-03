@@ -20,6 +20,7 @@
             border: 4px solid #0a3d62;
             border-radius: 14px;
             box-shadow: 0 0 20px rgba(0,0,0,0.15);
+            position: relative;
         }
         h1 {
             text-align: center;
@@ -37,18 +38,31 @@
             font-style: italic;
             font-size: 18px;
         }
+        #btnPDF {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #0a3d62;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        #btnPDF:hover {
+            background: #08324c;
+        }
     </style>
 </head>
 <body>
 
 <div class="certificado">
-    <h1>Certificado del Guardián Azul</h1>
+    <button id="btnPDF">Descargar PDF</button>
 
+    <h1>Certificado del Guardián Azul</h1>
     <p class="sub">Este certificado confirma que:</p>
 
-    <h2 id="nombre-guardian" style="text-align:center; margin-bottom:30px;">
-        Guardián Anónimo
-    </h2>
+    <h2 id="nombre-guardian" style="text-align:center; margin-bottom:30px;">Guardián Anónimo</h2>
 
     <p style="text-align:center;">
         Ha activado su código BlueSphere y forma parte del Pacto Azul.
@@ -62,10 +76,51 @@
     </div>
 </div>
 
-<script>
-// En el futuro leeremos el nombre desde Supabase.
-// Por ahora, solo simulación.
-document.getElementById("nombre-guardian").innerText = "Guardián del Horizonte";
+<script type="module">
+import { supabase } from './supabase-config.js';
+
+// Obtener código validado de sessionStorage
+const codigoValidado = sessionStorage.getItem('codigoValidado');
+
+if (!codigoValidado) {
+    alert('No se ha validado ningún código. Redirigiendo...');
+    window.location.href = 'validar-codigo.html';
+}
+
+// Buscar guardián en Supabase
+async function cargarCertificado() {
+    const { data, error } = await supabase
+        .from('guardianes')
+        .select('*')
+        .eq('codigo', codigoValidado)
+        .single();
+
+    if (error || !data) {
+        alert('No se encontró información del guardián.');
+        return;
+    }
+
+    document.getElementById('nombre-guardian').innerText = data.nombre;
+}
+
+// Generar PDF
+document.getElementById('btnPDF').addEventListener('click', () => {
+    import('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')
+    .then(({ jsPDF }) => {
+        const doc = new jsPDF.jsPDF();
+        doc.setFont("Georgia");
+        doc.setFontSize(22);
+        doc.text("Certificado del Guardián Azul", 20, 30);
+        doc.setFontSize(16);
+        doc.text(`Nombre: ${document.getElementById('nombre-guardian').innerText}`, 20, 50);
+        doc.text(`Código: ${codigoValidado}`, 20, 60);
+        doc.text(`Fecha: ${new Date().toLocaleString()}`, 20, 70);
+        doc.text("Ha activado su código BlueSphere y forma parte del Pacto Azul.", 20, 90);
+        doc.save('Certificado-BlueSphere.pdf');
+    });
+});
+
+cargarCertificado();
 </script>
 
 </body>
