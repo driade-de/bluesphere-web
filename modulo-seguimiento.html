@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento 15/30 Días – BlueSphere</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f8ff;
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #0a3d62;
+            margin-bottom: 25px;
+        }
+        .contenedor {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+        .dia {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: #e8f0fb;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .dia.completado {
+            background: #c8ffd0;
+            text-decoration: line-through;
+        }
+        #progreso {
+            text-align: center;
+            margin-top: 25px;
+            font-weight: bold;
+            color: #0a3d62;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Seguimiento 15/30 Días</h1>
+
+<div class="contenedor" id="lista">
+    <!-- Los días se generan desde JS -->
+</div>
+
+<p id="progreso"></p>
+
+<script>
+let total = 30;
+let completados = 0;
+
+const lista = document.getElementById("lista");
+const progreso = document.getElementById("progreso");
+
+// Crear lista de días
+for (let i = 1; i <= total; i++) {
+    const div = document.createElement("div");
+    div.className = "dia";
+    div.innerText = "Día " + i;
+    
+    div.onclick = () => {
+        if (!div.classList.contains("completado")) {
+            div.classList.add("completado");
+            completados++;
+        } else {
+            div.classList.remove("completado");
+            completados--;
+        }
+        progreso.innerText = "Progreso: " + completados + " / " + total;
+    };
+
+    lista.appendChild(div);
+}
+
+progreso.innerText = "Progreso: 0 / " + total;
+</script>
+
+</body>
+</html>
