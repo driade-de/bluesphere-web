@@ -1,0 +1,28 @@
+generador-codigos.html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Códigos – BlueSphere</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<h1>Generador de Códigos – BlueSphere</h1>
+
+<p>Este módulo permitirá crear nuevos códigos del SGC.</p>
+
+<button onclick="generarCodigo()">Generar Código</button>
+
+<p id="resultado"></p>
+
+<script>
+function generarCodigo() {
+    const codigo = "GPR-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+    document.getElementById("resultado").innerText = "Código generado: " + codigo;
+}
+</script>
+
+</body>
+</html>
