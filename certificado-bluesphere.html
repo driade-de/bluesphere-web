@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado BlueSphere</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            font-family: Georgia, serif;
+            background: #eef3f8;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+        .certificado {
+            background: white;
+            width: 700px;
+            padding: 40px;
+            border: 4px solid #0a3d62;
+            border-radius: 14px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        h1 {
+            text-align: center;
+            color: #0a3d62;
+            letter-spacing: 1px;
+        }
+        .sub {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 35px;
+        }
+        .firma {
+            margin-top: 60px;
+            text-align: right;
+            font-style: italic;
+            font-size: 18px;
+        }
+        #btnPDF {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #0a3d62;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        #btnPDF:hover {
+            background: #08324c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="certificado">
+    <button id="btnPDF">Descargar PDF</button>
+
+    <h1>Certificado del Guardián Azul</h1>
+    <p class="sub">Este certificado confirma que:</p>
+
+    <h2 id="nombre-guardian" style="text-align:center; margin-bottom:30px;">Guardián Anónimo</h2>
+
+    <p style="text-align:center;">
+        Ha activado su código BlueSphere y forma parte del Pacto Azul.
+        <br>
+        Su compromiso ayuda a transformar la conciencia del planeta.
+    </p>
+
+    <div class="firma">
+        — Hermes Antares<br>
+        Fundador de BlueSphere Consciousness
+    </div>
+</div>
+
+<script type="module">
+import { supabase } from './supabase-config.js';
+
+// Obtener código validado de sessionStorage
+const codigoValidado = sessionStorage.getItem('codigoValidado');
+
+if (!codigoValidado) {
+    alert('No se ha validado ningún código. Redirigiendo...');
+    window.location.href = 'validar-codigo.html';
+}
+
+// Buscar guardián en Supabase
+async function cargarCertificado() {
+    const { data, error } = await supabase
+        .from('guardianes')
+        .select('*')
+        .eq('codigo', codigoValidado)
+        .single();
+
+    if (error || !data) {
+        alert('No se encontró información del guardián.');
+        return;
+    }
+
+    document.getElementById('nombre-guardian').innerText = data.nombre;
+}
+
+// Generar PDF
+document.getElementById('btnPDF').addEventListener('click', () => {
+    import('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')
+    .then(({ jsPDF }) => {
+        const doc = new jsPDF.jsPDF();
+        doc.setFont("Georgia");
+        doc.setFontSize(22);
+        doc.text("Certificado del Guardián Azul", 20, 30);
+        doc.setFontSize(16);
+        doc.text(`Nombre: ${document.getElementById('nombre-guardian').innerText}`, 20, 50);
+        doc.text(`Código: ${codigoValidado}`, 20, 60);
+        doc.text(`Fecha: ${new Date().toLocaleString()}`, 20, 70);
+        doc.text("Ha activado su código BlueSphere y forma parte del Pacto Azul.", 20, 90);
+        doc.save('Certificado-BlueSphere.pdf');
+    });
+});
+
+cargarCertificado();
+</script>
+
+</body>
+</html>
