@@ -17,6 +17,7 @@
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
+        
         /* NAVBAR */
         .navbar {
             position: fixed;
@@ -31,17 +32,29 @@
             padding: 14px 40px;
             z-index: 1000;
         }
+        
         .navbar-logo {
             font-size: 1.3rem;
             font-weight: 700;
             color: #0a3d62;
             letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .navbar-logo span {
-            margin-right: 8px;
-            font-size: 1.4rem;
-            color: #0a3d62;
+        
+        .nav-logo-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            filter: drop-shadow(0 2px 4px rgba(10, 118, 211, 0.3));
+            transition: transform 0.3s ease;
         }
+        
+        .nav-logo-img:hover {
+            transform: scale(1.1);
+        }
+        
         .nav-links a {
             margin-left: 25px;
             text-decoration: none;
@@ -52,41 +65,116 @@
             border-bottom: 2px solid transparent;
             transition: 0.2s ease;
         }
+        
         .nav-links a:hover {
             border-bottom: 2px solid #0a76d3;
             color: #0a76d3;
         }
+        
         /* HERO */
         .hero {
             background: #030b12;
             height: 100vh;
             width: 100%;
             text-align: center;
-            padding-top: 160px;
+            padding-top: 140px;
             position: relative;
             color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
+        
         .ocean-bg {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            z-index: -1;
+            z-index: 1;
             background: radial-gradient(circle at 50% 20%, rgba(60,150,255,0.15), transparent 60%),
                         radial-gradient(circle at 80% 60%, rgba(0,255,220,0.12), transparent 70%),
                         linear-gradient(180deg, #0b1f30, #030b12);
         }
+        
         .particle {
             position: absolute;
             bottom: -10px;
             background-color: rgba(150, 220, 255, 0.6);
             border-radius: 50%;
             animation: rise 12s infinite ease-in;
+            z-index: 1;
         }
+        
         @keyframes rise {
             0% { bottom: -10px; opacity: 0; transform: translateX(0); }
             40% { opacity: 1; }
             100% { bottom: 100%; opacity: 0; transform: translateX(-20px); }
         }
+        
+        /* LOGO BLUESPHERE - HERO */
+        .bluesphere-logo-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 40px;
+            z-index: 2;
+            animation: floatLogo 6s ease-in-out infinite;
+        }
+        
+        .bluesphere-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 30px rgba(79, 195, 247, 0.6)) 
+                    brightness(1.1) 
+                    contrast(1.05);
+            border-radius: 50%;
+        }
+        
+        .logo-aura {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            border-radius: 50%;
+            background: radial-gradient(circle, 
+                rgba(79, 195, 247, 0.25) 0%,
+                rgba(79, 195, 247, 0.1) 40%,
+                transparent 70%);
+            z-index: -1;
+            animation: pulseAura 4s ease-in-out infinite;
+        }
+        
+        .logo-shine {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, 
+                rgba(255, 255, 255, 0.4) 1%, 
+                transparent 15%);
+            z-index: -2;
+            transform: translate(-50%, -50%);
+            animation: rotateShine 8s linear infinite;
+        }
+        
+        /* Animaciones del logo */
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-15px) rotate(0.5deg); }
+            66% { transform: translateY(10px) rotate(-0.5deg); }
+        }
+        
+        @keyframes pulseAura {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(1.05); }
+        }
+        
+        @keyframes rotateShine {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
         h1 {
             font-size: 4rem;
             letter-spacing: 3px;
@@ -94,14 +182,20 @@
             background: linear-gradient(to right, #ffffff, #7cd3ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            z-index: 2;
+            position: relative;
         }
+        
         .subtitle {
             font-size: 1.4rem;
             color: #c8ecff;
             max-width: 700px;
             margin: 0 auto 40px auto;
             line-height: 1.7;
+            z-index: 2;
+            position: relative;
         }
+        
         .btn-hero {
             padding: 15px 50px;
             margin: 10px;
@@ -113,22 +207,28 @@
             text-decoration: none;
             font-size: 1.2rem;
             transition: 0.25s;
+            z-index: 2;
+            position: relative;
         }
+        
         .btn-hero:hover {
             background: rgba(100,180,255,0.25);
             box-shadow: 0 0 30px rgba(120,200,255,0.45);
             transform: translateY(-3px);
         }
+        
         .transition-wave {
             width: 100%;
             height: 120px;
             background: linear-gradient(180deg, #030b12, #f4faff);
         }
+        
         section {
             padding: 80px 20px;
             max-width: 1100px;
             margin: auto;
         }
+        
         .card {
             background: rgba(255,255,255,0.82);
             backdrop-filter: blur(14px);
@@ -137,12 +237,14 @@
             box-shadow: 0 8px 35px rgba(0,0,0,0.08);
             margin-bottom: 60px;
         }
+        
         .section-title {
             font-size: 2rem;
             font-weight: 600;
             text-align: center;
             color: #0a2a43;
         }
+        
         .section-desc {
             color: #476b82;
             text-align: center;
@@ -150,6 +252,7 @@
             max-width: 750px;
             margin: 0 auto 35px;
         }
+        
         .btn-primary {
             display: inline-block;
             padding: 14px 30px;
@@ -160,9 +263,11 @@
             border-radius: 14px;
             transition: 0.2s ease;
         }
+        
         .btn-primary:hover {
             background: #0c98ff;
         }
+        
         .btn-outline {
             display: inline-block;
             padding: 14px 30px;
@@ -173,9 +278,11 @@
             border-radius: 14px;
             margin-left: 10px;
         }
+        
         .btn-outline:hover {
             background: #e8f4ff;
         }
+        
         .donation-grid {
             display: flex;
             flex-direction: column;
@@ -183,6 +290,7 @@
             max-width: 330px;
             margin: 0 auto;
         }
+        
         .donate-btn {
             padding: 14px 20px;
             border-radius: 14px;
@@ -194,24 +302,68 @@
             box-shadow: 0 3px 12px rgba(0,0,0,0.05);
             transition: 0.25s;
         }
+        
         .donate-btn:hover {
             transform: scale(1.04);
             background: #e8f4ff;
         }
+        
         .stripe-btn {
             background: linear-gradient(90deg, #00d2ff, #00a4ff);
             color: #000;
             border: none;
         }
+        
         footer {
             text-align: center;
             padding: 45px;
             color: #5d7c92;
         }
+        
         footer a {
             color: #0a76d3;
             text-decoration: none;
             font-weight: 600;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 20px;
+            }
+            
+            .bluesphere-logo-container {
+                width: 140px;
+                height: 140px;
+                margin-bottom: 30px;
+            }
+            
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+                padding: 0 20px;
+            }
+            
+            .hero {
+                padding-top: 120px;
+            }
+            
+            .nav-links a {
+                margin-left: 15px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .bluesphere-logo-container,
+            .logo-aura,
+            .logo-shine,
+            .particle {
+                animation: none;
+            }
         }
     </style>
 </head>
@@ -219,7 +371,12 @@
 
 <!-- NAVBAR -->
 <div class="navbar">
-    <div class="navbar-logo"><span>◉</span> BlueSphere</div>
+    <div class="navbar-logo">
+        <img src="./bluesphere-logo.png" 
+             alt="BlueSphere"
+             class="nav-logo-img">
+        <span>BlueSphere</span>
+    </div>
     <div class="nav-links">
         <a href="#inicio">Inicio</a>
         <a href="#donar">Donar</a>
@@ -235,6 +392,8 @@
 <!-- HERO -->
 <div class="hero" id="inicio">
     <div class="ocean-bg"></div>
+    
+    <!-- Script de partículas (original) -->
     <script>
         for (let i = 0; i < 35; i++) {
             let p = document.createElement('div');
@@ -243,13 +402,25 @@
             p.style.width = p.style.height = (Math.random() * 5 + 3) + 'px';
             p.style.animationDuration = (10 + Math.random() * 10) + 's';
             p.style.animationDelay = Math.random() * 4 + 's';
-            document.body.appendChild(p);
+            document.querySelector('.hero').appendChild(p);
         }
     </script>
+    
+    <!-- LOGO BLUESPHERE -->
+    <div class="bluesphere-logo-container">
+        <img src="./bluesphere-logo.png" 
+             alt="BlueSphere Consciousness"
+             class="bluesphere-logo">
+        <div class="logo-aura"></div>
+        <div class="logo-shine"></div>
+    </div>
+    
     <h1>BlueSphere Consciousness</h1>
     <p class="subtitle">La conciencia es la nueva civilización.<br>Únete al movimiento que transformará al planeta.</p>
-    <a href="#donar" class="btn-hero">Apoyar el Movimiento</a>
-    <a href="#guardian" class="btn-hero">Acceso Guardián</a>
+    <div style="z-index: 2; position: relative;">
+        <a href="#donar" class="btn-hero">Apoyar el Movimiento</a>
+        <a href="#guardian" class="btn-hero">Acceso Guardián</a>
+    </div>
 </div>
 
 <div class="transition-wave"></div>
@@ -258,23 +429,22 @@
 <section id="donar">
     <div class="card">
         <h2 class="section-title">Construyamos juntos los Puentes de Conciencia</h2>
-<p class="section-desc">
-Tu donación paga personas reales que hacen posible que BlueSphere exista en el mundo físico:
-<br><br>
-• El editor que da claridad y belleza al mensaje  
-• El traductor que rompe barreras entre culturas  
-• El abogado que abre caminos legales internacionales  
-• El servidor que entrega conocimiento a cualquier persona, en cualquier lugar  
-<br><br>
-Los libros son un regalo gratuito para la humanidad.  
-Tu contribución hace posible este regalo.  
-<br><br>
-Estos puentes llevan a:
-🌱 Comunidades regenerativas · 🌳 Bosques revividos · 💧 Aguas limpias · 👥 Millones de guardianes conscientes  
-<br><br>
-<b>Juntos, tejemos la red de la nueva civilización.</b>
-</p>
-
+        <p class="section-desc">
+            Tu donación paga personas reales que hacen posible que BlueSphere exista en el mundo físico:
+            <br><br>
+            • El editor que da claridad y belleza al mensaje  
+            • El traductor que rompe barreras entre culturas  
+            • El abogado que abre caminos legales internacionales  
+            • El servidor que entrega conocimiento a cualquier persona, en cualquier lugar  
+            <br><br>
+            Los libros son un regalo gratuito para la humanidad.  
+            Tu contribución hace posible este regalo.  
+            <br><br>
+            Estos puentes llevan a:
+            🌱 Comunidades regenerativas · 🌳 Bosques revividos · 💧 Aguas limpias · 👥 Millones de guardianes conscientes  
+            <br><br>
+            <b>Juntos, tejemos la red de la nueva civilización.</b>
+        </p>
 
         <div class="donation-grid">
             <!-- PayPal -->
@@ -384,4 +554,3 @@ Estos puentes llevan a:
 
 </body>
 </html>
-
