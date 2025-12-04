@@ -1,89 +1,383 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seguimiento 15/30 Días – BlueSphere</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f8ff;
-            padding: 30px;
-        }
-        h1 {
-            text-align: center;
-            color: #0a3d62;
-            margin-bottom: 25px;
-        }
-        .contenedor {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 0 12px rgba(0,0,0,0.1);
-        }
-        .dia {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px;
-            margin-bottom: 8px;
-            background: #e8f0fb;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        .dia.completado {
-            background: #c8ffd0;
-            text-decoration: line-through;
-        }
-        #progreso {
-            text-align: center;
-            margin-top: 25px;
-            font-weight: bold;
-            color: #0a3d62;
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Modulo de Seguimiento — BlueSphere Consciousness</title>
+<meta name="description" content="Registro de seguimiento (15/30 días) — reporta acciones, sube evidencia y alimenta el dashboard de impacto." />
+<style>
+  :root{
+    --bg:#041016; --card:#07212a; --accent:#4fc3f7; --muted:#c8eaff;
+    --success:#3ddc84; --gold:#ffd700; --white:#ffffff;
+  }
+  body{font-family:Inter, Arial, sans-serif; background:var(--bg); color:var(--white); margin:0; padding:20px;}
+  .wrap{max-width:980px;margin:16px auto;}
+  .card{background:var(--card); border-radius:12px; padding:18px; border:1px solid rgba(127,206,255,0.04);}
+  h1{color:var(--accent); margin:0 0 8px; font-size:1.5rem;}
+  p.lead{color:var(--muted); margin:6px 0 18px;}
+  .flex{display:flex; gap:12px; align-items:center; flex-wrap:wrap;}
+  .input, textarea, select{width:100%; padding:10px; border-radius:8px; border:1px solid #19434d; background:#021219; color:var(--white); box-sizing:border-box;}
+  label{display:block; color:var(--muted); margin-bottom:6px; font-weight:700;}
+  .small{font-size:0.9rem; color:var(--muted);}
+  .grid{display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:12px;}
+  .btn{padding:10px 14px; border-radius:10px; cursor:pointer; border:0; font-weight:800;}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#81d4fa); color:#041016;}
+  .btn-success{background:var(--success); color:#041016;}
+  .btn-plain{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted);}
+  .hint{font-size:0.85rem; color:var(--muted); margin-top:8px;}
+  .kpi{display:flex; gap:8px; align-items:center;}
+  .badge{display:inline-block; padding:6px 8px; border-radius:999px; background:rgba(255,255,255,0.03); color:var(--muted); font-weight:700;}
+  .success-box{background:linear-gradient(90deg, rgba(61,220,132,0.08), rgba(127,206,255,0.02)); padding:12px; border-radius:8px; color:var(--white); margin-top:12px;}
+  .history-item{background:rgba(255,255,255,0.02); padding:10px; border-radius:8px; margin-bottom:8px;}
+  .files-list{margin-top:8px;}
+  .tiny{font-size:0.8rem; color:var(--muted);}
+  .center{text-align:center;}
+  a.link{color:var(--accent); text-decoration:none;}
+</style>
 </head>
 <body>
+  <div class="wrap">
+    <div class="card">
+      <h1>🔁 Seguimiento — BlueSphere</h1>
+      <p class="lead">Registra tus acciones (15/30 días). Son 2–4 preguntas: toma 90 segundos. Subir evidencia aumenta la verificación y el impacto medible.</p>
 
-<h1>Seguimiento 15/30 Días</h1>
+      <!-- Código / Identificador -->
+      <div style="margin-bottom:12px;">
+        <label for="codigoInput">Código BlueSphere</label>
+        <input id="codigoInput" class="input" placeholder="Tu código (ej. OXXO-BLUESPHERE-000001-🌊MEX)">
+        <div class="hint">Si llegaste por SMS/WhatsApp el código puede venir en la URL; revisa el link.</div>
+      </div>
 
-<div class="contenedor" id="lista">
-    <!-- Los días se generan desde JS -->
-</div>
+      <!-- Estado y KPIs -->
+      <div class="flex" style="margin-bottom:12px;">
+        <div class="kpi"><span class="badge">Estado</span> <div id="estadoBadge" style="margin-left:8px;" class="tiny">No validado</div></div>
+        <div class="kpi"><span class="badge">Checkins</span> <div id="numCheckins" style="margin-left:8px;" class="tiny">0</div></div>
+        <div class="kpi"><span class="badge">Impacto estimado</span> <div id="impactoEstimado" style="margin-left:8px;" class="tiny">—</div></div>
+      </div>
 
-<p id="progreso"></p>
+      <!-- Formulario -->
+      <form id="seguimientoForm" class="card" style="margin-top:12px;">
+        <div style="margin-bottom:12px;">
+          <label>Selecciona las acciones que realizaste (marca las que apliquen)</label>
+          <div class="grid">
+            <label><input type="checkbox" name="accion" value="reducir_plastico">  Eliminé plásticos de un solo uso</label>
+            <label><input type="checkbox" name="accion" value="movilidad_sostenible">  Usé transporte no motorizado o público</label>
+            <label><input type="checkbox" name="accion" value="conservacion_agua">  Implementé ahorro de agua</label>
+            <label><input type="checkbox" name="accion" value="consumo_responsable">  Compré productos locales/sostenibles</label>
+            <label><input type="checkbox" name="accion" value="compostaje">  Empecé a compostar</label>
+            <label><input type="checkbox" name="accion" value="reduccion_carne">  Reduje consumo de carne</label>
+            <label><input type="checkbox" name="accion" value="educacion">  Compartí información con mi comunidad</label>
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label>Frecuencia aproximada (marca la que corresponde)</label>
+          <select id="frecuencia" class="input">
+            <option value="ocasional">Ocasional</option>
+            <option value="semanal">Semanal</option>
+            <option value="diaria">Diaria</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label>¿Subes evidencia? (foto o ticket) — opcional</label>
+          <input id="fileInput" type="file" accept="image/*,application/pdf" style="padding:6px; background:#021219; color:var(--white); border-radius:8px;">
+          <div id="filesPreview" class="files-list tiny"></div>
+          <div class="tiny hint">Consejo: una foto clara o un ticket (recibo) ayuda a validar y aumenta el impacto verificado.</div>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label>Comentario breve (opcional)</label>
+          <textarea id="comentario" class="input" rows="3" placeholder="Qué hiciste, dónde, cuántas veces, etc. (200 caracteres)"></textarea>
+        </div>
+
+        <div style="display:flex; gap:10px; align-items:center; margin-top:6px;">
+          <button id="btnEnviar" class="btn btn-primary" type="button">Enviar seguimiento</button>
+          <button id="btnGuardarBorrador" class="btn btn-plain" type="button">Guardar borrador</button>
+          <div style="flex:1"></div>
+          <div class="tiny">Tiempo estimado: <strong>2 min</strong></div>
+        </div>
+
+        <div id="mensaje" class="hint" style="margin-top:12px; display:none;"></div>
+      </form>
+
+      <!-- Resultado / Recompensa -->
+      <div id="resultadoBox" style="display:none; margin-top:14px;">
+        <div class="success-box center">
+          <div style="font-weight:800; font-size:1.05rem;">✅ ¡Gracias! Tu reporte fue recibido.</div>
+          <div id="resultadoImpacto" style="margin-top:8px;" class="tiny"></div>
+          <div style="margin-top:8px;"><button id="btnVerBadge" class="btn btn-success">Ver mi Badge</button></div>
+        </div>
+      </div>
+
+      <!-- Historial -->
+      <div style="margin-top:18px;">
+        <h3 style="color:var(--accent); margin-bottom:8px;">Historial de checkins</h3>
+        <div id="historyBox" class="small">
+          <div class="tiny">Cargando historial...</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="height:18px;"></div>
+
+    <div class="card small">
+      <strong>Notas técnicas</strong>
+      <ul>
+        <li>Este módulo usa endpoints REST: <code>/api/seguimiento</code> (POST) y <code>/api/seguimiento?codigo=</code> (GET).</li>
+        <li>Para uploads recomendamos <strong>presigned URLs S3</strong> o servicio CDN; en el ejemplo hay un mock.</li>
+        <li>Factores de conversión (CO₂, plástico, agua) son editables en backend; aquí se usan valores de ejemplo.</li>
+      </ul>
+    </div>
+
+  </div>
 
 <script>
-let total = 30;
-let completados = 0;
+/* -------------------------
+  MÓDULO-SEGUIMIENTO.JS
+  - Lee `?codigo=` de la URL
+  - Muestra historial (GET /api/seguimiento?codigo=...)
+  - Envía seguimiento (POST /api/seguimiento)
+  - Soporta upload básico (simulado / presigned)
+  - Calcula impacto estimado con factores ajustables
+  ------------------------- */
 
-const lista = document.getElementById("lista");
-const progreso = document.getElementById("progreso");
+const API_BASE = '/api'; // reemplaza por tu dominio de API si aplica
 
-// Crear lista de días
-for (let i = 1; i <= total; i++) {
-    const div = document.createElement("div");
-    div.className = "dia";
-    div.innerText = "Día " + i;
-    
-    div.onclick = () => {
-        if (!div.classList.contains("completado")) {
-            div.classList.add("completado");
-            completados++;
-        } else {
-            div.classList.remove("completado");
-            completados--;
-        }
-        progreso.innerText = "Progreso: " + completados + " / " + total;
-    };
+// Factores de conversión (ajustar en backend)
+const FACTORES = {
+  'reducir_plastico_kg_por_uso': 0.02, // kg plástico evitado por uso diario de botella reutilizable (ejemplo)
+  'movilidad_co2_kg_por_viaje': 0.75,  // kg CO2 por viaje sustituido (ejemplo)
+  'ahorro_agua_l_por_accion': 15,      // litros por acción (ejemplo)
+  'reduccion_carne_co2_kg_por_dia': 0.5 // kgCO2 por día al reducir carne (ejemplo)
+};
 
-    lista.appendChild(div);
+// Helpers
+function qs(key){ // get query string param
+  const params = new URLSearchParams(window.location.search);
+  return params.get(key);
+}
+function el(id){ return document.getElementById(id); }
+function show(elm){ elm.style.display='block'; }
+function hide(elm){ elm.style.display='none'; }
+
+// Inicialización: si hay código en la URL, poblar campo
+document.addEventListener('DOMContentLoaded', async () => {
+  const codigoUrl = qs('codigo') || qs('token') || '';
+  if (codigoUrl) {
+    el('codigoInput').value = decodeURIComponent(codigoUrl);
+    await validarCodigo(codigoUrl); // auto-validar y cargar historial
+  } else {
+    // si no hay código, intenta cargar historial cuando el usuario lo ponga
+    cargarHistorial(null);
+  }
+});
+
+// Cargar historial (GET)
+async function cargarHistorial(codigo){
+  const box = el('historyBox');
+  box.innerHTML = '<div class="tiny">Cargando historial...</div>';
+  if (!codigo) {
+    box.innerHTML = '<div class="tiny">Aún no has enviado checkins. Tu historial aparecerá aquí cuando registres acciones.</div>';
+    el('numCheckins').textContent = '0';
+    return;
+  }
+  try {
+    const resp = await fetch(`${API_BASE}/seguimiento?codigo=${encodeURIComponent(codigo)}`);
+    if (!resp.ok) throw new Error('No hay historial o error de conexión.');
+    const data = await resp.json();
+    if (!data || !Array.isArray(data.items) || data.items.length === 0) {
+      box.innerHTML = '<div class="tiny">No hay checkins registrados aún.</div>';
+      el('numCheckins').textContent = '0';
+      return;
+    }
+    el('numCheckins').textContent = data.items.length;
+    box.innerHTML = data.items.map(it => {
+      const date = new Date(it.fecha).toLocaleString();
+      const acciones = (it.acciones||[]).join(', ') || '—';
+      const impacto = it.impacto_estimado ? (`CO₂ ${it.impacto_estimado.co2_kg || 0} kg • Plast ${it.impacto_estimado.plastico_kg || 0} kg`) : '';
+      return `<div class="history-item"><div style="font-weight:700">${date}</div><div class="tiny">${acciones}</div><div class="tiny" style="margin-top:6px">${impacto}</div></div>`;
+    }).join('');
+  } catch (err) {
+    box.innerHTML = `<div class="tiny">No fue posible cargar historial: ${err.message}</div>`;
+  }
 }
 
-progreso.innerText = "Progreso: 0 / " + total;
-</script>
+// Validar código (simple, recomienda server-side)
+async function validarCodigo(codigo){
+  if (!codigo) return;
+  try {
+    // Recomendado: validar con backend real:
+    // const res = await fetch(`${API_BASE}/validarCodigo`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({codigo})});
+    // const json = await res.json();
+    // Mock: aceptamos códigos con longitud > 8
+    const valido = codigo.length > 8;
+    if (valido) {
+      el('estadoBadge').textContent = 'Código válido';
+      el('estadoBadge').style.color = '#3ddc84';
+      el('codigoInput').dataset.valid = '1';
+      // cargar historial
+      cargarHistorial(codigo);
+    } else {
+      el('estadoBadge').textContent = 'Código inválido';
+      el('estadoBadge').style.color = '#ff7b7b';
+      el('codigoInput').dataset.valid = '0';
+      cargarHistorial(null);
+    }
+    return valido;
+  } catch (err) {
+    console.error(err);
+    el('estadoBadge').textContent = 'Error validando';
+    el('estadoBadge').style.color = '#ff7b7b';
+    return false;
+  }
+}
 
+// Botón ENVIAR
+el('btnEnviar').addEventListener('click', async () => {
+  const codigo = el('codigoInput').value.trim();
+  if (!codigo) { alert('Ingresa tu código BlueSphere'); return; }
+  const ok = await validarCodigo(codigo);
+  if (!ok) { alert('Código inválido. Verifica e intenta de nuevo.'); return; }
+
+  // preparar payload
+  const checkboxes = Array.from(document.querySelectorAll('input[name="accion"]:checked')).map(n=>n.value);
+  if (checkboxes.length === 0) {
+    if(!confirm('No seleccionaste ninguna acción. Deseas enviar de todos modos?')) return;
+  }
+  const frecuencia = el('frecuencia').value;
+  const comentario = el('comentario').value.trim();
+  const file = el('fileInput').files[0] || null;
+
+  // subir evidencia si existe (presigned flow recomendado)
+  let evidencia_urls = [];
+  if (file) {
+    try {
+      // 1) pedir presigned URL al backend
+      const presignResp = await fetch(`${API_BASE}/presign`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ filename: file.name, contentType: file.type })});
+      if (!presignResp.ok) throw new Error('No fue posible pedir URL presign.');
+      const { url, key } = await presignResp.json(); // { url: "...", key: "s3key" }
+      // 2) PUT file a la URL (no autenticada)
+      await fetch(url, { method:'PUT', headers: { 'Content-Type': file.type }, body: file });
+      // 3) construir la URL pública (depende de tu CDN)
+      const publicUrl = `${location.origin}/uploads/${key}`; // adaptar según arquitectura
+      evidencia_urls.push(publicUrl);
+      el('filesPreview').textContent = `Archivo subido: ${file.name}`;
+    } catch(err) {
+      console.warn('Presign/upload error, realizando fallback (no subido):', err);
+      // Opcional: subir directamente al backend (menos recomendado)
+      evidencia_urls = [];
+      el('filesPreview').textContent = 'No fue posible subir la evidencia automáticamente.';
+    }
+  }
+
+  // calcular impacto estimado con FACTORES locales (simple)
+  const impacto = calcularImpactoEstimado(checkboxes, frecuencia);
+
+  // payload final
+  const payload = {
+    codigo,
+    fecha: new Date().toISOString(),
+    acciones: checkboxes,
+    frecuencia,
+    comentario,
+    evidencia_urls,
+    impacto_estimado: impacto,
+    verification_level: evidencia_urls.length ? 1 : 0
+  };
+
+  // POST a API
+  try {
+    const resp = await fetch(`${API_BASE}/seguimiento`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+    if (!resp.ok) throw new Error('Error en envío al servidor');
+    const data = await resp.json();
+    // mostrar resultado
+    show(el('resultadoBox'));
+    el('resultadoImpacto').textContent = `Impacto estimado local: CO₂ ${(impacto.co2_kg||0).toFixed(2)} kg • Plástico ${(impacto.plastico_kg||0).toFixed(2)} kg • Agua ${(impacto.agua_l||0)} L`;
+    el('mensaje').style.display = 'none';
+    // actualizar historial
+    cargarHistorial(codigo);
+    // animar badge o micro-recompensa breve
+    flashBadge();
+  } catch(err) {
+    el('mensaje').style.display = 'block';
+    el('mensaje').textContent = 'No fue posible enviar tu seguimiento. Intenta de nuevo más tarde.';
+    console.error(err);
+  }
+});
+
+// Guardar borrador (localStorage simple)
+el('btnGuardarBorrador').addEventListener('click', () => {
+  const state = {
+    codigo: el('codigoInput').value,
+    acciones: Array.from(document.querySelectorAll('input[name="accion"]:checked')).map(i=>i.value),
+    frecuencia: el('frecuencia').value,
+    comentario: el('comentario').value
+  };
+  localStorage.setItem('bs_seguimiento_draft', JSON.stringify(state));
+  alert('Borrador guardado localmente.');
+});
+
+// cargar draft si existe
+(function loadDraft(){
+  const d = localStorage.getItem('bs_seguimiento_draft');
+  if (!d) return;
+  try {
+    const s = JSON.parse(d);
+    if (s.codigo) el('codigoInput').value = s.codigo;
+    if (Array.isArray(s.acciones)) {
+      document.querySelectorAll('input[name="accion"]').forEach(cb => cb.checked = s.acciones.includes(cb.value));
+    }
+    if (s.frecuencia) el('frecuencia').value = s.frecuencia;
+    if (s.comentario) el('comentario').value = s.comentario;
+  } catch(e){}
+})();
+
+// calcular impacto estimado
+function calcularImpactoEstimado(acciones, frecuencia){
+  // basic rules: frecuencia weight
+  const freqWeight = { 'ocasional': 0.25, 'semanal': 1, 'diaria': 7 };
+  const w = freqWeight[frecuencia] || 1;
+  let co2 = 0, plast = 0, agua = 0;
+
+  if (acciones.includes('reducir_plastico')) plast += FACTORES.reducir_plastico_kg_por_uso * w;
+  if (acciones.includes('movilidad_sostenible')) co2 += FACTORES.movilidad_co2_kg_por_viaje * w;
+  if (acciones.includes('conservacion_agua')) agua += FACTORES.ahorro_agua_l_por_accion * w;
+  if (acciones.includes('reduccion_carne')) co2 += FACTORES.reduccion_carne_co2_kg_por_dia * w;
+  // otros mapeos pueden añadirse
+  const impacto = { co2_kg: parseFloat(co2.toFixed(3)), plastico_kg: parseFloat(plast.toFixed(3)), agua_l: Math.round(agua) };
+  el('impactoEstimado').textContent = `CO₂ ${impacto.co2_kg} kg • Plast ${impacto.plastico_kg} kg`;
+  return impacto;
+}
+
+// Flash badge / micro-recompensa
+function flashBadge(){
+  el('btnVerBadge').addEventListener('click', () => {
+    alert('Has ganado el badge: GUARDIÁN EN ACCIÓN — compártelo en redes para inspirar a otros.');
+  });
+}
+
+// Cargar historial si usuario escribe el código manualmente
+el('codigoInput').addEventListener('blur', async (e) => {
+  const c = e.target.value.trim();
+  if (!c) return;
+  await validarCodigo(c);
+});
+
+// file preview
+el('fileInput').addEventListener('change', (e) => {
+  const f = e.target.files[0];
+  const p = el('filesPreview');
+  if (!f) { p.textContent=''; return; }
+  p.textContent = `Archivo listo: ${f.name} (${Math.round(f.size/1024)} KB)`;
+});
+
+/* ------------- Mock admin helpers (para desarrollo) ------------- */
+/* Nota: En producción, tu backend hará la validación real, presign y cálculo. */
+async function mockSeedHistory(codigo){
+  // sólo para testing local (popula historial en backend de mock)
+}
+</script>
 </body>
 </html>
