@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Portal de Donantes & Inversores — BlueSphere Consciousness</title>
+
+<style>
+  :root {
+    --bg:#020b10;
+    --card:#071d26;
+    --accent:#4fc3f7;
+    --accent2:#00bcd4;
+    --white:#ffffff;
+    --muted:#c8eaff;
+  }
+  body{
+    margin:0;
+    font-family:"Inter", Arial, sans-serif;
+    background:var(--bg);
+    color:var(--white);
+  }
+  header{
+    padding:25px;
+    text-align:center;
+    background:linear-gradient(135deg, rgba(0,70,110,0.45), rgba(0,110,120,0.2));
+    border-bottom:1px solid rgba(255,255,255,0.05);
+  }
+  h1{
+    margin:0;
+    font-size:2rem;
+    font-weight:900;
+    color:var(--accent);
+  }
+  .subtitle{
+    color:var(--muted);
+    margin-top:4px;
+    font-size:1rem;
+  }
+  .container{
+    max-width:900px;
+    margin:40px auto;
+    padding:20px;
+  }
+  .card{
+    background:var(--card);
+    border-radius:14px;
+    padding:25px;
+    border:1px solid rgba(255,255,255,0.06);
+    margin-bottom:20px;
+  }
+  .card h2{
+    margin:0 0 12px;
+    color:var(--accent);
+  }
+  .card p{
+    color:var(--muted);
+    line-height:1.55rem;
+  }
+  .input-box{
+    margin-top:20px;
+    text-align:center;
+  }
+  input[type="text"]{
+    width:80%;
+    padding:14px;
+    border-radius:10px;
+    border:none;
+    font-size:1.1rem;
+    text-align:center;
+    outline:none;
+    background:#0a2a37;
+    color:var(--white);
+    border:1px solid rgba(255,255,255,0.1);
+  }
+  .btn{
+    margin-top:20px;
+    display:inline-block;
+    padding:12px 20px;
+    border-radius:10px;
+    background:var(--accent);
+    color:#002731;
+    font-weight:800;
+    text-decoration:none;
+    cursor:pointer;
+    transition:0.2s;
+  }
+  .btn:hover{
+    background:var(--accent2);
+  }
+  .hidden{
+    display:none;
+  }
+  .result-box{
+    margin-top:30px;
+    text-align:center;
+    padding:20px;
+    border-radius:14px;
+    background:#0d2e3d;
+    border:1px solid rgba(255,255,255,0.08);
+  }
+  .result-ok{
+    color:#7dffcf;
+    font-size:1.2rem;
+    font-weight:800;
+  }
+  .result-fail{
+    color:#ff8f8f;
+    font-weight:700;
+  }
+  footer{
+    margin-top:50px;
+    padding:20px;
+    text-align:center;
+    font-size:0.85rem;
+    color:var(--muted);
+    border-top:1px solid rgba(255,255,255,0.04);
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Portal de Donantes & Inversores</h1>
+  <p class="subtitle">Tu apoyo sostiene el nacimiento de BlueSphere Consciousness</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>🔑 Acceso Exclusivo</h2>
+    <p>
+      Este es el portal oficial para quienes han aportado un donativo o inversión individual a BlueSphere Consciousness.  
+      Aquí podrás activar tu código exclusivo y acceder a todos tus beneficios:
+    </p>
+    <ul style="color:var(--muted); padding-left:20px;">
+      <li>📜 Certificado de Guardián Consciente</li>
+      <li>📚 Libros y Sagas Digitales</li>
+      <li>🔁 Seguimiento 15/30 días</li>
+      <li>🌍 Registro en el Dashboard Global</li>
+    </ul>
+  </div>
+
+  <!-- Campo de Código -->
+  <div class="card">
+    <h2>Introduce tu Código</h2>
+    <p>Ejemplo: <strong>BS-DON-2026-000123-XK7A</strong></p>
+
+    <div class="input-box">
+      <input type="text" id="codigo" placeholder="Ingresa tu código aquí" />
+      <br>
+      <button class="btn" onclick="validarCodigo()">Validar Código</button>
+    </div>
+
+    <!-- Resultados -->
+    <div id="resultado" class="hidden result-box"></div>
+  </div>
+
+  <!-- Sección desbloqueada -->
+  <div id="acciones" class="hidden">
+
+    <div class="card">
+      <h2>🎉 Código Validado</h2>
+      <p>Gracias por tu apoyo. Ya puedes acceder a tus beneficios exclusivos.</p>
+
+      <a href="certificado-bluesphere.html" class="btn">📜 Firmar Certificado</a>
+      <br><br>
+      <a href="modulo-biblioteca.html" class="btn">📚 Entrar a la Biblioteca</a>
+      <br><br>
+      <a href="modulo-seguimiento.html" class="btn">🔁 Seguimiento 15/30 Días</a>
+      <br><br>
+      <a href="dashboard-global-impacto.html" class="btn">🌍 Ver Impacto Global</a>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  © 2025–2027 BlueSphere Consciousness — Movimiento Global de Regeneración  
+  <br>Gracias por ser uno de los primeros Guardianes del Futuro
+</footer>
+
+
+<script>
+function validarCodigo(){
+  let codigo = document.getElementById("codigo").value.trim();
+  let box = document.getElementById("resultado");
+  let acciones = document.getElementById("acciones");
+
+  if(codigo === ""){
+    box.className = "result-box";
+    box.innerHTML = "<div class='result-fail'>⚠ Por favor ingresa un código.</div>";
+    box.classList.remove("hidden");
+    return;
+  }
+
+  // SIMULACIÓN LOCAL (sin backend)
+  let valido = codigo.startsWith("BS-DON");
+
+  if(valido){
+    box.className = "result-box";
+    box.innerHTML = "<div class='result-ok'>✔ Código válido. Acceso desbloqueado.</div>";
+    box.classList.remove("hidden");
+    acciones.classList.remove("hidden");
+  } else {
+    box.className = "result-box";
+    box.innerHTML = "<div class='result-fail'>❌ Código inválido. Verifica tu código o contacta soporte.</div>";
+    box.classList.remove("hidden");
+    acciones.classList.add("hidden");
+  }
+}
+</script>
+
+</body>
+</html>
