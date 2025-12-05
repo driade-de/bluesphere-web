@@ -1,0 +1,262 @@
+<!-- INICIO: MÓDULO - EMPRESAS ALIADAS (LOGOS -> PORTAL -> CANJE -> CERTIFICADO -> LIBRO) -->
+<div id="modulo-empresas" style="padding:28px; background:#041016; border-radius:14px; color:#ffffff;">
+
+  <h2 style="color:#4fc3f7; font-size:1.8rem; margin-bottom:12px;">🏢 Empresas Aliadas — Selecciona tu tienda</h2>
+  <p style="color:#cfefff; margin-bottom:18px;">
+    Elige el logo de la empresa donde obtuviste tu código. Serás guiado paso a paso para activar tu código, firmar tu compromiso y descargar tu certificado + libro.
+  </p>
+
+  <!-- GRID DE LOGOS -->
+  <div id="logosGrid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; align-items:center; margin-bottom:18px;">
+    <!-- Reemplaza src por las imágenes reales (preferible SVG) -->
+    <button class="empresa-card" data-empresa="oxxo" data-sufijo="🌊MEX" style="cursor:pointer; padding:12px; border-radius:10px; background:#072028; border:1px solid rgba(127,206,255,0.06); color:white; text-align:center;">
+      <img src="/img/logos/oxxo.svg" alt="OXXO" style="max-width:100%; height:44px; object-fit:contain; display:block; margin:0 auto 8px;">
+      <div style="font-weight:700; color:#bfe9ff;">OXXO</div>
+    </button>
+
+    <button class="empresa-card" data-empresa="walmart" data-sufijo="🏪WAL" style="cursor:pointer; padding:12px; border-radius:10px; background:#072028; border:1px solid rgba(127,206,255,0.06); color:white; text-align:center;">
+      <img src="/img/logos/walmart.svg" alt="Walmart" style="max-width:100%; height:44px; object-fit:contain; display:block; margin:0 auto 8px;">
+      <div style="font-weight:700; color:#bfe9ff;">WALMART</div>
+    </button>
+
+    <button class="empresa-card" data-empresa="7eleven" data-sufijo="🛒7EV" style="cursor:pointer; padding:12px; border-radius:10px; background:#072028; border:1px solid rgba(127,206,255,0.06); color:white; text-align:center;">
+      <img src="/img/logos/7eleven.svg" alt="7-Eleven" style="max-width:100%; height:44px; object-fit:contain; display:block; margin:0 auto 8px;">
+      <div style="font-weight:700; color:#bfe9ff;">7-ELEVEN</div>
+    </button>
+
+    <button class="empresa-card" data-empresa="soriana" data-sufijo="🛍️SOR" style="cursor:pointer; padding:12px; border-radius:10px; background:#072028; border:1px solid rgba(127,206,255,0.06); color:white; text-align:center;">
+      <img src="/img/logos/soriana.svg" alt="Soriana" style="max-width:100%; height:44px; object-fit:contain; display:block; margin:0 auto 8px;">
+      <div style="font-weight:700; color:#bfe9ff;">SORIANA</div>
+    </button>
+
+    <!-- Añade más botones/empresas según necesites. -->
+  </div>
+
+  <!-- PANEL INTERACTIVO: al seleccionar empresa -->
+  <div id="empresaPanel" style="display:none; margin-top:6px; padding:18px; background:#07212a; border-radius:12px; border:1px solid rgba(127,206,255,0.06);">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+      <div style="display:flex; gap:12px; align-items:center;">
+        <img id="empresaLogoPreview" src="" alt="" style="height:48px; width:auto; object-fit:contain; border-radius:6px;">
+        <div>
+          <div id="empresaName" style="font-weight:800; color:#ffffff; font-size:1.1rem;"></div>
+          <div id="empresaSufijo" style="color:#c8eeff; font-size:0.9rem;"></div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button id="btnIrPortal" style="padding:10px 14px; border-radius:10px; font-weight:700; background:linear-gradient(135deg,#4fc3f7,#81d4fa); border:none; cursor:pointer; color:#041016;">
+          Abrir Portal
+        </button>
+        <button id="btnCerrarPanel" style="padding:10px 14px; border-radius:10px; background:transparent; border:1px solid rgba(255,255,255,0.06); color:#cfefff; cursor:pointer;">
+          Cerrar
+        </button>
+      </div>
+    </div>
+
+    <hr style="border:none; height:1px; background:rgba(255,255,255,0.03); margin:14px 0;">
+
+    <!-- FORMULARIO DE CANJE -->
+    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+      <div style="flex:1; min-width:220px;">
+        <label style="display:block; color:#cfefff; margin-bottom:6px; font-weight:700;">Ingresa tu código</label>
+        <input id="inputCodigo" type="text" placeholder="OXXO-BLUESPHERE-000001-🌊MEX" style="width:100%; padding:10px; border-radius:8px; border:1px solid #4fc3f7; background:#021219; color:#fff;">
+        <div style="margin-top:8px; color:#c8eaff; font-size:0.9rem;">Ejemplo: OXXO-BLUESPHERE-000001-🌊MEX</div>
+      </div>
+
+      <div style="min-width:160px; display:flex; align-items:end;">
+        <button id="btnValidar" style="padding:12px 16px; border-radius:10px; background:#ffd700; color:#041016; font-weight:800; border:none; cursor:pointer;">
+          Validar & Activar
+        </button>
+      </div>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div id="canjeResult" style="display:none; margin-top:14px; padding:12px; border-radius:8px; background:rgba(255,255,255,0.02); color:#e9fbff;">
+      <div id="canjeText" style="font-weight:700;"></div>
+
+      <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button id="btnFirmar" style="padding:10px 14px; border-radius:10px; background:linear-gradient(135deg,#4fc3f7,#81d4fa); border:none; color:#041016; font-weight:800; cursor:pointer;">
+          ✍️ Firmar Compromiso
+        </button>
+        <button id="btnDescargarCert" style="padding:10px 14px; border-radius:10px; background:#ffd700; border:none; color:#041016; font-weight:800; cursor:pointer; display:none;">
+          📄 Descargar Certificado
+        </button>
+        <button id="btnDescargarLibro" style="padding:10px 14px; border-radius:10px; background:#3ddc84; border:none; color:#041016; font-weight:800; cursor:pointer; display:none;">
+          📖 Descargar Libro
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- SCRIPTS: lógica mínima para demo / integrar backend -->
+<script>
+  // Configuración: rutas y plantillas (reemplazar con rutas reales)
+  const empresasConfig = {
+    'oxxo': {
+      name: 'OXXO',
+      logo: '/img/logos/oxxo.svg',
+      portal: '/portal-empresas-oxxo.html', // página de empresa
+      libroURL: '/assets/El_Vuelo_de_la_Conciencia_OXXO.pdf'
+    },
+    'walmart': {
+      name: 'Walmart',
+      logo: '/img/logos/walmart.svg',
+      portal: '/portal-empresas-walmart.html',
+      libroURL: '/assets/El_Vuelo_de_la_Conciencia_Walmart.pdf'
+    },
+    '7eleven': {
+      name: '7-Eleven',
+      logo: '/img/logos/7eleven.svg',
+      portal: '/portal-empresas-7eleven.html',
+      libroURL: '/assets/El_Vuelo_de_la_Conciencia_7Eleven.pdf'
+    },
+    'soriana': {
+      name: 'Soriana',
+      logo: '/img/logos/soriana.svg',
+      portal: '/portal-empresas-soriana.html',
+      libroURL: '/assets/El_Vuelo_de_la_Conciencia_Soriana.pdf'
+    }
+  };
+
+  // Elementos
+  const empresaCards = document.querySelectorAll('#logosGrid .empresa-card');
+  const empresaPanel = document.getElementById('empresaPanel');
+  const empresaLogoPreview = document.getElementById('empresaLogoPreview');
+  const empresaName = document.getElementById('empresaName');
+  const empresaSufijo = document.getElementById('empresaSufijo');
+  const btnIrPortal = document.getElementById('btnIrPortal');
+  const btnCerrarPanel = document.getElementById('btnCerrarPanel');
+  const inputCodigo = document.getElementById('inputCodigo');
+  const btnValidar = document.getElementById('btnValidar');
+  const canjeResult = document.getElementById('canjeResult');
+  const canjeText = document.getElementById('canjeText');
+  const btnFirmar = document.getElementById('btnFirmar');
+  const btnDescargarCert = document.getElementById('btnDescargarCert');
+  const btnDescargarLibro = document.getElementById('btnDescargarLibro');
+
+  let empresaSeleccionada = null;
+  let codigoValido = false;
+  let codigoActual = '';
+
+  // Inicializa click en cada logo (delegado)
+  document.querySelectorAll('.empresa-card').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const empresaKey = btn.getAttribute('data-empresa');
+      abrirPanelEmpresa(empresaKey);
+    });
+  });
+
+  function abrirPanelEmpresa(key) {
+    const cfg = empresasConfig[key];
+    if (!cfg) return alert('Empresa no configurada.');
+
+    empresaSeleccionada = key;
+    empresaLogoPreview.src = cfg.logo;
+    empresaLogoPreview.alt = cfg.name + ' logo';
+    empresaName.textContent = cfg.name;
+    empresaSufijo.textContent = 'Sufijo: ' + (btn.getAttribute ? (document.querySelector(`[data-empresa="${key}"]`).getAttribute('data-sufijo') || '') : '');
+    empresaPanel.style.display = 'block';
+    canjeResult.style.display = 'none';
+    inputCodigo.value = '';
+    codigoValido = false;
+    codigoActual = '';
+  }
+
+  btnCerrarPanel.addEventListener('click', () => {
+    empresaPanel.style.display = 'none';
+  });
+
+  // Abrir portal de la empresa (si quieres redirigir)
+  btnIrPortal.addEventListener('click', () => {
+    if (!empresaSeleccionada) return alert('Selecciona una empresa.');
+    const cfg = empresasConfig[empresaSeleccionada];
+    // Abre la página específica de la empresa en nueva pestaña
+    window.open(cfg.portal, '_blank');
+  });
+
+  // Validación de código (demo): integrable con fetch a backend / API
+  btnValidar.addEventListener('click', async () => {
+    const input = inputCodigo.value.trim();
+    if (!input) return alert('Ingresa tu código primero.');
+
+    // Ejemplo simple de validación local (puedes reemplazar por fetch('/api/validar?codigo=...'))
+    // Considera reglas: prefijo-empresa-BLUESPHERE-00000-sufijo
+    const empresaCfg = empresasConfig[empresaSeleccionada];
+    if (!empresaCfg) return alert('Selecciona una empresa.');
+
+    // Validación mock: aceptar si contiene el sufijo de la empresa key (case-insensitive)
+    const sufijo = document.querySelector(`[data-empresa="${empresaSeleccionada}"]`).getAttribute('data-sufijo') || '';
+    if (input.toLowerCase().includes(empresaSeleccionada.toLowerCase()) || input.includes(sufijo)) {
+      codigoValido = true;
+    } else {
+      codigoValido = false;
+    }
+
+    // Si quieres validar con backend, descomenta y ajusta:
+    /*
+    const resp = await fetch('/api/validarCodigo', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ empresa: empresaSeleccionada, codigo: input })
+    });
+    const data = await resp.json();
+    codigoValido = data.valid;
+    */
+
+    if (codigoValido) {
+      codigoActual = input;
+      canjeResult.style.display = 'block';
+      canjeText.textContent = `Código validado: ${input} — canje exitoso. Bienvenido al programa de ${empresaCfg.name}.`;
+      btnDescargarCert.style.display = 'none';
+      btnDescargarLibro.style.display = 'none';
+    } else {
+      canjeResult.style.display = 'block';
+      canjeText.textContent = 'Código inválido o no corresponde a esta empresa. Verifica e intenta de nuevo.';
+      btnDescargarCert.style.display = 'none';
+      btnDescargarLibro.style.display = 'none';
+    }
+  });
+
+  // Firmar compromiso -> abre modal simple para nombre -> genera certificado en nueva pestaña
+  btnFirmar.addEventListener('click', () => {
+    if (!codigoValido) return alert('Primero valida tu código.');
+
+    const nombre = prompt('Ingresa tu nombre completo para firmar el compromiso:');
+    if (!nombre) return;
+
+    // Simular registro de firma (aquí debes enviar al backend para registrar el compromiso)
+    // fetch('/api/registrarCompromiso', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({empresa:empresaSeleccionada, codigo:codigoActual, nombre}) })
+
+    // Habilitar botones de descarga
+    btnDescargarCert.style.display = 'inline-block';
+    btnDescargarLibro.style.display = 'inline-block';
+
+    canjeText.textContent = `Compromiso firmado por ${nombre}. Tu certificado y el libro están listos.`;
+  });
+
+  // Descargar certificado: abre certificado-bluesphere.html con query params
+  btnDescargarCert.addEventListener('click', () => {
+    if (!codigoValido) return alert('Código no validado.');
+    const nombre = prompt('Confirma el nombre exacto para el certificado (sino ingresa uno nuevo):') || 'Nombre del Guardián';
+    // Abrir certificado en nueva pestaña y pasar parámetros
+    const url = `/certificado-bluesphere.html?empresa=${encodeURIComponent(empresaSeleccionada)}&codigo=${encodeURIComponent(codigoActual)}&nombre=${encodeURIComponent(nombre)}`;
+    window.open(url, '_blank');
+  });
+
+  // Descargar libro
+  btnDescargarLibro.addEventListener('click', () => {
+    if (!codigoValido) return alert('Código no validado.');
+    const cfg = empresasConfig[empresaSeleccionada];
+    // Abrir la url del libro en nueva pestaña
+    window.open(cfg.libroURL, '_blank');
+  });
+
+  // Mejora UX: permitir ENTER para validar
+  inputCodigo.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') btnValidar.click();
+  });
+</script>
+<!-- FIN: MÓDULO EMPRESAS ALIADAS -->
