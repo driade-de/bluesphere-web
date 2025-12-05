@@ -196,6 +196,51 @@
             position: relative;
         }
         
+        /* ==================== BOTÓN DE CANJE PRINCIPAL ==================== */
+        .btn-main-canje {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 22px 60px;
+            margin: 10px;
+            border-radius: 60px;
+            background: linear-gradient(135deg, #2196F3, #0D47A1);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            backdrop-filter: blur(8px);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            z-index: 2;
+            position: relative;
+            box-shadow: 
+                0 15px 35px rgba(33, 150, 243, 0.4),
+                inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            animation: pulse-canje 2s infinite;
+            min-width: 320px;
+            text-align: center;
+        }
+        
+        .btn-main-canje:hover {
+            background: linear-gradient(135deg, #1E88E5, #0D3659);
+            box-shadow: 
+                0 20px 45px rgba(33, 150, 243, 0.6),
+                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px) scale(1.05);
+        }
+        
+        @keyframes pulse-canje {
+            0%, 100% { box-shadow: 0 15px 35px rgba(33, 150, 243, 0.4); }
+            50% { box-shadow: 0 15px 35px rgba(33, 150, 243, 0.7), 0 0 30px rgba(33, 150, 243, 0.5); }
+        }
+        
+        .btn-main-canje .icon {
+            font-size: 2.2rem;
+            margin-right: 15px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
         .btn-hero {
             padding: 15px 50px;
             margin: 10px;
@@ -355,13 +400,25 @@
                 margin-left: 15px;
                 font-size: 0.9rem;
             }
+            
+            .btn-main-canje {
+                padding: 18px 40px;
+                font-size: 1.3rem;
+                min-width: 280px;
+            }
+            
+            .btn-main-canje .icon {
+                font-size: 1.8rem;
+                margin-right: 10px;
+            }
         }
         
         @media (prefers-reduced-motion: reduce) {
             .bluesphere-logo-container,
             .logo-aura,
             .logo-shine,
-            .particle {
+            .particle,
+            .btn-main-canje {
                 animation: none;
             }
         }
@@ -417,6 +474,15 @@
     
     <h1>BlueSphere Consciousness</h1>
     <p class="subtitle">La conciencia es la nueva civilización.<br>Únete al movimiento que transformará al planeta.</p>
+    
+    <!-- ==================== BOTÓN PRINCIPAL DE CANJE ==================== -->
+    <div style="z-index: 2; position: relative; margin-bottom: 30px;">
+        <a href="validar-codigo.html" class="btn-main-canje">
+            <span class="icon">🔓</span>
+            CANJEAR MI CÓDIGO
+        </a>
+    </div>
+    
     <div style="z-index: 2; position: relative;">
         <a href="#donar" class="btn-hero">Apoyar el Movimiento</a>
         <a href="#guardian" class="btn-hero">Acceso Guardián</a>
@@ -554,4 +620,3 @@
 
 </body>
 </html>
-
