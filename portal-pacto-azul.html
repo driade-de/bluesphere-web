@@ -104,12 +104,26 @@ header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
 
   </section>
 
-  <section id="accesosBox" class="card hidden center" style="max-width:600px; margin:20px auto;">
+  <section id="accesosBox" class="card hidden center" style="max-width:800px; margin:20px auto;">
     <h2>🎉 ¡Bienvenido Guardián!</h2>
-    <p style="color:var(--muted)">Tu firma es ahora parte de la historia.</p>
-    <div style="display:flex; gap:10px; justify-content:center; margin-top:15px">
-        <button class="btn" style="width:auto">📜 Certificado</button>
-        <button class="btn" style="width:auto">🌍 Dashboard</button>
+    <p style="color:var(--muted); margin-bottom: 20px;">Tu firma ha sido sellada. Ahora tienes acceso total al ecosistema BlueSphere.</p>
+    
+    <div style="display:flex; gap:15px; justify-content:center; flex-wrap: wrap;">
+        <a href="#" class="btn" style="width:auto; text-decoration:none; min-width:160px;" onclick="alert('Generando PDF...')">
+            📜 Descargar Certificado
+        </a>
+        
+        <a href="#" class="btn" style="width:auto; text-decoration:none; min-width:160px;" onclick="alert('Accediendo a Biblioteca...')">
+            📚 Biblioteca
+        </a>
+
+        <a href="#" class="btn" style="width:auto; text-decoration:none; min-width:160px;" onclick="alert('Ver módulo de seguimiento...')">
+            🔁 Seguimiento
+        </a>
+
+        <a href="#" class="btn" style="width:auto; text-decoration:none; min-width:160px;" onclick="alert('Abriendo Dashboard Global...')">
+            🌍 Dashboard
+        </a>
     </div>
   </section>
 </main>
