@@ -3,56 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Global BlueSphere</title>
+    <title>Dashboard Global BlueSphere - Master</title>
     
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* --- ESTILOS GHIBLI TECH --- */
+        /* --- ESTILOS VISUALES (Dark Ghibli Tech) --- */
         :root {
-            --bg: #020b10; --card: #061b24; --accent: #00c4ff;
-            --success: #4caf50; --warning: #ff9800; --danger: #f44336;
-            --text: #eaffff; --muted: #8fb3c4;
+            --bg: #020b10; 
+            --card: #061b24; 
+            --accent: #00c4ff;
+            --success: #4caf50; 
+            --warning: #ff9800; 
+            --danger: #f44336;
+            --text: #eaffff; 
+            --muted: #8fb3c4;
+            --card-border: 1px solid rgba(0, 196, 255, 0.15);
         }
-        body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; }
         
+        body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; overflow-x: hidden; }
         .container { max-width: 1600px; margin: 0 auto; padding: 20px; }
         
-        /* Header */
-        .header { background: linear-gradient(90deg, #061b24, #0a2e3d); padding: 25px; border-radius: 12px; border: 1px solid #1a3d4d; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
-        .header h1 { margin: 0; color: var(--accent); font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; }
-        .badges { display: flex; gap: 10px; }
-        .badge { background: rgba(0, 196, 255, 0.1); border: 1px solid var(--accent); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; color: var(--accent); }
-
-        /* Grid Superior */
-        .top-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 25px; }
-        .kpi-card { background: var(--card); padding: 20px; border-radius: 12px; border-top: 3px solid var(--muted); box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: transform 0.2s; }
-        .kpi-card:hover { transform: translateY(-5px); border-top-color: var(--accent); }
-        .kpi-icon { font-size: 1.5rem; margin-bottom: 10px; }
-        .kpi-value { font-size: 2rem; font-weight: bold; margin: 5px 0; color: #fff; }
-        .kpi-sub { font-size: 0.8rem; color: var(--success); }
-        .kpi-label { font-size: 0.9rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-
-        /* Impacto Bar */
-        .impacto-bar { background: linear-gradient(90deg, rgba(76,175,80,0.1), rgba(0,196,255,0.1)); border: 1px solid var(--success); padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 25px; color: #a5d6a7; font-weight: bold; font-size: 1.1rem; }
-
-        /* Main Grid */
-        .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
-        @media(max-width: 1000px) { .main-grid { grid-template-columns: 1fr; } }
-
-        .panel { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid #1a3d4d; margin-bottom: 25px; }
-        .panel h3 { margin-top: 0; color: var(--accent); border-bottom: 1px solid #1a3d4d; padding-bottom: 15px; }
-
-        /* Listas */
-        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .rank-num { background: var(--accent); color: #000; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem; margin-right: 10px; }
+        /* HEADER */
+        .header { 
+            background: linear-gradient(90deg, #061b24, #0a2e3d); 
+            padding: 25px; border-radius: 15px; 
+            border: var(--card-border); 
+            margin-bottom: 25px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+        .header h1 { margin: 0; color: var(--accent); font-size: 1.8rem; letter-spacing: 1px; text-transform: uppercase; }
+        .header p { margin: 5px 0 0; color: var(--muted); font-size: 0.9rem; }
         
-        /* Map Placeholder */
-        .map-placeholder { height: 300px; background: radial-gradient(circle, #0a2e3d, #020b10); border-radius: 10px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-        .dot { position: absolute; width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); animation: pulse 2s infinite; }
+        .filtros { display: flex; gap: 10px; }
+        .btn-filtro { 
+            background: rgba(0, 196, 255, 0.05); border: 1px solid var(--muted); 
+            color: var(--muted); padding: 8px 16px; border-radius: 20px; 
+            cursor: pointer; font-size: 0.85rem; transition: all 0.3s;
+        }
+        .btn-filtro.activo { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
 
-        @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.5); } 100% { opacity: 1; transform: scale(1); } }
+        /* KPIS PRINCIPALES */
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .kpi-card { 
+            background: var(--card); padding: 25px; border-radius: 15px; 
+            border: var(--card-border); position: relative; overflow: hidden; 
+            transition: transform 0.3s;
+        }
+        .kpi-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .kpi-icon { font-size: 2rem; margin-bottom: 10px; }
+        .kpi-num { font-size: 2.2rem; font-weight: 800; margin: 5px 0; color: #fff; }
+        .kpi-trend { font-size: 0.85rem; color: var(--success); display: flex; align-items: center; gap: 5px; }
+        .kpi-label { font-size: 0.9rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 5px; }
+
+        /* BARRA DE IMPACTO */
+        .impacto-bar { 
+            background: linear-gradient(90deg, rgba(76, 175, 80, 0.15), rgba(0, 196, 255, 0.15)); 
+            border: 1px solid var(--success); border-radius: 12px; padding: 20px; 
+            text-align: center; margin-bottom: 30px; font-size: 1.1rem; 
+            color: #a5d6a7; text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+
+        /* MODULOS CONEXIÓN (La fila de iconos pequeños) */
+        .modulos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .modulo-item { 
+            background: rgba(255,255,255,0.03); border-radius: 10px; padding: 15px; 
+            text-align: center; border: 1px solid transparent; 
+        }
+        .modulo-item.active { border-color: var(--accent); background: rgba(0, 196, 255, 0.05); }
+        .mod-val { font-size: 1.4rem; font-weight: bold; color: #fff; display: block; margin: 5px 0; }
+        .mod-lbl { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; }
+
+        /* GRID PRINCIPAL (Gráficas vs Listas) */
+        .main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
+        @media(max-width: 1024px) { .main-layout { grid-template-columns: 1fr; } }
+
+        .panel { 
+            background: var(--card); border-radius: 15px; padding: 25px; 
+            border: var(--card-border); margin-bottom: 25px; 
+        }
+        .panel h3 { margin-top: 0; color: var(--accent); font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px; }
+
+        /* Listas (Ranking, Guardianes) */
+        .list-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .list-row:last-child { border-bottom: none; }
+        .rank-badge { background: var(--warning); color: #000; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem; margin-right: 10px; }
+        
+        /* Mapa */
+        .map-box { height: 350px; background: radial-gradient(circle at center, #0a2e3d, #020b10); border-radius: 10px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .map-dot { position: absolute; width: 10px; height: 10px; border-radius: 50%; animation: pulse 2s infinite; }
+        .dot-high { background: var(--success); box-shadow: 0 0 15px var(--success); }
+        .dot-mid { background: var(--warning); box-shadow: 0 0 10px var(--warning); }
+        .dot-low { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body>
@@ -62,76 +108,111 @@
     <div class="header">
         <div>
             <h1>Dashboard Global BlueSphere</h1>
-            <div style="color:var(--muted); font-size:0.9rem;">Sistema de Conciencia Planetaria - Impacto Colectivo</div>
+            <p>Sistema de Conciencia Planetaria - Impacto Colectivo en Tiempo Real</p>
         </div>
-        <div class="badges">
-            <div class="badge">📊 Hoy</div>
-            <div class="badge">📈 Esta Semana</div>
-            <div class="badge">🌐 Total</div>
+        <div class="filtros">
+            <button class="btn-filtro activo">📊 Hoy</button>
+            <button class="btn-filtro">📈 Semana</button>
+            <button class="btn-filtro">📅 Mes</button>
+            <button class="btn-filtro">🌐 Total</button>
         </div>
     </div>
 
-    <div class="top-grid">
+    <div class="kpi-grid">
         <div class="kpi-card">
             <div class="kpi-icon">🏢</div>
-            <div class="kpi-value">1,305</div>
-            <div class="kpi-sub">▲ +15 esta semana</div>
+            <div class="kpi-num">1,305</div>
+            <div class="kpi-trend">▲ +15 esta semana</div>
             <div class="kpi-label">Empresas Aliadas</div>
         </div>
         <div class="kpi-card">
-            <div class="kpi-icon">🌊</div>
-            <div class="kpi-value" id="kpi-pactos">Cargando...</div>
-            <div class="kpi-sub">▲ Actividad Real</div>
-            <div class="kpi-label">Pactos Firmados</div>
+            <div class="kpi-icon">📊</div>
+            <div class="kpi-num">47,180</div>
+            <div class="kpi-trend">▲ +2,847 hoy</div>
+            <div class="kpi-label">Check-ins Activos</div>
         </div>
         <div class="kpi-card">
             <div class="kpi-icon">🏆</div>
-            <div class="kpi-value">129,418</div>
-            <div class="kpi-sub">▲ +3,421 esta semana</div>
+            <div class="kpi-num">129,418</div>
+            <div class="kpi-trend">▲ +3,421 esta semana</div>
             <div class="kpi-label">Medallas Otorgadas</div>
         </div>
         <div class="kpi-card">
             <div class="kpi-icon">📚</div>
-            <div class="kpi-value">34,567</div>
-            <div class="kpi-sub">▲ +892 este mes</div>
+            <div class="kpi-num">34,567</div>
+            <div class="kpi-trend">▲ +892 este mes</div>
             <div class="kpi-label">Certificados</div>
         </div>
     </div>
 
-    <div class="impacto-bar" id="impacto-ambiental">
-        🌱 Calculando impacto en tiempo real...
+    <div class="impacto-bar">
+        🌱 IMPACTO ACUMULADO: 
+        <span style="color:#fff">8.514.520 kg CO₂</span> evitados • 
+        <span style="color:#fff">327.787 kg</span> plástico • 
+        <span style="color:#fff">12.974.720 L</span> agua
     </div>
 
-    <div class="main-grid">
+    <div class="modulos-grid">
+        <div class="modulo-item">
+            <div>🔑</div>
+            <span class="mod-val">1,247</span>
+            <span class="mod-lbl">Portal Empresas</span>
+        </div>
+        <div class="modulo-item active">
+            <div>🌊</div>
+            <span class="mod-val" id="real-pactos-count">Cargando...</span>
+            <span class="mod-lbl">Pactos Firmados (Real)</span>
+        </div>
+        <div class="modulo-item">
+            <div>📊</div>
+            <span class="mod-val">45,892</span>
+            <span class="mod-lbl">Seguimiento</span>
+        </div>
+        <div class="modulo-item">
+            <div>🏆</div>
+            <span class="mod-val">128,456</span>
+            <span class="mod-lbl">Medallas</span>
+        </div>
+    </div>
+
+    <div class="main-layout">
         
         <div class="left-col">
             
             <div class="panel">
                 <h3>📈 Evolución de Impacto Mensual</h3>
-                <canvas id="chartImpacto" height="100"></canvas>
+                <canvas id="chartEvolucion" height="100"></canvas>
             </div>
 
             <div class="panel">
                 <h3>🗺️ Mapa de Impacto Global</h3>
-                <div class="map-placeholder" id="mapa">
-                    <span style="z-index:2">Visualización de Nodos Activos</span>
+                <div class="map-box" id="mapaGlobal">
+                    <span style="z-index:2; color:var(--muted)">Visualización de Nodos Activos</span>
                     </div>
+                <div style="margin-top:10px; font-size:0.8rem; text-align:center;">
+                    <span style="color:var(--success)">● Alto</span> &nbsp;
+                    <span style="color:var(--warning)">● Medio</span> &nbsp;
+                    <span style="color:var(--accent)">● Creciente</span>
+                </div>
             </div>
 
             <div class="panel">
-                <h3>📊 Distribución por Tipo</h3>
-                <div style="display:flex; justify-content:space-around; text-align:center;">
-                    <div>
-                        <div style="font-size:1.5rem; color:var(--accent); font-weight:bold;">90%</div>
-                        <div style="font-size:0.8rem; color:var(--muted);">Tasa Finalización</div>
-                    </div>
-                    <div>
-                        <div style="font-size:1.5rem; color:var(--success); font-weight:bold;">78%</div>
-                        <div style="font-size:0.8rem; color:var(--muted);">Libros Descargados</div>
-                    </div>
-                    <div>
-                        <div style="font-size:1.5rem; color:var(--warning); font-weight:bold;">3.2</div>
-                        <div style="font-size:0.8rem; color:var(--muted);">Promedio/Empresa</div>
+                <h3>📊 Distribución de Acciones</h3>
+                <div style="display:flex; justify-content:space-around; text-align:center; align-items:center;">
+                    <div style="width:150px"><canvas id="chartDistribucion"></canvas></div>
+                    <div style="text-align:left;">
+                        <div style="margin-bottom:10px;">
+                            <div style="color:var(--accent); font-weight:bold;">90% Pacto Azul</div>
+                            <div style="font-size:0.8rem; color:gray;">Tasa Finalización</div>
+                        </div>
+                        <div style="margin-bottom:10px;">
+                            <div style="color:var(--success); font-weight:bold;">78% Biblioteca</div>
+                            <div style="font-size:0.8rem; color:gray;">Libros Descargados</div>
+                        </div>
+                        <div>
+                            <div style="color:var(--warning); font-weight:bold;">3.2 Medallas</div>
+                            <div style="font-size:0.8rem; color:gray;">Promedio/Empresa</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -140,142 +221,164 @@
 
         <div class="right-col">
             
-            <div class="panel">
-                <h3>🌊 Últimos Guardianes (Real)</h3>
-                <div id="lista-guardianes">
-                    <p style="color:gray">Cargando datos...</p>
+            <div class="panel" style="border-color:var(--accent);">
+                <h3>🌊 Últimos Guardianes (En Vivo)</h3>
+                <div id="lista-real-guardianes">
+                    <p style="color:gray; text-align:center;">Conectando...</p>
                 </div>
             </div>
 
             <div class="panel">
                 <h3>🏅 Ranking Empresas Top</h3>
-                <div class="list-item">
-                    <div><span class="rank-num">1</span> EcoTech Solutions</div>
-                    <div style="color:var(--success)">45,200 kg</div>
+                <div class="list-row">
+                    <div><span class="rank-badge">1</span> EcoTech Solutions</div>
+                    <div style="color:var(--success); font-weight:bold;">45,200 kg</div>
                 </div>
-                <div class="list-item">
-                    <div><span class="rank-num">2</span> Green Logistics MX</div>
-                    <div style="color:var(--success)">38,750 kg</div>
+                <div class="list-row">
+                    <div><span class="rank-badge">2</span> Green Logistics MX</div>
+                    <div style="color:var(--success); font-weight:bold;">38,750 kg</div>
                 </div>
-                <div class="list-item">
-                    <div><span class="rank-num">3</span> AquaPure Systems</div>
-                    <div style="color:var(--success)">32,100 kg</div>
+                <div class="list-row">
+                    <div><span class="rank-badge">3</span> AquaPure Systems</div>
+                    <div style="color:var(--success); font-weight:bold;">32,100 kg</div>
                 </div>
             </div>
 
             <div class="panel">
                 <h3>🎖️ Medallas Recientes</h3>
-                <div class="list-item">
-                    <div>⭐ EcoTech Solutions</div>
-                    <div style="font-size:0.8rem; color:gray;">Excelencia Azul</div>
+                <div class="list-row">
+                    <div>
+                        <div style="font-weight:bold;">⭐ EcoTech Solutions</div>
+                        <div style="font-size:0.75rem; color:var(--muted)">Excelencia Azul</div>
+                    </div>
+                    <div style="font-size:0.8rem; color:var(--success)">hoy</div>
                 </div>
-                <div class="list-item">
-                    <div>🏅 Green Logistics</div>
-                    <div style="font-size:0.8rem; color:gray;">Compromiso 15d</div>
+                <div class="list-row">
+                    <div>
+                        <div style="font-weight:bold;">🏅 Green Logistics</div>
+                        <div style="font-size:0.75rem; color:var(--muted)">Compromiso 15 días</div>
+                    </div>
+                    <div style="font-size:0.8rem; color:var(--success)">ayer</div>
+                </div>
+                <div class="list-row">
+                    <div>
+                        <div style="font-weight:bold;">📸 AquaPure Systems</div>
+                        <div style="font-size:0.75rem; color:var(--muted)">Verificador Experto</div>
+                    </div>
+                    <div style="font-size:0.8rem; color:var(--muted)">2 días</div>
                 </div>
             </div>
 
         </div>
     </div>
-
 </div>
 
 <script>
-    // 1. CONEXIÓN SUPABASE
+    // --- 1. CONEXIÓN SUPABASE REAL ---
     const SB_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
     const supabase = window.supabase.createClient(SB_URL, SB_KEY);
 
-    // 2. INICIAR SISTEMA
-    initDashboard();
-
-    async function initDashboard() {
-        console.log("Iniciando Dashboard...");
+    // --- 2. INICIALIZAR ---
+    window.onload = function() {
+        renderCharts();
+        animarMapa();
+        cargarDatosReales();
         
-        // A. Obtener Total de Firmas Reales
-        const { count, data: ultimos, error } = await supabase
+        // Auto-refresh datos reales cada 10s
+        setInterval(cargarDatosReales, 10000);
+    };
+
+    // --- 3. DATOS REALES DE SUPABASE ---
+    async function cargarDatosReales() {
+        // A. Contar Pactos (Total Firmas)
+        const { count, error } = await supabase
             .from('firmantes')
-            .select('*', { count: 'exact' })
+            .select('*', { count: 'exact', head: true });
+        
+        if(!error) {
+            document.getElementById('real-pactos-count').innerText = count.toLocaleString();
+        }
+
+        // B. Traer Últimos 5 Guardianes
+        const { data: ultimos, error: errList } = await supabase
+            .from('firmantes')
+            .select('nombre, codigo_usado, fecha_firma')
             .order('fecha_firma', { ascending: false })
             .limit(5);
 
-        if(!error) {
-            actualizarKPIs(count, ultimos);
-            renderChart(count);
-        }
-        
-        animarMapa();
-    }
-
-    function actualizarKPIs(totalFirmas, ultimos) {
-        // 1. KPI Principal
-        document.getElementById('kpi-pactos').textContent = totalFirmas.toLocaleString();
-
-        // 2. Calcular Impacto (Lógica Proyectada)
-        // Asumimos: 1 Firma = 7500kg CO2, 290kg Plastico, 11500L Agua (Promedio anual)
-        let co2 = (totalFirmas * 7500 + 8500000).toLocaleString(); // Base histórica + Real
-        let plastico = (totalFirmas * 290 + 320000).toLocaleString();
-        let agua = (totalFirmas * 11500 + 12000000).toLocaleString();
-
-        document.getElementById('impacto-ambiental').innerHTML = 
-            `🌱 IMPACTO ACUMULADO: ${co2} kg CO₂ evitados • ${plastico} kg plástico • ${agua} L agua`;
-
-        // 3. Lista de Últimos Guardianes (Muro Lateral)
-        const lista = document.getElementById('lista-guardianes');
-        let html = '';
-        ultimos.forEach(u => {
-            let fecha = new Date(u.fecha_firma).toLocaleDateString();
-            html += `
-                <div class="list-item">
+        if(ultimos) {
+            let html = '';
+            ultimos.forEach(u => {
+                let fecha = new Date(u.fecha_firma).toLocaleDateString();
+                // Limpiar nombre
+                let nombreClean = u.nombre.replace(/</g, "&lt;");
+                html += `
+                <div class="list-row">
                     <div>
-                        <div style="font-weight:bold; color:#fff;">${u.nombre}</div>
-                        <div style="font-size:0.75rem; color:var(--accent);">${u.codigo_usado}</div>
+                        <div style="font-weight:bold; color:#fff;">${nombreClean}</div>
+                        <div style="font-size:0.7rem; color:var(--accent);">${u.codigo_usado}</div>
                     </div>
-                    <div style="font-size:0.8rem; color:gray;">${fecha}</div>
+                    <div style="font-size:0.75rem; color:gray;">${fecha}</div>
                 </div>`;
-        });
-        lista.innerHTML = html;
+            });
+            document.getElementById('lista-real-guardianes').innerHTML = html;
+        }
     }
 
-    // 3. GRÁFICA REAL (Chart.js)
-    function renderChart(totalActual) {
-        const ctx = document.getElementById('chartImpacto').getContext('2d');
-        
-        // Datos simulados de meses anteriores + El mes actual REAL
-        const data = {
-            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul'],
-            datasets: [{
-                label: 'Crecimiento de Pactos',
-                data: [120, 190, 300, 500, 800, 1000, 1000 + totalActual], // Sumamos los reales al final
-                borderColor: '#00c4ff',
-                backgroundColor: 'rgba(0, 196, 255, 0.1)',
-                fill: true,
-                tension: 0.4
-            }]
-        };
-
-        new Chart(ctx, {
+    // --- 4. GRÁFICAS (Chart.js) ---
+    function renderCharts() {
+        // Gráfico Línea (Evolución)
+        new Chart(document.getElementById('chartEvolucion'), {
             type: 'line',
-            data: data,
+            data: {
+                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul'],
+                datasets: [{
+                    label: 'Impacto Acumulado',
+                    data: [120, 350, 500, 750, 1100, 1400, 1800],
+                    borderColor: '#00c4ff',
+                    backgroundColor: 'rgba(0, 196, 255, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
             options: {
                 responsive: true,
                 plugins: { legend: { display: false } },
-                scales: {
-                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8fb3c4' } },
-                    x: { grid: { display: false }, ticks: { color: '#8fb3c4' } }
+                scales: { 
+                    y: { grid: { color: 'rgba(255,255,255,0.05)' } },
+                    x: { grid: { display: false } }
                 }
+            }
+        });
+
+        // Gráfico Donut (Distribución)
+        new Chart(document.getElementById('chartDistribucion'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Pacto', 'Biblio', 'Medallas'],
+                datasets: [{
+                    data: [90, 78, 45],
+                    backgroundColor: ['#00c4ff', '#4caf50', '#ff9800'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } }
             }
         });
     }
 
-    // 4. ANIMACIÓN MAPA
+    // --- 5. MAPA ANIMADO ---
     function animarMapa() {
-        const mapa = document.getElementById('mapa');
-        for(let i=0; i<10; i++) {
+        const mapa = document.getElementById('mapaGlobal');
+        // Crear puntos aleatorios
+        for(let i=0; i<15; i++) {
             let dot = document.createElement('div');
-            dot.className = 'dot';
-            dot.style.left = Math.random() * 90 + '%';
-            dot.style.top = Math.random() * 80 + 10 + '%';
+            dot.className = i % 3 === 0 ? 'map-dot dot-high' : (i % 2 === 0 ? 'map-dot dot-mid' : 'map-dot dot-low');
+            dot.style.left = Math.floor(Math.random() * 90) + '%';
+            dot.style.top = Math.floor(Math.random() * 80 + 10) + '%';
             dot.style.animationDelay = Math.random() * 2 + 's';
             mapa.appendChild(dot);
         }
