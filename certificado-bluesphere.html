@@ -297,72 +297,86 @@
     </div>
 
     <script>
-        // --- 1. FUNCIONES BÁSICAS ---
+        // --- 1. FUNCIONES UTILITARIAS ---
         function obtenerFechaActual() {
             const ahora = new Date();
             const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
             return ahora.toLocaleDateString('es-ES', opciones);
         }
 
-        function generarNumeroBackup() {
-            return 'BS-2025-' + Math.floor(Math.random() * 10000);
-        }
-
-        function descargarCertificado() {
-            const btn = document.getElementById('btnDescargar');
-            if(btn.disabled) return;
-            alert('📄 Preparando descarga del PDF...');
-            // Aquí iría tu lógica de html2pdf o window.print()
-            window.print(); 
-        }
-
-        // --- 2. CEREBRO LECTOR (AUTOMATIZACIÓN) ---
+        // --- 2. CEREBRO AUTOMÁTICO (LO NUEVO) ---
         document.addEventListener('DOMContentLoaded', function() {
             
-            // A. Leer la "Mochila" (URL Parameters)
+            // A. Leer la "Mochila" (Datos de la URL que envió el Portal)
             const params = new URLSearchParams(window.location.search);
             const nombreURL = params.get('nombre');
             const codigoURL = params.get('codigo');
 
-            // Elementos del HTML
+            // B. Identificar elementos del Certificado
             const elNombre = document.getElementById('nombreGuardian');
             const elNumero = document.getElementById('numeroCertificado');
+            const elFecha = document.getElementById('fechaEmision');
+            
+            // Elementos manuales (que vamos a esconder si ya firmó)
             const inputFirma = document.getElementById('campoFirma');
-            const btnFirmar = document.querySelector('.btn-firmar');
+            const btnFirmar = document.querySelector('.btn-firmar'); // El botón "Firmar mi compromiso"
             const btnDescargar = document.getElementById('btnDescargar');
             const instruccion = document.querySelector('.instruccion-firma');
 
-            // B. Lógica del CÓDIGO
-            if (codigoURL) {
+            // C. Poner Fecha de Hoy
+            elFecha.textContent = obtenerFechaActual();
+
+            // D. Lógica del CÓDIGO
+            if (codigoURL && codigoURL !== "undefined") {
                 elNumero.textContent = codigoURL;
             } else {
-                // Si entró directo sin código, generamos uno temporal
-                elNumero.textContent = generarNumeroBackup();
+                // Si no hay código (entró directo), generamos uno de respaldo
+                elNumero.textContent = 'BS-2025-' + Math.floor(Math.random() * 10000);
             }
 
-            // C. Lógica del NOMBRE (La Magia)
-            if (nombreURL && nombreURL !== "null") {
-                // 1. Escribir el nombre solo
+            // E. Lógica del NOMBRE (Aquí ocurre la magia)
+            if (nombreURL && nombreURL !== "null" && nombreURL !== "") {
+                // 1. Escribir el nombre automáticamente
                 elNombre.textContent = nombreURL;
+                elNombre.style.textTransform = "uppercase"; // Se ve más elegante en mayúsculas
                 
-                // 2. Ocultar la parte manual (¡Adiós redundancia!)
+                // 2. Ocultar los campos manuales (¡Adiós redundancia!)
                 inputFirma.style.display = 'none';
-                btnFirmar.style.display = 'none';
+                if(btnFirmar) btnFirmar.style.display = 'none';
                 
-                // 3. Cambiar mensaje a "Verificado"
-                instruccion.innerHTML = '✅ <strong>Compromiso Firmado Digitalmente desde el Portal</strong>';
+                // 3. Cambiar el texto de instrucción
+                instruccion.innerHTML = '✅ <strong>Compromiso Firmado Digitalmente</strong>';
+                instruccion.style.color = '#6a994e'; // Verde musgo
                 
-                // 4. Habilitar descarga inmediata
+                // 4. Activar descarga inmediata
                 btnDescargar.disabled = false;
+                btnDescargar.style.opacity = "1";
+                btnDescargar.innerHTML = "📄 Descargar PDF Ahora";
+                
+                // Añadir clase visual
                 document.getElementById('certificado').classList.add('certificado-firmado');
             } 
-
-            // D. Poner la fecha de hoy
-            document.getElementById('fechaEmision').textContent = obtenerFechaActual();
         });
 
-        // --- 3. FIRMA MANUAL (SOLO SI ALGUIEN ENTRA DIRECTO) ---
-        // Esta función se mantiene por seguridad, por si alguien abre el archivo sin pasar por el portal
+        // --- 3. LÓGICA DE DESCARGA (IMPRIMIR PDF) ---
+        function descargarCertificado() {
+            const btn = document.getElementById('btnDescargar');
+            if(btn.disabled) return alert("Firma primero.");
+            
+            // Ocultamos el botón temporalmente para que no salga en la impresión
+            const botones = document.querySelector('.botones-accion');
+            botones.style.display = 'none';
+
+            // Imprimir (El navegador genera el PDF)
+            window.print();
+
+            // Volver a mostrar botones después de imprimir
+            setTimeout(() => {
+                botones.style.display = 'flex';
+            }, 1000);
+        }
+
+        // --- 4. FIRMA MANUAL (Respaldo por si alguien entra directo sin link) ---
         function firmarCertificado() {
             const input = document.getElementById('campoFirma');
             const nombre = input.value.trim();
@@ -370,9 +384,11 @@
             
             document.getElementById('nombreGuardian').textContent = nombre;
             document.getElementById('btnDescargar').disabled = false;
+            
+            // Transformación visual
             input.style.display = 'none';
             document.querySelector('.btn-firmar').style.display = 'none';
-            document.querySelector('.instruccion-firma').textContent = "Firma registrada manualmente.";
+            document.querySelector('.instruccion-firma').textContent = "Firma manual registrada.";
         }
     </script>
 </body>
