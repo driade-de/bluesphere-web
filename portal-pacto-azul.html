@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html> 
 <html lang="es">
 <head>
 <meta charset="utf-8"/>
@@ -196,102 +196,69 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const muroEl = document.getElementById('muro');
-let firmantes = [];
+const resultadoEl = document.getElementById('resultado');
+const firmaBox = document.getElementById('firmaBox');
+const nombreInput = document.getElementById('nombreInput');
+const accesosBox = document.getElementById('accesosBox');
+const ritualOverlay = document.getElementById('ritualOverlay');
+const ambientAudio = document.getElementById('ambientAudio');
+const audioToggle = document.getElementById('audioToggle');
 
-function escapeHtml(s){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
-function show(el){ el.classList.remove('hidden'); el.classList.add('fade-in'); }
-function hide(el){ el.classList.add('hidden'); el.classList.remove('fade-in'); }
-function sleep(ms){ return new Promise(res=>setTimeout(res,ms)); }
+let codigoValidado = false;
 
-async function fetchMuro(){
-  const { data, error } = await supabase.from('pacto_signatures').select('user_name').order('timestamp',{ascending:true});
-  if(error){ console.error(error); return; }
-  firmantes = data.map(d=>d.user_name);
-  renderMuro();
-}
+function validarCodigo(){
+  const codigo = document.getElementById('codigoInput').value.trim();
+  if(!codigo){ resultadoEl.textContent = 'Ingrese un código válido'; resultadoEl.className='result-box fail'; return; }
 
-function renderMuro(){
-  if(!firmantes || firmantes.length===0){
-    muroEl.innerHTML = '<div style="color:var(--muted); font-style:italic">Aún no hay firmas públicas. Sé el primero en firmar el Pacto Azul.</div>';
-    return;
+  // ejemplo simple, puedes reemplazar con Supabase
+  if(codigo.startsWith('BS-PZ')){ 
+    resultadoEl.textContent='✅ Código válido'; resultadoEl.className='result-box ok'; 
+    firmaBox.classList.remove('hidden');
+    codigoValidado = true;
+  }else{
+    resultadoEl.textContent='❌ Código inválido'; resultadoEl.className='result-box fail';
+    firmaBox.classList.add('hidden');
+    codigoValidado = false;
   }
-  const reversed = firmantes.slice().reverse();
-  muroEl.innerHTML = reversed.map(name => `<div class="name-item"><span class="name-glow">${escapeHtml(name)}</span></div>`).join('');
-}
-fetchMuro();
-
-async function validarCodigo(){
-  const codeInput = document.getElementById('codigoInput').value.trim();
-  const res = document.getElementById('resultado');
-  if(!codeInput){ res.className='result-box'; res.innerHTML='<div class="fail">⚠ Ingresa tu código.</div>'; res.classList.remove('hidden'); return; }
-
-  const { data: codeData, error } = await supabase.from('blue_codes').select('*').eq('code_value', codeInput).single();
-  if(error || !codeData){ res.className='result-box'; res.innerHTML='<div class="fail">❌ Código no reconocido. Contacta soporte.</div>'; res.classList.remove('hidden'); return; }
-  if(codeData.is_redeemed){ res.className='result-box'; res.innerHTML='<div class="fail">❌ Código ya ha sido usado.</div>'; res.classList.remove('hidden'); return; }
-
-  res.className='result-box'; res.innerHTML='<div class="ok">✔ Código autorizado. Procede a la firma ritual.</div>'; res.classList.remove('hidden');
-  document.getElementById('firmaBox').classList.remove('hidden');
 }
 
-async function startRitual(){
-  const nombre = document.getElementById('nombreInput').value.trim();
-  if(!nombre) return alert('Ingresa tu nombre para firmar el Pacto.');
-  const codeInput = document.getElementById('codigoInput').value.trim();
-  if(!codeInput) return alert('Ingresa tu código primero.');
+function startRitual(){
+  if(!codigoValidado){ alert('Primero valida tu código'); return; }
+  const nombre = nombreInput.value.trim();
+  if(!nombre){ alert('Ingresa tu nombre completo'); return; }
 
-  const { data: codeData, error } = await supabase.from('blue_codes').select('*').eq('code_value', codeInput).single();
-  if(error || !codeData){ alert('Código inválido'); return; }
-  if(codeData.is_redeemed){ alert('Código ya usado'); return; }
+  ritualOverlay.style.display='flex';
+  setTimeout(()=>{ ritualOverlay.style.display='none'; accesosBox.classList.remove('hidden'); }, 2600);
 
-  document.getElementById('ritualOverlay').style.display='flex';
-  document.getElementById('ritualMsg').textContent='Preparando el Registro Azul…';
-  if(bell.src){ bell.currentTime=0; bell.play().catch(()=>{}); }
-
-  animateNameTrace(nombre);
-  await sleep(2000);
-
-  document.getElementById('ritualMsg').textContent='Sellando tu presencia en la memoria colectiva…';
-  await travelNameToMuro(nombre);
-
-  const { data: sigData, error: sigError } = await supabase.from('pacto_signatures').insert([{ code_id: codeData.id, user_name: nombre, country:'Desconocido', timestamp: new Date() }]);
-  if(sigError){ console.error(sigError); alert('Error al registrar firma'); return; }
-
-  await supabase.from('blue_codes').update({is_redeemed:true, redeemed_by:nombre, redeemed_at:new Date()}).eq('id', codeData.id);
-
-  firmantes.push(nombre);
-  renderMuro();
-
-  showSeal();
-  document.getElementById('accesosBox').classList.remove('hidden');
-  document.getElementById('ritualOverlay').style.display='none';
-  burstParticles(120);
-
-  const res = document.getElementById('resultado');
-  res.className='result-box';
-  res.innerHTML=`<div class="ok">✅ Tu firma ha sido registrada en el Pacto Azul.</div>`;
-  res.classList.remove('hidden');
-  muroEl.scrollIntoView({behavior:'smooth', block:'center'});
+  addNameToMuro(nombre);
 }
 
-const ambient = document.getElementById('ambientAudio');
-const bell = document.getElementById('bellAudio');
-let ambientOn=false;
-function toggleAudio(){ if(!ambient.src){ alert('Audio no disponible'); return; } ambientOn=!ambientOn; ambientOn?ambient.play().catch(()=>{}):ambient.pause(); document.getElementById('audioToggle').textContent=`🔊 Música ambiental: ${ambientOn?'ON':'OFF'}`; }
+function addNameToMuro(name){
+  const div = document.createElement('div');
+  div.className='name-item name-glow';
+  div.textContent=name;
+  muroEl.prepend(div);
 
-function animateNameTrace(name){ const trace=document.getElementById('nameTrace'); trace.innerHTML=''; Array.from(name).forEach((ch,i)=>{ const span=document.createElement('span'); span.className='name-letter'; span.textContent=ch; span.style.transition=`opacity .28s ease ${i*0.06}s, transform .36s cubic-bezier(.2,.9,.25,1) ${i*0.06}s, text-shadow .36s ${i*0.06}s`; trace.appendChild(span); }); requestAnimationFrame(()=>{ Array.from(trace.children).forEach((s)=>{ s.style.opacity=1; s.style.transform='translateY(0) rotateX(0)'; }); }); }
+  // aquí puedes enviar a Supabase
+  supabase.from('registro_azul').insert([{ nombre:name }]);
+}
 
-async function travelNameToMuro(name){ const clone=document.createElement('div'); clone.className='travel-clone name-letter'; clone.style.fontSize='1.6rem'; clone.style.padding='6px 8px'; clone.style.background='linear-gradient(90deg, rgba(0,200,255,0.03), rgba(0,120,200,0.03))'; clone.style.borderRadius='8px'; clone.style.opacity='0'; clone.textContent=name; document.body.appendChild(clone); const traceRect=document.getElementById('nameTrace').getBoundingClientRect(); clone.style.left=(traceRect.left+traceRect.width/2-60)+'px'; clone.style.top=(traceRect.top+traceRect.height/2-18)+'px'; clone.style.transform='translateZ(0) scale(1)'; clone.style.transition='transform 0.9s cubic-bezier(.2,.85,.25,1), opacity 0.6s ease, left 0.9s, top 0.9s'; requestAnimationFrame(()=>{ clone.style.opacity='1'; clone.style.transform='translateY(-6px) scale(1.02)'; }); await sleep(700); const muroRect=muroEl.getBoundingClientRect(); clone.style.left=(muroRect.left+20)+'px'; clone.style.top=(muroRect.top+20)+'px'; clone.style.transform='translateY(-4px) scale(0.86)'; clone.style.opacity='0.92'; await sleep(900); clone.style.opacity='0'; clone.style.transform='scale(0.6) translateY(-10px)'; setTimeout(()=>clone.remove(),500); }
+function cancelarFirma(){
+  nombreInput.value='';
+  firmaBox.classList.add('hidden');
+  resultadoEl.textContent='';
+}
 
-function cancelarpFirma(){ document.getElementById('firmaBox').classList.add('hidden'); }
+function openHelp(){ alert('Contacta al equipo del Pacto Azul para recibir tu código'); }
 
-document.getElementById('codigoInput').addEventListener('keydown', e=>{ if(e.key==='Enter') validarCodigo(); });
-document.getElementById('nombreInput').addEventListener('keydown', e=>{ if(e.key==='Enter') startRitual(); });
+function toggleAudio(){
+  if(ambientAudio.paused){ ambientAudio.play(); audioToggle.textContent='🔊 Música ambiental: ON'; }
+  else{ ambientAudio.pause(); audioToggle.textContent='🔊 Música ambiental: OFF'; }
+}
 
-function showSeal(){ const s=document.getElementById('seal'); s.classList.remove('hidden'); s.style.opacity='1'; s.style.transform='scale(1)'; }
-function burstParticles(n){ /* Aquí puedes añadir animación de partículas si quieres */ }
-function openHelp(){ alert('Contacta a soporte: soporte@bluesphere.org'); }
-function verTodos(){ window.scrollTo({top:0, behavior:'smooth'}); }
-function exportNames(){ alert('Funcionalidad solo para administradores.'); }
+function verTodos(){ alert('Mostrando todos los nombres del Muro del Pacto Azul (demo)'); }
+
+function exportNames(){ alert('Exportando listado completo (solo admin)'); }
 </script>
 
 </body>
