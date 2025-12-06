@@ -3,217 +3,175 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Módulo de Seguimiento — BlueSphere</title>
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
+<title>Seguimiento</title>
 <style>
-  /* ESTILOS ORIGINALES (GHIBLI DARK) */
-  :root{ --bg:#041016; --card:#07212a; --accent:#4fc3f7; --muted:#c8eaff; --success:#3ddc84; --gold:#ffd700; --white:#ffffff; }
-  body{font-family:Inter, Arial, sans-serif; background:var(--bg); color:var(--white); margin:0; padding:20px;}
-  .wrap{max-width:980px;margin:16px auto;}
-  .card{background:var(--card); border-radius:12px; padding:18px; border:1px solid rgba(127,206,255,0.04);}
-  h1{color:var(--accent); margin:0 0 8px; font-size:1.5rem;}
-  p.lead{color:var(--muted); margin:6px 0 18px;}
-  .flex{display:flex; gap:12px; align-items:center; flex-wrap:wrap;}
-  .input, textarea, select{width:100%; padding:10px; border-radius:8px; border:1px solid #19434d; background:#021219; color:var(--white); box-sizing:border-box;}
-  label{display:block; color:var(--muted); margin-bottom:6px; font-weight:700;}
-  .small{font-size:0.9rem; color:var(--muted);}
-  .grid{display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:12px;}
-  .btn{padding:10px 14px; border-radius:10px; cursor:pointer; border:0; font-weight:800;}
+  :root{ --bg:#041016; --card:#07212a; --accent:#4fc3f7; --muted:#c8eaff; --success:#3ddc84; --white:#ffffff; }
+  body{font-family:Inter, sans-serif; background:var(--bg); color:var(--white); margin:0; padding:20px;}
+  .wrap{max-width:800px; margin:20px auto;}
+  .card{background:var(--card); border-radius:12px; padding:25px; border:1px solid rgba(127,206,255,0.1);}
+  
+  h1{color:var(--accent); margin:0 0 10px; font-size:2rem; text-align:center;}
+  p.lead{color:var(--muted); text-align:center; margin-bottom:30px;}
+
+  .input, textarea, select{width:100%; padding:12px; border-radius:8px; border:1px solid #19434d; background:#021219; color:var(--white); box-sizing:border-box; margin-bottom:15px;}
+  label{display:block; color:var(--muted); margin-bottom:8px; font-weight:bold;}
+  
+  .btn{padding:12px 20px; border-radius:8px; cursor:pointer; border:0; font-weight:bold; width:100%; font-size:1rem;}
   .btn-primary{background:linear-gradient(135deg,var(--accent),#81d4fa); color:#041016;}
-  .btn-plain{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted);}
-  .hint{font-size:0.85rem; color:var(--muted); margin-top:8px;}
-  .badge{display:inline-block; padding:6px 8px; border-radius:999px; background:rgba(255,255,255,0.03); color:var(--muted); font-weight:700;}
-  .success-box{background:linear-gradient(90deg, rgba(61,220,132,0.08), rgba(127,206,255,0.02)); padding:12px; border-radius:8px; color:var(--white); margin-top:12px; text-align:center;}
-  .history-item{background:rgba(255,255,255,0.02); padding:10px; border-radius:8px; margin-bottom:8px; border-left: 3px solid var(--accent);}
-  .tiny{font-size:0.8rem; color:var(--muted);}
-  .hidden { display: none; }
+  .btn-plain{background:transparent; border:1px solid rgba(255,255,255,0.2); color:var(--muted); margin-top:10px;}
+  
+  .history-item{background:rgba(255,255,255,0.03); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid var(--success);}
+  .tiny{font-size:0.85rem; color:var(--muted);}
+  .hidden { display: none !important; }
 </style>
 </head>
 <body>
+
   <div class="wrap">
     <div class="card">
-      <h1>🔁 Seguimiento — BlueSphere</h1>
-      <p class="lead">Reporta tu progreso. Cada acción cuenta para el impacto global.</p>
+      
+      <h1>Seguimiento</h1>
+      <p class="lead">Reporte de actividad del Guardián</p>
 
-      <div style="margin-bottom:12px;">
-        <label>Código BlueSphere</label>
-        <input id="codigoInput" class="input" placeholder="Ej: GPR-AQUA-0021">
-        <button id="btnValidar" class="btn btn-plain" style="margin-top:5px; width:100%">🔍 Cargar Historial</button>
-      </div>
+      <label>Tu Código de Guardián</label>
+      <input id="codigoInput" class="input" placeholder="Ej: GPR-AQUA-0021">
+      <button class="btn btn-plain" onclick="validarYBuscar()">🔍 Cargar mi Historial</button>
 
-      <div class="flex" style="margin-bottom:12px;">
-        <div><span class="badge">Checkins:</span> <span id="numCheckins" class="tiny" style="color:var(--white)">0</span></div>
-        <div><span class="badge">Impacto Hoy:</span> <span id="impactoEstimado" class="tiny" style="color:var(--success)">0 kg CO₂</span></div>
-      </div>
-
-      <form id="seguimientoForm" class="card" style="margin-top:12px;">
-        <div style="margin-bottom:12px;">
-          <label>¿Qué acciones realizaste este periodo?</label>
-          <div class="grid">
-            <label><input type="checkbox" class="accion-chk" value="Plástico"> 🥤 Reduje Plásticos</label>
-            <label><input type="checkbox" class="accion-chk" value="Transporte"> 🚲 Movilidad Sostenible</label>
-            <label><input type="checkbox" class="accion-chk" value="Agua"> 💧 Ahorro de Agua</label>
+      <form id="seguimientoForm" style="margin-top:20px;">
+        <label>Acciones realizadas hoy</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px;">
+            <label><input type="checkbox" class="accion-chk" value="Plástico"> 🥤 Menos Plástico</label>
+            <label><input type="checkbox" class="accion-chk" value="Transporte"> 🚲 Transporte</label>
+            <label><input type="checkbox" class="accion-chk" value="Agua"> 💧 Ahorro Agua</label>
             <label><input type="checkbox" class="accion-chk" value="Consumo"> 🌱 Consumo Local</label>
-            <label><input type="checkbox" class="accion-chk" value="Carne"> 🥩 Menos Carne</label>
-          </div>
         </div>
 
-        <div style="margin-bottom:12px;">
-          <label>Frecuencia</label>
-          <select id="frecuencia" class="input">
-            <option value="Ocasional">Ocasional</option>
+        <label>Frecuencia</label>
+        <select id="frecuencia" class="input">
             <option value="Semanal">Semanal</option>
             <option value="Diaria">Diaria</option>
-          </select>
-        </div>
+            <option value="Ocasional">Ocasional</option>
+        </select>
 
-        <div style="margin-bottom:12px;">
-          <label>Comentario / Reflexión</label>
-          <textarea id="comentario" class="input" rows="2" placeholder="Ej: Hoy caminé al trabajo..."></textarea>
-        </div>
+        <label>Comentario</label>
+        <textarea id="comentario" class="input" rows="3" placeholder="Detalles de tu avance..."></textarea>
 
-        <button id="btnEnviar" class="btn btn-primary" type="button" style="width:100%">🚀 Registrar Impacto</button>
+        <button id="btnEnviar" class="btn btn-primary" type="button" onclick="enviarReporte()">🚀 Registrar Impacto</button>
       </form>
 
-      <div id="resultadoBox" class="hidden">
-        <div class="success-box">
-            <h3>✅ ¡Reporte Guardado!</h3>
-            <p class="tiny">Tus acciones han sido sumadas al Dashboard Global.</p>
-        </div>
-      </div>
+      <div id="mensajeBox" style="margin-top:20px; text-align:center; padding:10px; border-radius:8px;" class="hidden"></div>
 
-      <div style="margin-top:25px;">
-        <h3 style="color:var(--accent);">📜 Tu Historial</h3>
-        <div id="historyBox">
-          <div class="tiny">Ingresa tu código para ver tu historial.</div>
-        </div>
+      <div id="historyBox" class="hidden" style="margin-top:30px; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px;">
+          <h3 style="color:var(--accent); text-align:center;">Tu Historial</h3>
+          <div id="listaHistorial"></div>
       </div>
 
     </div>
   </div>
 
-<script>
-// 1. CONFIGURACIÓN SUPABASE
-const SB_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
-const supabase = window.supabase.createClient(SB_URL, SB_KEY);
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-// Factores de Impacto (Simples)
-const IMPACTO = { co2: 0.5, agua: 10, plastico: 0.05 }; // por acción
+// 1. CONEXIÓN SUPABASE
+const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// 2. INICIALIZAR
-document.addEventListener('DOMContentLoaded', async () => {
-    // Detectar si venimos del Portal
-    const params = new URLSearchParams(window.location.search);
-    const codigoURL = params.get('codigo');
+// 2. AUTO-DETECTAR (Si viene del Portal)
+const params = new URLSearchParams(window.location.search);
+const codigoURL = params.get('codigo');
 
-    if (codigoURL) {
-        document.getElementById('codigoInput').value = codigoURL;
-        cargarHistorial(codigoURL);
+if (codigoURL) {
+    document.getElementById('codigoInput').value = codigoURL;
+    cargarHistorial(codigoURL);
+}
+
+// 3. FUNCIÓN: VALIDAR Y BUSCAR (Botón Lupa)
+async function validarYBuscar() {
+    const codigo = document.getElementById('codigoInput').value.trim();
+    if(codigo) {
+        cargarHistorial(codigo);
+    } else {
+        alert("Escribe un código primero.");
     }
-});
+}
 
-// 3. CARGAR HISTORIAL (Leer Tabla 'seguimiento')
+// 4. FUNCIÓN: ENVIAR REPORTE (Botón Registrar)
+async function enviarReporte() {
+    const codigo = document.getElementById('codigoInput').value.trim();
+    if (!codigo) return alert('Falta el código de guardián');
+
+    // Recoger acciones
+    let acciones = [];
+    document.querySelectorAll('.accion-chk:checked').forEach(c => acciones.push(c.value));
+    
+    if (acciones.length === 0) return alert('Selecciona al menos una acción');
+
+    const frecuencia = document.getElementById('frecuencia').value;
+    const comentario = document.getElementById('comentario').value;
+
+    mostrarMensaje("Enviando...", "#fff");
+
+    // Guardar en Supabase (Tabla 'seguimiento')
+    const { error } = await supabase
+        .from('seguimiento')
+        .insert([{
+            codigo_guardian: codigo,
+            acciones_realizadas: acciones.join(', '),
+            frecuencia: frecuencia,
+            comentario: comentario,
+            impacto_co2: acciones.length * 0.5 
+        }]);
+
+    if (error) {
+        mostrarMensaje('Error: ' + error.message, '#ff7b7b');
+    } else {
+        document.getElementById('seguimientoForm').reset();
+        document.getElementById('codigoInput').value = codigo; 
+        mostrarMensaje('✅ Reporte guardado con éxito', '#3ddc84');
+        cargarHistorial(codigo);
+    }
+}
+
+// 5. FUNCIÓN: CARGAR HISTORIAL
 async function cargarHistorial(codigo) {
-    const box = document.getElementById('historyBox');
-    box.innerHTML = '<div class="tiny">Cargando...</div>';
-
     const { data, error } = await supabase
         .from('seguimiento')
         .select('*')
         .eq('codigo_guardian', codigo)
         .order('fecha_reporte', { ascending: false });
 
-    if (error) {
-        box.innerHTML = '<div class="tiny fail">Error cargando historial.</div>';
-        return;
-    }
-
-    if (!data || data.length === 0) {
-        box.innerHTML = '<div class="tiny">Aún no hay reportes. ¡Envía el primero!</div>';
-        document.getElementById('numCheckins').textContent = "0";
-        return;
-    }
-
-    // Mostrar datos
-    document.getElementById('numCheckins').textContent = data.length;
+    const lista = document.getElementById('listaHistorial');
+    const caja = document.getElementById('historyBox');
     
-    let html = '';
-    data.forEach(item => {
-        const fecha = new Date(item.fecha_reporte).toLocaleDateString();
-        const acciones = item.acciones_realizadas || "Reporte general";
-        const co2 = item.impacto_co2 || 0;
-        
-        html += `
-        <div class="history-item">
-            <div style="font-weight:bold; color:var(--accent)">${fecha}</div>
-            <div class="tiny" style="color:white">${acciones}</div>
-            <div class="tiny" style="margin-top:4px;">Impacto: ${co2} kg CO₂</div>
-            <div class="tiny" style="font-style:italic; color:gray">"${item.comentario || ''}"</div>
-        </div>`;
-    });
-    box.innerHTML = html;
+    if (data && data.length > 0) {
+        caja.classList.remove('hidden');
+        lista.innerHTML = data.map(item => `
+            <div class="history-item">
+                <div style="font-weight:bold; color:var(--accent)">${new Date(item.fecha_reporte).toLocaleDateString()}</div>
+                <div>${item.acciones_realizadas}</div>
+                <div class="tiny">"${item.comentario || 'Sin comentarios'}"</div>
+            </div>
+        `).join('');
+    } else {
+        caja.classList.remove('hidden');
+        lista.innerHTML = '<div class="tiny" style="text-align:center">No hay reportes previos. Sé el primero.</div>';
+    }
 }
 
-// 4. ENVIAR REPORTE (Escribir en 'seguimiento')
-document.getElementById('btnEnviar').addEventListener('click', async () => {
-    const codigo = document.getElementById('codigoInput').value.trim();
-    if (!codigo) return alert('Falta tu código');
+// 6. UTILS
+function mostrarMensaje(texto, color) {
+    const box = document.getElementById('mensajeBox');
+    box.textContent = texto;
+    box.style.color = color;
+    box.style.border = `1px solid ${color}`;
+    box.classList.remove('hidden');
+    setTimeout(() => box.classList.add('hidden'), 4000);
+}
 
-    // Recolectar Checkboxes
-    let accionesSeleccionadas = [];
-    let impactoTotalCO2 = 0;
-    
-    document.querySelectorAll('.accion-chk:checked').forEach(chk => {
-        accionesSeleccionadas.push(chk.value);
-        impactoTotalCO2 += IMPACTO.co2; // Sumar impacto por cada acción
-    });
-
-    if (accionesSeleccionadas.length === 0) return alert('Marca al menos una acción.');
-
-    const frecuencia = document.getElementById('frecuencia').value;
-    const comentario = document.getElementById('comentario').value;
-
-    // Enviar a Supabase
-    const { error } = await supabase
-        .from('seguimiento')
-        .insert([{
-            codigo_guardian: codigo,
-            acciones_realizadas: accionesSeleccionadas.join(', '),
-            frecuencia: frecuencia,
-            comentario: comentario,
-            impacto_co2: impactoTotalCO2,
-            impacto_agua: accionesSeleccionadas.length * IMPACTO.agua,
-            impacto_plastico: accionesSeleccionadas.length * IMPACTO.plastico
-        }]);
-
-    if (error) {
-        alert('Error: ' + error.message);
-    } else {
-        // Éxito visual
-        document.getElementById('resultadoBox').style.display = 'block';
-        document.getElementById('seguimientoForm').reset();
-        document.getElementById('codigoInput').value = codigo; // Mantener código
-        
-        // Recargar historial para ver el nuevo item
-        cargarHistorial(codigo);
-    }
-});
-
-// Botón manual de carga
-document.getElementById('btnValidar').addEventListener('click', () => {
-    const c = document.getElementById('codigoInput').value;
-    if(c) cargarHistorial(c);
-});
-
-// Calculadora visual simple
-document.querySelectorAll('.accion-chk').forEach(chk => {
-    chk.addEventListener('change', () => {
-        const count = document.querySelectorAll('.accion-chk:checked').length;
-        document.getElementById('impactoEstimado').textContent = (count * IMPACTO.co2) + ' kg CO₂';
-    });
-});
+// --- LA CLAVE: CONECTAR BOTONES AL WINDOW ---
+window.enviarReporte = enviarReporte;
+window.validarYBuscar = validarYBuscar;
 
 </script>
 </body>
