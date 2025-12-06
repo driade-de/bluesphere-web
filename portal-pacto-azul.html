@@ -136,12 +136,12 @@ header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-// CONFIGURACIÓN SUPABASE
+// 1. CONFIGURACIÓN
 const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ELEMENTOS DOM
+// 2. ELEMENTOS
 const muroEl = document.getElementById('muro');
 const resultadoEl = document.getElementById('resultado');
 const faseCodigo = document.getElementById('faseCodigo');
@@ -152,14 +152,19 @@ const ritualOverlay = document.getElementById('ritualOverlay');
 
 let codigoValidado = false;
 
-// 1. VALIDAR CÓDIGO (Real vs DB)
+// 3. INICIALIZAR
+cargarMuro();
+
+// ---------------------------------------------------------
+// FUNCIÓN A: VALIDAR CÓDIGO
+// ---------------------------------------------------------
 async function validarCodigo() {
     const codigo = document.getElementById('codigoInput').value.trim();
     if(!codigo) return mostrarError('Ingresa un código');
 
     mostrarCarga(true, "Verificando código...");
 
-    // Consultar tabla 'codigos'
+    // Consultar si existe en la tabla 'codigos'
     const { data, error } = await supabase
         .from('codigos')
         .select('*')
@@ -172,7 +177,7 @@ async function validarCodigo() {
         mostrarError('❌ Código no válido o no encontrado.');
         codigoValidado = false;
     } else {
-        // Código existe en la DB
+        // Código correcto
         resultadoEl.className = 'hidden';
         faseCodigo.classList.add('hidden');
         faseFirma.classList.remove('hidden');
@@ -180,7 +185,9 @@ async function validarCodigo() {
     }
 }
 
-// 2. FIRMAR (Insertar en 'firmantes')
+// ---------------------------------------------------------
+// FUNCIÓN B: FIRMAR (CON PUENTE AL CERTIFICADO)
+// ---------------------------------------------------------
 async function startRitual() {
     if(!codigoValidado) return alert('Error de validación');
     
@@ -193,7 +200,7 @@ async function startRitual() {
 
     mostrarCarga(true, "Sellando firma...");
 
-    // Insertar en tabla 'firmantes'
+    // Guardar en 'firmantes'
     const { error } = await supabase
         .from('firmantes')
         .insert([{ 
@@ -208,21 +215,23 @@ async function startRitual() {
     if (error) {
         alert('Error al guardar: ' + error.message);
     } else {
-    // 1. Éxito visual (Esto ya estaba)
-    faseFirma.classList.add('hidden');
-    seal.classList.remove('hidden');
-    accesosBox.classList.remove('hidden');
-    cargarMuro(); 
+        // --- ÉXITO ---
+        faseFirma.classList.add('hidden');
+        seal.classList.remove('hidden');
+        accesosBox.classList.remove('hidden');
+        cargarMuro();
 
-    // 2. LO NUEVO: Configurar el botón del certificado
-    const btnCert = document.getElementById('btnCertificado');
-    if (btnCert) {
-        // Aquí le pegamos tu nombre y código para que viajen al certificado
-        btnCert.href = `certificado-bluesphere.html?nombre=${encodeURIComponent(nombre)}&codigo=${encodeURIComponent(codigo)}`;
+        // >>> EL PUENTE MÁGICO (Inyectar datos al botón) <<<
+        const btnCert = document.getElementById('btnCertificado');
+        if (btnCert) {
+            btnCert.href = `certificado-bluesphere.html?nombre=${encodeURIComponent(nombre)}&codigo=${encodeURIComponent(codigo)}`;
+        }
     }
 }
 
-// 3. CARGAR MURO
+// ---------------------------------------------------------
+// FUNCIÓN C: CARGAR MURO
+// ---------------------------------------------------------
 async function cargarMuro() {
     muroEl.innerHTML = '<div class="center" style="color:var(--muted)">Actualizando...</div>';
     
@@ -240,7 +249,7 @@ async function cargarMuro() {
             data.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'name-item name-glow';
-                div.textContent = item.nombre; // Nombre real de la DB
+                div.textContent = item.nombre;
                 muroEl.appendChild(div);
             });
         }
@@ -250,7 +259,9 @@ async function cargarMuro() {
     }
 }
 
-// UTILS
+// ---------------------------------------------------------
+// UTILERÍAS Y VISUALES
+// ---------------------------------------------------------
 function mostrarError(msg) {
     resultadoEl.textContent = msg;
     resultadoEl.className = 'result-box fail';
@@ -265,9 +276,6 @@ function cancelarFirma() {
     faseCodigo.classList.remove('hidden');
     resultadoEl.classList.add('hidden');
 }
-
-// INICIALIZAR
-cargarMuro();
 
 // FONDO ANIMADO
 const canvas = document.getElementById('bgCanvas');
@@ -292,7 +300,9 @@ function draw(){
 draw();
 window.addEventListener('resize', initStars);
 
-// --- EXPOSICIÓN DE FUNCIONES (ESTO ARREGLA LOS BOTONES) ---
+// ---------------------------------------------------------
+// EXPOSICIÓN DE FUNCIONES (Vital para que los botones funcionen)
+// ---------------------------------------------------------
 window.validarCodigo = validarCodigo;
 window.startRitual = startRitual;
 window.cancelarFirma = cancelarFirma;
