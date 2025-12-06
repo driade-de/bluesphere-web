@@ -22,70 +22,42 @@ body{
   color:#eaffff; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
   overflow-x:hidden;
 }
-
-/* Full-canvas layers */
 #bgCanvas{position:fixed; inset:0; z-index:0; pointer-events:none}
 .water-overlay{position:fixed; inset:0; z-index:0; pointer-events:none; mix-blend-mode:screen; opacity:0.95}
 .water-overlay::before{content:""; position:absolute; inset:0; background: radial-gradient(circle at 30% 20%, rgba(0,120,180,0.05), transparent 10%), radial-gradient(circle at 80% 80%, rgba(0,60,140,0.05), transparent 15%); transform: translateY(0); animation: drift 18s linear infinite}
 @keyframes drift{0%{transform:translateY(0)}50%{transform:translateY(-12px)}100%{transform:translateY(0)}}
-
-/* header */
 header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
 .title{font-size:2.4rem; color:var(--glow); font-weight:900; letter-spacing:1px; text-shadow:0 0 18px rgba(0,180,255,0.18)}
 .subtitle{color:var(--muted); margin-top:6px}
-
-/* layout */
 .wrap{position:relative; z-index:2; max-width:1100px; margin:28px auto 80px; padding:24px}
 .card{background:var(--card); border-radius:16px; padding:20px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.04); box-shadow:0 12px 40px rgba(0,10,20,0.5); backdrop-filter: blur(6px) saturate(120%)}
-
-/* grid */
 .grid{display:grid; grid-template-columns:1fr 420px; gap:18px; align-items:start}
 @media(max-width:920px){ .grid{grid-template-columns:1fr} }
-
-/* inputs */
 .center{text-align:center}
 .input{width:78%; max-width:600px; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.06); background:rgba(2,26,34,0.6); color:#eaffff; font-size:1rem; outline:none}
 .btn{display:inline-block; margin-top:14px; padding:11px 18px; border-radius:10px; font-weight:800; background:linear-gradient(135deg,var(--glow),var(--light)); color:var(--accent-dark); border:none; cursor:pointer; box-shadow:0 6px 18px rgba(0,160,255,0.06)}
 .btn-ghost{display:inline-block; margin-top:12px; padding:10px 14px; border-radius:10px; font-weight:700; color:var(--muted); border:1px solid rgba(255,255,255,0.04); background:transparent; cursor:pointer}
-
-/* result box */
 .result-box{margin-top:16px; padding:14px; border-radius:12px; text-align:center; background:linear-gradient(180deg, rgba(0,30,40,0.14), rgba(0,10,20,0.14)); border:1px solid rgba(0,180,255,0.04)}
 .ok{color:#9effd8; font-weight:800}
 .fail{color:#ff9b9b; font-weight:800}
-
-/* firma ritual */
 .firma-area{margin-top:18px; text-align:center}
 #nombreDisplay{font-weight:900; font-size:1.4rem; color:var(--light); letter-spacing:0.6px; text-shadow:0 0 12px rgba(0,180,255,0.12)}
-
-/* animated name container */
 #nameTrace{position:relative; height:72px; display:flex; align-items:center; justify-content:center; margin-top:12px}
 .name-letter{display:inline-block; opacity:0; transform: translateY(12px) rotateX(15deg); color:var(--light); font-weight:900; font-size:1.4rem; text-shadow:0 0 18px rgba(0,200,255,0.12); filter:drop-shadow(0 6px 18px rgba(0,160,255,0.06))}
-
-/* travel clone */
 .travel-clone{position:fixed; z-index:60; pointer-events:none; transform-origin:left top; will-change:transform,opacity}
-
-/* seal / glyph */
 #seal{width:120px;height:120px;margin:18px auto 6px; opacity:0; transform:scale(0.6); transition:transform .6s cubic-bezier(.2,.9,.3,1), opacity .4s}
 #seal svg{width:100%;height:100%; filter: drop-shadow(0 12px 26px rgba(0,160,255,0.08))}
-
-/* muro */
 .muroside{max-height:520px; overflow:auto; padding:12px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.02)}
 .name-list{column-count:1; column-gap:12px; color:var(--light); font-size:1rem; line-height:1.6; padding:8px}
 @media(min-width:920px){ .name-list{column-count:2} }
 .name-item{display:block; padding:8px 10px; margin:6px 0; border-radius:8px; background:linear-gradient(90deg, rgba(0,200,255,0.02), rgba(0,120,180,0.02)); transition: transform .22s ease, box-shadow .22s ease}
 .name-item:hover{transform:translateY(-6px) scale(1.01); box-shadow:0 12px 30px rgba(0,160,255,0.06)}
 .name-glow{color:var(--light); font-weight:800; text-shadow:0 0 18px rgba(0,180,255,0.18), 0 0 8px rgba(0,120,255,0.08)}
-
-/* ritual overlay */
 #ritualOverlay{position:fixed; inset:0; z-index:70; display:none; align-items:center; justify-content:center; background: radial-gradient(circle at center, rgba(0,10,20,0.75), rgba(0,0,0,0.9)); color:#e7fffb; backdrop-filter: blur(4px)}
 .ritual-card{width:92%; max-width:720px; text-align:center; background:linear-gradient(180deg, rgba(6,18,24,0.6), rgba(6,10,14,0.6)); border-radius:14px; padding:26px; border:1px solid rgba(0,200,255,0.06); box-shadow:0 18px 60px rgba(0,160,255,0.08)}
 .ritual-title{font-size:1.5rem; font-weight:900; color:var(--glow); margin-bottom:8px}
 .ritual-sub{color:var(--muted); margin-bottom:14px}
-
-/* small */
 .small{font-size:0.9rem; color:var(--muted)}
-
-/* transitions util */
 .fade-in{animation:fadeIn .45s ease both}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 </style>
@@ -145,7 +117,6 @@ header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
 
       <!-- seal preview -->
       <div id="seal" class="hidden" aria-hidden="true">
-        <!-- elegant seal svg (stylized wave + circle) -->
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
             <linearGradient id="g1" x1="0" x2="1">
@@ -166,9 +137,7 @@ header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
     <aside class="muroside card" aria-labelledby="muroTitle">
       <h2 id="muroTitle">🌐 Muro del Pacto Azul</h2>
       <p class="small">Los nombres que sostienen el despertar de la conciencia planetaria. Tu firma aparecerá aquí cuando se confirme.</p>
-
       <div id="muro" class="name-list" aria-live="polite"></div>
-
       <div style="margin-top:14px; text-align:center">
         <button class="btn-ghost" onclick="verTodos()">Ver listado completo</button>
         <button class="btn" onclick="exportNames()">📤 Exportar (admin)</button>
@@ -192,12 +161,11 @@ header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
 </main>
 
 <!-- ritual overlay -->
-<div id="ritualOverlay" style="display:none; position:fixed; inset:0; z-index:90; align-items:center; justify-content:center; background: radial-gradient(circle at center, rgba(0,8,16,0.85), rgba(0,0,0,0.95));">
-  <div class="ritual-card" style="width:92%; max-width:680px; text-align:center; padding:26px; border-radius:12px; border:1px solid rgba(0,200,255,0.06)">
-    <div class="ritual-title" style="font-size:1.4rem; font-weight:900; color:var(--glow)">Sellando tu Nombre</div>
-    <div class="ritual-sub small" style="margin-top:8px; color:var(--muted)">Un momento de silencio y presencia. Tu nombre se escribirá en luz.</div>
+<div id="ritualOverlay" style="display:none;">
+  <div class="ritual-card">
+    <div class="ritual-title">Sellando tu Nombre</div>
+    <div class="ritual-sub small">Un momento de silencio y presencia. Tu nombre se escribirá en luz.</div>
     <div id="ritualAnim" style="margin-top:18px; height:120px; display:flex; align-items:center; justify-content:center">
-      <!-- animated dots -->
       <svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <circle cx="40" cy="30" r="8" fill="#00e0ff"><animate attributeName="r" values="8;12;8" dur="1.4s" repeatCount="indefinite"/></circle>
         <circle cx="100" cy="30" r="6" fill="#7ef3ff"><animate attributeName="r" values="6;10;6" dur="1.2s" begin="0.2s" repeatCount="indefinite"/></circle>
@@ -208,10 +176,8 @@ header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
   </div>
 </div>
 
-<!-- audio (optional). Put actual mp3 in assets/audio/ for full experience -->
 <audio id="ambientAudio" loop preload="auto">
   <source src="assets/audio/pacto_azul_ambient.mp3" type="audio/mpeg">
-  <!-- fallback: no audio -->
 </audio>
 <audio id="bellAudio" preload="auto">
   <source src="assets/audio/pacto_bell.mp3" type="audio/mpeg">
@@ -222,238 +188,111 @@ header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
   <div class="small" style="margin-top:6px">“La conciencia es la nueva civilización.”</div>
 </footer>
 
-<script>
-/* ======= Canvas background (particles/water light) ======= */
-const canvas = document.getElementById('bgCanvas');
-const ctx = canvas.getContext('2d');
-let W = canvas.width = innerWidth, H = canvas.height = innerHeight;
-let particles = [];
-function initParticles(count=110){
-  particles = [];
-  for(let i=0;i<count;i++){
-    particles.push({
-      x: Math.random()*W, y: Math.random()*H,
-      vx: (Math.random()-0.5)*0.6, vy: (Math.random()-0.5)*0.6,
-      r: Math.random()*1.6 + 0.6, hue: 180 + Math.random()*60
-    });
-  }
-}
-initParticles(110);
-function drawBG(){
-  ctx.clearRect(0,0,W,H);
-  // subtle radial glow
-  const grd = ctx.createRadialGradient(W*0.2,H*0.15,0,W*0.2,H*0.15,Math.max(W,H)*0.8);
-  grd.addColorStop(0,'rgba(0,200,255,0.02)');
-  grd.addColorStop(1,'rgba(0,10,30,0.0)');
-  ctx.fillStyle = grd; ctx.fillRect(0,0,W,H);
-  particles.forEach(p=>{
-    p.x += p.vx; p.y += p.vy;
-    if(p.x<0) p.x = W; if(p.x>W) p.x=0; if(p.y<0) p.y=H; if(p.y>H) p.y=0;
-    // glow
-    const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*10);
-    g.addColorStop(0, 'rgba(144,255,240,0.12)');
-    g.addColorStop(1, 'rgba(0,40,70,0)');
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*6,0,Math.PI*2); ctx.fill();
-    // core
-    ctx.beginPath(); ctx.fillStyle = 'rgba(180,255,240,0.9)'; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
-  });
-  requestAnimationFrame(drawBG);
-}
-drawBG();
-window.addEventListener('resize', ()=>{ W=canvas.width=innerWidth; H=canvas.height=innerHeight; });
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-/* ======= Local storage "firmantes" (mock persistence) ======= */
-let firmantes = JSON.parse(localStorage.getItem('bs_firmantes')||'[]');
+const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 const muroEl = document.getElementById('muro');
+let firmantes = [];
+
+function escapeHtml(s){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+function show(el){ el.classList.remove('hidden'); el.classList.add('fade-in'); }
+function hide(el){ el.classList.add('hidden'); el.classList.remove('fade-in'); }
+function sleep(ms){ return new Promise(res=>setTimeout(res,ms)); }
+
+async function fetchMuro(){
+  const { data, error } = await supabase.from('pacto_signatures').select('user_name').order('timestamp',{ascending:true});
+  if(error){ console.error(error); return; }
+  firmantes = data.map(d=>d.user_name);
+  renderMuro();
+}
+
 function renderMuro(){
   if(!firmantes || firmantes.length===0){
     muroEl.innerHTML = '<div style="color:var(--muted); font-style:italic">Aún no hay firmas públicas. Sé el primero en firmar el Pacto Azul.</div>';
     return;
   }
-  // newest first
   const reversed = firmantes.slice().reverse();
   muroEl.innerHTML = reversed.map(name => `<div class="name-item"><span class="name-glow">${escapeHtml(name)}</span></div>`).join('');
 }
-renderMuro();
+fetchMuro();
 
-/* ======= Utils ======= */
-function escapeHtml(s){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
-function show(el){ el.classList.remove('hidden'); el.classList.add('fade-in'); }
-function hide(el){ el.classList.add('hidden'); el.classList.remove('fade-in'); }
-
-/* ======= Validation (mock) ======= */
-function validarCodigo(){
-  const code = document.getElementById('codigoInput').value.trim();
+async function validarCodigo(){
+  const codeInput = document.getElementById('codigoInput').value.trim();
   const res = document.getElementById('resultado');
-  if(!code){ res.className='result-box'; res.innerHTML='<div class="fail">⚠ Ingresa tu código.</div>'; res.classList.remove('hidden'); return; }
-  const valid = /^(BS-PZ|BS-PACTO|BS-PAZ|BS-PA)/i.test(code);
-  if(valid){
-    res.className='result-box'; res.innerHTML='<div class="ok">✔ Código autorizado. Procede a la firma ritual.</div>'; res.classList.remove('hidden');
-    document.getElementById('firmaBox').classList.remove('hidden');
-    // small particle burst effect (increase count briefly)
-    burstParticles(80);
-  } else {
-    res.className='result-box'; res.innerHTML='<div class="fail">❌ Código no reconocido. Contacta soporte.</div>'; res.classList.remove('hidden');
-  }
+  if(!codeInput){ res.className='result-box'; res.innerHTML='<div class="fail">⚠ Ingresa tu código.</div>'; res.classList.remove('hidden'); return; }
+
+  const { data: codeData, error } = await supabase.from('blue_codes').select('*').eq('code_value', codeInput).single();
+  if(error || !codeData){ res.className='result-box'; res.innerHTML='<div class="fail">❌ Código no reconocido. Contacta soporte.</div>'; res.classList.remove('hidden'); return; }
+  if(codeData.is_redeemed){ res.className='result-box'; res.innerHTML='<div class="fail">❌ Código ya ha sido usado.</div>'; res.classList.remove('hidden'); return; }
+
+  res.className='result-box'; res.innerHTML='<div class="ok">✔ Código autorizado. Procede a la firma ritual.</div>'; res.classList.remove('hidden');
+  document.getElementById('firmaBox').classList.remove('hidden');
 }
 
-/* slight burst */
-function burstParticles(extra){
-  const current = particles.length;
-  for(let i=0;i<extra;i++){
-    particles.push({ x: Math.random()*W, y: Math.random()*H, vx:(Math.random()-0.5)*1.2, vy:(Math.random()-0.5)*1.2, r: Math.random()*1.8+0.6 });
-  }
-  setTimeout(()=>{ particles.splice(0, extra); }, 4500);
-}
-
-/* ======= Ritual flow (animated name writing -> travel -> seal) ======= */
-const ambient = document.getElementById('ambientAudio');
-const bell = document.getElementById('bellAudio');
-let ambientOn = false;
-function toggleAudio(){
-  if(!ambient.src){ alert('Audio no disponible localmente. Coloca /assets/audio/pacto_azul_ambient.mp3 y pacto_bell.mp3'); return; }
-  ambientOn = !ambientOn;
-  if(ambientOn){ ambient.play().catch(()=>{}); document.getElementById('audioToggle').textContent='🔊 Música ambiental: ON'; }
-  else { ambient.pause(); document.getElementById('audioToggle').textContent='🔊 Música ambiental: OFF'; }
-}
-
-/* animate letter-by-letter */
-function animateNameTrace(name){
-  const trace = document.getElementById('nameTrace');
-  trace.innerHTML = '';
-  const letters = Array.from(name);
-  letters.forEach((ch,i)=>{
-    const span = document.createElement('span');
-    span.className = 'name-letter';
-    span.textContent = ch;
-    span.style.transition = `opacity .28s ease ${i*0.06}s, transform .36s cubic-bezier(.2,.9,.25,1) ${i*0.06}s, text-shadow .36s ${i*0.06}s`;
-    trace.appendChild(span);
-  });
-  // force reflow then show
-  requestAnimationFrame(()=> {
-    Array.from(trace.children).forEach((s,idx)=>{ s.style.opacity=1; s.style.transform='translateY(0) rotateX(0)'; });
-  });
-}
-
-/* create travel clone and animate to muro */
-async function travelNameToMuro(name){
-  // create clone element
-  const clone = document.createElement('div');
-  clone.className = 'travel-clone name-letter';
-  clone.style.fontSize = '1.6rem';
-  clone.style.padding = '6px 8px';
-  clone.style.background = 'linear-gradient(90deg, rgba(0,200,255,0.03), rgba(0,120,200,0.03))';
-  clone.style.borderRadius = '8px';
-  clone.style.opacity = '0';
-  clone.textContent = name;
-  document.body.appendChild(clone);
-
-  // position at center above nameTrace
-  const traceRect = document.getElementById('nameTrace').getBoundingClientRect();
-  clone.style.left = (traceRect.left + traceRect.width/2 - 60) + 'px';
-  clone.style.top = (traceRect.top + traceRect.height/2 - 18) + 'px';
-  clone.style.transform = 'translateZ(0) scale(1)';
-  clone.style.transition = 'transform 0.9s cubic-bezier(.2,.85,.25,1), opacity 0.6s ease, left 0.9s, top 0.9s';
-
-  // reveal with small pop
-  requestAnimationFrame(()=>{ clone.style.opacity = '1'; clone.style.transform = 'translateY(-6px) scale(1.02)'; });
-
-  // wait then compute destino in muro (bottom right-ish)
-  await sleep(700);
-  const muroRect = muroEl.getBoundingClientRect();
-  const destX = muroRect.left + 20;
-  const destY = muroRect.top + 20;
-  clone.style.left = destX + 'px';
-  clone.style.top = destY + 'px';
-  clone.style.transform = 'translateY(-4px) scale(0.86)';
-  clone.style.opacity = '0.92';
-
-  // small flourish then remove
-  await sleep(900);
-  // add to firmantes list (persistence) done outside
-  clone.style.opacity = '0';
-  clone.style.transform = 'scale(0.6) translateY(-10px)';
-  setTimeout(()=> clone.remove(), 500);
-}
-
-/* show seal */
-function showSeal(){
-  const s = document.getElementById('seal');
-  s.classList.remove('hidden');
-  s.style.opacity = '1';
-  s.style.transform = 'scale(1)';
-}
-
-/* sleep helper */
-function sleep(ms){ return new Promise(res=>setTimeout(res,ms)); }
-
-/* ritual orchestration */
 async function startRitual(){
   const nombre = document.getElementById('nombreInput').value.trim();
   if(!nombre) return alert('Ingresa tu nombre para firmar el Pacto.');
-  // show overlay
-  document.getElementById('ritualOverlay').style.display = 'flex';
-  document.getElementById('ritualMsg').textContent = 'Preparando el Registro Azul…';
-  // play bell (if available)
-  if(bell.src) { bell.currentTime = 0; bell.play().catch(()=>{}); }
-  // animate name trace letter by letter
-  animateNameTrace(nombre);
-  await sleep(800);
-  document.getElementById('ritualMsg').textContent = 'Trazando tu nombre en luz…';
-  // make letters glow sequentially (CSS already animates)
-  await sleep(1200);
-  // bell hint and small audio swell
-  if(ambient.src && !ambientOn){ ambient.play().catch(()=>{}); ambientOn=true; document.getElementById('audioToggle').textContent='🔊 Música ambiental: ON'; }
-  // show ritual messages
-  document.getElementById('ritualMsg').textContent = 'Sellando tu presencia en la memoria colectiva…';
-  await sleep(1200);
+  const codeInput = document.getElementById('codigoInput').value.trim();
+  if(!codeInput) return alert('Ingresa tu código primero.');
 
-  // travel the name to muro with lift
+  const { data: codeData, error } = await supabase.from('blue_codes').select('*').eq('code_value', codeInput).single();
+  if(error || !codeData){ alert('Código inválido'); return; }
+  if(codeData.is_redeemed){ alert('Código ya usado'); return; }
+
+  document.getElementById('ritualOverlay').style.display='flex';
+  document.getElementById('ritualMsg').textContent='Preparando el Registro Azul…';
+  if(bell.src){ bell.currentTime=0; bell.play().catch(()=>{}); }
+
+  animateNameTrace(nombre);
+  await sleep(2000);
+
+  document.getElementById('ritualMsg').textContent='Sellando tu presencia en la memoria colectiva…';
   await travelNameToMuro(nombre);
 
-  // add name to list and persist
+  const { data: sigData, error: sigError } = await supabase.from('pacto_signatures').insert([{ code_id: codeData.id, user_name: nombre, country:'Desconocido', timestamp: new Date() }]);
+  if(sigError){ console.error(sigError); alert('Error al registrar firma'); return; }
+
+  await supabase.from('blue_codes').update({is_redeemed:true, redeemed_by:nombre, redeemed_at:new Date()}).eq('id', codeData.id);
+
   firmantes.push(nombre);
-  localStorage.setItem('bs_firmantes', JSON.stringify(firmantes));
   renderMuro();
 
-  // reveal seal & access
   showSeal();
   document.getElementById('accesosBox').classList.remove('hidden');
-  document.getElementById('ritualMsg').textContent = 'Tu nombre ha sido inscrito en el Registro Azul Histórico.';
-  document.getElementById('ritualOverlay').style.display = 'none';
-
-  // small particle celebration
+  document.getElementById('ritualOverlay').style.display='none';
   burstParticles(120);
-  // final bell
-  if(bell.src) { bell.currentTime = 0; bell.play().catch(()=>{}); }
 
-  // show success in resultado box
   const res = document.getElementById('resultado');
   res.className='result-box';
-  res.innerHTML = `<div class="ok">✅ Tu firma ha sido registrada en el Pacto Azul.</div>`;
+  res.innerHTML=`<div class="ok">✅ Tu firma ha sido registrada en el Pacto Azul.</div>`;
   res.classList.remove('hidden');
-
-  // scroll to muro
   muroEl.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
-/* cancel */
-function cancelarFirma(){ document.getElementById('firmaBox').classList.add('hidden'); }
+const ambient = document.getElementById('ambientAudio');
+const bell = document.getElementById('bellAudio');
+let ambientOn=false;
+function toggleAudio(){ if(!ambient.src){ alert('Audio no disponible'); return; } ambientOn=!ambientOn; ambientOn?ambient.play().catch(()=>{}):ambient.pause(); document.getElementById('audioToggle').textContent=`🔊 Música ambiental: ${ambientOn?'ON':'OFF'}`; }
 
-/* helpers: export & view all */
-function verTodos(){ alert('Función: ver listado completo (admin). En producción abriría la vista con filtros.') }
-function exportNames(){
-  if(!firmantes || firmantes.length===0){ alert('No hay nombres para exportar.'); return; }
-  const csv = firmantes.map((f,i)=> `${i+1},"${f.replaceAll('"','""')}"`).join('\n');
-  const blob = new Blob([`# Muro del Pacto Azul\n${csv}`], {type:'text/csv;charset=utf-8;'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url; a.download='muro_pacto_azul.csv'; a.click(); URL.revokeObjectURL(url);
-}
+function animateNameTrace(name){ const trace=document.getElementById('nameTrace'); trace.innerHTML=''; Array.from(name).forEach((ch,i)=>{ const span=document.createElement('span'); span.className='name-letter'; span.textContent=ch; span.style.transition=`opacity .28s ease ${i*0.06}s, transform .36s cubic-bezier(.2,.9,.25,1) ${i*0.06}s, text-shadow .36s ${i*0.06}s`; trace.appendChild(span); }); requestAnimationFrame(()=>{ Array.from(trace.children).forEach((s)=>{ s.style.opacity=1; s.style.transform='translateY(0) rotateX(0)'; }); }); }
 
-/* Accessibility: enter handling */
+async function travelNameToMuro(name){ const clone=document.createElement('div'); clone.className='travel-clone name-letter'; clone.style.fontSize='1.6rem'; clone.style.padding='6px 8px'; clone.style.background='linear-gradient(90deg, rgba(0,200,255,0.03), rgba(0,120,200,0.03))'; clone.style.borderRadius='8px'; clone.style.opacity='0'; clone.textContent=name; document.body.appendChild(clone); const traceRect=document.getElementById('nameTrace').getBoundingClientRect(); clone.style.left=(traceRect.left+traceRect.width/2-60)+'px'; clone.style.top=(traceRect.top+traceRect.height/2-18)+'px'; clone.style.transform='translateZ(0) scale(1)'; clone.style.transition='transform 0.9s cubic-bezier(.2,.85,.25,1), opacity 0.6s ease, left 0.9s, top 0.9s'; requestAnimationFrame(()=>{ clone.style.opacity='1'; clone.style.transform='translateY(-6px) scale(1.02)'; }); await sleep(700); const muroRect=muroEl.getBoundingClientRect(); clone.style.left=(muroRect.left+20)+'px'; clone.style.top=(muroRect.top+20)+'px'; clone.style.transform='translateY(-4px) scale(0.86)'; clone.style.opacity='0.92'; await sleep(900); clone.style.opacity='0'; clone.style.transform='scale(0.6) translateY(-10px)'; setTimeout(()=>clone.remove(),500); }
+
+function cancelarpFirma(){ document.getElementById('firmaBox').classList.add('hidden'); }
+
 document.getElementById('codigoInput').addEventListener('keydown', e=>{ if(e.key==='Enter') validarCodigo(); });
 document.getElementById('nombreInput').addEventListener('keydown', e=>{ if(e.key==='Enter') startRitual(); });
 
+function showSeal(){ const s=document.getElementById('seal'); s.classList.remove('hidden'); s.style.opacity='1'; s.style.transform='scale(1)'; }
+function burstParticles(n){ /* Aquí puedes añadir animación de partículas si quieres */ }
+function openHelp(){ alert('Contacta a soporte: soporte@bluesphere.org'); }
+function verTodos(){ window.scrollTo({top:0, behavior:'smooth'}); }
+function exportNames(){ alert('Funcionalidad solo para administradores.'); }
 </script>
+
 </body>
 </html>
