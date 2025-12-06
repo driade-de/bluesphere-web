@@ -121,9 +121,9 @@ header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
             🔁 Seguimiento
         </a>
 
-        <a href="#" class="btn" style="width:auto; text-decoration:none; min-width:160px;" onclick="alert('Abriendo Dashboard Global...')">
-            🌍 Dashboard
-        </a>
+        <a id="btnDashboard" href="dashboard-global-impacto.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block; text-align:center;">
+    🌍 Dashboard
+</a>
     </div>
   </section>
 </main>
@@ -225,6 +225,12 @@ async function startRitual() {
         const btnCert = document.getElementById('btnCertificado');
         if (btnCert) {
             btnCert.href = `certificado-bluesphere.html?nombre=${encodeURIComponent(nombre)}&codigo=${encodeURIComponent(codigo)}`;
+        }
+      // >>> NUEVO: PUENTE AL DASHBOARD <<<
+        const btnDash = document.getElementById('btnDashboard');
+        if (btnDash) {
+            // Le pasamos tu nombre para que el Dashboard sepa quién entra
+            btnDash.href = `dashboard-global-impacto.html?usuario=${encodeURIComponent(nombre)}`;
         }
     }
 }
