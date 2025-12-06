@@ -113,9 +113,9 @@ header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
     📜 Descargar Certificado
 </a>
         
-        <a href="#" class="btn" style="width:auto; text-decoration:none; min-width:160px;" onclick="alert('Accediendo a Biblioteca...')">
-            📚 Biblioteca
-        </a>
+        <a id="btnBiblioteca" href="modulo-biblioteca.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block; text-align:center;">
+    📚 Biblioteca
+</a>
 
         <a href="#" class="btn" style="width:auto; text-decoration:none; min-width:160px;" onclick="alert('Ver módulo de seguimiento...')">
             🔁 Seguimiento
@@ -231,6 +231,12 @@ async function startRitual() {
         if (btnDash) {
             // Le pasamos tu nombre para que el Dashboard sepa quién entra
             btnDash.href = `dashboard-global-impacto.html?usuario=${encodeURIComponent(nombre)}`;
+        }
+      // >>> NUEVO: PUENTE A LA BIBLIOTECA <<<
+        const btnBiblio = document.getElementById('btnBiblioteca');
+        if (btnBiblio) {
+            // Le pasamos el código para que la biblioteca se desbloquee sola
+            btnBiblio.href = `modulo-biblioteca.html?codigo=${encodeURIComponent(codigo)}`;
         }
     }
 }
