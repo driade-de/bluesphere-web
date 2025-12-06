@@ -109,7 +109,7 @@ header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
     <p style="color:var(--muted); margin-bottom: 20px;">Tu firma ha sido sellada. Ahora tienes acceso total al ecosistema BlueSphere.</p>
     
     <div style="display:flex; gap:15px; justify-content:center; flex-wrap: wrap;">
-       <a href="certificado-bluesphere.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block;">
+       <a id="btnCertificado" href="certificado-bluesphere.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block;">
     📜 Descargar Certificado
 </a>
         
@@ -208,11 +208,17 @@ async function startRitual() {
     if (error) {
         alert('Error al guardar: ' + error.message);
     } else {
-        // Éxito total
-        faseFirma.classList.add('hidden');
-        seal.classList.remove('hidden');
-        accesosBox.classList.remove('hidden');
-        cargarMuro(); // Refrescar lista
+    // 1. Éxito visual (Esto ya estaba)
+    faseFirma.classList.add('hidden');
+    seal.classList.remove('hidden');
+    accesosBox.classList.remove('hidden');
+    cargarMuro(); 
+
+    // 2. LO NUEVO: Configurar el botón del certificado
+    const btnCert = document.getElementById('btnCertificado');
+    if (btnCert) {
+        // Aquí le pegamos tu nombre y código para que viajen al certificado
+        btnCert.href = `certificado-bluesphere.html?nombre=${encodeURIComponent(nombre)}&codigo=${encodeURIComponent(codigo)}`;
     }
 }
 
