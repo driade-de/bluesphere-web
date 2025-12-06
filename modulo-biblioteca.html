@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca BlueSphere - Conocimiento Consciente</title>
+    <style>
+        :root {
+            --bg-dark: #041016; --card-bg: #07212a;
+            --accent-blue: #4fc3f7; --accent-green: #3ddc84; --accent-gold: #ffd700;
+            --text-light: #cfefff; --text-white: #ffffff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg-dark); color: var(--text-white);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.6; padding: 20px; min-height: 100vh;
+        }
+        .biblioteca-container {
+            max-width: 1200px; margin: 0 auto; background: rgba(7, 33, 42, 0.8);
+            border-radius: 16px; padding: 30px; backdrop-filter: blur(10px);
+            border: 1px solid rgba(79, 195, 247, 0.1);
+        }
+        .header { text-align: center; margin-bottom: 30px; }
+        .titulo { color: var(--accent-blue); font-size: 2.2rem; margin-bottom: 10px; }
+        .subtitulo { color: var(--text-light); font-size: 1.1rem; margin-bottom: 20px; }
+        
+        .acceso-section {
+            background: rgba(4, 16, 22, 0.6); padding: 25px; border-radius: 12px;
+            border: 1px solid var(--accent-blue); margin-bottom: 30px;
+        }
+        .input-group { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; }
+        .codigo-input {
+            flex: 1; min-width: 300px; padding: 15px;
+            background: rgba(2, 18, 25, 0.8); color: var(--text-white);
+            border: 2px solid var(--accent-blue); border-radius: 10px; font-size: 1rem;
+        }
+        .btn-validar {
+            padding: 15px 25px; background: linear-gradient(135deg, var(--accent-gold), #ffed4e);
+            color: var(--bg-dark); border: none; border-radius: 10px; font-weight: 800;
+            font-size: 1rem; cursor: pointer;
+        }
+        .mensaje-error {
+            color: #ff7b7b; text-align: center; padding: 10px; display: none;
+            background: rgba(255, 123, 123, 0.1); border-radius: 8px; border: 1px solid #ff7b7b;
+        }
+
+        .libros-grid { display: none; margin-top: 30px; animation: fadeIn 1s ease; }
+        .grid-titulo { color: var(--accent-blue); font-size: 1.5rem; margin-bottom: 20px; text-align: center; }
+        .libros-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px; margin-bottom: 30px;
+        }
+        .libro-card {
+            background: var(--card-bg); padding: 20px; border-radius: 12px;
+            border: 1px solid rgba(79, 195, 247, 0.2); transition: all 0.3s ease;
+        }
+        .libro-card:hover { transform: translateY(-5px); border-color: var(--accent-blue); box-shadow: 0 10px 30px rgba(79, 195, 247, 0.2); }
+        .libro-fecha { color: var(--accent-blue); font-weight: 700; font-size: 0.9rem; margin-bottom: 8px; }
+        .libro-titulo { color: var(--text-white); font-size: 1.2rem; margin-bottom: 10px; font-weight: 700; }
+        .libro-descripcion { color: var(--text-light); font-size: 0.95rem; margin-bottom: 20px; line-height: 1.5; }
+        .btn-descargar {
+            width: 100%; padding: 12px; background: var(--accent-green); color: var(--bg-dark);
+            border: none; border-radius: 8px; font-weight: 800; cursor: pointer; margin-bottom: 15px;
+        }
+        
+        .progreso-lectura { margin-top: 15px; padding: 12px; background: rgba(255, 255, 255, 0.05); border-radius: 8px; }
+        .progreso-titulo { color: var(--text-light); font-size: 0.9rem; margin-bottom: 8px; }
+        .progreso-bar { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; }
+        .progreso-fill { height: 100%; background: linear-gradient(90deg, var(--accent-green), #2bc973); border-radius: 3px; transition: width 0.5s ease; }
+        .progreso-texto { color: var(--text-light); font-size: 0.8rem; margin-top: 5px; text-align: right; }
+
+        /* Medallas */
+        .medallas-section {
+            background: rgba(4, 16, 22, 0.6); padding: 25px; border-radius: 12px;
+            border: 1px solid var(--accent-gold); margin-top: 30px; display: none;
+        }
+        .medallas-titulo { color: var(--accent-gold); font-size: 1.3rem; margin-bottom: 15px; text-align: center; }
+        .mini-medallas { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 20px 0; }
+        .medalla-mini {
+            width: 50px; height: 50px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-gold), #ffed4e);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .medallas-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .btn-secundario { padding: 8px 16px; background: transparent; color: var(--text-light); border: 1px solid var(--accent-blue); border-radius: 6px; cursor: pointer; }
+
+        @media (max-width: 768px) {
+            .input-group { flex-direction: column; }
+            .codigo-input { min-width: 100%; }
+            .libros-container { grid-template-columns: 1fr; }
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="biblioteca-container">
+        <div class="header">
+            <h1 class="titulo">📚 Biblioteca BlueSphere</h1>
+            <p class="subtitulo">Acceso exclusivo al conocimiento consciente</p>
+        </div>
+
+        <div class="acceso-section">
+            <div class="input-group">
+                <input type="text" id="codigoBiblioteca" class="codigo-input" placeholder="Ingresa tu código BlueSphere">
+                <button class="btn-validar" onclick="validarCodigoBiblioteca()">🔑 Validar Código</button>
+            </div>
+            <div id="mensajeBiblioteca" class="mensaje-error">Código inválido o inactivo.</div>
+        </div>
+
+        <div id="librosGrid" class="libros-grid">
+            <h2 class="grid-titulo">📖 Colección Exclusiva</h2>
+            <div class="libros-container">
+                <div class="libro-card">
+                    <div class="libro-fecha">21 Ene 2026</div>
+                    <h3 class="libro-titulo">500 Años Después</h3>
+                    <p class="libro-descripcion">La carta que el plástico escribió. Una reflexión profunda sobre nuestro legado.</p>
+                    <button class="btn-descargar" onclick="descargarLibro('500_Anos.pdf', this)">📥 Descargar PDF</button>
+                    <div class="progreso-lectura">
+                        <div class="progreso-bar"><div class="progreso-fill" style="width: 0%"></div></div>
+                        <div class="progreso-texto">0% completado</div>
+                    </div>
+                </div>
+                <div class="libro-card">
+                    <div class="libro-fecha">8 Jun 2026</div>
+                    <h3 class="libro-titulo">Saga I — El Pacto Azul</h3>
+                    <p class="libro-descripcion">El inicio de tu transformación como Guardián del planeta.</p>
+                    <button class="btn-descargar" onclick="descargarLibro('Saga_I.pdf', this)">📥 Descargar PDF</button>
+                    <div class="progreso-lectura">
+                        <div class="progreso-bar"><div class="progreso-fill" style="width: 0%"></div></div>
+                        <div class="progreso-texto">0% completado</div>
+                    </div>
+                </div>
+                <div class="libro-card">
+                    <div class="libro-fecha">21 Dic 2026</div>
+                    <h3 class="libro-titulo">Saga II — Vuelo de Conciencia</h3>
+                    <p class="libro-descripcion">Profundiza en los principios de la conciencia colectiva.</p>
+                    <button class="btn-descargar" onclick="descargarLibro('Saga_II.pdf', this)">📥 Descargar PDF</button>
+                    <div class="progreso-lectura">
+                        <div class="progreso-bar"><div class="progreso-fill" style="width: 0%"></div></div>
+                        <div class="progreso-texto">0% completado</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="medallasSection" class="medallas-section">
+                <h2 class="medallas-titulo">🏆 Tus Logros</h2>
+                <div id="miniMedallas" class="mini-medallas"></div>
+                <div class="medallas-actions">
+                    <button class="btn-secundario" onclick="alert('Mostrando medallas...')">📊 Ver Todo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- GESTOR DE BIBLIOTECA INTELIGENTE ---
+        const bibliotecaManager = {
+            init() {
+                this.detectarAutoLogin();
+            },
+
+            // 1. AUTO-ACTIVACIÓN (Conecta con el Portal)
+            detectarAutoLogin() {
+                const params = new URLSearchParams(window.location.search);
+                const codigoURL = params.get('codigo');
+
+                if (codigoURL) {
+                    const input = document.getElementById('codigoBiblioteca');
+                    input.value = codigoURL;
+                    // Simular validación visual rápida
+                    setTimeout(() => { this.validar(true); }, 500);
+                }
+            },
+
+            // 2. VALIDACIÓN (Acepta BS antiguos y GPR nuevos)
+            validar(auto = false) {
+                const codigo = document.getElementById("codigoBiblioteca").value.trim();
+                const msg = document.getElementById("mensajeBiblioteca");
+                const grid = document.getElementById("librosGrid");
+
+                // Regex que acepta BS-xxxx y GPR-xxxx
+                const esValido = /^(BS|GPR)/i.test(codigo) && codigo.length >= 5;
+
+                if (esValido) {
+                    msg.style.display = "none";
+                    grid.style.display = "block";
+                    if(!auto) alert("¡Bienvenido a la Biblioteca!");
+                    this.mostrarSeccionMedallas();
+                } else {
+                    msg.style.display = "block";
+                    grid.style.display = "none";
+                }
+            },
+
+            // 3. MEDALLAS
+            mostrarSeccionMedallas() {
+                document.getElementById('medallasSection').style.display = 'block';
+                // Medalla demo
+                document.getElementById('miniMedallas').innerHTML = `
+                    <div class="medalla-mini" title="Lector Inicial">📚</div>
+                `;
+            }
+        };
+
+        // Funciones Globales para los botones
+        function validarCodigoBiblioteca() {
+            bibliotecaManager.validar();
+        }
+
+        function descargarLibro(archivo, btn) {
+            alert("Descargando " + archivo + "...");
+            // Simular progreso
+            const card = btn.closest('.libro-card');
+            const bar = card.querySelector('.progreso-fill');
+            const txt = card.querySelector('.progreso-texto');
+            bar.style.width = "25%";
+            txt.textContent = "25% Leído";
+            btn.textContent = "📖 Continuar Leyendo";
+        }
+
+        // Arrancar
+        document.addEventListener('DOMContentLoaded', () => {
+            bibliotecaManager.init();
+            
+            document.getElementById('codigoBiblioteca').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') validarCodigoBiblioteca();
+            });
+        });
+    </script>
+</body>
+</html>
