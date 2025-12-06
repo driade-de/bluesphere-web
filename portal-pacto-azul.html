@@ -206,21 +206,36 @@ const audioToggle = document.getElementById('audioToggle');
 
 let codigoValidado = false;
 
-function validarCodigo(){
+async function validarCodigo(){
   const codigo = document.getElementById('codigoInput').value.trim();
-  if(!codigo){ resultadoEl.textContent = 'Ingrese un código válido'; resultadoEl.className='result-box fail'; return; }
 
-  // ejemplo simple, puedes reemplazar con Supabase
-  if(codigo.startsWith('BS-PZ')){ 
-    resultadoEl.textContent='✅ Código válido'; resultadoEl.className='result-box ok'; 
-    firmaBox.classList.remove('hidden');
-    codigoValidado = true;
-  }else{
-    resultadoEl.textContent='❌ Código inválido'; resultadoEl.className='result-box fail';
+  if(!codigo){
+    resultadoEl.textContent = 'Ingrese un código válido';
+    resultadoEl.className = 'result-box fail';
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from('firmantes')
+    .select('*')
+    .eq('codigo_usado', codigo)
+    .maybeSingle();
+
+  if(error || !data){
+    resultadoEl.textContent = '❌ Código inválido';
+    resultadoEl.className = 'result-box fail';
     firmaBox.classList.add('hidden');
     codigoValidado = false;
+    return;
   }
+
+  // ✅ SI EL CÓDIGO EXISTE → ES VÁLIDO
+  resultadoEl.textContent = '✅ Código válido';
+  resultadoEl.className = 'result-box ok';
+  firmaBox.classList.remove('hidden');
+  codigoValidado = true;
 }
+
 
 function startRitual(){
   if(!codigoValidado){ alert('Primero valida tu código'); return; }
