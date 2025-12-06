@@ -1,288 +1,286 @@
-<!doctype html> 
+<!doctype html>
 <html lang="es">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Portal del Pacto Azul — Ritual Sagrado</title>
-<meta name="description" content="Portal del Pacto Azul — Ritual sagrado para inscribir nombres en el Registro Azul Histórico."/>
 <style>
-:root{
-  --bg:#010912;
-  --card: rgba(6,30,40,0.55);
-  --glow:#00c4ff;
-  --light:#8feaff;
-  --muted:#b7e9ff;
-  --accent-dark:#002731;
-}
+/* --- ESTÉTICA VISUAL (Ghibli/Dark) --- */
+:root{ --bg:#010912; --card: rgba(6,30,40,0.65); --glow:#00c4ff; --light:#8feaff; --muted:#b7e9ff; --accent-dark:#002731; }
 *{box-sizing:border-box}
 html,body{height:100%}
-body{
-  margin:0; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: radial-gradient(circle at 15% 10%, rgba(0,120,180,0.06), transparent), radial-gradient(circle at 85% 80%, rgba(0,40,90,0.06), transparent), var(--bg);
-  color:#eaffff; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-  overflow-x:hidden;
-}
+body{ margin:0; font-family:Inter, system-ui, sans-serif; background: radial-gradient(circle at 15% 10%, rgba(0,120,180,0.06), transparent), radial-gradient(circle at 85% 80%, rgba(0,40,90,0.06), transparent), var(--bg); color:#eaffff; overflow-x:hidden; }
+
+/* Efectos de Fondo */
 #bgCanvas{position:fixed; inset:0; z-index:0; pointer-events:none}
 .water-overlay{position:fixed; inset:0; z-index:0; pointer-events:none; mix-blend-mode:screen; opacity:0.95}
 .water-overlay::before{content:""; position:absolute; inset:0; background: radial-gradient(circle at 30% 20%, rgba(0,120,180,0.05), transparent 10%), radial-gradient(circle at 80% 80%, rgba(0,60,140,0.05), transparent 15%); transform: translateY(0); animation: drift 18s linear infinite}
 @keyframes drift{0%{transform:translateY(0)}50%{transform:translateY(-12px)}100%{transform:translateY(0)}}
+
+/* Layout */
 header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
 .title{font-size:2.4rem; color:var(--glow); font-weight:900; letter-spacing:1px; text-shadow:0 0 18px rgba(0,180,255,0.18)}
 .subtitle{color:var(--muted); margin-top:6px}
 .wrap{position:relative; z-index:2; max-width:1100px; margin:28px auto 80px; padding:24px}
-.card{background:var(--card); border-radius:16px; padding:20px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.04); box-shadow:0 12px 40px rgba(0,10,20,0.5); backdrop-filter: blur(6px) saturate(120%)}
-.grid{display:grid; grid-template-columns:1fr 420px; gap:18px; align-items:start}
+.card{background:var(--card); border-radius:16px; padding:24px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.08); box-shadow:0 12px 40px rgba(0,10,20,0.6); backdrop-filter: blur(8px)}
+.grid{display:grid; grid-template-columns:1fr 420px; gap:20px; align-items:start}
 @media(max-width:920px){ .grid{grid-template-columns:1fr} }
+
+/* UI Elements */
 .center{text-align:center}
-.input{width:78%; max-width:600px; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.06); background:rgba(2,26,34,0.6); color:#eaffff; font-size:1rem; outline:none}
-.btn{display:inline-block; margin-top:14px; padding:11px 18px; border-radius:10px; font-weight:800; background:linear-gradient(135deg,var(--glow),var(--light)); color:var(--accent-dark); border:none; cursor:pointer; box-shadow:0 6px 18px rgba(0,160,255,0.06)}
-.btn-ghost{display:inline-block; margin-top:12px; padding:10px 14px; border-radius:10px; font-weight:700; color:var(--muted); border:1px solid rgba(255,255,255,0.04); background:transparent; cursor:pointer}
-.result-box{margin-top:16px; padding:14px; border-radius:12px; text-align:center; background:linear-gradient(180deg, rgba(0,30,40,0.14), rgba(0,10,20,0.14)); border:1px solid rgba(0,180,255,0.04)}
-.ok{color:#9effd8; font-weight:800}
-.fail{color:#ff9b9b; font-weight:800}
-.firma-area{margin-top:18px; text-align:center}
-#nombreDisplay{font-weight:900; font-size:1.4rem; color:var(--light); letter-spacing:0.6px; text-shadow:0 0 12px rgba(0,180,255,0.12)}
-#nameTrace{position:relative; height:72px; display:flex; align-items:center; justify-content:center; margin-top:12px}
-.name-letter{display:inline-block; opacity:0; transform: translateY(12px) rotateX(15deg); color:var(--light); font-weight:900; font-size:1.4rem; text-shadow:0 0 18px rgba(0,200,255,0.12); filter:drop-shadow(0 6px 18px rgba(0,160,255,0.06))}
-.travel-clone{position:fixed; z-index:60; pointer-events:none; transform-origin:left top; will-change:transform,opacity}
-#seal{width:120px;height:120px;margin:18px auto 6px; opacity:0; transform:scale(0.6); transition:transform .6s cubic-bezier(.2,.9,.3,1), opacity .4s}
-#seal svg{width:100%;height:100%; filter: drop-shadow(0 12px 26px rgba(0,160,255,0.08))}
-.muroside{max-height:520px; overflow:auto; padding:12px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.02)}
-.name-list{column-count:1; column-gap:12px; color:var(--light); font-size:1rem; line-height:1.6; padding:8px}
-@media(min-width:920px){ .name-list{column-count:2} }
-.name-item{display:block; padding:8px 10px; margin:6px 0; border-radius:8px; background:linear-gradient(90deg, rgba(0,200,255,0.02), rgba(0,120,180,0.02)); transition: transform .22s ease, box-shadow .22s ease}
-.name-item:hover{transform:translateY(-6px) scale(1.01); box-shadow:0 12px 30px rgba(0,160,255,0.06)}
-.name-glow{color:var(--light); font-weight:800; text-shadow:0 0 18px rgba(0,180,255,0.18), 0 0 8px rgba(0,120,255,0.08)}
-#ritualOverlay{position:fixed; inset:0; z-index:70; display:none; align-items:center; justify-content:center; background: radial-gradient(circle at center, rgba(0,10,20,0.75), rgba(0,0,0,0.9)); color:#e7fffb; backdrop-filter: blur(4px)}
-.ritual-card{width:92%; max-width:720px; text-align:center; background:linear-gradient(180deg, rgba(6,18,24,0.6), rgba(6,10,14,0.6)); border-radius:14px; padding:26px; border:1px solid rgba(0,200,255,0.06); box-shadow:0 18px 60px rgba(0,160,255,0.08)}
-.ritual-title{font-size:1.5rem; font-weight:900; color:var(--glow); margin-bottom:8px}
-.ritual-sub{color:var(--muted); margin-bottom:14px}
-.small{font-size:0.9rem; color:var(--muted)}
-.fade-in{animation:fadeIn .45s ease both}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.input{width:100%; padding:14px; border-radius:10px; border:1px solid rgba(0,196,255,0.3); background:rgba(2,26,34,0.6); color:#fff; font-size:1rem; outline:none; margin-top:8px; display:block;}
+.input:focus{border-color:var(--glow); box-shadow:0 0 10px rgba(0,196,255,0.2)}
+.btn{display:block; width:100%; margin-top:18px; padding:14px; border-radius:10px; font-weight:800; background:linear-gradient(135deg,var(--glow),var(--light)); color:var(--accent-dark); border:none; cursor:pointer; box-shadow:0 0 20px rgba(0,196,255,0.2); transition:transform 0.2s}
+.btn:hover{transform:scale(1.02); filter:brightness(1.1)}
+.btn-ghost{background:transparent; border:1px solid rgba(255,255,255,0.2); color:var(--muted); padding:10px; width:100%; margin-top:10px; border-radius:10px; cursor:pointer}
+
+/* Feedback & Muro */
+.result-box{margin-top:16px; padding:14px; border-radius:12px; text-align:center; font-weight:bold}
+.ok{background:rgba(0,50,60,0.6); color:#9effd8; border:1px solid #9effd8}
+.fail{background:rgba(50,10,10,0.6); color:#ff9b9b; border:1px solid #ff9b9b}
+.hidden{display:none !important}
+
+/* Muro */
+.muroside{max-height:500px; overflow-y:auto}
+.name-item{padding:12px; margin:8px 0; border-radius:8px; background:linear-gradient(90deg, rgba(0,200,255,0.05), transparent); border-bottom:1px solid rgba(255,255,255,0.05); animation:fadeIn 0.5s ease}
+.name-glow{color:var(--light); font-weight:bold; font-size:1.1rem}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* Overlay */
+#ritualOverlay{position:fixed; inset:0; z-index:99; background:radial-gradient(circle, rgba(0,10,20,0.95), black); display:none; align-items:center; justify-content:center; flex-direction:column}
 </style>
 </head>
 <body>
 
-<canvas id="bgCanvas" aria-hidden="true"></canvas>
-<div class="water-overlay" aria-hidden="true"></div>
+<canvas id="bgCanvas"></canvas>
+<div class="water-overlay"></div>
 
 <header>
   <div class="title">El Pacto Azul</div>
   <div class="subtitle">Ritual Sagrado — Inscribe tu nombre en el Registro Azul Histórico</div>
 </header>
 
-<main class="wrap" role="main" aria-labelledby="main-title">
-
-  <section class="card" id="introCard">
-    <h2 id="main-title">🌊 El Llamado</h2>
-    <p class="small">Firmar el Pacto Azul es un acto de conciencia. Cuando escribes tu nombre, declaras que serás Guardián. Hazlo con intención. Conserva tu código seguro.</p>
-  </section>
-
+<main class="wrap">
   <section class="grid">
-
-    <!-- Left: ritual -->
-    <div class="card" aria-labelledby="accesoTitle">
-      <h2 id="accesoTitle">🔑 Acceso Sagrado</h2>
-      <p class="small">Introduce el código que recibiste como donante o inversor. Solo códigos autorizados pueden activar la firma ritual.</p>
-
-      <div class="center" style="margin-top:14px">
-        <input id="codigoInput" class="input" type="text" placeholder="Ej: GPR-AQUA-0016" aria-label="Código del Pacto Azul">
-        <div style="margin-top:10px">
-          <button class="btn" onclick="validarCodigo()">Validar Código</button>
-          <button class="btn-ghost" onclick="openHelp()">¿No tienes código?</button>
-        </div>
-        <div id="resultado" class="result-box hidden" role="status" aria-live="polite"></div>
+    
+    <div class="card">
+      <h2 class="center" style="color:var(--glow)">🔑 Acceso Sagrado</h2>
+      
+      <div id="faseCodigo">
+        <p class="center" style="color:var(--muted)">Introduce tu código de Guardián para abrir el portal.</p>
+        <input id="codigoInput" class="input" type="text" placeholder="Ej: GPR-AQUA-0021">
+        <button class="btn" onclick="validarCodigo()">Validar Código</button>
+        <div id="resultado" class="result-box hidden"></div>
       </div>
 
-      <!-- Firma -->
-      <div id="firmaBox" class="fade-in hidden" style="margin-top:16px">
-        <h3 class="small">✍️ Firma el Pacto</h3>
-        <p class="small">Escribe tu nombre exactamente como quieres que aparezca en el Registro Azul Histórico.</p>
-        <div class="firma-area">
-          <input id="nombreInput" class="input" type="text" placeholder="Tu nombre completo — Ej: Ana López (México)">
-          <div id="nameTrace" aria-hidden="true"></div>
-          <div style="margin-top:8px">
-            <button class="btn" onclick="startRitual()">Firmar Pacto Azul</button>
-            <button class="btn-ghost" onclick="cancelarFirma()">Cancelar</button>
-          </div>
-        </div>
-
-        <div class="small" style="margin-top:10px">Puedes activar la música ambiental para una experiencia completa (opcional).</div>
-        <div style="margin-top:8px" class="audio-bar">
-          <button id="audioToggle" class="btn-ghost" onclick="toggleAudio()">🔊 Música ambiental: OFF</button>
-        </div>
-
+      <div id="faseFirma" class="hidden">
+        <h3 class="center" style="color:var(--light)">✍️ Firma el Pacto</h3>
+        <p class="center" style="color:var(--muted); font-size:0.9rem">Tu nombre será sellado para siempre.</p>
+        
+        <input id="nombreInput" class="input" type="text" placeholder="Tu Nombre Completo *">
+        <input id="paisInput" class="input" type="text" placeholder="País / Ciudad (Opcional)">
+        <input id="notaInput" class="input" type="text" placeholder="Mensaje para el futuro (Opcional)">
+        
+        <button class="btn" onclick="startRitual()">SELLAR FIRMA</button>
+        <button class="btn-ghost" onclick="cancelarFirma()">Cancelar</button>
       </div>
 
-      <!-- seal preview -->
-      <div id="seal" class="hidden" aria-hidden="true">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="g1" x1="0" x2="1">
-              <stop offset="0" stop-color="#7ef3ff"/>
-              <stop offset="1" stop-color="#00bcd4"/>
-            </linearGradient>
-          </defs>
-          <circle cx="50" cy="50" r="46" fill="none" stroke="url(#g1)" stroke-width="2.8"/>
-          <path d="M20 62 C36 44, 64 44, 80 62" fill="none" stroke="url(#g1)" stroke-width="3.4" stroke-linecap="round"/>
-          <circle cx="34" cy="38" r="2.8" fill="#7ef3ff"/>
-          <circle cx="66" cy="38" r="2.8" fill="#7ef3ff"/>
+      <div id="seal" class="hidden center" style="margin-top:20px">
+        <svg width="100" height="100" viewBox="0 0 100 100" style="filter:drop-shadow(0 0 10px #00c4ff)">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#00c4ff" stroke-width="2"/>
+            <path d="M30 50 Q50 20 70 50 T30 50" fill="none" stroke="#8feaff" stroke-width="2"/>
         </svg>
+        <p style="color:#00c4ff; font-weight:bold">REGISTRO COMPLETADO</p>
       </div>
-
     </div>
 
-    <!-- Right: muro -->
-    <aside class="muroside card" aria-labelledby="muroTitle">
-      <h2 id="muroTitle">🌐 Muro del Pacto Azul</h2>
-      <p class="small">Los nombres que sostienen el despertar de la conciencia planetaria. Tu firma aparecerá aquí cuando se confirme.</p>
-      <div id="muro" class="name-list" aria-live="polite"></div>
-      <div style="margin-top:14px; text-align:center">
-        <button class="btn-ghost" onclick="verTodos()">Ver listado completo</button>
-        <button class="btn" onclick="exportNames()">📤 Exportar (admin)</button>
+    <aside class="card muroside">
+      <h2 class="center" style="color:var(--glow)">🌐 Muro del Pacto</h2>
+      <div id="muro">
+        <div class="center" style="padding:20px; color:var(--muted)">Conectando...</div>
       </div>
+      <button class="btn-ghost" onclick="cargarMuro()">↻ Actualizar Lista</button>
     </aside>
 
   </section>
 
-  <!-- accesos tras firma -->
-  <section id="accesosBox" class="card hidden" aria-hidden="true" style="text-align:center">
-    <h2>🎉 Bienvenido, Guardián del Pacto Azul</h2>
-    <p class="small">Tu firma ha sido registrada. Accede a tus recursos y comparte tu pertenencia al Pacto.</p>
-    <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:12px">
-      <a class="btn" href="certificado-bluesphere.html" target="_blank" rel="noopener">📜 Descargar Certificado</a>
-      <a class="btn" href="modulo-biblioteca.html" target="_blank" rel="noopener">📚 Biblioteca</a>
-      <a class="btn" href="modulo-seguimiento.html" target="_blank" rel="noopener">🔁 Seguimiento</a>
-      <a class="btn" href="dashboard-global-impacto.html" target="_blank" rel="noopener">🌍 Dashboard</a>
+  <section id="accesosBox" class="card hidden center" style="max-width:600px; margin:20px auto;">
+    <h2>🎉 ¡Bienvenido Guardián!</h2>
+    <p style="color:var(--muted)">Tu firma es ahora parte de la historia.</p>
+    <div style="display:flex; gap:10px; justify-content:center; margin-top:15px">
+        <button class="btn" style="width:auto">📜 Certificado</button>
+        <button class="btn" style="width:auto">🌍 Dashboard</button>
     </div>
   </section>
-
 </main>
 
-<!-- ritual overlay -->
-<div id="ritualOverlay" style="display:none;">
-  <div class="ritual-card">
-    <div class="ritual-title">Sellando tu Nombre</div>
-    <div class="ritual-sub small">Un momento de silencio y presencia. Tu nombre se escribirá en luz.</div>
-    <div id="ritualAnim" style="margin-top:18px; height:120px; display:flex; align-items:center; justify-content:center">
-      <svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <circle cx="40" cy="30" r="8" fill="#00e0ff"><animate attributeName="r" values="8;12;8" dur="1.4s" repeatCount="indefinite"/></circle>
-        <circle cx="100" cy="30" r="6" fill="#7ef3ff"><animate attributeName="r" values="6;10;6" dur="1.2s" begin="0.2s" repeatCount="indefinite"/></circle>
-        <circle cx="160" cy="30" r="8" fill="#c8ffff"><animate attributeName="r" values="8;12;8" dur="1.5s" begin="0.4s" repeatCount="indefinite"/></circle>
-      </svg>
-    </div>
-    <div id="ritualMsg" class="small" style="margin-top:10px; color:var(--muted)"></div>
-  </div>
+<div id="ritualOverlay">
+    <h2 style="color:var(--glow); font-size:2rem">Procesando...</h2>
+    <p style="color:var(--muted)">Consultando la base de datos</p>
 </div>
-
-<audio id="ambientAudio" loop preload="auto">
-  <source src="assets/audio/pacto_azul_ambient.mp3" type="audio/mpeg">
-</audio>
-<audio id="bellAudio" preload="auto">
-  <source src="assets/audio/pacto_bell.mp3" type="audio/mpeg">
-</audio>
-
-<footer style="z-index:2; position:relative; text-align:center; color:var(--muted); margin-top:18px; padding-bottom:36px">
-  © 2025–2027 BlueSphere Consciousness — Pacto Azul
-  <div class="small" style="margin-top:6px">“La conciencia es la nueva civilización.”</div>
-</footer>
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
+// CONFIGURACIÓN SUPABASE
 const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// ELEMENTOS DOM
 const muroEl = document.getElementById('muro');
 const resultadoEl = document.getElementById('resultado');
-const firmaBox = document.getElementById('firmaBox');
-const nombreInput = document.getElementById('nombreInput');
+const faseCodigo = document.getElementById('faseCodigo');
+const faseFirma = document.getElementById('faseFirma');
+const seal = document.getElementById('seal');
 const accesosBox = document.getElementById('accesosBox');
 const ritualOverlay = document.getElementById('ritualOverlay');
-const ambientAudio = document.getElementById('ambientAudio');
-const audioToggle = document.getElementById('audioToggle');
 
 let codigoValidado = false;
 
-async function validarCodigo(){
-  const codigo = document.getElementById('codigoInput').value.trim();
+// 1. VALIDAR CÓDIGO (Real vs DB)
+async function validarCodigo() {
+    const codigo = document.getElementById('codigoInput').value.trim();
+    if(!codigo) return mostrarError('Ingresa un código');
 
-  if(!codigo){
-    resultadoEl.textContent = 'Ingrese un código válido';
+    mostrarCarga(true, "Verificando código...");
+
+    // Consultar tabla 'codigos'
+    const { data, error } = await supabase
+        .from('codigos')
+        .select('*')
+        .eq('codigo', codigo)
+        .single();
+
+    mostrarCarga(false);
+
+    if (error || !data) {
+        mostrarError('❌ Código no válido o no encontrado.');
+        codigoValidado = false;
+    } else {
+        // Código existe en la DB
+        resultadoEl.className = 'hidden';
+        faseCodigo.classList.add('hidden');
+        faseFirma.classList.remove('hidden');
+        codigoValidado = true;
+    }
+}
+
+// 2. FIRMAR (Insertar en 'firmantes')
+async function startRitual() {
+    if(!codigoValidado) return alert('Error de validación');
+    
+    const nombre = document.getElementById('nombreInput').value.trim();
+    const codigo = document.getElementById('codigoInput').value.trim();
+    const pais = document.getElementById('paisInput').value.trim();
+    const nota = document.getElementById('notaInput').value.trim();
+
+    if(!nombre) return alert('El nombre es obligatorio');
+
+    mostrarCarga(true, "Sellando firma...");
+
+    // Insertar en tabla 'firmantes'
+    const { error } = await supabase
+        .from('firmantes')
+        .insert([{ 
+            nombre: nombre, 
+            codigo_usado: codigo,
+            pais: pais,
+            nota: nota
+        }]);
+
+    mostrarCarga(false);
+
+    if (error) {
+        alert('Error al guardar: ' + error.message);
+    } else {
+        // Éxito total
+        faseFirma.classList.add('hidden');
+        seal.classList.remove('hidden');
+        accesosBox.classList.remove('hidden');
+        cargarMuro(); // Refrescar lista
+    }
+}
+
+// 3. CARGAR MURO
+async function cargarMuro() {
+    muroEl.innerHTML = '<div class="center" style="color:var(--muted)">Actualizando...</div>';
+    
+    const { data, error } = await supabase
+        .from('firmantes')
+        .select('nombre')
+        .order('fecha_firma', { ascending: false })
+        .limit(20);
+
+    if (data) {
+        if(data.length === 0) {
+            muroEl.innerHTML = '<div class="center" style="color:var(--muted)">Sé el primero en firmar.</div>';
+        } else {
+            muroEl.innerHTML = '';
+            data.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'name-item name-glow';
+                div.textContent = item.nombre; // Nombre real de la DB
+                muroEl.appendChild(div);
+            });
+        }
+    } else {
+        console.error(error);
+        muroEl.innerHTML = '<div class="center fail">Error de conexión</div>';
+    }
+}
+
+// UTILS
+function mostrarError(msg) {
+    resultadoEl.textContent = msg;
     resultadoEl.className = 'result-box fail';
-    return;
-  }
-
-  const { data, error } = await supabase
-    .from('firmantes')
-    .select('*')
-    .eq('codigo_usado', codigo)
-    .maybeSingle();
-
-  if(error || !data){
-    resultadoEl.textContent = '❌ Código inválido';
-    resultadoEl.className = 'result-box fail';
-    firmaBox.classList.add('hidden');
-    codigoValidado = false;
-    return;
-  }
-
-  // ✅ SI EL CÓDIGO EXISTE → ES VÁLIDO
-  resultadoEl.textContent = '✅ Código válido';
-  resultadoEl.className = 'result-box ok';
-  firmaBox.classList.remove('hidden');
-  codigoValidado = true;
+    resultadoEl.classList.remove('hidden');
+}
+function mostrarCarga(show, msg) {
+    ritualOverlay.style.display = show ? 'flex' : 'none';
+    if(msg) ritualOverlay.querySelector('h2').textContent = msg;
+}
+function cancelarFirma() {
+    faseFirma.classList.add('hidden');
+    faseCodigo.classList.remove('hidden');
+    resultadoEl.classList.add('hidden');
 }
 
+// INICIALIZAR
+cargarMuro();
 
-function startRitual(){
-  if(!codigoValidado){ alert('Primero valida tu código'); return; }
-  const nombre = nombreInput.value.trim();
-  if(!nombre){ alert('Ingresa tu nombre completo'); return; }
-
-  ritualOverlay.style.display='flex';
-  setTimeout(()=>{ ritualOverlay.style.display='none'; accesosBox.classList.remove('hidden'); }, 2600);
-
-  addNameToMuro(nombre);
+// FONDO ANIMADO
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+let w, h, stars=[];
+function initStars(){
+    w = canvas.width = innerWidth; 
+    h = canvas.height = innerHeight;
+    stars=[];
+    for(let i=0; i<80; i++) stars.push({x:Math.random()*w, y:Math.random()*h, s:Math.random()*0.5});
 }
-
-function addNameToMuro(name){
-  const div = document.createElement('div');
-  div.className='name-item name-glow';
-  div.textContent=name;
-  muroEl.prepend(div);
-
-  // aquí puedes enviar a Supabase
-  supabase.from('registro_azul').insert([{ nombre:name }]);
+initStars();
+function draw(){
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle="#8feaff";
+    stars.forEach(p=>{ 
+        p.y-=p.s; if(p.y<0)p.y=h; 
+        ctx.beginPath(); ctx.arc(p.x,p.y,Math.random()*2,0,Math.PI*2); ctx.fill(); 
+    });
+    requestAnimationFrame(draw);
 }
+draw();
+window.addEventListener('resize', initStars);
 
-function cancelarFirma(){
-  nombreInput.value='';
-  firmaBox.classList.add('hidden');
-  resultadoEl.textContent='';
-}
-
-function openHelp(){ alert('Contacta al equipo del Pacto Azul para recibir tu código'); }
-
-function toggleAudio(){
-  if(ambientAudio.paused){ ambientAudio.play(); audioToggle.textContent='🔊 Música ambiental: ON'; }
-  else{ ambientAudio.pause(); audioToggle.textContent='🔊 Música ambiental: OFF'; }
-}
-
-function verTodos(){ alert('Mostrando todos los nombres del Muro del Pacto Azul (demo)'); }
-
-function exportNames(){ alert('Exportando listado completo (solo admin)'); }
+// --- EXPOSICIÓN DE FUNCIONES (ESTO ARREGLA LOS BOTONES) ---
 window.validarCodigo = validarCodigo;
 window.startRitual = startRitual;
 window.cancelarFirma = cancelarFirma;
-window.exportNames = exportNames;
-window.openHelp = openHelp;
-window.toggleAudio = toggleAudio;
-window.verTodos = verTodos;
+window.cargarMuro = cargarMuro;
+window.openHelp = () => alert('Contacta soporte.');
+window.exportNames = () => alert('Función Admin.');
+window.verTodos = cargarMuro;
 
 </script>
-
 </body>
 </html>
