@@ -117,9 +117,9 @@ header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
     📚 Biblioteca
 </a>
 
-        <a href="#" class="btn" style="width:auto; text-decoration:none; min-width:160px;" onclick="alert('Ver módulo de seguimiento...')">
-            🔁 Seguimiento
-        </a>
+        <a id="btnSeguimiento" href="modulo-seguimiento.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block; text-align:center;">
+    🔁 Seguimiento
+</a>
 
         <a id="btnDashboard" href="dashboard-global-impacto.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block; text-align:center;">
     🌍 Dashboard
@@ -237,6 +237,11 @@ async function startRitual() {
         if (btnBiblio) {
             // Le pasamos el código para que la biblioteca se desbloquee sola
             btnBiblio.href = `modulo-biblioteca.html?codigo=${encodeURIComponent(codigo)}`;
+        }
+      // 3. PUENTE SEGUIMIENTO (LO NUEVO)
+        const btnSeg = document.getElementById('btnSeguimiento');
+        if (btnSeg) {
+            btnSeg.href = `modulo-seguimiento.html?codigo=${encodeURIComponent(codigo)}`;
         }
     }
 }
