@@ -297,91 +297,82 @@
     </div>
 
     <script>
-        function generarNumeroCertificado() {
-            const timestamp = Date.now().toString().slice(-6);
-            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-            return `BS-2025-${timestamp}${random}`; // Código de fallback si no hay validación
-        }
-
+        // --- 1. FUNCIONES BÁSICAS ---
         function obtenerFechaActual() {
             const ahora = new Date();
-            const opciones = { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric',
-                timeZone: 'America/Mexico_City'
-            };
+            const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
             return ahora.toLocaleDateString('es-ES', opciones);
         }
 
-        function firmarCertificado() {
-            const campoFirma = document.getElementById('campoFirma');
-            const btnDescargar = document.getElementById('btnDescargar');
-            const certificado = document.getElementById('certificado');
-            const nombreGuardian = document.getElementById('nombreGuardian');
-            
-            if (campoFirma.value.trim() === '') {
-                alert('Por favor, ingresa tu nombre completo para firmar tu compromiso consciente.');
-                campoFirma.focus();
-                return;
-            }
-            
-            if (campoFirma.value.trim().length < 3 || !campoFirma.value.includes(' ')) {
-                alert('Por favor, ingresa tu nombre y apellido completo para una firma válida.');
-                return;
-            }
-            
-            nombreGuardian.textContent = campoFirma.value;
-            certificado.classList.add('certificado-firmado');
-            btnDescargar.disabled = false;
-            campoFirma.disabled = true;
-            
-            alert('🎉 ¡Felicidades! Has firmado tu compromiso consciente con el planeta.\\n\\nTu certificado está listo para descargar y formarás parte de la comunidad global de Guardianes BlueSphere.');
-            
-            console.log('Certificado firmado por:', campoFirma.value);
+        function generarNumeroBackup() {
+            return 'BS-2025-' + Math.floor(Math.random() * 10000);
         }
 
         function descargarCertificado() {
-            const btnDescargar = document.getElementById('btnDescargar');
-            
-            if (btnDescargar.disabled) {
-                alert('Por favor, firma primero tu certificado antes de descargarlo.');
-                return;
-            }
-            
-            alert('📄 Certificado descargado exitosamente!\\n\\n🎁 Ahora tienes acceso a la descarga de "El Vuelo de la Conciencia y el Grito del Mar".\\n\\n📧 También hemos enviado una copia a tu correo electrónico.');
-            
-            setTimeout(() => {
-                window.location.href = 'https://www.elvuelodelaconcienciayelgritodelmar.com/descarga';
-            }, 2000);
+            const btn = document.getElementById('btnDescargar');
+            if(btn.disabled) return;
+            alert('📄 Preparando descarga del PDF...');
+            // Aquí iría tu lógica de html2pdf o window.print()
+            window.print(); 
         }
 
+        // --- 2. CEREBRO LECTOR (AUTOMATIZACIÓN) ---
         document.addEventListener('DOMContentLoaded', function() {
-            // *** CORRECCIÓN CRUCIAL: Recuperar el código real de sessionStorage ***
-            const codigoGuardian = sessionStorage.getItem('codigoValidado');
             
-            if (codigoGuardian) {
-                // Si encontramos el código validado, lo mostramos en el certificado.
-                document.getElementById('numeroCertificado').textContent = codigoGuardian;
-            } else {
-                // Si no hay código validado (acceso directo), usamos el temporal.
-                document.getElementById('numeroCertificado').textContent = generarNumeroCertificado();
-            }
-            // *******************************************************************
+            // A. Leer la "Mochila" (URL Parameters)
+            const params = new URLSearchParams(window.location.search);
+            const nombreURL = params.get('nombre');
+            const codigoURL = params.get('codigo');
 
+            // Elementos del HTML
+            const elNombre = document.getElementById('nombreGuardian');
+            const elNumero = document.getElementById('numeroCertificado');
+            const inputFirma = document.getElementById('campoFirma');
+            const btnFirmar = document.querySelector('.btn-firmar');
+            const btnDescargar = document.getElementById('btnDescargar');
+            const instruccion = document.querySelector('.instruccion-firma');
+
+            // B. Lógica del CÓDIGO
+            if (codigoURL) {
+                elNumero.textContent = codigoURL;
+            } else {
+                // Si entró directo sin código, generamos uno temporal
+                elNumero.textContent = generarNumeroBackup();
+            }
+
+            // C. Lógica del NOMBRE (La Magia)
+            if (nombreURL && nombreURL !== "null") {
+                // 1. Escribir el nombre solo
+                elNombre.textContent = nombreURL;
+                
+                // 2. Ocultar la parte manual (¡Adiós redundancia!)
+                inputFirma.style.display = 'none';
+                btnFirmar.style.display = 'none';
+                
+                // 3. Cambiar mensaje a "Verificado"
+                instruccion.innerHTML = '✅ <strong>Compromiso Firmado Digitalmente desde el Portal</strong>';
+                
+                // 4. Habilitar descarga inmediata
+                btnDescargar.disabled = false;
+                document.getElementById('certificado').classList.add('certificado-firmado');
+            } 
+
+            // D. Poner la fecha de hoy
             document.getElementById('fechaEmision').textContent = obtenerFechaActual();
-            
-            document.getElementById('campoFirma').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    firmarCertificado();
-                }
-            });
         });
 
-        function generarCodigoQR() {
-            const numeroCertificado = document.getElementById('numeroCertificado').textContent;
-            const qrData = `https://bluesphereconsciousness.org/verificar/${numeroCertificado}`;
-            console.log('QR Data:', qrData);
+        // --- 3. FIRMA MANUAL (SOLO SI ALGUIEN ENTRA DIRECTO) ---
+        // Esta función se mantiene por seguridad, por si alguien abre el archivo sin pasar por el portal
+        function firmarCertificado() {
+            const input = document.getElementById('campoFirma');
+            const nombre = input.value.trim();
+            if(nombre.length < 3) return alert("Escribe tu nombre completo.");
+            
+            document.getElementById('nombreGuardian').textContent = nombre;
+            document.getElementById('btnDescargar').disabled = false;
+            input.style.display = 'none';
+            document.querySelector('.btn-firmar').style.display = 'none';
+            document.querySelector('.instruccion-firma').textContent = "Firma registrada manualmente.";
         }
     </script>
 </body>
