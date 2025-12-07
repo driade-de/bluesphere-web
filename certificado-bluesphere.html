@@ -67,7 +67,7 @@
             justify-content: center;
             border: none;
             box-shadow: none;
-        
+        }
         
         .titulo-certificado {
             font-size: 3rem;
@@ -94,6 +94,8 @@
             border-radius: 20px;
             display: inline-block;
             margin-top: 10px;
+            max-width: 90%;
+            word-break: break-all;
         }
         
         .cuerpo-certificado {
@@ -128,28 +130,16 @@
             font-size: 1.5rem;
         }
         
-        .compromiso-item:hover {
-            background: rgba(160, 196, 255, 0.1);
+        #nombreGuardian {
+            display: inline-block;
+            max-width: 400px;
+            overflow: hidden;
+            white-space: normal;
+            vertical-align: middle;
+            font-size: 1.3rem;
+            font-weight: bold;
         }
-        
-        .seccion-firma {
-            margin: 40px 0;
-            padding: 30px;
-            background: rgba(245, 245, 245, 0.8);
-            border-radius: 10px;
-            border-top: 3px solid var(--tierra-suave);
-        }
-        
-        .btn-firmar {
-            background: linear-gradient(135deg, var(--verde-musgo), #5c7e46); 
-            color: white;
-        }
-        
-        .btn-descargar {
-            background: linear-gradient(135deg, var(--azul-cielo), #7c9fdf);
-            color: var(--gris-texto);
-        }
-        
+
         .sello {
             position: absolute;
             bottom: 40px;
@@ -184,7 +174,9 @@
                 top: 0;
                 width: 100%;
                 margin: 0;
-                padding: 0;
+                /* Corregimos el padding y la altura para evitar el corte */
+                padding: 20px !important;
+                height: 98vh !important; 
                 page-break-after: avoid !important; 
                 page-break-inside: avoid !important;
             }
@@ -195,6 +187,9 @@
             .botones-accion {
                 display: none !important; 
             }
+            .texto-compromiso {
+                font-size: 1.1rem !important; /* Reducimos la fuente para evitar el corte */
+            }
         }
     </style>
 </head>
@@ -202,8 +197,8 @@
     <div class="certificado-container" id="certificado">
         <div class="header-certificado">
             <div class="logo-space" id="logoContainer">
-    <img src="bluesphere-logo.png" alt="Logo de BlueSphere" style="height: 100px; width: auto; max-width: 100%;">
-</div>
+                <img src="bluesphere-logo.png" alt="Logo de BlueSphere" style="height: 100px; width: auto; max-width: 100%;">
+            </div>
             <h1 class="titulo-certificado">Certificado de Lealtad Consciente</h1>
             <div class="subtitulo-certificado">Compromiso con el Futuro Planetario</div>
             <div class="numero-certificado" id="numeroCertificado">BS-2025-000001</div>
@@ -302,7 +297,7 @@
             return ahora.toLocaleDateString('es-ES', opciones);
         }
 
-        // --- 2. CEREBRO AUTOMÁTICO (LO NUEVO) ---
+        // --- 2. CEREBRO AUTOMÁTICO ---
         document.addEventListener('DOMContentLoaded', function() {
             
             // A. Leer la "Mochila" (Datos de la URL que envió el Portal)
@@ -314,7 +309,7 @@
             const elNombre = document.getElementById('nombreGuardian');
             const elNumero = document.getElementById('numeroCertificado');
             const elFecha = document.getElementById('fechaEmision');
-            const elCodigoFooter = document.getElementById('unique-code-footer'); // Nuevo placeholder
+            const elCodigoFooter = document.getElementById('unique-code-footer');
 
             const btnDescargar = document.getElementById('btnDescargar');
             
@@ -324,28 +319,24 @@
             // D. Lógica del CÓDIGO
             if (codigoURL && codigoURL !== "undefined") {
                 elNumero.textContent = codigoURL;
-                elCodigoFooter.textContent = codigoURL; // Inyectar código en el footer
+                elCodigoFooter.textContent = codigoURL;
             } else {
                 // Si no hay código (entró directo), generamos uno de respaldo
                 const codigoRespaldo = 'BS-2025-' + Math.floor(Math.random() * 10000);
                 elNumero.textContent = codigoRespaldo;
-                elCodigoFooter.textContent = codigoRespaldo; // Inyectar código en el footer
+                elCodigoFooter.textContent = codigoRespaldo;
             }
 
-            // E. Lógica del NOMBRE (Aquí ocurre la magia)
+            // E. Lógica del NOMBRE
             if (nombreURL && nombreURL !== "null" && nombreURL !== "") {
-                // 1. Escribir el nombre automáticamente
                 elNombre.textContent = nombreURL;
                 elNombre.style.textTransform = "uppercase"; 
-                
-                // 2. Ocultar los campos manuales (No existe inputFirma ni btnFirmar, fueron eliminados)
                 
                 // 3. Activar descarga inmediata
                 btnDescargar.disabled = false;
                 btnDescargar.style.opacity = "1";
                 btnDescargar.innerHTML = "📄 Descargar PDF Ahora";
                 
-                // Añadir clase visual
                 document.getElementById('certificado').classList.add('certificado-firmado');
             } 
         });
@@ -355,20 +346,16 @@
             const btn = document.getElementById('btnDescargar');
             if(btn.disabled) return alert("Firma primero.");
             
-            // Ocultamos el botón temporalmente para que no salga en la impresión
+            // Ocultamos el botón temporalmente
             const botones = document.querySelector('.botones-accion');
             botones.style.display = 'none';
 
-            // Imprimir (El navegador genera el PDF)
             window.print();
 
-            // Volver a mostrar botones después de imprimir
             setTimeout(() => {
                 botones.style.display = 'flex';
             }, 1000);
         }
-
-        /* La función firmarCertificado() y la lógica manual fueron eliminadas para evitar redundancia. */
     </script>
 </body>
 </html>
