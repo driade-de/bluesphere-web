@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transferencia Bancaria - Confirmación BlueSphere</title>
+    <style>
+        :root { --bg: #041016; --card: #07212a; --accent: #4fc3f7; --gold: #ffd700; --text: #fff; }
+        body { background: var(--bg); color: var(--text); font-family: Inter, sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
+        .wrap { max-width: 650px; width: 100%; }
+        .card { background: var(--card); border-radius: 12px; padding: 30px; border: 1px solid rgba(79, 195, 247, 0.2); margin-bottom: 20px; }
+        
+        h1 { color: var(--accent); text-align: center; margin-bottom: 5px; }
+        p.lead { color: #ccc; text-align: center; margin-bottom: 30px; font-size: 1.1rem; }
+        
+        .bank-details { background: #021219; padding: 20px; border-radius: 8px; border: 1px dashed var(--gold); margin-bottom: 20px; }
+        .bank-details div { margin-bottom: 8px; }
+        .bank-details strong { color: var(--gold); display: inline-block; width: 120px; }
+
+        label { display: block; color: var(--accent); margin-bottom: 5px; font-weight: bold; }
+        .input-group input, .input-group textarea { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #19434d; background: #021219; color: var(--text); box-sizing: border-box; margin-bottom: 15px; }
+        
+        .btn { padding: 12px 20px; background: var(--accent); color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; }
+
+        .note { font-size: 0.9rem; color: #8fb3c4; margin-top: 20px; text-align: center; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="card">
+            <h1>Transferencia Bancaria</h1>
+            <p class="lead">Para activar tu código de Guardián, completa la transferencia y confirma el pago con tu comprobante.</p>
+
+            <div class="bank-details">
+                <div style="text-align:center; color:var(--gold); font-weight:bold; margin-bottom:15px;">DATOS BANCARIOS OFICIALES</div>
+                <div><strong>Banco:</strong> <span id="bank-name">Banco Mundial Azul (BMA)</span></div>
+                <div><strong>Cuenta No.:</strong> <span id="account-number">9876-5432-1098-7654</span></div>
+                <div><strong>CLABE:</strong> <span id="clabe-number">098765432109876543</span></div>
+                <div><strong>Beneficiario:</strong> <span id="beneficiary-name">BlueSphere Consciousness A.C.</span></div>
+            </div>
+
+            <p style="text-align:center; margin-top: -10px; color: #ff7b7b;">¡IMPORTANTE! Realiza la transferencia ANTES de llenar este formulario.</p>
+
+            <form id="confirmationForm" class="input-group">
+                <label for="nameInput">Tu Nombre Completo (como donante)</label>
+                <input type="text" id="nameInput" required placeholder="Ej: Hermes Antares">
+
+                <label for="emailInput">Correo Electrónico (para recibir el código)</label>
+                <input type="email" id="emailInput" required placeholder="tu-correo@dominio.com">
+
+                <label for="fileInput">Sube el Comprobante (Ticket o Captura)</label>
+                <input type="file" id="fileInput" accept="image/*, application/pdf" required style="padding:10px;">
+
+                <label for="amountInput">Monto de la Transferencia</label>
+                <input type="text" id="amountInput" required placeholder="Ej: 50 USD o 950 MXN">
+
+                <label for="commentInput">Comentarios Adicionales (Opcional)</label>
+                <textarea id="commentInput" rows="2" placeholder="Cualquier nota sobre la donación..."></textarea>
+                
+                <button type="button" class="btn" onclick="submitConfirmation()">Confirmar Transferencia</button>
+            </form>
+
+            <div id="successMessage" class="note hidden">
+                ¡Gracias por tu apoyo! Hemos recibido tu confirmación y comprobante. Una vez verificado el depósito (esto puede tardar hasta 24 horas), **recibirás tu código de Guardián por correo electrónico**.
+            </div>
+
+        </div>
+        <div class="note">El proceso de verificación de transferencias es manual para garantizar la seguridad.</div>
+    </div>
+
+<script>
+    // ** NOTA TÉCNICA: ESTA FUNCIÓN DEBE SER CONECTADA A UN SERVIDOR/EMAIL DE ENVÍO **
+    // Dado que no podemos enviar correos desde el frontend puro, esta función 
+    // SIMULA el envío de los datos a una API para que tú los recibas.
+
+    function submitConfirmation() {
+        const form = document.getElementById('confirmationForm');
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        const name = document.getElementById('nameInput').value;
+        const email = document.getElementById('emailInput').value;
+        const file = document.getElementById('fileInput').files[0];
+        const amount = document.getElementById('amountInput').value;
+        const comment = document.getElementById('commentInput').value;
+
+        // ** AQUÍ VA LA LÓGICA DE ENVÍO REAL **
+        // En producción, se usaría fetch() a un servidor (ej: Netlify Forms, Zapier o un Endpoint de Supabase Edge Function) 
+        // para recibir el archivo y enviar la notificación por correo al administrador.
+
+        // SIMULACIÓN (para mostrar el mensaje de éxito)
+        console.log(`[SIMULACIÓN] Confirmación recibida: ${name}, Email: ${email}, Monto: ${amount}`);
+        
+        // Mostrar mensaje de éxito y resetear el formulario
+        form.classList.add('hidden');
+        document.getElementById('successMessage').classList.remove('hidden');
+    }
+</script>
+</body>
+</html>
