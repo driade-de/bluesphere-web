@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recibiendo Tu Legado - BlueSphere</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+        :root { --bg: #020b10; --accent: #00c4ff; --gold: #ffd700; --text: #fff; }
+        body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+        
+        .container { max-width: 600px; padding: 40px; background: rgba(6, 27, 36, 0.9); border: 1px solid var(--accent); border-radius: 20px; box-shadow: 0 0 50px rgba(0, 196, 255, 0.2); position: relative; z-index: 10; }
+        
+        h1 { color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        p { color: #8fb3c4; margin-bottom: 30px; }
+
+        /* EL CÓDIGO BRILLANTE */
+        .codigo-box { 
+            background: #000; border: 2px dashed var(--gold); padding: 20px; 
+            font-family: 'Courier New', monospace; font-size: 2rem; color: var(--gold); 
+            font-weight: bold; letter-spacing: 3px; margin: 30px 0; border-radius: 10px;
+            position: relative; overflow: hidden;
+        }
+        
+        .loader { font-size: 1rem; color: var(--accent); animation: blink 1s infinite; }
+        
+        .btn { 
+            display: inline-block; padding: 15px 30px; background: var(--accent); color: #000; 
+            text-decoration: none; font-weight: bold; border-radius: 30px; transition: transform 0.2s; 
+            cursor: pointer; border: none; font-size: 1.1rem;
+        }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--accent); }
+
+        .hidden { display: none; }
+
+        /* Animación de fondo */
+        .bg-anim { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.3; background: radial-gradient(circle, #0a2e3d 0%, #020b10 80%); }
+        @keyframes blink { 50% { opacity: 0.5; } }
+    </style>
+</head>
+<body>
+
+    <div class="bg-anim"></div>
+
+    <div class="container">
+        <div id="estado-carga">
+            <h1>Procesando Donación...</h1>
+            <p>El sistema está generando tu llave única de Guardián.</p>
+            <div class="codigo-box">
+                <span class="loader">BUSCANDO CÓDIGO DISPONIBLE...</span>
+            </div>
+        </div>
+
+        <div id="estado-exito" class="hidden">
+            <h1 style="color:var(--gold)">¡Donación Confirmada!</h1>
+            <p>Gracias por tu apoyo. Aquí está tu código de acceso único. <br>Guárdalo, es tu llave para siempre.</p>
+            
+            <div class="codigo-box" id="display-codigo">
+                GPR-????-????
+            </div>
+            
+            <p style="font-size:0.9rem; color:#666">Copia este código y úsalo en el Portal.</p>
+
+            <a id="btnIrPortal" href="portal-pacto-azul.html" class="btn">
+                🚀 Ir al Portal y Firmar
+            </a>
+        </div>
+
+        <div id="estado-error" class="hidden">
+            <h1 style="color:#ff4444">Atención</h1>
+            <p>Tu donación fue recibida, pero hubo un retraso generando el código digital.</p>
+            <p>Te lo enviaremos por correo en breve.</p>
+            <button class="btn" style="background:#333; color:#fff" onclick="location.reload()">Intentar de nuevo</button>
+        </div>
+    </div>
+
+<script>
+    // 1. CONEXIÓN SUPABASE
+    const SB_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+    const supabase = window.supabase.createClient(SB_URL, SB_KEY);
+
+    // 2. LÓGICA DEL DISPENSADOR AUTOMÁTICO
+    window.onload = async function() {
+        // Simulamos un pequeño retraso para dar sensación de "procesamiento bancario"
+        setTimeout(obtenerCodigoLibre, 2000);
+    };
+
+    async function obtenerCodigoLibre() {
+        try {
+            // A. BUSCAR UN CÓDIGO QUE NO ESTÉ USADO (usado = false)
+            // Tomamos 1 aleatorio o el primero disponible
+            const { data, error } = await supabase
+                .from('codigos')
+                .select('id, codigo')
+                .eq('usado', false)
+                .limit(1)
+                .single(); // Trae solo uno
+
+            if (error || !data) {
+                console.error("No hay códigos libres o error:", error);
+                mostrarPantalla('estado-error');
+                return;
+            }
+
+            const codigoEncontrado = data.codigo;
+            const idCodigo = data.id;
+
+            // B. MARCARLO COMO USADO (RESERVARLO)
+            // Esto evita que se le entregue a otra persona
+            const { error: errorUpdate } = await supabase
+                .from('codigos')
+                .update({ usado: true }) // Lo marcamos como "quemado" para entrega
+                .eq('id', idCodigo);
+
+            if (errorUpdate) {
+                console.error("Error al reservar código:", errorUpdate);
+                mostrarPantalla('estado-error');
+                return;
+            }
+
+            // C. MOSTRAR EL TESORO
+            document.getElementById('display-codigo').textContent = codigoEncontrado;
+            
+            // D. PREPARAR EL BOTÓN PARA IR AL PORTAL (Ya con el código precargado para mejor UX)
+            // Fíjate en este truco: enviamos el código en la URL al portal
+            /* NOTA: Para que esto funcione fluido, en 'portal-pacto-azul.html' 
+               deberíamos agregar un pequeño script que lea ?codigo=... al inicio, 
+               igual que hicimos con la biblioteca. (Podemos hacerlo después).
+            */
+            // Por ahora, solo lleva al portal.
+            
+            mostrarPantalla('estado-exito');
+
+        } catch (err) {
+            console.error(err);
+            mostrarPantalla('estado-error');
+        }
+    }
+
+    function mostrarPantalla(id) {
+        document.getElementById('estado-carga').classList.add('hidden');
+        document.getElementById('estado-exito').classList.add('hidden');
+        document.getElementById('estado-error').classList.add('hidden');
+        
+        document.getElementById(id).classList.remove('hidden');
+    }
+</script>
+
+</body>
+</html>
