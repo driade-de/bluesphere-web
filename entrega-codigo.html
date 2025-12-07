@@ -89,11 +89,12 @@
     async function obtenerCodigoLibre() {
         try {
             // A. BUSCAR UN CÓDIGO QUE NO ESTÉ USADO (usado = false)
-            // Tomamos 1 aleatorio o el primero disponible
+            // Filtro clave: Solo buscamos códigos de Donación Web (DON-WEB)
             const { data, error } = await supabase
                 .from('codigos')
                 .select('id, codigo')
                 .eq('usado', false)
+                .ilike('codigo', 'DON-WEB-%') // <-- FILTRO AGREGADO PARA DONANTES
                 .limit(1)
                 .single(); // Trae solo uno
 
