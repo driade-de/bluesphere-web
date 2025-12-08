@@ -1,150 +1,85 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validar Código – BlueSphere</title>
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <title>Validación BlueSphere</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body style="background:#041016; color:#ffffff; font-family:Arial, sans-serif; padding:20px;">
 
-<h1 style="color:#4fc3f7;">Validación de Código – BlueSphere</h1>
-<p>Ingresa tu código BlueSphere para continuar y formar parte del Pacto Azul:</p>
+<h1 style="color:#4fc3f7;">🔑 Acceso Sagrado – BlueSphere</h1>
+<p>Introduce tu código oficial para activar tu acceso al Portal del Pacto Azul.</p>
 
-<div id="modulo-empresas" style="padding:28px; background:#041016; border-radius:14px; color:#ffffff; margin-top:20px;">
+<div style="max-width:420px; margin-top:30px; padding:22px; background:#07212a; border-radius:14px; border:1px solid rgba(127,206,255,0.1);">
 
-    <h2 style="color:#4fc3f7; font-size:1.8rem; margin-bottom:12px;">🏢 Empresas Aliadas — Selecciona tu tienda</h2>
-    <p style="color:#cfefff; margin-bottom:18px;">
-        Elige el logo de la empresa donde obtuviste tu código. Serás guiado paso a paso para activar tu código, firmar tu compromiso y descargar tu certificado + libro.
-    </p>
+  <div style="text-align:center; margin-bottom:20px;">
+    <img src="/img/logos/bluesphere.svg" style="height:60px; margin-bottom:10px;">
+    <div style="font-weight:800; font-size:1.3rem;">BLUEsphere</div>
+    <div style="color:#cfefff; font-size:0.9rem;">Sufijo: 🌊BS</div>
+  </div>
 
-    <div id="logosGrid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; align-items:center; margin-bottom:18px;">
-        <button class="empresa-card" data-empresa="oxxo" data-sufijo="🌊MEX" style="cursor:pointer; padding:12px; border-radius:10px; background:#072028; border:1px solid rgba(127,206,255,0.06); color:white; text-align:center;">
-            <img src="/img/logos/oxxo.svg" alt="OXXO" style="max-width:100%; height:44px; object-fit:contain; display:block; margin:0 auto 8px;">
-            <div style="font-weight:700; color:#bfe9ff;">OXXO</div>
-        </button>
+  <label style="display:block; margin-bottom:8px; font-weight:700;">Ingresa tu código</label>
+  <input id="inputCodigo" type="text"
+    placeholder="BLUESPHERE-000001-🌊BS"
+    style="width:100%; padding:12px; border-radius:8px; border:1px solid #4fc3f7; background:#021219; color:#fff; margin-bottom:14px;">
 
-        <button class="empresa-card" data-empresa="walmart" data-sufijo="🏪WAL" style="cursor:pointer; padding:12px; border-radius:10px; background:#072028; border:1px solid rgba(127,206,255,0.06); color:white; text-align:center;">
-            <img src="/img/logos/walmart.svg" alt="Walmart" style="max-width:100%; height:44px; object-fit:contain; display:block; margin:0 auto 8px;">
-            <div style="font-weight:700; color:#bfe9ff;">WALMART</div>
-        </button>
+  <button id="btnValidar"
+    style="width:100%; padding:14px; border-radius:10px; background:#ffd700; color:#041016; font-weight:800; border:none; cursor:pointer;">
+    Validar & Entrar al Portal
+  </button>
 
-        <button class="empresa-card" data-empresa="7eleven" data-sufijo="🛒7EV" style="cursor:pointer; padding:12px; border-radius:10px; background:#072028; border:1px solid rgba(127,206,255,0.06); color:white; text-align:center;">
-            <img src="/img/logos/7eleven.svg" alt="7-Eleven" style="max-width:100%; height:44px; object-fit:contain; display:block; margin:0 auto 8px;">
-            <div style="font-weight:700; color:#bfe9ff;">7-ELEVEN</div>
-        </button>
-
-        <button class="empresa-card" data-empresa="soriana" data-sufijo="🛍️SOR" style="cursor:pointer; padding:12px; border-radius:10px; background:#072028; border:1px solid rgba(127,206,255,0.06); color:white; text-align:center;">
-            <img src="/img/logos/soriana.svg" alt="Soriana" style="max-width:100%; height:44px; object-fit:contain; display:block; margin:0 auto 8px;">
-            <div style="font-weight:700; color:#bfe9ff;">SORIANA</div>
-        </button>
-
-        <button class="empresa-card mi-empresa" data-empresa="bluesphere" data-sufijo="🌊BS" style="cursor:pointer; padding:12px; border-radius:12px; background:linear-gradient(135deg,#4fc3f7,#3ddc84); border:2px solid #81d4fa; color:#041016; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.3); transition:transform 0.2s;">
-            <img src="/img/logos/bluesphere.svg" alt="BlueSphere" style="max-width:100%; height:44px; object-fit:contain; display:block; margin:0 auto 8px;">
-            <div style="font-weight:800; color:#ffffff;">BLUEsphere</div>
-        </button>
-    </div>
-
-    <div id="empresaPanel" style="display:none; margin-top:6px; padding:18px; background:#07212a; border-radius:12px; border:1px solid rgba(127,206,255,0.06);">
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
-            <div style="display:flex; gap:12px; align-items:center;">
-                <img id="empresaLogoPreview" src="" alt="" style="height:48px; width:auto; object-fit:contain; border-radius:6px;">
-                <div>
-                    <div id="empresaName" style="font-weight:800; color:#ffffff; font-size:1.1rem;"></div>
-                    <div id="empresaSufijo" style="color:#c8eeff; font-size:0.9rem;"></div>
-                </div>
-            </div>
-            
-            <button id="btnCerrarPanel" style="padding:10px 14px; border-radius:10px; background:transparent; border:1px solid rgba(255,255,255,0.06); color:#cfefff; cursor:pointer;">
-                Cerrar
-            </button>
-        </div>
-
-        <hr style="border:none; height:1px; background:rgba(255,255,255,0.03); margin:14px 0;">
-
-        <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <div style="flex:1; min-width:220px;">
-                <label style="display:block; color:#cfefff; margin-bottom:6px; font-weight:700;">Ingresa tu código</label>
-                <input id="inputCodigo" type="text" placeholder="OXXO-BLUESPHERE-000001-🌊MEX" style="width:100%; padding:10px; border-radius:8px; border:1px solid #4fc3f7; background:#021219; color:#fff;">
-                <div style="margin-top:8px; color:#c8eaff; font-size:0.9rem;">Ejemplo: OXXO-BLUESPHERE-000001-🌊MEX</div>
-            </div>
-
-            <div style="min-width:160px; display:flex; align-items:end;">
-                <button id="btnValidar" style="padding:12px 16px; border-radius:10px; background:#ffd700; color:#041016; font-weight:800; border:none; cursor:pointer;">
-                    Validar & Activar
-                </button>
-            </div>
-        </div>
-    </div>
 </div>
 
-<script type="module">
-    import { supabase } from './js/supabase-config.js';
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-    const empresaCards = document.querySelectorAll('.empresa-card');
-    const empresaPanel = document.getElementById('empresaPanel');
-    const empresaLogoPreview = document.getElementById('empresaLogoPreview');
-    const empresaName = document.getElementById('empresaName');
-    const empresaSufijo = document.getElementById('empresaSufijo');
-    // const btnIrPortal = document.getElementById('btnIrPortal'); <-- ELIMINADO
-    const btnCerrarPanel = document.getElementById('btnCerrarPanel');
-    const inputCodigo = document.getElementById('inputCodigo');
-    const btnValidar = document.getElementById('btnValidar');
+<script>
+  const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
 
-    const empresasConfig = {
-        'oxxo': { portal: '/portal-pacto-azul.html' },
-        'walmart': { portal: '/portal-pacto-azul.html' },
-        '7eleven': { portal: '/portal-pacto-azul.html' },
-        'soriana': { portal: '/portal-pacto-azul.html' },
-        'bluesphere': { portal: '/portal-pacto-azul.html' }
-    };
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    let empresaSeleccionada = null;
-    let codigoActual = '';
+  const inputCodigo = document.getElementById('inputCodigo');
+  const btnValidar = document.getElementById('btnValidar');
 
-    empresaCards.forEach(btn => {
-        btn.addEventListener('click', () => {
-            empresaSeleccionada = btn.getAttribute('data-empresa');
-            empresaLogoPreview.src = btn.querySelector('img').src;
-            empresaLogoPreview.alt = empresaSeleccionada + ' logo';
-            empresaName.textContent = btn.querySelector('div').textContent;
-            empresaSufijo.textContent = 'Sufijo: ' + btn.getAttribute('data-sufijo');
-            empresaPanel.style.display = 'block';
-            inputCodigo.value = '';
-        });
-    });
+  btnValidar.addEventListener('click', validarCodigo);
 
-    btnCerrarPanel.addEventListener('click', () => empresaPanel.style.display = 'none');
+  inputCodigo.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') validarCodigo();
+  });
 
-    // ELIMINADO: btnIrPortal.addEventListener('click', ...); <-- Ya no existe y rompía el script.
+  async function validarCodigo() {
+    const cod = inputCodigo.value.trim();
 
-    btnValidar.addEventListener('click', async () => {
-        const cod = inputCodigo.value.trim();
-        if (!cod) return alert('Ingresa tu código');
+    if (!cod) {
+      alert('Ingresa tu código');
+      return;
+    }
 
-        // Validación con Supabase
-        const { data, error } = await supabase
-            .from('codigos')
-            .select('*')
-            .eq('codigo', cod)
-            .single();
+    const { data, error } = await supabase
+      .from('codigos')
+      .select('*')
+      .eq('codigo', cod)
+      .single();
 
-        if (error || !data) return alert('Código inválido. Por favor, verifica tu código.');
+    if (error || !data) {
+      alert('❌ Código inválido');
+      return;
+    }
 
-        if (data.usado) return alert('Este código ya fue usado. Contacta soporte si crees que es un error.');
+    if (data.usado === true) {
+      alert('⚠️ Este código ya fue utilizado');
+      return;
+    }
 
-        // Marcar código como usado
-        await supabase.from('codigos').update({ usado:true }).eq('id', data.id);
-        await supabase.from('guardianes').insert([{ nombre:'Nombre del guardián', codigo: cod }]);
+    await supabase
+      .from('codigos')
+      .update({ usado: true })
+      .eq('id', data.id);
 
-        codigoActual = cod;
-        alert('¡Código válido! Serás dirigido al Portal del Pacto Azul para continuar.');
-        window.location.href = empresasConfig[empresaSeleccionada].portal + '?codigo=' + encodeURIComponent(cod);
-    });
-
-    inputCodigo.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') btnValidar.click();
-    });
+    alert('✅ Código válido. Accediendo al Portal...');
+    window.location.href = '/portal-pacto-azul.html?codigo=' + encodeURIComponent(cod);
+  }
 </script>
 
 </body>
