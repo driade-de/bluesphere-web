@@ -56,76 +56,76 @@ header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
 <div class="water-overlay"></div>
 
 <header>
-  <div class="title">El Pacto Azul</div>
-  <div class="subtitle">Ritual Sagrado — Inscribe tu nombre en el Registro Azul Histórico</div>
+    <div class="title">El Pacto Azul</div>
+    <div class="subtitle">Ritual Sagrado — Inscribe tu nombre en el Registro Azul Histórico</div>
 </header>
 
 <main class="wrap">
-  <section class="grid">
-    
-    <div class="card">
-      <h2 class="center" style="color:var(--glow)">🔑 Acceso Sagrado</h2>
-      
-      <div id="faseCodigo">
-        <p class="center" style="color:var(--muted)">Introduce tu código de Guardián para abrir el portal.</p>
-        <input id="codigoInput" class="input" type="text" placeholder="Ej: GPR-AQUA-0021">
-        <button class="btn" onclick="validarCodigo()">Validar Código</button>
-        <div id="resultado" class="result-box hidden"></div>
-      </div>
-
-      <div id="faseFirma" class="hidden">
-        <h3 class="center" style="color:var(--light)">✍️ Firma el Pacto</h3>
-        <p class="center" style="color:var(--muted); font-size:0.9rem">Tu nombre será sellado para siempre.</p>
+    <section class="grid">
         
-        <input id="nombreInput" class="input" type="text" placeholder="Tu Nombre Completo *">
-        <input id="paisInput" class="input" type="text" placeholder="País / Ciudad (Opcional)">
-        <input id="notaInput" class="input" type="text" placeholder="Mensaje para el futuro (Opcional)">
+        <div class="card">
+            <h2 class="center" style="color:var(--glow)">🔑 Acceso Sagrado</h2>
+            
+            <div id="faseCodigo">
+                <p class="center" style="color:var(--muted)">Introduce tu código de Guardián para abrir el portal.</p>
+                <input id="codigoInput" class="input" type="text" placeholder="Ej: GPR-AQUA-0021">
+                <button class="btn" onclick="validarCodigo()">Validar Código</button>
+                <div id="resultado" class="result-box hidden"></div>
+            </div>
+
+            <div id="faseFirma" class="hidden">
+                <h3 class="center" style="color:var(--light)">✍️ Firma el Pacto</h3>
+                <p class="center" style="color:var(--muted); font-size:0.9rem">Tu nombre será sellado para siempre.</p>
+                
+                <input id="nombreInput" class="input" type="text" placeholder="Tu Nombre Completo *">
+                <input id="paisInput" class="input" type="text" placeholder="País / Ciudad (Opcional)">
+                <input id="notaInput" class="input" type="text" placeholder="Mensaje para el futuro (Opcional)">
+                
+                <button class="btn" onclick="startRitual()">SELLAR FIRMA</button>
+                <button class="btn-ghost" onclick="cancelarFirma()">Cancelar</button>
+            </div>
+
+            <div id="seal" class="hidden center" style="margin-top:20px">
+                <svg width="100" height="100" viewBox="0 0 100 100" style="filter:drop-shadow(0 0 10px #00c4ff)">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="#00c4ff" stroke-width="2"/>
+                    <path d="M30 50 Q50 20 70 50 T30 50" fill="none" stroke="#8feaff" stroke-width="2"/>
+                </svg>
+                <p style="color:#00c4ff; font-weight:bold">REGISTRO COMPLETADO</p>
+            </div>
+        </div>
+
+        <aside class="card muroside">
+            <h2 class="center" style="color:var(--glow)">🌐 Muro del Pacto</h2>
+            <div id="muro">
+                <div class="center" style="padding:20px; color:var(--muted)">Conectando...</div>
+            </div>
+            <button class="btn-ghost" onclick="cargarMuro()">↻ Actualizar Lista</button>
+        </aside>
+
+    </section>
+
+    <section id="accesosBox" class="card hidden center" style="max-width:800px; margin:20px auto;">
+        <h2>🎉 ¡Bienvenido Guardián!</h2>
+        <p style="color:var(--muted); margin-bottom: 20px;">Tu firma ha sido sellada. Ahora tienes acceso total al ecosistema BlueSphere.</p>
         
-        <button class="btn" onclick="startRitual()">SELLAR FIRMA</button>
-        <button class="btn-ghost" onclick="cancelarFirma()">Cancelar</button>
-      </div>
-
-      <div id="seal" class="hidden center" style="margin-top:20px">
-        <svg width="100" height="100" viewBox="0 0 100 100" style="filter:drop-shadow(0 0 10px #00c4ff)">
-            <circle cx="50" cy="50" r="45" fill="none" stroke="#00c4ff" stroke-width="2"/>
-            <path d="M30 50 Q50 20 70 50 T30 50" fill="none" stroke="#8feaff" stroke-width="2"/>
-        </svg>
-        <p style="color:#00c4ff; font-weight:bold">REGISTRO COMPLETADO</p>
-      </div>
-    </div>
-
-    <aside class="card muroside">
-      <h2 class="center" style="color:var(--glow)">🌐 Muro del Pacto</h2>
-      <div id="muro">
-        <div class="center" style="padding:20px; color:var(--muted)">Conectando...</div>
-      </div>
-      <button class="btn-ghost" onclick="cargarMuro()">↻ Actualizar Lista</button>
-    </aside>
-
-  </section>
-
-  <section id="accesosBox" class="card hidden center" style="max-width:800px; margin:20px auto;">
-    <h2>🎉 ¡Bienvenido Guardián!</h2>
-    <p style="color:var(--muted); margin-bottom: 20px;">Tu firma ha sido sellada. Ahora tienes acceso total al ecosistema BlueSphere.</p>
-    
-    <div style="display:flex; gap:15px; justify-content:center; flex-wrap: wrap;">
-       <a id="btnCertificado" href="certificado-bluesphere.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block;">
-    📜 Descargar Certificado
+        <div style="display:flex; gap:15px; justify-content:center; flex-wrap: wrap;">
+            <a id="btnCertificado" href="certificado-bluesphere.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block;">
+        📜 Descargar Certificado
 </a>
-        
-        <a id="btnBiblioteca" href="modulo-biblioteca.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block; text-align:center;">
-    📚 Biblioteca
+            
+            <a id="btnBiblioteca" href="modulo-biblioteca.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block; text-align:center;">
+        📚 Biblioteca
 </a>
 
-        <a id="btnSeguimiento" href="modulo-seguimiento.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block; text-align:center;">
-    🔁 Seguimiento
+            <a id="btnSeguimiento" href="modulo-seguimiento.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block; text-align:center;">
+        🔁 Seguimiento
 </a>
 
-        <a id="btnDashboard" href="dashboard-global-impacto.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block; text-align:center;">
-    🌍 Dashboard
+            <a id="btnDashboard" href="dashboard-global-impacto.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block; text-align:center;">
+        🌍 Dashboard
 </a>
-    </div>
-  </section>
+        </div>
+    </section>
 </main>
 
 <div id="ritualOverlay">
