@@ -86,6 +86,7 @@
     const empresaLogoPreview = document.getElementById('empresaLogoPreview');
     const empresaName = document.getElementById('empresaName');
     const empresaSufijo = document.getElementById('empresaSufijo');
+    // const btnIrPortal = document.getElementById('btnIrPortal'); <-- ELIMINADO
     const btnCerrarPanel = document.getElementById('btnCerrarPanel');
     const inputCodigo = document.getElementById('inputCodigo');
     const btnValidar = document.getElementById('btnValidar');
@@ -114,6 +115,8 @@
     });
 
     btnCerrarPanel.addEventListener('click', () => empresaPanel.style.display = 'none');
+
+    // ELIMINADO: btnIrPortal.addEventListener('click', ...); <-- Ya no existe y rompía el script.
 
     btnValidar.addEventListener('click', async () => {
         const cod = inputCodigo.value.trim();
