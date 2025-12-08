@@ -134,12 +134,8 @@ header{position:relative; z-index:2; padding:36px 20px 6px; text-align:center}
 </div>
 
 <script type="module">
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-// 1. CONFIGURACIÓN
-const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// IMPORTACIÓN ÚNICA: Usamos la conexión ya creada y exportada en el archivo /js/supabase-config.js
+import { supabase } from './js/supabase-config.js';
 
 // 2. ELEMENTOS
 const muroEl = document.getElementById('muro');
@@ -153,7 +149,14 @@ const ritualOverlay = document.getElementById('ritualOverlay');
 let codigoValidado = false;
 
 // 3. INICIALIZAR
-cargarMuro();
+// Añadimos una verificación para asegurar que Supabase exista antes de llamar.
+if (supabase) {
+    cargarMuro();
+} else {
+    console.error('ERROR CRÍTICO: El cliente Supabase no se pudo importar.');
+    // Si falla, al menos evitamos que se rompa la página.
+}
+
 
 // ---------------------------------------------------------
 // FUNCIÓN A: VALIDAR CÓDIGO
@@ -250,6 +253,9 @@ async function startRitual() {
 // FUNCIÓN C: CARGAR MURO
 // ---------------------------------------------------------
 async function cargarMuro() {
+    // Aseguramos que la conexión exista antes de hacer la llamada
+    if (!supabase) return; 
+
     muroEl.innerHTML = '<div class="center" style="color:var(--muted)">Actualizando...</div>';
     
     const { data, error } = await supabase
@@ -277,7 +283,7 @@ async function cargarMuro() {
 }
 
 // ---------------------------------------------------------
-// UTILERÍAS Y VISUALES
+// UTILERÍAS Y VISUALES (Mantenemos todo esto igual)
 // ---------------------------------------------------------
 function mostrarError(msg) {
     resultadoEl.textContent = msg;
@@ -294,7 +300,7 @@ function cancelarFirma() {
     resultadoEl.classList.add('hidden');
 }
 
-// FONDO ANIMADO
+// FONDO ANIMADO (Todo el código de fondo se mantiene)
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
 let w, h, stars=[];
@@ -317,6 +323,7 @@ function draw(){
 draw();
 window.addEventListener('resize', initStars);
 
+
 // ---------------------------------------------------------
 // EXPOSICIÓN DE FUNCIONES (Vital para que los botones funcionen)
 // ---------------------------------------------------------
@@ -329,5 +336,3 @@ window.exportNames = () => alert('Función Admin.');
 window.verTodos = cargarMuro;
 
 </script>
-</body>
-</html>
