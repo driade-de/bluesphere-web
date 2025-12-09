@@ -93,12 +93,12 @@
 </div>
         
         <!-- CONTROLES -->
-        <div class="controls">
-            <button id="btn-new-game" class="control-btn">🔄 Nuevo juego</button>
-            <button id="btn-back" class="control-btn">🏠 Volver al inicio</button>
-            <button id="btn-help" class="control-btn">❓ Ayuda</button>
-        </div>
-    </div>
+       <div class="controls">
+    <button id="btn-new-game" class="control-btn">🔄 Nuevo juego</button>
+    <button id="btn-back" class="control-btn">🏠 Volver al inicio</button>
+    <button id="btn-help" class="control-btn">❓ Ayuda</button>
+    <button onclick="showMemoryJournal()" class="control-btn">📖 Diario Oceánico</button>
+</div>
     
     <!-- MODAL DE VICTORIA -->
     <div id="victory-modal" class="modal">
@@ -112,6 +112,7 @@
         </div>
     </div>
     
+        <script src="js/ocean-memories.js"></script>
     <script src="js/game-core.js"></script>
 </body>
 </html>
