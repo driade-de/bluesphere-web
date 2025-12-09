@@ -226,6 +226,10 @@ function handleCorrectDrop(trashElement, bin) {
     // Efecto visual
     bin.classList.add('correct');
     trashElement.style.opacity = '0';
+        // AÑADIR MEMORIA DEL OCÉANO
+    if (typeof registerOceanMemory === 'function') {
+        registerOceanMemory(trashType);
+    }
     
     // Actualizar puntuación
     GAME_DATA.player.score += 10;
