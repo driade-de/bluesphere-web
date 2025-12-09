@@ -159,22 +159,6 @@ function setupEventListeners() {
     document.getElementById('next-fact').addEventListener('click', updateEducationalFact);
     document.getElementById('btn-continue').addEventListener('click', continueGame);
     document.getElementById('btn-certificate').addEventListener('click', showCertificate);
-    
-    // Botón para Memorias del Océano
-    const memoryBtn = document.createElement('button');
-    memoryBtn.id = 'btn-memories';
-    memoryBtn.className = 'control-btn';
-    memoryBtn.innerHTML = '📖 Diario Oceánico';
-    memoryBtn.addEventListener('click', () => {
-        if (typeof showMemoryJournal === 'function') {
-            showMemoryJournal();
-        } else {
-            alert('¡Limpia objetos para desbloquear memorias!');
-        }
-    });
-    
-    // Añadir al final de los controles
-    document.querySelector('.controls').appendChild(memoryBtn);
 }
 
 function dragOver(e) {
@@ -184,37 +168,16 @@ function dragOver(e) {
 
 function dragEnter(e) {
     if (!gameActive) return;
-    
-    let binElement = e.target;
-    while (binElement && !binElement.classList.contains('bin')) {
-        binElement = binElement.parentElement;
-    }
-    
-    if (binElement) {
-        binElement.classList.add('drag-over');
-    }
+    e.target.classList.add('drag-over');
 }
 
 function dragLeave(e) {
-    let binElement = e.target;
-    while (binElement && !binElement.classList.contains('bin')) {
-        binElement = binElement.parentElement;
-    }
-    
-    if (binElement) {
-        if (!binElement.contains(e.relatedTarget)) {
-            binElement.classList.remove('drag-over');
-        }
-    }
+    e.target.classList.remove('drag-over');
 }
 
 function drop(e) {
     e.preventDefault();
-    
-    // Limpiar todos los drag-over
-    document.querySelectorAll('.bin.drag-over').forEach(bin => {
-        bin.classList.remove('drag-over');
-    });
+    e.target.classList.remove('drag-over');
     
     if (!gameActive) return;
     
@@ -227,34 +190,22 @@ function drop(e) {
     }
     
     const trashType = trashElement.dataset.type;
-    
-    // ENCONTRAR CONTENEDOR REAL
-    let binElement = e.target;
-    while (binElement && !binElement.classList.contains('bin')) {
-        binElement = binElement.parentElement;
-    }
-    
-    if (!binElement) {
-        console.log("Contenedor no encontrado");
-        return;
-    }
-    
-    const binType = binElement.dataset.accepts;
+    const binType = e.target.dataset.accepts;
     
     console.log(`[DEBUG] ${trashType} → ${binType}`);
     
     if (trashType === binType) {
-        handleCorrectDrop(trashElement, binElement, trashType);
+        handleCorrectDrop(trashElement, e.target, trashType); // ← AQUÍ PASA trashType
     } else {
-        handleIncorrectDrop(trashElement, binElement, trashType);
+        handleIncorrectDrop(trashElement, e.target, trashType); // ← AQUÍ TAMBIÉN
     }
 }
 
 // ============================================
-// LÓGICA DE ACIERTOS Y ERRORES
+// LÓGICA DE ACIERTOS Y ERRORES (CORREGIDO)
 // ============================================
 
-function handleCorrectDrop(trashElement, bin, trashType) {
+function handleCorrectDrop(trashElement, bin, trashType) { // ← AQUÍ RECIBE trashType
     bin.classList.add('correct');
     trashElement.style.opacity = '0';
     
@@ -290,7 +241,7 @@ function handleCorrectDrop(trashElement, bin, trashType) {
     }, 300);
 }
 
-function handleIncorrectDrop(trashElement, bin, trashType) {
+function handleIncorrectDrop(trashElement, bin, trashType) { // ← AQUÍ RECIBE trashType
     bin.classList.add('incorrect');
     GAME_DATA.player.decayTimer += 5;
     updateUI();
