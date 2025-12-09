@@ -740,46 +740,47 @@
     </div>
     
     <!-- TRANSFERENCIA BANCARIA -->
-    <div class="metodo-pago" style="margin-bottom:40px;">
-        <h3 style="color:#1a5276; display:flex; align-items:center; gap:10px;">
-            📌 Transferencia Bancaria (México)
-        </h3>
-        <div style="text-align:center; margin:25px 0;">
-            <button class="donate-btn bank-btn" 
-                    onclick="openBankModal()"
-                    style="display:inline-block; max-width:350px; padding:20px;">
-                🏛 Transferencia Bancaria<br>
-                <span style="font-size:1.1rem; color:#0a3d62; font-weight:600;">
-                    Datos bancarios + formulario
-                </span>
-            </button>
-        </div>
-        <p style="color:#666; font-size:0.9rem; text-align:center;">
-            <small>Envía el comprobante a contacto@bluesphere para recibir tu código</small>
+<div class="metodo-pago" style="margin-bottom:40px;">
+    <h3 style="color:#1a5276; display:flex; align-items:center; gap:10px;">
+        📌 Transferencia Bancaria (México)
+    </h3>
+    <div style="text-align:center; margin:25px 0;">
+        <button class="donate-btn bank-btn" 
+                onclick="window.location.href = 'confirmacion-banco.html'"
+                style="display:inline-block; max-width:350px; padding:20px;">
+            🏛 Transferencia Bancaria<br>
+            <span style="font-size:1.1rem; color:#0a3d62; font-weight:600;">
+                Datos bancarios + formulario
+            </span>
+        </button>
+    </div>
+    <p style="color:#666; font-size:0.9rem; text-align:center;">
+        <small>Completa el formulario y envía el comprobante para recibir tu código</small>
+    </p>
+</div>
+
+<!-- MODAL TRANSFERENCIA (OPCIONAL - puedes eliminarlo si no lo usas) -->
+<div id="bankModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.45); backdrop-filter:blur(6px); justify-content:center; align-items:center; z-index:2000;">
+    <div style="background:rgba(255,255,255,0.92); backdrop-filter:blur(18px); border-radius:22px; padding:35px; width:90%; max-width:420px; box-shadow:0 8px 30px rgba(0,0,0,0.15); text-align:center;">
+        <h3 style="margin-top:0; font-size:1.6rem; color:#0a3d62;">Transferencia Bancaria</h3>
+        <p style="color:#183850;"><b>Banco:</b> Santander</p>
+        <p style="color:#183850;"><b>Titular:</b> JOSE CB / EL VUELO DE LA CONCIENCIA</p>
+        <p style="color:#183850;"><b>Cuenta:</b> 60632777105</p>
+        <p style="color:#183850;"><b>CLABE:</b> 014888606327771051</p>
+        <p style="color:#183850;"><b>Referencia:</b> DONACION GOTA DE CONCIENCIA</p>
+        <br>
+        <p style="color:#666; font-size:0.95rem;">
+            <strong>Importante:</strong> Completa el formulario en la siguiente página<br>
+            y envía el comprobante a<br>
+            <strong style="color:#0a3d62;">comunidad@bluesphereconsciousness.org</strong><br>
+            para recibir tu código de acceso.
         </p>
+        <br>
+        <button onclick="closeBankModal()" style="padding:12px 25px; background:#0a76d3; border:none; color:white; font-size:1rem; font-weight:600; border-radius:14px; cursor:pointer; width:100%;">
+            Cerrar
+        </button>
     </div>
-    
-    <!-- MODAL TRANSFERENCIA (tu código existente) -->
-    <div id="bankModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.45); backdrop-filter:blur(6px); justify-content:center; align-items:center; z-index:2000;">
-        <div style="background:rgba(255,255,255,0.92); backdrop-filter:blur(18px); border-radius:22px; padding:35px; width:90%; max-width:420px; box-shadow:0 8px 30px rgba(0,0,0,0.15); text-align:center;">
-            <h3 style="margin-top:0; font-size:1.6rem; color:#0a3d62;">Transferencia Bancaria</h3>
-            <p style="color:#183850;"><b>Banco:</b> Santander</p>
-            <p style="color:#183850;"><b>Titular:</b> JOSE CB / EL VUELO DE LA CONCIENCIA</p>
-            <p style="color:#183850;"><b>Cuenta:</b> 60632777105</p>
-            <p style="color:#183850;"><b>CLABE:</b> 014888606327771051</p>
-            <p style="color:#183850;"><b>Referencia:</b> DONACION GOTA DE CONCIENCIA</p>
-            <br>
-            <p style="color:#666; font-size:0.95rem;">
-                <strong>Importante:</strong> Envía el comprobante a<br>
-                <strong style="color:#0a3d62;">contacto@bluesphere</strong><br>
-                para recibir tu código de acceso.
-            </p>
-            <br>
-            <button onclick="closeBankModal()" style="padding:12px 25px; background:#0a76d3; border:none; color:white; font-size:1rem; font-weight:600; border-radius:14px; cursor:pointer; width:100%;">
-                Cerrar
-            </button>
-        </div>
-    </div>
+</div>
     
     <!-- NOTA FINAL -->
     <div style="
@@ -905,6 +906,7 @@
 
 </body>
 </html>
+
 
 
 
