@@ -50,7 +50,10 @@ const GAME_DATA = {
 let currentFactIndex = 0;
 let gameActive = true;
 let itemsOnScreen = [];
+let objectsGenerated = 0; // Contador de objetos generados
 const VIRTUAL_TO_REAL_RATIO = 100; // 100 objetos virtuales = 1 kg real
+const OBJECTS_PER_LEVEL = 20; // Objetos a limpiar para ganar
+const MAX_OBJECTS_ON_SCREEN = 8; // Máximo objetos simultáneos
 
 // ============================================
 // INICIALIZACIÓN DEL JUEGO
@@ -65,6 +68,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initGame() {
+    // Resetear contador de objetos generados
+    objectsGenerated = 0;
+    
     // Actualizar datos de playa real
     document.getElementById('beach-name').textContent = GAME_DATA.beachData.name;
     document.getElementById('real-trash-count').textContent = 
@@ -75,17 +81,40 @@ function initGame() {
 }
 
 // ============================================
-// GENERACIÓN DE OBJETOS
+// GENERACIÓN DE OBJETOS (CON LÍMITE)
 // ============================================
 
 function generateTrashItems(count) {
     const gameArea = document.getElementById('game-area');
     
-    for (let i = 0; i < count; i++) {
+    // VERIFICACIÓN: No generar si ya ganamos
+    if (GAME_DATA.player.itemsCleaned >= OBJECTS_PER_LEVEL) {
+        return;
+    }
+    
+    // VERIFICACIÓN: No generar si ya llegamos al límite total
+    if (objectsGenerated >= OBJECTS_PER_LEVEL) {
+        return;
+    }
+    
+    // Calcular cuántos objetos podemos generar
+    const canGenerate = Math.min(
+        count,
+        OBJECTS_PER_LEVEL - objectsGenerated, // Lo que falta del nivel
+        MAX_OBJECTS_ON_SCREEN - itemsOnScreen.length // Espacio en pantalla
+    );
+    
+    if (canGenerate <= 0) return;
+    
+    for (let i = 0; i < canGenerate; i++) {
+        // Doble verificación por seguridad
+        if (objectsGenerated >= OBJECTS_PER_LEVEL) break;
+        
         const item = GAME_DATA.trashItems[Math.floor(Math.random() * GAME_DATA.trashItems.length)];
-        const trashElement = createTrashElement(item, i);
+        const trashElement = createTrashElement(item, objectsGenerated);
         gameArea.appendChild(trashElement);
         itemsOnScreen.push(trashElement);
+        objectsGenerated++; // IMPORTANTE: Incrementar contador
     }
 }
 
@@ -174,6 +203,10 @@ function drop(e) {
     
     const trashId = e.dataTransfer.getData('text/plain');
     const trashElement = document.getElementById(trashId);
+    
+    // Seguridad: verificar que el elemento existe
+    if (!trashElement) return;
+    
     const trashType = trashElement.dataset.type;
     const binType = e.target.dataset.accepts;
     
@@ -186,7 +219,7 @@ function drop(e) {
 }
 
 // ============================================
-// LÓGICA DE ACIERTOS Y ERRORES
+// LÓGICA DE ACIERTOS Y ERRORES (MODIFICADA)
 // ============================================
 
 function handleCorrectDrop(trashElement, bin) {
@@ -220,8 +253,13 @@ function handleCorrectDrop(trashElement, bin) {
         // Verificar si ganó
         checkWinCondition();
         
-        // Generar nuevo objeto si hay menos de 8
-        if (itemsOnScreen.length < 8) {
+        // GENERAR NUEVO OBJETO SOLO SI:
+        // 1. Hay espacio en pantalla
+        // 2. No hemos generado todos los objetos del nivel
+        // 3. El jugador aún no ha ganado
+        if (itemsOnScreen.length < MAX_OBJECTS_ON_SCREEN && 
+            objectsGenerated < OBJECTS_PER_LEVEL &&
+            GAME_DATA.player.itemsCleaned < OBJECTS_PER_LEVEL) {
             generateTrashItems(1);
         }
     }, 300);
@@ -247,7 +285,7 @@ function handleIncorrectDrop(trashElement, bin) {
 }
 
 // ============================================
-// ACTUALIZACIÓN DE UI
+// ACTUALIZACIÓN DE UI (CON PROGRESO)
 // ============================================
 
 function updateUI() {
@@ -269,6 +307,17 @@ function updateUI() {
     // Actualizar timer
     document.getElementById('decay-clock').textContent = 
         Math.max(0, Math.floor(GAME_DATA.player.decayTimer));
+    
+    // Actualizar progreso (opcional - si añades el HTML)
+    updateProgressDisplay();
+}
+
+function updateProgressDisplay() {
+    // Buscar elemento de progreso (si existe)
+    const progressElement = document.getElementById('level-progress');
+    if (progressElement) {
+        progressElement.textContent = `${GAME_DATA.player.itemsCleaned}/${OBJECTS_PER_LEVEL}`;
+    }
 }
 
 function updateImpactDisplay() {
@@ -296,9 +345,13 @@ function updateEducationalFact() {
 
 function checkWinCondition() {
     // Ganar al limpiar 20 objetos
-    if (GAME_DATA.player.itemsCleaned >= 20) {
+    if (GAME_DATA.player.itemsCleaned >= OBJECTS_PER_LEVEL) {
         gameActive = false;
-        showVictoryModal();
+        
+        // Asegurarse de que no queden objetos en pantalla
+        setTimeout(() => {
+            showVictoryModal();
+        }, 500);
     }
 }
 
@@ -312,7 +365,7 @@ function showVictoryModal() {
 }
 
 // ============================================
-// FUNCIONES DE CONTROL
+// FUNCIONES DE CONTROL (CON REINICIO COMPLETO)
 // ============================================
 
 function resetGame() {
@@ -325,8 +378,15 @@ function resetGame() {
         decayTimer: 450
     };
     
+    // Resetear contador de objetos generados
+    objectsGenerated = 0;
+    
     // Remover objetos existentes
-    itemsOnScreen.forEach(item => item.remove());
+    itemsOnScreen.forEach(item => {
+        if (item && item.parentNode) {
+            item.parentNode.removeChild(item);
+        }
+    });
     itemsOnScreen = [];
     
     // Ocultar modal si está visible
@@ -354,7 +414,8 @@ function showHelp() {
           "2. Plástico → ♻️ | Papel → 📄 | Vidrio → 🥛 | Orgánico → 🍎\n" +
           "3. Cada acierto suma puntos y reduce la basura real.\n" +
           "4. Cada error aumenta el tiempo de descomposición.\n" +
-          "5. ¡Limpia 20 objetos para ganar un árbol virtual!");
+          "5. ¡Limpia 20 objetos para ganar un árbol virtual!\n\n" +
+          `OBJETIVO: Limpiar ${OBJECTS_PER_LEVEL} objetos para completar el nivel.`);
 }
 
 function showCertificate() {
@@ -366,6 +427,7 @@ function showCertificate() {
         Has limpiado: ${GAME_DATA.player.itemsCleaned} objetos
         Impacto real: ${GAME_DATA.player.realImpactKg.toFixed(2)} kg menos en océano
         Árboles ganados: ${GAME_DATA.player.treesEarned}
+        Nivel completado: ${GAME_DATA.player.itemsCleaned >= OBJECTS_PER_LEVEL ? '✅' : '⚪'}
         
         Gracias por ayudar a salvar nuestro planeta.
         
