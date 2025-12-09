@@ -808,12 +808,12 @@
     }
 </script>
 
-<!-- ============ EMPRESA GUARDIANA - VERSIÓN MEJORADA ============ -->
+<!-- ============ EMPRESA GUARDIANA - VERSIÓN CORREGIDA MÓVIL ============ -->
 <div class="empresa-guardiana-box" style="
     background: linear-gradient(135deg, #0a3d62 0%, #1a5276 100%);
     border-radius: 20px;
-    padding: 50px 40px;
-    margin: 60px auto;
+    padding: clamp(30px, 5vw, 50px) clamp(20px, 4vw, 40px);
+    margin: clamp(30px, 5vw, 60px) auto;
     max-width: 1000px;
     color: white;
     text-align: center;
@@ -836,18 +836,19 @@
     "></div>
     
     <h2 style="
-        font-size: 2.5rem;
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
         margin-bottom: 20px;
         color: #4dc3ff;
         position: relative;
         z-index: 1;
         text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        padding: 0 15px;
     ">
         🏢 Tu Empresa como <span style="color:#fff;">Guardiana del Planeta</span>
     </h2>
     
     <p style="
-        font-size: 1.3rem;
+        font-size: clamp(1.1rem, 3vw, 1.3rem);
         line-height: 1.7;
         margin-bottom: 25px;
         color: #d6eaf8;
@@ -856,6 +857,7 @@
         margin-right: auto;
         position: relative;
         z-index: 1;
+        padding: 0 15px;
     ">
         No solo donas. <strong style="color:#4dc3ff;">Dejas huella en la nueva civilización.</strong><br>
         Transforma tu responsabilidad social en <strong>impacto medible, comunidad consciente y narrativa auténtica.</strong>
@@ -868,6 +870,7 @@
         margin: 40px 0;
         position: relative;
         z-index: 1;
+        padding: 0 10px;
     ">
         
         <div style="
@@ -876,7 +879,7 @@
             border-radius: 15px;
             border-left: 4px solid #2ecc71;
         ">
-            <h4 style="color:#2ecc71; margin-top:0;">🎯 Impacto Medible</h4>
+            <h4 style="color:#2ecc71; margin-top:0; font-size: clamp(1rem, 3vw, 1.2rem);">🎯 Impacto Medible</h4>
             <p style="color:#d6eaf8; font-size:0.95rem; margin-bottom:0;">
                 Dashboard con métricas reales de tu huella positiva.
             </p>
@@ -888,7 +891,7 @@
             border-radius: 15px;
             border-left: 4px solid #f39c12;
         ">
-            <h4 style="color:#f39c12; margin-top:0;">📢 Marketing Auténtico</h4>
+            <h4 style="color:#f39c12; margin-top:0; font-size: clamp(1rem, 3vw, 1.2rem);">📢 Marketing Auténtico</h4>
             <p style="color:#d6eaf8; font-size:0.95rem; margin-bottom:0;">
                 Certificación para empaques, web, RRSS. Contenido exclusivo.
             </p>
@@ -900,7 +903,7 @@
             border-radius: 15px;
             border-left: 4px solid #9b59b6;
         ">
-            <h4 style="color:#9b59b6; margin-top:0;">🤝 Comunidad Consciente</h4>
+            <h4 style="color:#9b59b6; margin-top:0; font-size: clamp(1rem, 3vw, 1.2rem);">🤝 Comunidad Consciente</h4>
             <p style="color:#d6eaf8; font-size:0.95rem; margin-bottom:0;">
                 Red B2B con valores compartidos. Eventos y colaboraciones.
             </p>
@@ -912,7 +915,7 @@
             border-radius: 15px;
             border-left: 4px solid #1abc9c;
         ">
-            <h4 style="color:#1abc9c; margin-top:0;">👥 Fidelización con Propósito</h4>
+            <h4 style="color:#1abc9c; margin-top:0; font-size: clamp(1rem, 3vw, 1.2rem);">👥 Fidelización con Propósito</h4>
             <p style="color:#d6eaf8; font-size:0.95rem; margin-bottom:0;">
                 Convierte clientes en Guardianes. Cultura corporativa consciente.
             </p>
@@ -920,13 +923,13 @@
         
     </div>
     
-    <div style="position: relative; z-index: 1; margin-top: 30px;">
+    <div style="position: relative; z-index: 1; margin-top: 30px; padding: 0 15px;">
         <a href="modulo-empresas-aliadas.html" class="btn-empresa-guardiana" style="
             display: inline-block;
             background: linear-gradient(135deg, #2ecc71 0%, #1abc9c 100%);
             color: white;
-            padding: 20px 40px;
-            font-size: 1.4rem;
+            padding: clamp(15px, 3vw, 18px) clamp(25px, 4vw, 35px);
+            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
             font-weight: 700;
             border-radius: 50px;
             text-decoration: none;
@@ -934,15 +937,18 @@
             border: 2px solid #fff;
             transition: all 0.3s ease;
             cursor: pointer;
+            width: 90%;
+            max-width: 400px;
         ">
             🌍 Activar Modo Empresa Guardiana
         </a>
         
         <p style="
             color: #a3d5ff;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
             margin-top: 20px;
             font-weight: 500;
+            padding: 0 10px;
         ">
             Proceso simple: Donación única → Códigos personalizados → Dashboard de impacto
         </p>
@@ -950,7 +956,6 @@
     
 </div>
 <!-- ============ FIN EMPRESA GUARDIANA ============ -->
-
 </section>
 
 <!-- ACCESO GUARDIÁN -->
@@ -1037,6 +1042,7 @@
 
 </body>
 </html>
+
 
 
 
