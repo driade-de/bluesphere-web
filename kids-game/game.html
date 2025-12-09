@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlueSphere Kids - Juego Principal</title>
+    <link rel="stylesheet" href="css/game-style.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- CABECERA CON DATOS REALES -->
+        <div class="real-data-header">
+            <div class="location-info">
+                🌎 <strong>Playa Real:</strong> <span id="beach-name">Playa del Carmen, México</span>
+            </div>
+            <div class="pollution-data">
+                🗑️ <strong>Contaminación actual:</strong> 
+                <span id="real-trash-count">2,540 kg</span>
+            </div>
+            <div class="impact-counter">
+                🌱 <strong>Tu impacto:</strong>
+                <span id="player-impact">0 objetos limpiados</span>
+            </div>
+        </div>
+        
+        <!-- ÁREA DE JUEGO -->
+        <div class="game-area" id="game-area">
+            <!-- AZULINA (personaje) -->
+            <div id="azulina" class="character">
+                <div class="character-icon">🐢</div>
+                <div class="character-name">Azulina</div>
+            </div>
+            
+            <!-- OBJETOS RECICLABLES (se generan dinámicamente) -->
+            <!-- Se llenará con JavaScript -->
+            
+            <!-- CONTENEDORES -->
+            <div class="bin plastic-bin" data-accepts="plastic">
+                <div class="bin-icon">♻️</div>
+                <div class="bin-label">PLÁSTICO</div>
+            </div>
+            
+            <div class="bin paper-bin" data-accepts="paper">
+                <div class="bin-icon">📄</div>
+                <div class="bin-label">PAPEL</div>
+            </div>
+            
+            <div class="bin glass-bin" data-accepts="glass">
+                <div class="bin-icon">🥛</div>
+                <div class="bin-label">VIDRIO</div>
+            </div>
+            
+            <div class="bin organic-bin" data-accepts="organic">
+                <div class="bin-icon">🍎</div>
+                <div class="bin-label">ORGÁNICO</div>
+            </div>
+            
+            <!-- TIMER DE DESCOMPOSICIÓN -->
+            <div class="decay-timer">
+                <div class="timer-icon">⏳</div>
+                <div class="timer-text">
+                    <strong>Tiempo de descomposición:</strong>
+                    <span id="decay-clock">450</span> años restantes
+                </div>
+            </div>
+        </div>
+        
+        <!-- PANEL EDUCATIVO -->
+        <div class="education-panel">
+            <h3>📚 ¿Sabías que?</h3>
+            <p id="fact-text">Cargando dato educativo...</p>
+            <button id="next-fact">Más datos curiosos</button>
+        </div>
+        
+        <!-- PUNTUACIÓN -->
+        <div class="score-panel">
+            <div class="score-item">
+                <span class="score-label">Objetos limpiados:</span>
+                <span id="score-count" class="score-value">0</span>
+            </div>
+            <div class="score-item">
+                <span class="score-label">Impacto real:</span>
+                <span id="real-impact" class="score-value">0.00 kg</span>
+            </div>
+            <div class="score-item">
+                <span class="score-label">Árboles ganados:</span>
+                <span id="trees-earned" class="score-value">0</span>
+            </div>
+        </div>
+        
+        <!-- CONTROLES -->
+        <div class="controls">
+            <button id="btn-new-game" class="control-btn">🔄 Nuevo juego</button>
+            <button id="btn-back" class="control-btn">🏠 Volver al inicio</button>
+            <button id="btn-help" class="control-btn">❓ Ayuda</button>
+        </div>
+    </div>
+    
+    <!-- MODAL DE VICTORIA -->
+    <div id="victory-modal" class="modal">
+        <div class="modal-content">
+            <h2>🎉 ¡Nivel Completado!</h2>
+            <p>Has limpiado <span id="final-score">0</span> objetos correctamente.</p>
+            <p><strong>Impacto real generado:</strong> <span id="final-impact">0.00</span> kg menos en el océano.</p>
+            <p>🏆 ¡Ganaste 1 Árbol Virtual!</p>
+            <button id="btn-continue" class="modal-btn">🌊 Continuar al siguiente nivel</button>
+            <button id="btn-certificate" class="modal-btn">📜 Ver mi certificado</button>
+        </div>
+    </div>
+    
+    <script src="js/game-core.js"></script>
+</body>
+</html>
