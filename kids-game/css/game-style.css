@@ -410,4 +410,68 @@ body {
     .score-panel {
         grid-template-columns: 1fr;
     }
+    }  ← (Esta llave cierra el @media query)
+
+/* ==================== ESTILOS PARA MEMORIAS DEL OCÉANO ==================== */
+
+/* El botón del diario en controles */
+.controls button {
+    transition: all 0.3s;
+}
+
+.controls button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Efecto especial cuando hay memoria nueva */
+.bin.correct {
+    animation: memoryGlow 1s ease-in-out;
+}
+
+@keyframes memoryGlow {
+    0% { box-shadow: 0 0 5px rgba(79, 195, 247, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(79, 195, 247, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(79, 195, 247, 0.5); }
+}
+
+/* Indicador de progreso en el panel de puntuación */
+.score-panel {
+    position: relative;
+}
+
+/* Este es el efecto de la esfera azul flotante */
+.score-panel::after {
+    content: "🌀";
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 1.8em;
+    opacity: 0;
+    animation: float 3s infinite ease-in-out;
+    transition: opacity 0.5s;
+}
+
+/* Solo mostrar la esfera si hay memorias desbloqueadas */
+.score-panel.has-memories::after {
+    opacity: 0.7;
+}
+
+@keyframes float {
+    0%, 100% { 
+        transform: translateY(0) rotate(0deg); 
+    }
+    50% { 
+        transform: translateY(-8px) rotate(15deg); 
+    }
+}
+
+/* Modal de memoria - versión responsive */
+@media (max-width: 600px) {
+    .score-panel::after {
+        font-size: 1.3em;
+        top: -10px;
+        right: -10px;
+    }
+}
 }
