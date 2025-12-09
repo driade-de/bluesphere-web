@@ -672,35 +672,140 @@
 <!-- ============ AQUÍ DEBEN CONTINUAR LOS BOTONES DE DONACIÓN ============ -->
 
 
-        <div class="donation-grid">
-            <!-- PayPal -->
-            <a class="donate-btn" href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" target="_blank">💧 Semilla</a>
-            <a class="donate-btn" href="https://www.paypal.com/ncp/payment/7TL3MQ4BLAAEY" target="_blank">🌊 Ola de Cambio</a>
-            <a class="donate-btn" href="https://www.paypal.com/ncp/payment/KTB5T3PJHRVLQ" target="_blank">✨ Océano (Libre)</a>
-            <a class="donate-btn" href="https://www.paypal.com/ncp/payment/3SSL6QC5UF48W" target="_blank">🔥 Impulso Azul</a>
-            <a class="donate-btn" href="https://www.paypal.com/ncp/payment/PVBZGLY735J9Y" target="_blank">🔱 Guardián del Horizonte</a>
+       <div class="donacion-seccion">
+    
+    <h2 style="text-align:center; color:#0a3d62; margin-bottom:10px;">
+        💙 Elige tu aporte consciente
+    </h2>
+    <p style="text-align:center; color:#555; margin-bottom:40px; font-size:1.1rem;">
+        Toda contribución, grande o pequeña, te convierte en Guardián BlueSphere
+    </p>
+    
+    <!-- PAYPAL -->
+    <div class="metodo-pago" style="margin-bottom:40px;">
+        <h3 style="color:#1a5276; display:flex; align-items:center; gap:10px;">
+            📌 PayPal (Pesos Mexicanos)
+        </h3>
+        <div class="donation-grid" style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        ">
+            <a class="donate-btn" href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" target="_blank">
+                💧 Semilla<br>
+                <strong style="font-size:1.2rem; color:#0a3d62;">$50 MXN</strong>
+            </a>
+            <a class="donate-btn" href="https://www.paypal.com/ncp/payment/7TL3MQ4BLAAEY" target="_blank">
+                🌊 Ola de Cambio<br>
+                <strong style="font-size:1.2rem; color:#0a3d62;">$200 MXN</strong>
+            </a>
+            <a class="donate-btn" href="https://www.paypal.com/ncp/payment/KTB5T3PJHRVLQ" target="_blank">
+                ✨ Océano Libre<br>
+                <strong style="font-size:1.2rem; color:#0a3d62;">$500 MXN</strong>
+            </a>
+            <a class="donate-btn" href="https://www.paypal.com/ncp/payment/3SSL6QC5UF48W" target="_blank">
+                🔥 Impulso Azul<br>
+                <strong style="font-size:1.2rem; color:#0a3d62;">$1,000 MXN</strong>
+            </a>
+            <a class="donate-btn" href="https://www.paypal.com/ncp/payment/PVBZGLY735J9Y" target="_blank">
+                🔱 Guardián del Horizonte<br>
+                <strong style="font-size:1.1rem; color:#0a3d62;">Donación Libre</strong>
+            </a>
+        </div>
+        <p style="color:#666; font-size:0.9rem; text-align:center;">
+            <small>Procesado instantáneamente • Recibirás código de acceso automáticamente</small>
+        </p>
+    </div>
+    
+    <!-- STRIPE -->
+    <div class="metodo-pago" style="margin-bottom:40px;">
+        <h3 style="color:#1a5276; display:flex; align-items:center; gap:10px;">
+            📌 Stripe (Dólares / Internacional)
+        </h3>
+        <div style="text-align:center; margin:25px 0;">
+            <a class="donate-btn stripe-btn" 
+               href="https://buy.stripe.com/8wMaHxcYbfJFeiIbII" 
+               target="_blank"
+               style="display:inline-block; max-width:350px; padding:20px;">
+                💎 Donar vía Stripe<br>
+                <span style="font-size:1.1rem; color:#0a3d62; font-weight:600;">
+                    $10 USD (puedes ajustar el monto)
+                </span>
+            </a>
+        </div>
+        <p style="color:#666; font-size:0.9rem; text-align:center;">
+            <small>Acepta tarjetas internacionales • Monto personalizable</small>
+        </p>
+    </div>
+    
+    <!-- TRANSFERENCIA BANCARIA -->
+    <div class="metodo-pago" style="margin-bottom:40px;">
+        <h3 style="color:#1a5276; display:flex; align-items:center; gap:10px;">
+            📌 Transferencia Bancaria (México)
+        </h3>
+        <div style="text-align:center; margin:25px 0;">
+            <button class="donate-btn bank-btn" 
+                    onclick="openBankModal()"
+                    style="display:inline-block; max-width:350px; padding:20px;">
+                🏛 Transferencia Bancaria<br>
+                <span style="font-size:1.1rem; color:#0a3d62; font-weight:600;">
+                    Datos bancarios + formulario
+                </span>
+            </button>
+        </div>
+        <p style="color:#666; font-size:0.9rem; text-align:center;">
+            <small>Envía el comprobante a contacto@bluesphere para recibir tu código</small>
+        </p>
+    </div>
+    
+    <!-- MODAL TRANSFERENCIA (tu código existente) -->
+    <div id="bankModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.45); backdrop-filter:blur(6px); justify-content:center; align-items:center; z-index:2000;">
+        <div style="background:rgba(255,255,255,0.92); backdrop-filter:blur(18px); border-radius:22px; padding:35px; width:90%; max-width:420px; box-shadow:0 8px 30px rgba(0,0,0,0.15); text-align:center;">
+            <h3 style="margin-top:0; font-size:1.6rem; color:#0a3d62;">Transferencia Bancaria</h3>
+            <p style="color:#183850;"><b>Banco:</b> Santander</p>
+            <p style="color:#183850;"><b>Titular:</b> JOSE CB / EL VUELO DE LA CONCIENCIA</p>
+            <p style="color:#183850;"><b>Cuenta:</b> 60632777105</p>
+            <p style="color:#183850;"><b>CLABE:</b> 014888606327771051</p>
+            <p style="color:#183850;"><b>Referencia:</b> DONACION GOTA DE CONCIENCIA</p>
+            <br>
+            <p style="color:#666; font-size:0.95rem;">
+                <strong>Importante:</strong> Envía el comprobante a<br>
+                <strong style="color:#0a3d62;">contacto@bluesphere</strong><br>
+                para recibir tu código de acceso.
+            </p>
+            <br>
+            <button onclick="closeBankModal()" style="padding:12px 25px; background:#0a76d3; border:none; color:white; font-size:1rem; font-weight:600; border-radius:14px; cursor:pointer; width:100%;">
+                Cerrar
+            </button>
+        </div>
+    </div>
+    
+    <!-- NOTA FINAL -->
+    <div style="
+        background: #f0f9ff;
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+        border: 2px dashed #4dc3ff;
+        margin-top: 30px;
+    ">
+        <p style="margin:0; font-size:1.1rem; color:#0a3d62;">
+            ✅ <strong>Todos los métodos te otorgan acceso completo como Guardián:</strong><br>
+            📚 Biblioteca • 🏅 Certificado • 📊 Dashboard • 🎮 Juego Kids
+        </p>
+    </div>
 
-            <!-- Stripe -->
-            <a class="donate-btn stripe-btn" href="https://buy.stripe.com/8wMaHxcYbfJFeiIbII" target="_blank">💎 Donar vía Stripe</a>
+</div>
 
-            <button class="donate-btn bank-btn" onclick="window.location.href = 'confirmacion-banco.html'">🏛 Transferencia Bancaria</button>
-
-            <div id="bankModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.45); backdrop-filter:blur(6px); justify-content:center; align-items:center; z-index:2000;">
-                <div style="background:rgba(255,255,255,0.92); backdrop-filter:blur(18px); border-radius:22px; padding:35px; width:90%; max-width:420px; box-shadow:0 8px 30px rgba(0,0,0,0.15); text-align:center;">
-                    <h3 style="margin-top:0; font-size:1.6rem; color:#0a3d62;">Transferencia Bancaria</h3>
-                    <p style="color:#183850;"><b>Banco:</b> Santander</p>
-                    <p style="color:#183850;"><b>Titular:</b> JOSE CB / EL VUELO DE LA CONCIENCIA</p>
-                    <p style="color:#183850;"><b>Cuenta:</b> 60632777105</p>
-                    <p style="color:#183850;"><b>CLABE:</b> 014888606327771051</p>
-                    <p style="color:#183850;"><b>Referencia:</b> DONACION GOTA DE CONCIENCIA</p>
-                    <br>
-                    <button onclick="closeBankModal()" style="padding:12px 25px; background:#0a76d3; border:none; color:white; font-size:1rem; font-weight:600; border-radius:14px; cursor:pointer;">Cerrar</button>
-                </div>
-            </div>
-            <script>
-                function openBankModal() { document.getElementById('bankModal').style.display = 'flex'; }
-                function closeBankModal() { document.getElementById('bankModal').style.display = 'none'; }
-            </script>
+<script>
+    function openBankModal() { 
+        document.getElementById('bankModal').style.display = 'flex'; 
+    }
+    function closeBankModal() { 
+        document.getElementById('bankModal').style.display = 'none'; 
+    }
+</script>
        <div class="empresa-guardiana-box"> 
     <h3>Activa a tu Empresa como Guardiana del Planeta</h3>
     <p>
@@ -800,6 +905,7 @@
 
 </body>
 </html>
+
 
 
 
