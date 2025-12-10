@@ -23,40 +23,6 @@
   .history-item{background:rgba(255,255,255,0.03); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid var(--success);}
   .tiny{font-size:0.85rem; color:var(--muted);}
   .hidden { display: none !important; }
-  
-  /* Nuevos estilos para más opciones */
-  .acciones-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
-    margin-bottom: 15px;
-  }
-  
-  .accion-option {
-    display: flex;
-    align-items: center;
-    padding: 8px 10px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  
-  .accion-option:hover {
-    background: rgba(79, 195, 247, 0.1);
-  }
-  
-  .accion-option input {
-    margin-right: 8px;
-  }
-  
-  .section-title {
-    color: var(--accent);
-    margin: 20px 0 10px 0;
-    font-size: 1.1rem;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 5px;
-  }
 </style>
 </head>
 <body>
@@ -72,67 +38,12 @@
       <button class="btn btn-plain" onclick="validarYBuscar()">🔍 Cargar mi Historial</button>
 
       <form id="seguimientoForm" style="margin-top:20px;">
-        
-        <div class="section-title">🚀 Acciones Diarias / Básicas</div>
-        <div class="acciones-grid">
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Menos plástico"> 🥤 Menos plástico
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Transporte limpio"> 🚲 Transporte limpio
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Ahorro agua"> 💧 Ahorro agua
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Consumo local"> 🌱 Consumo local
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Reciclaje correcto"> ♻️ Reciclaje
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Digital sostenible"> 📵 Digital sostenible
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Comida sin desperdicio"> 🍃 Sin desperdicio
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Energía ahorrada"> 🔋 Energía ahorrada
-          </label>
-        </div>
-        
-        <div class="section-title">🌟 Acciones de Alto Impacto</div>
-        <div class="acciones-grid">
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Limpieza playa/río"> 🏖️ Limpieza natural
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Compra consciente"> 🛒 Compra consciente
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Día sin carne"> 🌿 Día sin carne
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Activismo digital"> 📢 Activismo digital
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Reforestación"> 🌳 Reforestación
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Productos ecológicos"> 🧴 Productos ecológicos
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Voluntariado ambiental"> 🤝 Voluntariado
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Reparar objetos"> 🧩 Reparar objetos
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Formación ambiental"> 📚 Formación ambiental
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Jardín polinizadores"> 🐝 Jardín polinizadores
-          </label>
+        <label>Acciones realizadas hoy</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px;">
+            <label><input type="checkbox" class="accion-chk" value="Plástico"> 🥤 Menos Plástico</label>
+            <label><input type="checkbox" class="accion-chk" value="Transporte"> 🚲 Transporte</label>
+            <label><input type="checkbox" class="accion-chk" value="Agua"> 💧 Ahorro Agua</label>
+            <label><input type="checkbox" class="accion-chk" value="Consumo"> 🌱 Consumo Local</label>
         </div>
 
         <label>Frecuencia</label>
@@ -140,14 +51,10 @@
             <option value="Semanal">Semanal</option>
             <option value="Diaria">Diaria</option>
             <option value="Ocasional">Ocasional</option>
-            <option value="Primera vez">Primera vez</option>
         </select>
 
-        <label>Comentario o reflexión</label>
-        <textarea id="comentario" class="input" rows="3" placeholder="¿Cuál fue tu acción más significativa? ¿Qué aprendiste?"></textarea>
-
-        <label>Impacto estimado (kg CO₂ evitados)</label>
-        <input type="number" id="impactoCo2" class="input" placeholder="Ej: 2.5" step="0.1" min="0">
+        <label>Comentario</label>
+        <textarea id="comentario" class="input" rows="3" placeholder="Detalles de tu avance..."></textarea>
 
         <button id="btnEnviar" class="btn btn-primary" type="button" onclick="enviarReporte()">🚀 Registrar Impacto</button>
       </form>
@@ -155,13 +62,8 @@
       <div id="mensajeBox" style="margin-top:20px; text-align:center; padding:10px; border-radius:8px;" class="hidden"></div>
 
       <div id="historyBox" class="hidden" style="margin-top:30px; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px;">
-          <h3 style="color:var(--accent); text-align:center;">📊 Tu Historial de Impacto</h3>
+          <h3 style="color:var(--accent); text-align:center;">Tu Historial</h3>
           <div id="listaHistorial"></div>
-      </div>
-
-      <div style="margin-top:30px; text-align:center; color:var(--muted); font-size:0.9rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">
-        🔗 <strong>Conectado a Dashboard Global BlueSphere</strong><br>
-        Tus acciones se suman automáticamente al impacto colectivo.
       </div>
 
     </div>
@@ -207,7 +109,6 @@ async function enviarReporte() {
 
     const frecuencia = document.getElementById('frecuencia').value;
     const comentario = document.getElementById('comentario').value;
-    const impactoCo2 = document.getElementById('impactoCo2').value || (acciones.length * 0.5);
 
     mostrarMensaje("Enviando...", "#fff");
 
@@ -219,8 +120,7 @@ async function enviarReporte() {
             acciones_realizadas: acciones.join(', '),
             frecuencia: frecuencia,
             comentario: comentario,
-            impacto_co2: parseFloat(impactoCo2),
-            fecha_reporte: new Date().toISOString()
+            impacto_co2: acciones.length * 0.5 
         }]);
 
     if (error) {
@@ -228,8 +128,7 @@ async function enviarReporte() {
     } else {
         document.getElementById('seguimientoForm').reset();
         document.getElementById('codigoInput').value = codigo; 
-        document.getElementById('impactoCo2').value = '';
-        mostrarMensaje('✅ Reporte guardado con éxito. ¡Gracias por tu impacto!', '#3ddc84');
+        mostrarMensaje('✅ Reporte guardado con éxito', '#3ddc84');
         cargarHistorial(codigo);
     }
 }
@@ -247,31 +146,16 @@ async function cargarHistorial(codigo) {
     
     if (data && data.length > 0) {
         caja.classList.remove('hidden');
-        
-        // Calcular total de impacto
-        const totalImpacto = data.reduce((sum, item) => sum + (item.impacto_co2 || 0), 0);
-        
-        lista.innerHTML = `
-            <div style="text-align:center; margin-bottom:15px; padding:10px; background:rgba(61,220,132,0.1); border-radius:8px;">
-                <strong>🌱 Impacto total acumulado:</strong> ${totalImpacto.toFixed(2)} kg CO₂ evitados
-            </div>
-        `;
-        
-        lista.innerHTML += data.map(item => `
+        lista.innerHTML = data.map(item => `
             <div class="history-item">
-                <div style="font-weight:bold; color:var(--accent)">
-                    ${new Date(item.fecha_reporte).toLocaleDateString('es-ES', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}
-                </div>
+                <div style="font-weight:bold; color:var(--accent)">${new Date(item.fecha_reporte).toLocaleDateString()}</div>
                 <div>${item.acciones_realizadas}</div>
-                <div style="color:#81d4fa; font-size:0.9rem; margin:5px 0;">
-                    🌿 ${item.impacto_co2 ? item.impacto_co2 + ' kg CO₂ evitados' : 'Impacto registrado'}
-                </div>
                 <div class="tiny">"${item.comentario || 'Sin comentarios'}"</div>
             </div>
         `).join('');
     } else {
         caja.classList.remove('hidden');
-        lista.innerHTML = '<div class="tiny" style="text-align:center; padding:20px;">No hay reportes previos. Sé el primero en registrar tu impacto.</div>';
+        lista.innerHTML = '<div class="tiny" style="text-align:center">No hay reportes previos. Sé el primero.</div>';
     }
 }
 
@@ -281,18 +165,9 @@ function mostrarMensaje(texto, color) {
     box.textContent = texto;
     box.style.color = color;
     box.style.border = `1px solid ${color}`;
-    box.style.background = color === '#3ddc84' ? 'rgba(61,220,132,0.1)' : 'rgba(255,255,255,0.05)';
     box.classList.remove('hidden');
-    setTimeout(() => box.classList.add('hidden'), 5000);
+    setTimeout(() => box.classList.add('hidden'), 4000);
 }
-
-// Calcular impacto automático basado en acciones seleccionadas
-document.querySelectorAll('.accion-chk').forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-        const checked = document.querySelectorAll('.accion-chk:checked').length;
-        document.getElementById('impactoCo2').value = (checked * 0.5).toFixed(1);
-    });
-});
 
 // --- LA CLAVE: CONECTAR BOTONES AL WINDOW ---
 window.enviarReporte = enviarReporte;
