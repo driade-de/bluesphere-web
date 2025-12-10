@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Seguimiento</title>
+<title>Seguimiento BlueSphere</title>
+<!-- SUPABASE DESDE CDN OFICIAL -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
 <style>
   :root{ --bg:#041016; --card:#07212a; --accent:#4fc3f7; --muted:#c8eaff; --success:#3ddc84; --white:#ffffff; }
   body{font-family:Inter, sans-serif; background:var(--bg); color:var(--white); margin:0; padding:20px;}
@@ -24,280 +26,392 @@
   .tiny{font-size:0.85rem; color:var(--muted);}
   .hidden { display: none !important; }
   
-  /* Nuevos estilos para más opciones */
+  /* NUEVOS ESTILOS PARA +17 ACCIONES */
   .acciones-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
-    margin-bottom: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
   }
   
   .accion-option {
     display: flex;
     align-items: center;
-    padding: 8px 10px;
+    padding: 12px;
     background: rgba(255,255,255,0.05);
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
+    border: 1px solid rgba(255,255,255,0.1);
   }
   
   .accion-option:hover {
-    background: rgba(79, 195, 247, 0.1);
+    background: rgba(79, 195, 247, 0.15);
+    transform: translateY(-2px);
   }
   
   .accion-option input {
-    margin-right: 8px;
+    margin-right: 10px;
+    transform: scale(1.2);
   }
   
   .section-title {
     color: var(--accent);
-    margin: 20px 0 10px 0;
-    font-size: 1.1rem;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 5px;
+    margin: 25px 0 15px 0;
+    font-size: 1.2rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(79, 195, 247, 0.3);
+  }
+  
+  .stats-bar {
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    text-align: center;
+    border: 1px solid rgba(79, 195, 247, 0.2);
+  }
+  
+  .stats-bar strong {
+    color: var(--accent);
+    font-size: 1.3rem;
+  }
+  
+  .loader {
+    border: 3px solid rgba(255,255,255,0.1);
+    border-top: 3px solid var(--accent);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 </style>
 </head>
 <body>
 
-  <div class="wrap">
-    <div class="card">
-      
-      <h1>Seguimiento</h1>
-      <p class="lead">Reporte de actividad del Guardián</p>
-
-      <label>Tu Código de Guardián</label>
-      <input id="codigoInput" class="input" placeholder="Ej: GPR-AQUA-0021">
-      <button class="btn btn-plain" onclick="validarYBuscar()">🔍 Cargar mi Historial</button>
-
-      <form id="seguimientoForm" style="margin-top:20px;">
-        
-        <div class="section-title">🚀 Acciones Diarias / Básicas</div>
-        <div class="acciones-grid">
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Menos plástico"> 🥤 Menos plástico
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Transporte limpio"> 🚲 Transporte limpio
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Ahorro agua"> 💧 Ahorro agua
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Consumo local"> 🌱 Consumo local
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Reciclaje correcto"> ♻️ Reciclaje
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Digital sostenible"> 📵 Digital sostenible
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Comida sin desperdicio"> 🍃 Sin desperdicio
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Energía ahorrada"> 🔋 Energía ahorrada
-          </label>
-        </div>
-        
-        <div class="section-title">🌟 Acciones de Alto Impacto</div>
-        <div class="acciones-grid">
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Limpieza playa/río"> 🏖️ Limpieza natural
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Compra consciente"> 🛒 Compra consciente
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Día sin carne"> 🌿 Día sin carne
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Activismo digital"> 📢 Activismo digital
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Reforestación"> 🌳 Reforestación
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Productos ecológicos"> 🧴 Productos ecológicos
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Voluntariado ambiental"> 🤝 Voluntariado
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Reparar objetos"> 🧩 Reparar objetos
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Formación ambiental"> 📚 Formación ambiental
-          </label>
-          <label class="accion-option">
-            <input type="checkbox" class="accion-chk" value="Jardín polinizadores"> 🐝 Jardín polinizadores
-          </label>
-        </div>
-
-        <label>Frecuencia</label>
-        <select id="frecuencia" class="input">
-            <option value="Semanal">Semanal</option>
-            <option value="Diaria">Diaria</option>
-            <option value="Ocasional">Ocasional</option>
-            <option value="Primera vez">Primera vez</option>
-        </select>
-
-        <label>Comentario o reflexión</label>
-        <textarea id="comentario" class="input" rows="3" placeholder="¿Cuál fue tu acción más significativa? ¿Qué aprendiste?"></textarea>
-
-        <label>Impacto estimado (kg CO₂ evitados)</label>
-        <input type="number" id="impactoCo2" class="input" placeholder="Ej: 2.5" step="0.1" min="0">
-
-        <button id="btnEnviar" class="btn btn-primary" type="button" onclick="enviarReporte()">🚀 Registrar Impacto</button>
-      </form>
-
-      <div id="mensajeBox" style="margin-top:20px; text-align:center; padding:10px; border-radius:8px;" class="hidden"></div>
-
-      <div id="historyBox" class="hidden" style="margin-top:30px; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px;">
-          <h3 style="color:var(--accent); text-align:center;">📊 Tu Historial de Impacto</h3>
-          <div id="listaHistorial"></div>
-      </div>
-
-      <div style="margin-top:30px; text-align:center; color:var(--muted); font-size:0.9rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">
-        🔗 <strong>Conectado a Dashboard Global BlueSphere</strong><br>
-        Tus acciones se suman automáticamente al impacto colectivo.
-      </div>
-
-    </div>
-  </div>
-
-<script type="module">
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-// 1. CONEXIÓN SUPABASE
-const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// 2. AUTO-DETECTAR (Si viene del Portal)
-const params = new URLSearchParams(window.location.search);
-const codigoURL = params.get('codigo');
-
-if (codigoURL) {
-    document.getElementById('codigoInput').value = codigoURL;
-    cargarHistorial(codigoURL);
-}
-
-// 3. FUNCIÓN: VALIDAR Y BUSCAR (Botón Lupa)
-async function validarYBuscar() {
-    const codigo = document.getElementById('codigoInput').value.trim();
-    if(codigo) {
-        cargarHistorial(codigo);
-    } else {
-        alert("Escribe un código primero.");
-    }
-}
-
-// 4. FUNCIÓN: ENVIAR REPORTE (Botón Registrar)
-async function enviarReporte() {
-    const codigo = document.getElementById('codigoInput').value.trim();
-    if (!codigo) return alert('Falta el código de guardián');
-
-    // Recoger acciones
-    let acciones = [];
-    document.querySelectorAll('.accion-chk:checked').forEach(c => acciones.push(c.value));
+<div class="wrap">
+  <div class="card">
     
-    if (acciones.length === 0) return alert('Selecciona al menos una acción');
+    <h1>📊 Seguimiento</h1>
+    <p class="lead">Reporte de actividad del Guardián</p>
 
-    const frecuencia = document.getElementById('frecuencia').value;
-    const comentario = document.getElementById('comentario').value;
-    const impactoCo2 = document.getElementById('impactoCo2').value || (acciones.length * 0.5);
+    <label>Tu Código de Guardián</label>
+    <input id="codigoInput" class="input" placeholder="Ej: GPR-AQUA-0021" value="GPR-AQUA-0059">
+    <button class="btn btn-plain" onclick="validarYBuscar()">🔍 Cargar mi Historial</button>
 
-    mostrarMensaje("Enviando...", "#fff");
+    <form id="seguimientoForm" style="margin-top:20px;">
+      
+      <!-- SECCIÓN 1: ACCIONES BÁSICAS -->
+      <div class="section-title">🚀 Acciones Diarias / Básicas</div>
+      <div class="acciones-grid">
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Menos plástico"> 🥤 Menos plástico
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Transporte limpio"> 🚲 Transporte limpio
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Ahorro agua"> 💧 Ahorro agua
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Consumo local"> 🌱 Consumo local
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Reciclaje correcto"> ♻️ Reciclaje
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Digital sostenible"> 📵 Digital sostenible
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Comida sin desperdicio"> 🍃 Sin desperdicio
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Energía ahorrada"> 🔋 Energía ahorrada
+        </label>
+      </div>
+      
+      <!-- SECCIÓN 2: ACCIONES AVANZADAS -->
+      <div class="section-title">🌟 Acciones de Alto Impacto</div>
+      <div class="acciones-grid">
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Limpieza playa/río"> 🏖️ Limpieza natural
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Compra consciente"> 🛒 Compra consciente
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Día sin carne"> 🌿 Día sin carne
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Activismo digital"> 📢 Activismo digital
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Reforestación"> 🌳 Reforestación
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Productos ecológicos"> 🧴 Productos ecológicos
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Voluntariado ambiental"> 🤝 Voluntariado
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Reparar objetos"> 🧩 Reparar objetos
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Formación ambiental"> 📚 Formación ambiental
+        </label>
+        <label class="accion-option">
+          <input type="checkbox" class="accion-chk" value="Jardín polinizadores"> 🐝 Jardín polinizadores
+        </label>
+      </div>
 
-    // Guardar en Supabase (Tabla 'seguimiento')
-    const { error } = await supabase
-        .from('seguimiento')
-        .insert([{
-            codigo_guardian: codigo,
-            acciones_realizadas: acciones.join(', '),
-            frecuencia: frecuencia,
-            comentario: comentario,
-            impacto_co2: parseFloat(impactoCo2),
-            fecha_reporte: new Date().toISOString()
-        }]);
+      <label>Frecuencia</label>
+      <select id="frecuencia" class="input">
+        <option value="Semanal">Semanal</option>
+        <option value="Diaria">Diaria</option>
+        <option value="Ocasional">Ocasional</option>
+        <option value="Primera vez">Primera vez</option>
+      </select>
 
-    if (error) {
-        mostrarMensaje('Error: ' + error.message, '#ff7b7b');
-    } else {
-        document.getElementById('seguimientoForm').reset();
-        document.getElementById('codigoInput').value = codigo; 
-        document.getElementById('impactoCo2').value = '';
-        mostrarMensaje('✅ Reporte guardado con éxito. ¡Gracias por tu impacto!', '#3ddc84');
-        cargarHistorial(codigo);
-    }
+      <label>Comentario o reflexión</label>
+      <textarea id="comentario" class="input" rows="3" placeholder="¿Cuál fue tu acción más significativa? ¿Qué aprendiste?"></textarea>
+
+      <label>Impacto estimado (kg CO₂ evitados)</label>
+      <input type="number" id="impactoCo2" class="input" placeholder="Ej: 2.5" step="0.1" min="0">
+
+      <button id="btnEnviar" class="btn btn-primary" type="button" onclick="enviarReporte()">🚀 Registrar Impacto</button>
+    </form>
+
+    <div id="mensajeBox" style="margin-top:20px; text-align:center; padding:15px; border-radius:8px;" class="hidden"></div>
+    
+    <div id="loaderBox" class="hidden">
+      <div class="loader"></div>
+      <p style="text-align:center; color:var(--muted); margin-top:10px;">Procesando...</p>
+    </div>
+
+    <div id="historyBox" class="hidden" style="margin-top:30px; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px;">
+      <h3 style="color:var(--accent); text-align:center;">📊 Tu Historial de Impacto</h3>
+      <div id="statsBar" class="stats-bar hidden">
+        <span>🌍 Impacto total acumulado: <strong id="totalImpacto">0</strong> kg CO₂ evitados</span>
+      </div>
+      <div id="listaHistorial"></div>
+    </div>
+
+    <div style="margin-top:30px; text-align:center; color:var(--muted); font-size:0.9rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">
+      🔗 <strong>Conectado a Dashboard Global BlueSphere</strong><br>
+      Tus acciones se suman automáticamente al impacto colectivo.
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== JAVASCRIPT COMPLETO ==================== -->
+<script>
+// ================= CONFIGURACIÓN SUPABASE =================
+const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+
+// Inicializar Supabase (método seguro)
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ================= FUNCIONES PRINCIPALES =================
+async function validarYBuscar() {
+  const codigo = document.getElementById('codigoInput').value.trim();
+  if (!codigo) {
+    mostrarMensaje("⚠️ Escribe un código primero", "#ffb74d");
+    return;
+  }
+  
+  mostrarLoader(true);
+  await cargarHistorial(codigo);
+  mostrarLoader(false);
 }
 
-// 5. FUNCIÓN: CARGAR HISTORIAL
+async function enviarReporte() {
+  const codigo = document.getElementById('codigoInput').value.trim();
+  if (!codigo) {
+    mostrarMensaje("⚠️ Falta el código de guardián", "#ffb74d");
+    return;
+  }
+
+  // Recoger acciones seleccionadas
+  let acciones = [];
+  document.querySelectorAll('.accion-chk:checked').forEach(c => acciones.push(c.value));
+  
+  if (acciones.length === 0) {
+    mostrarMensaje("⚠️ Selecciona al menos una acción", "#ffb74d");
+    return;
+  }
+
+  const frecuencia = document.getElementById('frecuencia').value;
+  const comentario = document.getElementById('comentario').value;
+  const impactoCo2 = document.getElementById('impactoCo2').value || (acciones.length * 0.8);
+
+  mostrarLoader(true);
+  mostrarMensaje("📤 Enviando reporte...", "#81d4fa");
+
+  try {
+    // Guardar en Supabase
+    const { error } = await supabase
+      .from('seguimiento')
+      .insert([{
+        codigo_guardian: codigo,
+        acciones_realizadas: acciones.join(', '),
+        frecuencia: frecuencia,
+        comentario: comentario,
+        impacto_co2: parseFloat(impactoCo2),
+        fecha_reporte: new Date().toISOString()
+      }]);
+
+    if (error) throw error;
+
+    // Éxito
+    mostrarMensaje('✅ Reporte guardado con éxito. ¡Gracias por tu impacto!', '#3ddc84');
+    
+    // Limpiar formulario
+    document.querySelectorAll('.accion-chk').forEach(cb => cb.checked = false);
+    document.getElementById('comentario').value = '';
+    document.getElementById('impactoCo2').value = '';
+    
+    // Recargar historial
+    await cargarHistorial(codigo);
+    
+  } catch (error) {
+    console.error('Error:', error);
+    mostrarMensaje('❌ Error: ' + error.message, '#ff7b7b');
+  } finally {
+    mostrarLoader(false);
+  }
+}
+
 async function cargarHistorial(codigo) {
+  try {
     const { data, error } = await supabase
-        .from('seguimiento')
-        .select('*')
-        .eq('codigo_guardian', codigo)
-        .order('fecha_reporte', { ascending: false });
+      .from('seguimiento')
+      .select('*')
+      .eq('codigo_guardian', codigo)
+      .order('fecha_reporte', { ascending: false });
 
     const lista = document.getElementById('listaHistorial');
     const caja = document.getElementById('historyBox');
+    const statsBar = document.getElementById('statsBar');
     
+    if (error) throw error;
+
     if (data && data.length > 0) {
-        caja.classList.remove('hidden');
-        
-        // Calcular total de impacto
-        const totalImpacto = data.reduce((sum, item) => sum + (item.impacto_co2 || 0), 0);
-        
-        lista.innerHTML = `
-            <div style="text-align:center; margin-bottom:15px; padding:10px; background:rgba(61,220,132,0.1); border-radius:8px;">
-                <strong>🌱 Impacto total acumulado:</strong> ${totalImpacto.toFixed(2)} kg CO₂ evitados
-            </div>
-        `;
-        
-        lista.innerHTML += data.map(item => `
-            <div class="history-item">
-                <div style="font-weight:bold; color:var(--accent)">
-                    ${new Date(item.fecha_reporte).toLocaleDateString('es-ES', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}
-                </div>
-                <div>${item.acciones_realizadas}</div>
-                <div style="color:#81d4fa; font-size:0.9rem; margin:5px 0;">
-                    🌿 ${item.impacto_co2 ? item.impacto_co2 + ' kg CO₂ evitados' : 'Impacto registrado'}
-                </div>
-                <div class="tiny">"${item.comentario || 'Sin comentarios'}"</div>
-            </div>
-        `).join('');
+      caja.classList.remove('hidden');
+      statsBar.classList.remove('hidden');
+      
+      // Calcular total de impacto
+      const totalImpacto = data.reduce((sum, item) => sum + (item.impacto_co2 || 0), 0);
+      document.getElementById('totalImpacto').textContent = totalImpacto.toFixed(2);
+      
+      // Mostrar historial
+      lista.innerHTML = data.map(item => `
+        <div class="history-item">
+          <div style="font-weight:bold; color:var(--accent)">
+            ${new Date(item.fecha_reporte).toLocaleDateString('es-ES', { 
+              weekday: 'short', 
+              year: 'numeric', 
+              month: 'short', 
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}
+          </div>
+          <div style="margin:8px 0;">${item.acciones_realizadas}</div>
+          <div style="color:#81d4fa; font-size:0.9rem; margin:5px 0;">
+            🌿 ${item.impacto_co2 ? item.impacto_co2 + ' kg CO₂ evitados' : 'Impacto registrado'}
+          </div>
+          ${item.comentario ? `<div class="tiny">"${item.comentario}"</div>` : ''}
+        </div>
+      `).join('');
+      
     } else {
-        caja.classList.remove('hidden');
-        lista.innerHTML = '<div class="tiny" style="text-align:center; padding:20px;">No hay reportes previos. Sé el primero en registrar tu impacto.</div>';
+      caja.classList.remove('hidden');
+      statsBar.classList.add('hidden');
+      lista.innerHTML = '<div class="tiny" style="text-align:center; padding:20px;">No hay reportes previos. Sé el primero en registrar tu impacto.</div>';
     }
+    
+  } catch (error) {
+    console.error('Error cargando historial:', error);
+    mostrarMensaje('⚠️ Error al cargar historial', '#ff7b7b');
+  }
 }
 
-// 6. UTILS
+// ================= UTILIDADES =================
 function mostrarMensaje(texto, color) {
-    const box = document.getElementById('mensajeBox');
-    box.textContent = texto;
-    box.style.color = color;
-    box.style.border = `1px solid ${color}`;
-    box.style.background = color === '#3ddc84' ? 'rgba(61,220,132,0.1)' : 'rgba(255,255,255,0.05)';
-    box.classList.remove('hidden');
-    setTimeout(() => box.classList.add('hidden'), 5000);
+  const box = document.getElementById('mensajeBox');
+  box.textContent = texto;
+  box.style.color = color;
+  box.style.border = `1px solid ${color}`;
+  box.style.background = color === '#3ddc84' ? 'rgba(61,220,132,0.1)' : 
+                         color === '#ffb74d' ? 'rgba(255,183,77,0.1)' : 
+                         color === '#81d4fa' ? 'rgba(129,212,250,0.1)' : 
+                         'rgba(255,123,123,0.1)';
+  box.classList.remove('hidden');
+  setTimeout(() => box.classList.add('hidden'), 5000);
 }
 
-// Calcular impacto automático basado en acciones seleccionadas
-document.querySelectorAll('.accion-chk').forEach(checkbox => {
+function mostrarLoader(mostrar) {
+  const loader = document.getElementById('loaderBox');
+  if (mostrar) {
+    loader.classList.remove('hidden');
+  } else {
+    loader.classList.add('hidden');
+  }
+}
+
+// ================= INICIALIZACIÓN =================
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Seguimiento BlueSphere - Inicializado');
+  
+  // Auto-cargar si hay código en URL
+  const params = new URLSearchParams(window.location.search);
+  const codigoURL = params.get('codigo');
+  if (codigoURL) {
+    document.getElementById('codigoInput').value = codigoURL;
+    setTimeout(() => {
+      validarYBuscar();
+    }, 800);
+  }
+  
+  // Calcular impacto automático basado en acciones seleccionadas
+  document.querySelectorAll('.accion-chk').forEach(checkbox => {
     checkbox.addEventListener('change', function() {
-        const checked = document.querySelectorAll('.accion-chk:checked').length;
-        document.getElementById('impactoCo2').value = (checked * 0.5).toFixed(1);
+      const checked = document.querySelectorAll('.accion-chk:checked');
+      let impactoTotal = 0;
+      
+      checked.forEach(cb => {
+        const valor = cb.value;
+        // Acciones avanzadas valen más
+        if (valor.includes('Limpieza') || valor.includes('Reforestación') || 
+            valor.includes('Voluntariado') || valor.includes('Activismo')) {
+          impactoTotal += 1.5;
+        } else if (valor.includes('Compra') || valor.includes('Productos') || 
+                   valor.includes('Formación')) {
+          impactoTotal += 1.0;
+        } else {
+          impactoTotal += 0.5;
+        }
+      });
+      
+      document.getElementById('impactoCo2').value = impactoTotal.toFixed(1);
     });
+  });
 });
 
-// --- LA CLAVE: CONECTAR BOTONES AL WINDOW ---
-window.enviarReporte = enviarReporte;
+// ================= EXPORTAR FUNCIONES AL GLOBAL =================
 window.validarYBuscar = validarYBuscar;
-
+window.enviarReporte = enviarReporte;
 </script>
+<!-- ==================== FIN JAVASCRIPT ==================== -->
+
 </body>
 </html>
