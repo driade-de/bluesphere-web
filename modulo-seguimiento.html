@@ -3,12 +3,14 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Modulo de Seguimiento — BlueSphere Consciousness</title>
-<meta name="description" content="Registro de seguimiento (15/30 días) — reporta acciones, sube evidencia y alimenta el dashboard de impacto." />
+<title>Modulo de Seguimiento — BlueSphere</title>
+<meta name="description" content="Sistema completo de seguimiento ambiental con 18 acciones, medallas y conexión directa a Supabase" />
+<!-- Cargar Supabase oficial -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
 <style>
   :root{
     --bg:#041016; --card:#07212a; --accent:#4fc3f7; --muted:#c8eaff;
-    --success:#3ddc84; --gold:#ffd700; --white:#ffffff;
+    --success:#3ddc84; --gold:#ffd700; --warning:#ffb74d; --white:#ffffff;
   }
   body{font-family:Inter, Arial, sans-serif; background:var(--bg); color:var(--white); margin:0; padding:20px;}
   .wrap{max-width:980px;margin:16px auto;}
@@ -23,59 +25,130 @@
   .btn{padding:10px 14px; border-radius:10px; cursor:pointer; border:0; font-weight:800;}
   .btn-primary{background:linear-gradient(135deg,var(--accent),#81d4fa); color:#041016;}
   .btn-success{background:var(--success); color:#041016;}
+  .btn-warning{background:var(--warning); color:#041016;}
   .btn-plain{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted);}
   .hint{font-size:0.85rem; color:var(--muted); margin-top:8px;}
   .kpi{display:flex; gap:8px; align-items:center;}
   .badge{display:inline-block; padding:6px 8px; border-radius:999px; background:rgba(255,255,255,0.03); color:var(--muted); font-weight:700;}
   .success-box{background:linear-gradient(90deg, rgba(61,220,132,0.08), rgba(127,206,255,0.02)); padding:12px; border-radius:8px; color:var(--white); margin-top:12px;}
-  .history-item{background:rgba(255,255,255,0.02); padding:10px; border-radius:8px; margin-bottom:8px;}
+  .warning-box{background:linear-gradient(90deg, rgba(255,183,77,0.08), rgba(127,206,255,0.02)); padding:12px; border-radius:8px; color:var(--white); margin-top:12px;}
+  .history-item{background:rgba(255,255,255,0.02); padding:10px; border-radius:8px; margin-bottom:8px; border-left:3px solid var(--accent);}
   .files-list{margin-top:8px;}
   .tiny{font-size:0.8rem; color:var(--muted);}
   .center{text-align:center;}
   a.link{color:var(--accent); text-decoration:none;}
+  
+  /* Nuevos estilos para secciones */
+  .section-title {
+    color: var(--accent);
+    font-size: 1.1rem;
+    margin: 20px 0 10px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(79, 195, 247, 0.3);
+  }
+  
+  .action-group {
+    background: rgba(255,255,255,0.02);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  
+  .medalla-item {
+    background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,255,255,0.02));
+    padding: 12px;
+    border-radius: 8px;
+    margin: 8px 0;
+    border-left: 4px solid #FFD700;
+  }
+  
+  .loader {
+    border: 3px solid rgba(255,255,255,0.1);
+    border-top: 3px solid var(--accent);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .hidden { display: none !important; }
 </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>🔁 Seguimiento — BlueSphere</h1>
-      <p class="lead">Registra tus acciones (15/30 días). Son 2–4 preguntas: toma 90 segundos. Subir evidencia aumenta la verificación y el impacto medible.</p>
+      <h1>🔁 Seguimiento Completo — BlueSphere</h1>
+      <p class="lead">Registra tus acciones ambientales. Sistema con 18 opciones, medallas y seguimiento en tiempo real.</p>
 
       <!-- Código / Identificador -->
       <div style="margin-bottom:12px;">
-        <label for="codigoInput">Código BlueSphere</label>
-        <input id="codigoInput" class="input" placeholder="Tu código (ej. OXXO-BLUESPHERE-000001-🌊MEX)">
-        <div class="hint">Si llegaste por SMS/WhatsApp el código puede venir en la URL; revisa el link.</div>
+        <label for="codigoInput">Tu Código de Guardián</label>
+        <input id="codigoInput" class="input" placeholder="Ej: GPR-AQUA-0059">
+        <div class="hint">Si vienes del Portal Azul, el código ya debería estar cargado automáticamente.</div>
       </div>
 
       <!-- Estado y KPIs -->
       <div class="flex" style="margin-bottom:12px;">
-        <div class="kpi"><span class="badge">Estado</span> <div id="estadoBadge" style="margin-left:8px;" class="tiny">No validado</div></div>
-        <div class="kpi"><span class="badge">Checkins</span> <div id="numCheckins" style="margin-left:8px;" class="tiny">0</div></div>
-        <div class="kpi"><span class="badge">Impacto estimado</span> <div id="impactoEstimado" style="margin-left:8px;" class="tiny">—</div></div>
+        <div class="kpi"><span class="badge">Estado</span> <div id="estadoBadge" style="margin-left:8px;" class="tiny">Ingresa tu código</div></div>
+        <div class="kpi"><span class="badge">Registros</span> <div id="numCheckins" style="margin-left:8px;" class="tiny">0</div></div>
+        <div class="kpi"><span class="badge">Impacto total</span> <div id="impactoTotal" style="margin-left:8px;" class="tiny">0 kg CO₂</div></div>
+        <div class="kpi"><span class="badge">Medallas</span> <div id="numMedallas" style="margin-left:8px;" class="tiny">0</div></div>
       </div>
+
+      <!-- Botón de carga -->
+      <button id="btnCargar" class="btn btn-plain" style="width:100%; margin-bottom:15px;">
+        🔍 Cargar mi Perfil y Historial
+      </button>
 
       <!-- Formulario -->
       <form id="seguimientoForm" class="card" style="margin-top:12px;">
-        <div style="margin-bottom:12px;">
-          <label>Selecciona las acciones que realizaste (marca las que apliquen)</label>
+        
+        <!-- SECCIÓN 1: ACCIONES BÁSICAS -->
+        <div class="section-title">🚀 Acciones Diarias / Básicas</div>
+        <div class="action-group">
           <div class="grid">
-            <label><input type="checkbox" name="accion" value="reducir_plastico">  Eliminé plásticos de un solo uso</label>
-            <label><input type="checkbox" name="accion" value="movilidad_sostenible">  Usé transporte no motorizado o público</label>
-            <label><input type="checkbox" name="accion" value="conservacion_agua">  Implementé ahorro de agua</label>
-            <label><input type="checkbox" name="accion" value="consumo_responsable">  Compré productos locales/sostenibles</label>
-            <label><input type="checkbox" name="accion" value="compostaje">  Empecé a compostar</label>
-            <label><input type="checkbox" name="accion" value="reduccion_carne">  Reduje consumo de carne</label>
-            <label><input type="checkbox" name="accion" value="educacion">  Compartí información con mi comunidad</label>
+            <label><input type="checkbox" class="accion-chk" value="menos_plastico"> 🥤 Reducción de plásticos</label>
+            <label><input type="checkbox" class="accion-chk" value="transporte_limpio"> 🚲 Transporte sostenible</label>
+            <label><input type="checkbox" class="accion-chk" value="ahorro_agua"> 💧 Conservación de agua</label>
+            <label><input type="checkbox" class="accion-chk" value="consumo_local"> 🌱 Consumo responsable</label>
+            <label><input type="checkbox" class="accion-chk" value="reciclaje"> ♻️ Reciclaje correcto</label>
+            <label><input type="checkbox" class="accion-chk" value="digital_limpio"> 📵 Digital sostenible</label>
+            <label><input type="checkbox" class="accion-chk" value="sin_desperdicio"> 🍃 Comida sin desperdicio</label>
+            <label><input type="checkbox" class="accion-chk" value="energia_ahorro"> 🔋 Ahorro de energía</label>
+          </div>
+        </div>
+        
+        <!-- SECCIÓN 2: ACCIONES AVANZADAS -->
+        <div class="section-title">🌟 Acciones de Alto Impacto</div>
+        <div class="action-group">
+          <div class="grid">
+            <label><input type="checkbox" class="accion-chk" value="limpieza_natural"> 🏖️ Limpieza de espacios naturales</label>
+            <label><input type="checkbox" class="accion-chk" value="compra_consciente"> 🛒 Compra consciente</label>
+            <label><input type="checkbox" class="accion-chk" value="dia_sin_carne"> 🌿 Día sin carne</label>
+            <label><input type="checkbox" class="accion-chk" value="activismo_digital"> 📢 Activismo digital</label>
+            <label><input type="checkbox" class="accion-chk" value="reforestacion"> 🌳 Reforestación/Plantación</label>
+            <label><input type="checkbox" class="accion-chk" value="productos_ecologicos"> 🧴 Productos ecológicos</label>
+            <label><input type="checkbox" class="accion-chk" value="voluntariado"> 🤝 Voluntariado ambiental</label>
+            <label><input type="checkbox" class="accion-chk" value="reparar_objetos"> 🧩 Reparar antes de tirar</label>
+            <label><input type="checkbox" class="accion-chk" value="formacion_ambiental"> 📚 Formación ambiental</label>
+            <label><input type="checkbox" class="accion-chk" value="jardin_polinizadores"> 🐝 Jardín para polinizadores</label>
           </div>
         </div>
 
         <div style="margin-bottom:12px;">
-          <label>Frecuencia aproximada (marca la que corresponde)</label>
+          <label>Frecuencia</label>
           <select id="frecuencia" class="input">
-            <option value="ocasional">Ocasional</option>
-            <option value="semanal">Semanal</option>
-            <option value="diaria">Diaria</option>
+            <option value="Semanal">Semanal</option>
+            <option value="Diaria">Diaria</option>
+            <option value="Ocasional">Ocasional</option>
+            <option value="Primera vez">Primera vez</option>
           </select>
         </div>
 
@@ -83,36 +156,64 @@
           <label>¿Subes evidencia? (foto o ticket) — opcional</label>
           <input id="fileInput" type="file" accept="image/*,application/pdf" style="padding:6px; background:#021219; color:var(--white); border-radius:8px;">
           <div id="filesPreview" class="files-list tiny"></div>
-          <div class="tiny hint">Consejo: una foto clara o un ticket (recibo) ayuda a validar y aumenta el impacto verificado.</div>
+          <div class="tiny hint">Una foto clara o ticket ayuda a validar y aumenta el impacto verificado.</div>
         </div>
 
         <div style="margin-bottom:12px;">
-          <label>Comentario breve (opcional)</label>
-          <textarea id="comentario" class="input" rows="3" placeholder="Qué hiciste, dónde, cuántas veces, etc. (200 caracteres)"></textarea>
+          <label>Comentario o reflexión (opcional)</label>
+          <textarea id="comentario" class="input" rows="3" placeholder="¿Qué hiciste? ¿Dónde? ¿Cómo te sentiste?"></textarea>
+        </div>
+        
+        <div style="margin-bottom:12px;">
+          <label>Impacto estimado (kg CO₂ evitados)</label>
+          <input type="number" id="impactoCo2" class="input" value="2.5" step="0.1" min="0">
         </div>
 
         <div style="display:flex; gap:10px; align-items:center; margin-top:6px;">
-          <button id="btnEnviar" class="btn btn-primary" type="button">Enviar seguimiento</button>
-          <button id="btnGuardarBorrador" class="btn btn-plain" type="button">Guardar borrador</button>
+          <button id="btnEnviar" class="btn btn-primary" type="button">🚀 Registrar Impacto</button>
+          <button id="btnGuardarBorrador" class="btn btn-plain" type="button">💾 Guardar borrador</button>
           <div style="flex:1"></div>
-          <div class="tiny">Tiempo estimado: <strong>2 min</strong></div>
+          <div id="contadorAcciones" class="tiny">Acciones: <strong>0</strong></div>
         </div>
 
         <div id="mensaje" class="hint" style="margin-top:12px; display:none;"></div>
       </form>
+      
+      <!-- Loader -->
+      <div id="loaderBox" class="center hidden" style="margin:20px 0;">
+        <div class="loader"></div>
+        <div class="tiny" style="margin-top:10px;">Procesando...</div>
+      </div>
 
-      <!-- Resultado / Recompensa -->
+      <!-- Resultado / Éxito -->
       <div id="resultadoBox" style="display:none; margin-top:14px;">
         <div class="success-box center">
-          <div style="font-weight:800; font-size:1.05rem;">✅ ¡Gracias! Tu reporte fue recibido.</div>
+          <div style="font-weight:800; font-size:1.05rem;">✅ ¡Impacto Registrado!</div>
           <div id="resultadoImpacto" style="margin-top:8px;" class="tiny"></div>
-          <div style="margin-top:8px;"><button id="btnVerBadge" class="btn btn-success">Ver mi Badge</button></div>
+          <div id="nuevaMedallaBox" style="margin-top:10px;" class="hidden"></div>
+          <div style="margin-top:12px;">
+            <button id="btnVerDashboard" class="btn btn-success">🌍 Ver en Dashboard</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🏆 SECCIÓN DE MEDALLAS -->
+      <div id="medallasBox" class="hidden" style="margin-top:20px;">
+        <div class="card">
+          <h3 style="color:var(--accent); margin-bottom:12px;">🏆 Tus Logros y Medallas</h3>
+          <div id="medallasLista" class="tiny">
+            <!-- Se llena dinámicamente -->
+          </div>
+          <div id="proximasMedallas" class="warning-box" style="margin-top:15px;">
+            <h4 style="color:var(--warning); margin-bottom:8px;">🎯 Próximos Objetivos</h4>
+            <div id="proximasLista" class="tiny"></div>
+          </div>
         </div>
       </div>
 
       <!-- Historial -->
-      <div style="margin-top:18px;">
-        <h3 style="color:var(--accent); margin-bottom:8px;">Historial de checkins</h3>
+      <div id="historialBox" class="hidden" style="margin-top:20px;">
+        <h3 style="color:var(--accent); margin-bottom:8px;">📊 Historial de Impacto</h3>
         <div id="historyBox" class="small">
           <div class="tiny">Cargando historial...</div>
         </div>
@@ -123,261 +224,406 @@
     <div style="height:18px;"></div>
 
     <div class="card small">
-      <strong>Notas técnicas</strong>
+      <strong>🔗 Sistema Conectado</strong>
       <ul>
-        <li>Este módulo usa endpoints REST: <code>/api/seguimiento</code> (POST) y <code>/api/seguimiento?codigo=</code> (GET).</li>
-        <li>Para uploads recomendamos <strong>presigned URLs S3</strong> o servicio CDN; en el ejemplo hay un mock.</li>
-        <li>Factores de conversión (CO₂, plástico, agua) son editables en backend; aquí se usan valores de ejemplo.</li>
+        <li><strong>Base de datos:</strong> Supabase (tabla 'seguimiento')</li>
+        <li><strong>Dashboard:</strong> Datos en tiempo real</li>
+        <li><strong>Medallas:</strong> Sistema automático de reconocimiento</li>
+        <li><strong>Impacto:</strong> Cálculo en kg CO₂ evitados</li>
       </ul>
     </div>
 
   </div>
 
 <script>
-/* -------------------------
-  MÓDULO-SEGUIMIENTO.JS
-  - Lee `?codigo=` de la URL
-  - Muestra historial (GET /api/seguimiento?codigo=...)
-  - Envía seguimiento (POST /api/seguimiento)
-  - Soporta upload básico (simulado / presigned)
-  - Calcula impacto estimado con factores ajustables
-  ------------------------- */
+// ================= CONFIGURACIÓN SUPABASE =================
+const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
 
-const API_BASE = '/api'; // reemplaza por tu dominio de API si aplica
+// Inicializar Supabase
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Factores de conversión (ajustar en backend)
-const FACTORES = {
-  'reducir_plastico_kg_por_uso': 0.02, // kg plástico evitado por uso diario de botella reutilizable (ejemplo)
-  'movilidad_co2_kg_por_viaje': 0.75,  // kg CO2 por viaje sustituido (ejemplo)
-  'ahorro_agua_l_por_accion': 15,      // litros por acción (ejemplo)
-  'reduccion_carne_co2_kg_por_dia': 0.5 // kgCO2 por día al reducir carne (ejemplo)
+// Sistema de medallas
+const MEDALLAS = {
+  'primer_paso': {
+    nombre: '🌱 Primer Paso',
+    descripcion: 'Completaste tu primer registro de impacto',
+    criterio: (registros) => registros.length >= 1,
+    icono: '🌱'
+  },
+  'compromiso_7d': {
+    nombre: '🔥 Compromiso Inicial',
+    descripcion: '7 días consecutivos de acciones',
+    criterio: (registros) => calcularDiasConsecutivos(registros) >= 7,
+    icono: '🔥'
+  },
+  'guardián_activo': {
+    nombre: '🛡️ Guardián Activo',
+    descripcion: '15 registros de acciones ambientales',
+    criterio: (registros) => registros.length >= 15,
+    icono: '🛡️'
+  },
+  'excelencia_azul': {
+    nombre: '⭐ Excelencia Azul',
+    descripcion: '30 registros de impacto consistente',
+    criterio: (registros) => registros.length >= 30,
+    icono: '⭐'
+  },
+  'impacto_alto': {
+    nombre: '💎 Impacto Alto',
+    descripcion: '100+ kg de CO₂ evitados acumulados',
+    criterio: (registros) => calcularImpactoTotal(registros) >= 100,
+    icono: '💎'
+  },
+  'evidencia_pro': {
+    nombre: '📸 Verificador Pro',
+    descripcion: '5+ registros con evidencia fotográfica',
+    criterio: (registros) => registros.filter(r => r.evidencia_urls && r.evidencia_urls.length > 0).length >= 5,
+    icono: '📸'
+  }
 };
 
-// Helpers
-function qs(key){ // get query string param
-  const params = new URLSearchParams(window.location.search);
-  return params.get(key);
-}
-function el(id){ return document.getElementById(id); }
-function show(elm){ elm.style.display='block'; }
-function hide(elm){ elm.style.display='none'; }
+// Variables globales
+let usuarioCodigo = '';
+let historialRegistros = [];
 
-// Inicialización: si hay código en la URL, poblar campo
-document.addEventListener('DOMContentLoaded', async () => {
-  const codigoUrl = qs('codigo') || qs('token') || '';
-  if (codigoUrl) {
-    el('codigoInput').value = decodeURIComponent(codigoUrl);
-    await validarCodigo(codigoUrl); // auto-validar y cargar historial
-  } else {
-    // si no hay código, intenta cargar historial cuando el usuario lo ponga
-    cargarHistorial(null);
-  }
-});
-
-// Cargar historial (GET)
-async function cargarHistorial(codigo){
-  const box = el('historyBox');
-  box.innerHTML = '<div class="tiny">Cargando historial...</div>';
-  if (!codigo) {
-    box.innerHTML = '<div class="tiny">Aún no has enviado checkins. Tu historial aparecerá aquí cuando registres acciones.</div>';
-    el('numCheckins').textContent = '0';
+// ================= FUNCIONES PRINCIPALES =================
+async function cargarPerfil() {
+  usuarioCodigo = document.getElementById('codigoInput').value.trim();
+  
+  if (!usuarioCodigo) {
+    mostrarMensaje('⚠️ Ingresa tu código de guardián', 'warning');
     return;
   }
-  try {
-    const resp = await fetch(`${API_BASE}/seguimiento?codigo=${encodeURIComponent(codigo)}`);
-    if (!resp.ok) throw new Error('No hay historial o error de conexión.');
-    const data = await resp.json();
-    if (!data || !Array.isArray(data.items) || data.items.length === 0) {
-      box.innerHTML = '<div class="tiny">No hay checkins registrados aún.</div>';
-      el('numCheckins').textContent = '0';
-      return;
-    }
-    el('numCheckins').textContent = data.items.length;
-    box.innerHTML = data.items.map(it => {
-      const date = new Date(it.fecha).toLocaleString();
-      const acciones = (it.acciones||[]).join(', ') || '—';
-      const impacto = it.impacto_estimado ? (`CO₂ ${it.impacto_estimado.co2_kg || 0} kg • Plast ${it.impacto_estimado.plastico_kg || 0} kg`) : '';
-      return `<div class="history-item"><div style="font-weight:700">${date}</div><div class="tiny">${acciones}</div><div class="tiny" style="margin-top:6px">${impacto}</div></div>`;
-    }).join('');
-  } catch (err) {
-    box.innerHTML = `<div class="tiny">No fue posible cargar historial: ${err.message}</div>`;
+  
+  mostrarLoader(true);
+  
+  // Validar código (simulación - en producción verificar en tabla 'codigos')
+  const codigoValido = usuarioCodigo.length > 8;
+  
+  if (codigoValido) {
+    document.getElementById('estadoBadge').textContent = '✅ Código válido';
+    document.getElementById('estadoBadge').style.color = '#3ddc84';
+    
+    // Cargar historial
+    await cargarHistorial(usuarioCodigo);
+    
+    // Mostrar secciones
+    document.getElementById('historialBox').classList.remove('hidden');
+    document.getElementById('medallasBox').classList.remove('hidden');
+    
+  } else {
+    document.getElementById('estadoBadge').textContent = '❌ Código inválido';
+    document.getElementById('estadoBadge').style.color = '#ff7b7b';
+    mostrarMensaje('El código ingresado no es válido', 'error');
   }
+  
+  mostrarLoader(false);
 }
 
-// Validar código (simple, recomienda server-side)
-async function validarCodigo(codigo){
-  if (!codigo) return;
+async function cargarHistorial(codigo) {
   try {
-    // Recomendado: validar con backend real:
-    // const res = await fetch(`${API_BASE}/validarCodigo`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({codigo})});
-    // const json = await res.json();
-    // Mock: aceptamos códigos con longitud > 8
-    const valido = codigo.length > 8;
-    if (valido) {
-      el('estadoBadge').textContent = 'Código válido';
-      el('estadoBadge').style.color = '#3ddc84';
-      el('codigoInput').dataset.valid = '1';
-      // cargar historial
-      cargarHistorial(codigo);
+    const { data, error } = await supabase
+      .from('seguimiento')
+      .select('*')
+      .eq('codigo_guardian', codigo)
+      .order('fecha_reporte', { ascending: false });
+    
+    if (error) throw error;
+    
+    historialRegistros = data || [];
+    
+    // Actualizar estadísticas
+    document.getElementById('numCheckins').textContent = historialRegistros.length;
+    
+    const impactoTotal = calcularImpactoTotal(historialRegistros);
+    document.getElementById('impactoTotal').textContent = `${impactoTotal.toFixed(1)} kg CO₂`;
+    
+    // Mostrar historial
+    const historyBox = document.getElementById('historyBox');
+    
+    if (historialRegistros.length > 0) {
+      historyBox.innerHTML = historialRegistros.map(item => `
+        <div class="history-item">
+          <div style="font-weight:700; color:var(--accent); margin-bottom:4px;">
+            ${new Date(item.fecha_reporte).toLocaleDateString('es-ES', { 
+              weekday: 'short', 
+              year: 'numeric', 
+              month: 'short', 
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}
+          </div>
+          <div style="margin-bottom:6px;">${item.acciones_realizadas || 'Acciones registradas'}</div>
+          <div style="color:#81d4fa; font-size:0.85rem;">
+            🌿 ${item.impacto_co2 ? item.impacto_co2 + ' kg CO₂ evitados' : 'Impacto registrado'}
+          </div>
+          ${item.comentario ? `<div class="tiny" style="margin-top:6px; font-style:italic;">"${item.comentario}"</div>` : ''}
+        </div>
+      `).join('');
     } else {
-      el('estadoBadge').textContent = 'Código inválido';
-      el('estadoBadge').style.color = '#ff7b7b';
-      el('codigoInput').dataset.valid = '0';
-      cargarHistorial(null);
+      historyBox.innerHTML = '<div class="tiny">No hay registros previos. ¡Sé el primero en marcar la diferencia!</div>';
     }
-    return valido;
-  } catch (err) {
-    console.error(err);
-    el('estadoBadge').textContent = 'Error validando';
-    el('estadoBadge').style.color = '#ff7b7b';
-    return false;
+    
+    // Actualizar medallas
+    actualizarMedallas(historialRegistros);
+    
+  } catch (error) {
+    console.error('Error cargando historial:', error);
+    document.getElementById('historyBox').innerHTML = 
+      '<div class="tiny">No se pudo cargar el historial. Intenta nuevamente.</div>';
   }
 }
 
-// Botón ENVIAR
-el('btnEnviar').addEventListener('click', async () => {
-  const codigo = el('codigoInput').value.trim();
-  if (!codigo) { alert('Ingresa tu código BlueSphere'); return; }
-  const ok = await validarCodigo(codigo);
-  if (!ok) { alert('Código inválido. Verifica e intenta de nuevo.'); return; }
-
-  // preparar payload
-  const checkboxes = Array.from(document.querySelectorAll('input[name="accion"]:checked')).map(n=>n.value);
-  if (checkboxes.length === 0) {
-    if(!confirm('No seleccionaste ninguna acción. Deseas enviar de todos modos?')) return;
+async function registrarImpacto() {
+  if (!usuarioCodigo) {
+    mostrarMensaje('Primero carga tu perfil con tu código', 'warning');
+    return;
   }
-  const frecuencia = el('frecuencia').value;
-  const comentario = el('comentario').value.trim();
-  const file = el('fileInput').files[0] || null;
-
-  // subir evidencia si existe (presigned flow recomendado)
-  let evidencia_urls = [];
-  if (file) {
-    try {
-      // 1) pedir presigned URL al backend
-      const presignResp = await fetch(`${API_BASE}/presign`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ filename: file.name, contentType: file.type })});
-      if (!presignResp.ok) throw new Error('No fue posible pedir URL presign.');
-      const { url, key } = await presignResp.json(); // { url: "...", key: "s3key" }
-      // 2) PUT file a la URL (no autenticada)
-      await fetch(url, { method:'PUT', headers: { 'Content-Type': file.type }, body: file });
-      // 3) construir la URL pública (depende de tu CDN)
-      const publicUrl = `${location.origin}/uploads/${key}`; // adaptar según arquitectura
-      evidencia_urls.push(publicUrl);
-      el('filesPreview').textContent = `Archivo subido: ${file.name}`;
-    } catch(err) {
-      console.warn('Presign/upload error, realizando fallback (no subido):', err);
-      // Opcional: subir directamente al backend (menos recomendado)
-      evidencia_urls = [];
-      el('filesPreview').textContent = 'No fue posible subir la evidencia automáticamente.';
-    }
-  }
-
-  // calcular impacto estimado con FACTORES locales (simple)
-  const impacto = calcularImpactoEstimado(checkboxes, frecuencia);
-
-  // payload final
-  const payload = {
-    codigo,
-    fecha: new Date().toISOString(),
-    acciones: checkboxes,
-    frecuencia,
-    comentario,
-    evidencia_urls,
-    impacto_estimado: impacto,
-    verification_level: evidencia_urls.length ? 1 : 0
-  };
-
-  // POST a API
-  try {
-    const resp = await fetch(`${API_BASE}/seguimiento`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-    if (!resp.ok) throw new Error('Error en envío al servidor');
-    const data = await resp.json();
-    // mostrar resultado
-    show(el('resultadoBox'));
-    el('resultadoImpacto').textContent = `Impacto estimado local: CO₂ ${(impacto.co2_kg||0).toFixed(2)} kg • Plástico ${(impacto.plastico_kg||0).toFixed(2)} kg • Agua ${(impacto.agua_l||0)} L`;
-    el('mensaje').style.display = 'none';
-    // actualizar historial
-    cargarHistorial(codigo);
-    // animar badge o micro-recompensa breve
-    flashBadge();
-  } catch(err) {
-    el('mensaje').style.display = 'block';
-    el('mensaje').textContent = 'No fue posible enviar tu seguimiento. Intenta de nuevo más tarde.';
-    console.error(err);
-  }
-});
-
-// Guardar borrador (localStorage simple)
-el('btnGuardarBorrador').addEventListener('click', () => {
-  const state = {
-    codigo: el('codigoInput').value,
-    acciones: Array.from(document.querySelectorAll('input[name="accion"]:checked')).map(i=>i.value),
-    frecuencia: el('frecuencia').value,
-    comentario: el('comentario').value
-  };
-  localStorage.setItem('bs_seguimiento_draft', JSON.stringify(state));
-  alert('Borrador guardado localmente.');
-});
-
-// cargar draft si existe
-(function loadDraft(){
-  const d = localStorage.getItem('bs_seguimiento_draft');
-  if (!d) return;
-  try {
-    const s = JSON.parse(d);
-    if (s.codigo) el('codigoInput').value = s.codigo;
-    if (Array.isArray(s.acciones)) {
-      document.querySelectorAll('input[name="accion"]').forEach(cb => cb.checked = s.acciones.includes(cb.value));
-    }
-    if (s.frecuencia) el('frecuencia').value = s.frecuencia;
-    if (s.comentario) el('comentario').value = s.comentario;
-  } catch(e){}
-})();
-
-// calcular impacto estimado
-function calcularImpactoEstimado(acciones, frecuencia){
-  // basic rules: frecuencia weight
-  const freqWeight = { 'ocasional': 0.25, 'semanal': 1, 'diaria': 7 };
-  const w = freqWeight[frecuencia] || 1;
-  let co2 = 0, plast = 0, agua = 0;
-
-  if (acciones.includes('reducir_plastico')) plast += FACTORES.reducir_plastico_kg_por_uso * w;
-  if (acciones.includes('movilidad_sostenible')) co2 += FACTORES.movilidad_co2_kg_por_viaje * w;
-  if (acciones.includes('conservacion_agua')) agua += FACTORES.ahorro_agua_l_por_accion * w;
-  if (acciones.includes('reduccion_carne')) co2 += FACTORES.reduccion_carne_co2_kg_por_dia * w;
-  // otros mapeos pueden añadirse
-  const impacto = { co2_kg: parseFloat(co2.toFixed(3)), plastico_kg: parseFloat(plast.toFixed(3)), agua_l: Math.round(agua) };
-  el('impactoEstimado').textContent = `CO₂ ${impacto.co2_kg} kg • Plast ${impacto.plastico_kg} kg`;
-  return impacto;
-}
-
-// Flash badge / micro-recompensa
-function flashBadge(){
-  el('btnVerBadge').addEventListener('click', () => {
-    alert('Has ganado el badge: GUARDIÁN EN ACCIÓN — compártelo en redes para inspirar a otros.');
+  
+  // Recoger acciones seleccionadas
+  let acciones = [];
+  document.querySelectorAll('.accion-chk:checked').forEach(c => {
+    acciones.push(c.value);
   });
+  
+  if (acciones.length === 0) {
+    mostrarMensaje('Selecciona al menos una acción realizada', 'warning');
+    return;
+  }
+  
+  const frecuencia = document.getElementById('frecuencia').value;
+  const comentario = document.getElementById('comentario').value.trim();
+  const impactoCo2 = parseFloat(document.getElementById('impactoCo2').value) || 2.5;
+  
+  mostrarLoader(true);
+  
+  try {
+    // Guardar en Supabase
+    const { error } = await supabase
+      .from('seguimiento')
+      .insert([{
+        codigo_guardian: usuarioCodigo,
+        acciones_realizadas: acciones.join(', '),
+        frecuencia: frecuencia,
+        comentario: comentario,
+        impacto_co2: impactoCo2,
+        fecha_reporte: new Date().toISOString()
+      }]);
+    
+    if (error) throw error;
+    
+    // Éxito
+    mostrarMensaje('✅ Impacto registrado exitosamente', 'success');
+    
+    // Mostrar resultado
+    document.getElementById('resultadoBox').style.display = 'block';
+    document.getElementById('resultadoImpacto').textContent = 
+      `Impacto registrado: ${impactoCo2} kg CO₂ evitados`;
+    
+    // Limpiar formulario
+    document.querySelectorAll('.accion-chk').forEach(cb => cb.checked = false);
+    document.getElementById('comentario').value = '';
+    document.getElementById('impactoCo2').value = '2.5';
+    
+    // Actualizar historial
+    await cargarHistorial(usuarioCodigo);
+    
+  } catch (error) {
+    console.error('Error registrando impacto:', error);
+    mostrarMensaje('❌ Error al guardar. Intenta nuevamente.', 'error');
+  } finally {
+    mostrarLoader(false);
+  }
 }
 
-// Cargar historial si usuario escribe el código manualmente
-el('codigoInput').addEventListener('blur', async (e) => {
-  const c = e.target.value.trim();
-  if (!c) return;
-  await validarCodigo(c);
-});
-
-// file preview
-el('fileInput').addEventListener('change', (e) => {
-  const f = e.target.files[0];
-  const p = el('filesPreview');
-  if (!f) { p.textContent=''; return; }
-  p.textContent = `Archivo listo: ${f.name} (${Math.round(f.size/1024)} KB)`;
-});
-
-/* ------------- Mock admin helpers (para desarrollo) ------------- */
-/* Nota: En producción, tu backend hará la validación real, presign y cálculo. */
-async function mockSeedHistory(codigo){
-  // sólo para testing local (popula historial en backend de mock)
+function actualizarMedallas(registros) {
+  const medallasGanadas = [];
+  const medallasLista = document.getElementById('medallasLista');
+  const numMedallas = document.getElementById('numMedallas');
+  const proximasLista = document.getElementById('proximasLista');
+  
+  // Verificar cada medalla
+  for (const [id, medalla] of Object.entries(MEDALLAS)) {
+    if (medalla.criterio(registros)) {
+      medallasGanadas.push(medalla);
+    }
+  }
+  
+  // Mostrar medallas ganadas
+  if (medallasGanadas.length > 0) {
+    medallasLista.innerHTML = medallasGanadas.map(medalla => `
+      <div class="medalla-item">
+        <div style="font-weight:700;">${medalla.icono} ${medalla.nombre}</div>
+        <div class="tiny">${medalla.descripcion}</div>
+      </div>
+    `).join('');
+  } else {
+    medallasLista.innerHTML = '<div class="tiny">Aún no has ganado medallas. ¡Sigue registrando tus acciones!</div>';
+  }
+  
+  // Actualizar contador
+  numMedallas.textContent = medallasGanadas.length;
+  
+  // Mostrar próximas medallas
+  const proximas = [];
+  const totalRegistros = registros.length;
+  const diasConsecutivos = calcularDiasConsecutivos(registros);
+  const impactoTotal = calcularImpactoTotal(registros);
+  
+  if (totalRegistros < 15) proximas.push(`🛡️ Guardián Activo en ${15 - totalRegistros} registros más`);
+  if (totalRegistros < 30) proximas.push(`⭐ Excelencia Azul en ${30 - totalRegistros} registros más`);
+  if (diasConsecutivos < 7) proximas.push(`🔥 Compromiso Inicial en ${7 - diasConsecutivos} días consecutivos`);
+  if (impactoTotal < 100) proximas.push(`💎 Impacto Alto en ${(100 - impactoTotal).toFixed(1)} kg CO₂ más`);
+  
+  if (proximas.length > 0) {
+    proximasLista.innerHTML = proximas.map(p => `<div style="margin-bottom:6px;">• ${p}</div>`).join('');
+  } else {
+    proximasLista.innerHTML = '<div>¡Ya lograste todos los objetivos principales! 🎉</div>';
+  }
 }
+
+// ================= FUNCIONES DE UTILIDAD =================
+function calcularDiasConsecutivos(registros) {
+  if (registros.length === 0) return 0;
+  
+  const fechasUnicas = [...new Set(registros.map(r => 
+    new Date(r.fecha_reporte).toISOString().split('T')[0]
+  ))].sort().reverse();
+  
+  let consecutivos = 1;
+  for (let i = 1; i < fechasUnicas.length; i++) {
+    const fechaActual = new Date(fechasUnicas[i-1]);
+    const fechaAnterior = new Date(fechasUnicas[i]);
+    const diferenciaDias = (fechaActual - fechaAnterior) / (1000 * 60 * 60 * 24);
+    
+    if (diferenciaDias === 1) {
+      consecutivos++;
+    } else {
+      break;
+    }
+  }
+  
+  return consecutivos;
+}
+
+function calcularImpactoTotal(registros) {
+  return registros.reduce((total, item) => total + (item.impacto_co2 || 0), 0);
+}
+
+function mostrarMensaje(texto, tipo = 'info') {
+  const mensajeBox = document.getElementById('mensaje');
+  mensajeBox.textContent = texto;
+  mensajeBox.style.color = tipo === 'success' ? '#3ddc84' : 
+                         tipo === 'warning' ? '#ffb74d' : '#ff7b7b';
+  mensajeBox.style.display = 'block';
+  
+  setTimeout(() => {
+    mensajeBox.style.display = 'none';
+  }, 5000);
+}
+
+function mostrarLoader(mostrar) {
+  document.getElementById('loaderBox').classList.toggle('hidden', !mostrar);
+}
+
+// ================= INICIALIZACIÓN =================
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Módulo de Seguimiento BlueSphere - Inicializado');
+  
+  // Auto-cargar código de URL
+  const params = new URLSearchParams(window.location.search);
+  const codigoURL = params.get('codigo');
+  
+  if (codigoURL) {
+    document.getElementById('codigoInput').value = codigoURL;
+    setTimeout(() => {
+      cargarPerfil();
+    }, 1000);
+  }
+  
+  // Event Listeners
+  document.getElementById('btnCargar').addEventListener('click', cargarPerfil);
+  document.getElementById('btnEnviar').addEventListener('click', registrarImpacto);
+  
+  document.getElementById('btnGuardarBorrador').addEventListener('click', function() {
+    const estado = {
+      codigo: document.getElementById('codigoInput').value,
+      acciones: Array.from(document.querySelectorAll('.accion-chk:checked')).map(c => c.value),
+      frecuencia: document.getElementById('frecuencia').value,
+      comentario: document.getElementById('comentario').value,
+      impacto: document.getElementById('impactoCo2').value
+    };
+    localStorage.setItem('bluesphere_borrador', JSON.stringify(estado));
+    mostrarMensaje('💾 Borrador guardado localmente', 'success');
+  });
+  
+  document.getElementById('btnVerDashboard').addEventListener('click', function() {
+    window.open('dashboard-global-impacto.html', '_blank');
+  });
+  
+  // Cargar borrador si existe
+  const borrador = localStorage.getItem('bluesphere_borrador');
+  if (borrador) {
+    try {
+      const estado = JSON.parse(borrador);
+      if (estado.codigo) document.getElementById('codigoInput').value = estado.codigo;
+      if (estado.acciones) {
+        document.querySelectorAll('.accion-chk').forEach(cb => {
+          cb.checked = estado.acciones.includes(cb.value);
+        });
+      }
+      if (estado.frecuencia) document.getElementById('frecuencia').value = estado.frecuencia;
+      if (estado.comentario) document.getElementById('comentario').value = estado.comentario;
+      if (estado.impacto) document.getElementById('impactoCo2').value = estado.impacto;
+    } catch (e) {
+      console.warn('Error cargando borrador:', e);
+    }
+  }
+  
+  // Calcular impacto automático
+  document.querySelectorAll('.accion-chk').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      const checked = document.querySelectorAll('.accion-chk:checked');
+      document.getElementById('contadorAcciones').innerHTML = `Acciones: <strong>${checked.length}</strong>`;
+      
+      // Calcular impacto estimado
+      let impactoTotal = 0;
+      checked.forEach(cb => {
+        const valor = cb.value;
+        // Acciones avanzadas valen más
+        if (valor.includes('limpieza') || valor.includes('reforestacion') || 
+            valor.includes('voluntariado') || valor.includes('activismo')) {
+          impactoTotal += 1.5;
+        } else if (valor.includes('compra') || valor.includes('productos') || 
+                   valor.includes('formacion')) {
+          impactoTotal += 1.0;
+        } else {
+          impactoTotal += 0.5;
+        }
+      });
+      
+      document.getElementById('impactoCo2').value = impactoTotal.toFixed(1);
+    });
+  });
+  
+  // Preview de archivo
+  document.getElementById('fileInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const preview = document.getElementById('filesPreview');
+    
+    if (file) {
+      preview.textContent = `📎 ${file.name} (${Math.round(file.size / 1024)} KB)`;
+    } else {
+      preview.textContent = '';
+    }
+  });
+});
+
+// Exportar funciones al scope global
+window.cargarPerfil = cargarPerfil;
+window.registrarImpacto = registrarImpacto;
 </script>
 </body>
 </html>
