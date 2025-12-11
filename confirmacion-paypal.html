@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✅ Donación Exitosa - BlueSphere Consciousness</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0a3d62, #1a5276);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            color: #333;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .check { font-size: 70px; color: #4CAF50; margin-bottom: 20px; }
+        h1 { color: #0a3d62; margin-bottom: 10px; }
+        .codigo {
+            background: #f0f8ff;
+            border: 3px dashed #0077b6;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 28px;
+            font-weight: bold;
+            color: #0a3d62;
+        }
+        /* === BOTÓN QUE PEDISTE === */
+        .btn-portal {
+            display: inline-block;
+            background: linear-gradient(135deg, #0077b6, #00b4d8);
+            color: white;
+            text-decoration: none;
+            padding: 20px 40px;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 50px;
+            margin: 20px 0;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 119, 182, 0.4);
+        }
+        .btn-portal:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 119, 182, 0.6);
+        }
+        .instruccion { color: #666; margin-top: 15px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="check">✅</div>
+        <h1>¡Donación Confirmada!</h1>
+        <p>Gracias por apoyar a BlueSphere Consciousness.</p>
+        
+        <div class="codigo" id="codigoAcceso">DON-WEB-0001</div>
+        
+        <p><strong>⚠️ Guarda este código para acceder al portal</strong></p>
+        
+        <!-- === TU BOTÓN === -->
+        <a href="https://www.bluesphereconsciousness.org/portal-pacto-azul.html" 
+           class="btn-portal">
+            🌊 Ir al Portal del Pacto Azul
+        </a>
+        
+        <p class="instruccion">Haz clic para acceder al contenido exclusivo</p>
+    </div>
+
+    <script>
+        // Generar código único
+        function generarCodigo() {
+            const random = Math.floor(Math.random() * 9000) + 1000;
+            return `DON-WEB-${random}`;
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const codigo = generarCodigo();
+            document.getElementById('codigoAcceso').textContent = codigo;
+            
+            // Guardar para el portal
+            localStorage.setItem('codigoDonacion', codigo);
+            localStorage.setItem('fechaDonacion', new Date().toISOString());
+            
+            // Obtener datos de PayPal si existen
+            const urlParams = new URLSearchParams(window.location.search);
+            const tx = urlParams.get('tx');
+            const amt = urlParams.get('amt');
+            
+            if (tx) {
+                console.log('Transacción PayPal:', tx);
+                // Aquí podrías enviar a tu backend
+            }
+        });
+    </script>
+</body>
+</html>
