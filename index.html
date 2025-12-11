@@ -944,7 +944,7 @@
 <!-- ============ AQUÍ DEBEN CONTINUAR LOS BOTONES DE DONACIÓN ============ -->
 
 
-       <div class="donacion-seccion">
+       <div class="donacion-seccion" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
     
     <h2 style="text-align:center; color:#0a3d62; margin-bottom:10px;">
         💙 Elige tu aporte consciente
@@ -955,7 +955,7 @@
     
     <!-- PAYPAL -->
     <div class="metodo-pago" style="margin-bottom:40px;">
-        <h3 style="color:#1a5276; display:flex; align-items:center; gap:10px;">
+        <h3 style="color:#1a5276; display:flex; align-items:center; gap:10px; justify-content: center;">
             📌 PayPal (Pesos Mexicanos)
         </h3>
         <div class="donation-grid" style="
@@ -963,6 +963,9 @@
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
             margin: 20px 0;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
         ">
             <a class="donate-btn" href="https://www.paypal.com/ncp/payment/QPXY7DKUR3NES" target="_blank">
                 💧 Semilla<br>
@@ -991,11 +994,11 @@
     </div>
     
     <!-- STRIPE -->
-    <div class="metodo-pago" style="margin-bottom:40px;">
-        <h3 style="color:#1a5276; display:flex; align-items:center; gap:10px;">
+    <div class="metodo-pago" style="margin-bottom:40px; text-align: center;">
+        <h3 style="color:#1a5276; display:flex; align-items:center; gap:10px; justify-content: center;">
             📌 Stripe (Dólares / Internacional)
         </h3>
-        <div style="text-align:center; margin:25px 0;">
+        <div style="margin:25px 0;">
             <a class="donate-btn stripe-btn" 
                href="https://buy.stripe.com/8wMaHxcYbfJFeiIbII" 
                target="_blank"
@@ -1012,23 +1015,43 @@
     </div>
     
     <!-- TRANSFERENCIA BANCARIA -->
-<div class="metodo-pago" style="margin-bottom:40px;">
-    <h3 style="color:#1a5276; display:flex; align-items:center; gap:10px;">
-        📌 Transferencia Bancaria (México)
-    </h3>
-    <div style="text-align:center; margin:25px 0;">
-        <button class="donate-btn bank-btn" 
-                onclick="window.location.href = 'confirmacion-banco.html'"
-                style="display:inline-block; max-width:350px; padding:20px;">
-            🏛 Transferencia Bancaria<br>
-            <span style="font-size:1.1rem; color:#0a3d62; font-weight:600;">
-                Datos bancarios + formulario
-            </span>
-        </button>
+    <div class="metodo-pago" style="margin-bottom:40px; text-align: center;">
+        <h3 style="color:#1a5276; display:flex; align-items:center; gap:10px; justify-content: center;">
+            📌 Transferencia Bancaria (México)
+        </h3>
+        <div style="margin:25px 0;">
+            <button class="donate-btn bank-btn" 
+                    onclick="window.location.href = 'confirmacion-banco.html'"
+                    style="display:inline-block; max-width:350px; padding:20px;">
+                🏛 Transferencia Bancaria<br>
+                <span style="font-size:1.1rem; color:#0a3d62; font-weight:600;">
+                    Datos bancarios + formulario
+                </span>
+            </button>
+        </div>
+        <p style="color:#666; font-size:0.9rem; text-align:center;">
+            <small>Completa el formulario y envía el comprobante para recibir tu código</small>
+        </p>
     </div>
-    <p style="color:#666; font-size:0.9rem; text-align:center;">
-        <small>Completa el formulario y envía el comprobante para recibir tu código</small>
-    </p>
+    
+    <!-- NOTA FINAL -->
+    <div style="
+        background: #f0f9ff;
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+        border: 2px dashed #4dc3ff;
+        margin-top: 30px;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    ">
+        <p style="margin:0; font-size:1.1rem; color:#0a3d62;">
+            ✅ <strong>Todos los métodos te otorgan acceso completo como Guardián:</strong><br>
+            📚 Biblioteca • 🏅 Certificado • 📊 Dashboard • 🎮 Juego Kids
+        </p>
+    </div>
+
 </div>
 
 <!-- MODAL TRANSFERENCIA (OPCIONAL - puedes eliminarlo si no lo usas) -->
@@ -1053,23 +1076,6 @@
         </button>
     </div>
 </div>
-    
-    <!-- NOTA FINAL -->
-    <div style="
-        background: #f0f9ff;
-        border-radius: 15px;
-        padding: 25px;
-        text-align: center;
-        border: 2px dashed #4dc3ff;
-        margin-top: 30px;
-    ">
-        <p style="margin:0; font-size:1.1rem; color:#0a3d62;">
-            ✅ <strong>Todos los métodos te otorgan acceso completo como Guardián:</strong><br>
-            📚 Biblioteca • 🏅 Certificado • 📊 Dashboard • 🎮 Juego Kids
-        </p>
-    </div>
-
-</div>
 
 <script>
     function openBankModal() { 
@@ -1079,7 +1085,6 @@
         document.getElementById('bankModal').style.display = 'none'; 
     }
 </script>
-
 <!-- ============ EMPRESA GUARDIANA - VERSIÓN CORREGIDA MÓVIL ============ -->
 <div class="empresa-guardiana-box" style="
     background: linear-gradient(135deg, #0a3d62 0%, #1a5276 100%);
@@ -1461,6 +1466,7 @@
 
 </body>
 </html>
+
 
 
 
