@@ -203,7 +203,9 @@ let codigoActual = '';
 
 // ==================== FUNCIONES ====================
 
-// 1. VALIDAR CÓDIGO
+// ==================== FUNCIONES PRINCIPALES ====================
+
+// 1. VALIDAR CÓDIGO (SIN CAMBIOS - SE MANTIENE IGUAL)
 async function validarCodigo() {
     const codigo = document.getElementById('codigoInput').value.trim();
     if(!codigo) return mostrarError('Ingresa un código');
@@ -236,10 +238,11 @@ async function validarCodigo() {
     }
 }
 
-// 2. FIRMAR PACTO
+// 2. FIRMAR PACTO (VERSIÓN MEJORADA CON ANIMACIÓN)
 async function startRitual() {
+    // ==================== 1. VALIDACIONES INICIALES ====================
     if(!codigoValidado) {
-        alert('Error de validación');
+        alert('Error de validación: El código no ha sido validado.');
         return;
     }
     
@@ -248,14 +251,45 @@ async function startRitual() {
     const nota = document.getElementById('notaInput').value.trim();
 
     if(!nombre) {
-        alert('El nombre es obligatorio');
+        alert('El nombre es obligatorio para sellar el Pacto.');
         return;
     }
 
-    mostrarCarga(true, "Sellando firma...");
-
+    // ==================== 2. ANIMACIÓN DE SELLADO ====================
+    const btnFirmar = document.getElementById('btnFirmar');
+    const btnCancelar = document.getElementById('btnCancelar');
+    const faseFirma = document.getElementById('faseFirma');
+    
+    // Guardar estado original
+    const originalTexto = btnFirmar.textContent;
+    const originalBackground = btnFirmar.style.background;
+    
+    // 2.1 CAMBIAR ESTADO DEL BOTÓN
+    btnFirmar.innerHTML = '🕊️ <span class="sellando-texto">SELLANDO FIRMA...</span>';
+    btnFirmar.style.background = 'linear-gradient(135deg, #0088cc, #006699)';
+    btnFirmar.disabled = true;
+    
+    // 2.2 DESHABILITAR CANCELAR
+    if(btnCancelar) btnCancelar.disabled = true;
+    
+    // 2.3 EFECTO VISUAL EN EL FORMULARIO COMPLETO
+    faseFirma.style.opacity = '0.8';
+    faseFirma.style.filter = 'blur(1px)';
+    faseFirma.style.transition = 'all 0.5s ease';
+    
+    // 2.4 MOSTRAR INDICADOR DE PROGRESO
+    mostrarCarga(true, "Sellando tu firma en el Registro Azul...");
+    
+    // 2.5 ANIMACIÓN DE "ONDAS DE SELLADO" (visual)
+    crearOndasDeSello();
+    
+    // ==================== 3. ESPERA DRAMÁTICA ====================
+    await new Promise(resolve => setTimeout(resolve, 1800));
+    
+    // ==================== 4. PROCESO REAL EN SUPABASE ====================
     try {
-        const { error } = await supabase
+        // 4.1 INSERTAR FIRMANTE
+        const { error: errorFirma } = await supabase
             .from('firmantes')
             .insert([{ 
                 nombre: nombre, 
@@ -265,45 +299,94 @@ async function startRitual() {
                 fecha_firma: new Date().toISOString()
             }]);
 
+        if (errorFirma) throw errorFirma;
+        
+        // 4.2 MARCAR CÓDIGO COMO USADO
+        const { error: errorCodigo } = await supabase
+            .from('codigos')
+            .update({ usado: true })
+            .eq('codigo', codigoActual);
+            
+        if (errorCodigo) throw errorCodigo;
+        
+        // ==================== 5. ÉXITO - TRANSICIÓN ====================
         mostrarCarga(false);
-
-        if (error) {
-            alert('Error al guardar: ' + error.message);
-        } else {
-            // ÉXITO
+        
+        // 5.1 ANIMACIÓN FINAL DE CONFIRMACIÓN
+        faseFirma.style.opacity = '0';
+        faseFirma.style.filter = 'blur(3px)';
+        
+        setTimeout(() => {
+            // Ocultar formulario
             faseFirma.classList.add('hidden');
+            
+            // Mostrar sello
+            const seal = document.getElementById('seal');
             seal.classList.remove('hidden');
-            accesosBox.classList.remove('hidden');
+            seal.style.opacity = '0';
+            seal.style.transform = 'scale(0.8)';
             
-            // Configurar enlaces
-            const btnCert = document.getElementById('btnCertificado');
-            const btnDash = document.getElementById('btnDashboard');
-            const btnBiblio = document.getElementById('btnBiblioteca');
-            const btnSeg = document.getElementById('btnSeguimiento');
-            
-            if (btnCert) btnCert.href = `certificado-bluesphere.html?nombre=${encodeURIComponent(nombre)}&codigo=${encodeURIComponent(codigoActual)}`;
-            if (btnDash) btnDash.href = `dashboard-global-impacto.html?usuario=${encodeURIComponent(nombre)}`;
-            if (btnBiblio) btnBiblio.href = `modulo-biblioteca.html?codigo=${encodeURIComponent(codigoActual)}`;
-            if (btnSeg) btnSeg.href = `modulo-seguimiento.html?codigo=${encodeURIComponent(codigoActual)}`;
-            
-            // Actualizar muro
-            await cargarMuro();
-        }
+            // Animar aparición del sello
+            setTimeout(() => {
+                seal.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                seal.style.opacity = '1';
+                seal.style.transform = 'scale(1)';
+                
+                // Añadir pulso al texto
+                const textoCompletado = seal.querySelector('p');
+                if(textoCompletado) {
+                    textoCompletado.style.animation = 'pulse 2s infinite';
+                }
+                
+                // Mostrar accesos
+                const accesosBox = document.getElementById('accesosBox');
+                accesosBox.classList.remove('hidden');
+                
+                // Configurar enlaces personalizados
+                const btnCert = document.getElementById('btnCertificado');
+                const btnDash = document.getElementById('btnDashboard');
+                const btnBiblio = document.getElementById('btnBiblioteca');
+                const btnSeg = document.getElementById('btnSeguimiento');
+                
+                if (btnCert) btnCert.href = `certificado-bluesphere.html?nombre=${encodeURIComponent(nombre)}&codigo=${encodeURIComponent(codigoActual)}`;
+                if (btnDash) btnDash.href = `dashboard-global-impacto.html?usuario=${encodeURIComponent(nombre)}`;
+                if (btnBiblio) btnBiblio.href = `modulo-biblioteca.html?codigo=${encodeURIComponent(codigoActual)}`;
+                if (btnSeg) btnSeg.href = `modulo-seguimiento.html?codigo=${encodeURIComponent(codigoActual)}`;
+                
+                // Actualizar muro con nuevo guardián destacado
+                setTimeout(() => cargarMuro(), 500);
+                
+            }, 100);
+        }, 500);
+        
     } catch (err) {
+        // ==================== 6. ERROR - RESTAURAR ESTADO ====================
         mostrarCarga(false);
-        alert('Error inesperado: ' + err.message);
-        console.error('Error firmando:', err);
+        
+        // Restaurar formulario
+        faseFirma.style.opacity = '1';
+        faseFirma.style.filter = 'none';
+        
+        // Restaurar botones
+        btnFirmar.textContent = originalTexto;
+        btnFirmar.style.background = originalBackground;
+        btnFirmar.disabled = false;
+        if(btnCancelar) btnCancelar.disabled = false;
+        
+        // Mostrar error
+        alert('❌ El sello no pudo completarse: ' + (err.message || 'Error desconocido'));
+        console.error('Error en startRitual:', err);
     }
 }
 
-// 3. CARGAR MURO
+// 3. CARGAR MURO (VERSIÓN MEJORADA CON DESTAQUE)
 async function cargarMuro() {
     muroEl.innerHTML = '<div class="center" style="color:var(--muted)">Actualizando...</div>';
     
     try {
         const { data, error } = await supabase
             .from('firmantes')
-            .select('nombre')
+            .select('nombre, fecha_firma')
             .order('fecha_firma', { ascending: false })
             .limit(20);
 
@@ -313,10 +396,19 @@ async function cargarMuro() {
             muroEl.innerHTML = '<div class="center" style="color:var(--muted)">Sé el primero en firmar.</div>';
         } else {
             muroEl.innerHTML = '';
-            data.forEach(item => {
+            data.forEach((item, index) => {
                 const div = document.createElement('div');
                 div.className = 'name-item name-glow';
                 div.textContent = item.nombre;
+                
+                // Destacar el MÁS RECIENTE (primer elemento)
+                if (index === 0) {
+                    div.classList.add('nuevo-guardian');
+                    setTimeout(() => {
+                        div.classList.remove('nuevo-guardian');
+                    }, 8000);
+                }
+                
                 muroEl.appendChild(div);
             });
         }
@@ -346,8 +438,41 @@ function cancelarFirma() {
     resultadoEl.classList.add('hidden');
 }
 
+// ==================== FUNCIONES AUXILIARES NUEVAS ====================
+function crearOndasDeSello() {
+    const faseFirma = document.getElementById('faseFirma');
+    if(!faseFirma) return;
+    
+    // Crear elemento de ondas
+    const ondas = document.createElement('div');
+    ondas.className = 'ondas-sello';
+    ondas.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 3px solid rgba(0, 196, 255, 0.6);
+        z-index: 10;
+        pointer-events: none;
+        animation: expandirOnda 1.5s ease-out forwards;
+    `;
+    
+    faseFirma.appendChild(ondas);
+    
+    // Remover después de la animación
+    setTimeout(() => {
+        if(ondas.parentNode) ondas.parentNode.removeChild(ondas);
+    }, 1500);
+}
+
 // ==================== EVENT LISTENERS ====================
 document.addEventListener('DOMContentLoaded', async () => {
+    // Añadir CSS de animaciones
+    agregarCSSAnimaciones();
+    
     // Configurar botones
     document.getElementById('btnValidar').addEventListener('click', validarCodigo);
     document.getElementById('btnFirmar').addEventListener('click', startRitual);
@@ -358,7 +483,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await cargarMuro();
 });
 
-// ==================== ANIMACIÓN FONDO ====================
+// ==================== ANIMACIÓN FONDO (SIN CAMBIOS) ====================
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
 let w, h, stars = [];
@@ -393,12 +518,80 @@ initStars();
 draw();
 window.addEventListener('resize', initStars);
 
+// ==================== CSS ADICIONAL ====================
+function agregarCSSAnimaciones() {
+    if(!document.getElementById('animaciones-sello')) {
+        const css = `
+            /* ANIMACIÓN DE SELLADO */
+            .sellando-texto {
+                display: inline-block;
+                animation: parpadeoSutil 1.5s infinite;
+            }
+            
+            @keyframes parpadeoSutil {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.7; }
+            }
+            
+            @keyframes expandirOnda {
+                0% {
+                    width: 10px;
+                    height: 10px;
+                    opacity: 1;
+                    border-width: 2px;
+                }
+                100% {
+                    width: 300px;
+                    height: 300px;
+                    opacity: 0;
+                    border-width: 1px;
+                }
+            }
+            
+            @keyframes pulse {
+                0% { 
+                    text-shadow: 0 0 5px #00c4ff;
+                    transform: scale(1);
+                }
+                50% { 
+                    text-shadow: 0 0 20px #00c4ff, 0 0 30px #00c4ff;
+                    transform: scale(1.05);
+                }
+                100% { 
+                    text-shadow: 0 0 5px #00c4ff;
+                    transform: scale(1);
+                }
+            }
+            
+            /* DESTAQUE PARA NUEVO GUARDIÁN */
+            .nuevo-guardian {
+                background: linear-gradient(90deg, 
+                    rgba(0, 196, 255, 0.15), 
+                    rgba(0, 150, 255, 0.25), 
+                    rgba(0, 196, 255, 0.15)
+                ) !important;
+                border: 1px solid #00c4ff !important;
+                transform: scale(1.02);
+                box-shadow: 0 5px 20px rgba(0, 196, 255, 0.3);
+                animation: nuevoDestello 3s ease-in-out;
+            }
+            
+            @keyframes nuevoDestello {
+                0% { box-shadow: 0 0 0 0 rgba(0, 196, 255, 0); }
+                50% { box-shadow: 0 0 30px 10px rgba(0, 196, 255, 0.3); }
+                100% { box-shadow: 0 5px 20px rgba(0, 196, 255, 0.3); }
+            }
+        `;
+        
+        const style = document.createElement('style');
+        style.id = 'animaciones-sello';
+        style.textContent = css;
+        document.head.appendChild(style);
+    }
+}
+
 // ==================== EXPORTAR FUNCIONES ====================
 window.validarCodigo = validarCodigo;
 window.startRitual = startRitual;
 window.cancelarFirma = cancelarFirma;
 window.cargarMuro = cargarMuro;
-
-</script>
-</body>
-</html>
