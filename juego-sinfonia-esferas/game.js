@@ -244,16 +244,37 @@ function createConnection(nodeA, nodeB, pattern){
   if(countDisplay) countDisplay.textContent = STATE.totalConnections;
   
   playTone(CONFIG.PATTERNS[pattern].sound);
+
+  // === NUEVA LÓGICA: TRANSFORMACIÓN VISUAL ===
+  const imageContainer = document.querySelector('.image-container');
   
-  // Revelar pieza de imagen
-  const tileIndex = STATE.totalConnections - 1;
-  const tile = document.getElementById('tile-' + tileIndex);
-  if(tile) tile.classList.add('revealed');
+  // Al terminar la conexión 4 (Fin de etapa Agua/Tierra) -> Pasamos a Recuperación
+  if(STATE.totalConnections === 4){
+       imageContainer.classList.add('stage-recovery');
+       // Un sonido especial mágico para marcar el cambio
+       playTone(440, 'triangle'); 
+       setTimeout(()=> playTone(554, 'triangle'), 200);
+       setTimeout(()=> playTone(659, 'triangle'), 400);
+  }
+  
+  // Al terminar la conexión 8 (Fin de etapa Flora/Energía) -> Pasamos al Paraíso Final
+  if(STATE.totalConnections === 8){
+       imageContainer.classList.remove('stage-recovery');
+       imageContainer.classList.add('stage-final');
+       // Otro sonido mágico
+       playTone(523, 'triangle');
+       setTimeout(()=> playTone(659, 'triangle'), 200);
+       setTimeout(()=> playTone(784, 'triangle'), 400);
+  }
+  // ===========================================
+  
+  // Revelar pieza de imagen (quitando el cuadro negro)
+  revealNextTile();
   
   // Actualizar pista para el siguiente paso
   updateMissionHint();
 
-  // Victoria
+  // Victoria Final (Conexión 12)
   if(STATE.totalConnections >= CONFIG.CENTER_AWAKEN_THRESHOLD){
     setTimeout(()=>{
       if(oracleCard) oracleCard.classList.add('visible');
