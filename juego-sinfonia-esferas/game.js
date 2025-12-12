@@ -229,8 +229,10 @@ function checkSelection(nodeA, nodeB, pattern){
     playErrorSound();
     // Animación de "temblor" o feedback visual
     const hint = document.getElementById('hint');
-    hint.style.color = 'red';
-    setTimeout(()=> hint.style.color = '', 400);
+    if(hint) {
+        hint.style.color = 'red';
+        setTimeout(()=> hint.style.color = '', 400);
+    }
   }
 }
 
