@@ -1,27 +1,120 @@
-:root{
-  --bg-1:#05061a;
-  --bg-2:#071233;
-  --muted:#9ecff7;
-  --glass: rgba(8,18,32,0.75);
+:root {
+  --bg-1: #05061a;
+  --bg-2: #0b1a30;
+  --accent: #00e0ff;
 }
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;font-family:Inter, Arial, sans-serif;background:radial-gradient(circle at 30% 30%, var(--bg-1) 0%, var(--bg-2) 100%);color:var(--muted);overflow:hidden}
-#ui{position:absolute;top:16px;left:50%;transform:translateX(-50%);text-align:center;z-index:20;pointer-events:none}
-#title{font-size:2.2rem;background:linear-gradient(90deg,#00e0ff,#00ffaa);-webkit-background-clip:text;color:transparent;margin:0}
-#subtitle{margin-top:6px;opacity:0.8;font-size:0.95rem}
-#counter{position:absolute;top:18px;right:18px;background:linear-gradient(180deg, rgba(0,10,20,0.55), rgba(0,0,0,0.25));padding:10px 14px;border-radius:12px;border:1px solid rgba(0,200,255,0.12);z-index:20}
-#hint{position:absolute;bottom:18px;width:100%;text-align:center;font-style:italic;opacity:0.8;z-index:20;pointer-events:none}
+* { box-sizing: border-box; }
+body { margin: 0; overflow: hidden; font-family: 'Inter', sans-serif; background: var(--bg-1); color: white; }
 
-canvas{display:block;width:100vw;height:100vh;cursor:crosshair}
-
-#habitMenu{
-  position:fixed;z-index:100;display:none;pointer-events:auto;border-radius:50%;
-  backdrop-filter: blur(8px);box-shadow:0 8px 30px rgba(0,160,255,0.08);border:1px solid rgba(80,200,255,0.12);
-  background:linear-gradient(180deg, rgba(8,18,32,0.9), rgba(12,26,44,0.75));
-  width:220px;height:220px;transform:scale(0);transition:transform 350ms cubic-bezier(.2,.9,.2,1);
-  overflow:visible;
+/* LAYOUT PRINCIPAL */
+.main-layout {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
 }
-#habitMenu.show{display:flex;transform:scale(1)}
-.habit-btn{position:absolute;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;border:2px solid transparent;background:rgba(10,18,36,0.95)}
-.habit-btn:hover{transform:scale(1.25)}
-#fog{position:fixed;inset:0;pointer-events:none;z-index:1;background-image:radial-gradient(closest-side, rgba(255,255,255,0.02), transparent 40%);mix-blend-mode:overlay}
+
+/* IZQUIERDA: JUEGO */
+.game-area {
+  flex: 1; /* Ocupa el espacio restante */
+  position: relative;
+  background: radial-gradient(circle at 50% 50%, var(--bg-2), var(--bg-1));
+}
+canvas { display: block; width: 100%; height: 100%; }
+
+/* DERECHA: RECOMPENSA */
+.reward-area {
+  width: 450px; /* Ancho fijo para la imagen */
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 2px solid #334;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+}
+
+/* IMAGEN OCULTA */
+.image-container {
+  width: 380px;
+  height: 550px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  /* IMAGEN DE PRUEBA (Bosque estilo Ghibli) */
+  background-image: url('https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=1000&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 20px rgba(0,255,255,0.1);
+}
+
+/* LA REJILLA DE CUADROS NEGROS (MÁSCARA) */
+#mask-grid {
+  position: absolute; inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+  grid-template-rows: repeat(4, 1fr);    /* 4 filas = 12 cuadros total */
+}
+.mask-tile {
+  background-color: #1a1c2e;
+  border: 1px solid #2a2d45;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  z-index: 10;
+}
+.mask-tile.revealed {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+
+/* CARTA DEL ORÁCULO (FINAL) */
+#oracle-card {
+  position: absolute; inset: 0;
+  background: rgba(0, 10, 20, 0.85);
+  backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease;
+  z-index: 20;
+}
+#oracle-card.visible { opacity: 1; pointer-events: auto; }
+#oracle-card h2 { color: var(--accent); margin-bottom: 10px; }
+#oracle-card button {
+  margin-top: 20px; padding: 10px 20px;
+  background: var(--accent); border: none; border-radius: 20px;
+  cursor: pointer; font-weight: bold;
+}
+
+/* UI ELEMENTOS */
+#ui { position: absolute; top: 20px; width: 100%; text-align: center; pointer-events: none; z-index: 5; }
+#title { margin: 0; font-size: 1.8rem; background: linear-gradient(90deg, #fff, #00e0ff); -webkit-background-clip: text; color: transparent; }
+#subtitle { font-size: 0.9rem; opacity: 0.7; }
+#counter-box { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; border: 1px solid #334; }
+#hint { position: absolute; bottom: 20px; width: 100%; text-align: center; opacity: 0.6; font-size: 0.85rem; pointer-events: none; }
+
+/* MENÚ HABITOS */
+#habitMenu {
+  position: fixed; display: none; z-index: 100;
+  width: 220px; height: 220px; border-radius: 50%;
+}
+#habitMenu.show { display: block; }
+.habit-btn {
+  position: absolute; width: 50px; height: 50px;
+  background: #0b1a30; border-radius: 50%; border: 2px solid;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; cursor: pointer;
+  transition: transform 0.2s;
+}
+.habit-btn:hover { transform: scale(1.2); background: #152a4a; }
+
+/* Responsive para celular */
+@media (max-width: 768px) {
+  .main-layout { flex-direction: column-reverse; } /* Imagen arriba, juego abajo */
+  .reward-area { width: 100%; height: 200px; padding: 10px; }
+  .image-container { width: 100%; height: 100%; max-width: 300px; }
+  #mask-grid { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(3, 1fr); }
+}
