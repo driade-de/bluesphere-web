@@ -46,18 +46,35 @@ canvas {
   z-index: 10;
 }
 
-/* IMAGEN OCULTA */
+/* IMAGEN OCULTA (CONTENEDOR PRINCIPAL) */
 .image-container {
   width: 380px;
   height: 550px;
   position: relative;
   border-radius: 12px;
   overflow: hidden;
-  /* IMAGEN DE PRUEBA (Bosque estilo Ghibli) */
-  background-image: url('https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=1000&auto=format&fit=crop');
+  box-shadow: 0 0 20px rgba(0,255,255,0.1);
+  
+  /* --- CONFIGURACIÓN DE IMÁGENES --- */
   background-size: cover;
   background-position: center;
-  box-shadow: 0 0 20px rgba(0,255,255,0.1);
+  /* Transición suave de 1 segundo al cambiar de imagen */
+  transition: background-image 1.5s ease-in-out; 
+
+  /* IMAGEN ETAPA 1: CAOS (Placeholder: Desierto/Contaminación) */
+  background-image: url('https://images.unsplash.com/photo-1569063386798-345908ef9a62?q=80&w=1000&auto=format&fit=crop');
+}
+
+/* IMAGEN ETAPA 2: ESPERANZA (Se activa por JS) */
+.image-container.stage-recovery {
+  /* Placeholder: Un brote verde en tierra seca */
+  background-image: url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=1000&auto=format&fit=crop') !important;
+}
+
+/* IMAGEN ETAPA 3: PARAÍSO FINAL (Se activa por JS) */
+.image-container.stage-final {
+  /* El bosque estilo Ghibli */
+  background-image: url('https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=1000&auto=format&fit=crop') !important;
 }
 
 /* REJILLA DE MÁSCARA */
