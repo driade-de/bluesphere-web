@@ -1,8 +1,8 @@
-// game.js — MODO CLIC (Fácil de usar)
+// game.js — MODO CLIC (Fácil y Rápido)
 const CONFIG = {
   NODE_COUNT: 12,
-  NODE_RADIUS: 25,       // Puntos grandes fáciles de cliquear
-  ORBIT_SPEED: 0.001,    // Velocidad suave
+  NODE_RADIUS: 25,       // Puntos más grandes
+  ORBIT_SPEED: 0.001,    
   PATTERNS: {
     flora:    { color:'#FF6BCB', sound:392 },
     agua:     { color:'#2F9BFF', sound:523 },
@@ -16,7 +16,7 @@ const CONFIG = {
 
 const STATE = {
   nodes: [], connections: [], totalConnections:0,
-  selectedNode: null, // Guardamos cuál fue el primer clic
+  selectedNode: null, // Guardamos el primer clic
   activeMenu: false, audioCtx: null, masterGain: null
 };
 
@@ -27,11 +27,10 @@ const habitMenu = document.getElementById('habitMenu');
 const countDisplay = document.getElementById('count');
 const hint = document.getElementById('hint');
 
-// Iniciar
 function init(){
   resizeCanvas(); createNodes(); setupAudio(); setupListeners(); animate();
-  // Cambiar el texto de ayuda para que sepa que es con clic
-  if(hint) hint.textContent = "Haz CLIC en un punto y luego CLIC en otro para conectar";
+  // Actualizamos el texto automáticamente
+  if(hint) hint.textContent = "👆 Haz CLIC en un punto y luego CLIC en otro para conectar";
 }
 
 function resizeCanvas(){ canvas.width = innerWidth; canvas.height = innerHeight; }
@@ -45,12 +44,11 @@ function createNodes(){
     STATE.nodes.push({
       id:i, baseAngle: angle, orbitRadius: radius,
       x: cx + Math.cos(angle)*radius, y: cy + Math.sin(angle)*radius,
-      pulse:0, glow: Math.random()*0.25+0.75
+      pulse:0
     });
   }
 }
 
-// Sonido
 function setupAudio(){
   try{
     const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -71,24 +69,23 @@ function playTone(freq){
   o.start(); o.stop(STATE.audioCtx.currentTime + 0.6);
 }
 
-// Eventos (Solo usamos CLIC ahora)
 function setupListeners(){
   window.addEventListener('resize', ()=>{ resizeCanvas(); createNodes(); });
   
-  // Usamos 'click' para todo (funciona en PC y Celular)
+  // Usamos CLICK en lugar de mousemove/down
   canvas.addEventListener('click', onCanvasClick);
   
-  // Cerrar menú si clic fuera
+  // Cerrar menú
   document.addEventListener('click', (e)=>{ 
     if(STATE.activeMenu && !habitMenu.contains(e.target) && e.target !== canvas) closeMenu(); 
   });
   
-  // Activar audio al primer toque
+  // Activar audio
   window.addEventListener('click', ()=>{ if(STATE.audioCtx?.state === 'suspended') STATE.audioCtx.resume(); }, {once:true});
 }
 
 function onCanvasClick(e){
-  if(STATE.activeMenu) return; // Si el menú está abierto, no hacer nada en el canvas
+  if(STATE.activeMenu) return; 
   
   const rect = canvas.getBoundingClientRect();
   const mouseX = e.clientX - rect.left;
@@ -98,7 +95,7 @@ function onCanvasClick(e){
   let clickedNode = null;
   for(const node of STATE.nodes){
     const dist = Math.hypot(mouseX - node.x, mouseY - node.y);
-    if(dist < CONFIG.NODE_RADIUS * 1.5){ // Área de clic generosa
+    if(dist < CONFIG.NODE_RADIUS * 1.5){ 
       clickedNode = node;
       break;
     }
@@ -107,28 +104,26 @@ function onCanvasClick(e){
   if(clickedNode){
     handleNodeClick(clickedNode);
   } else {
-    // Si clic en el vacío, deseleccionar
-    STATE.selectedNode = null;
+    STATE.selectedNode = null; // Clic al aire deselecciona
   }
 }
 
 function handleNodeClick(node){
-  // Caso 1: No hay nada seleccionado -> Seleccionar este
+  // 1. Primer clic: Seleccionar
   if(!STATE.selectedNode){
     STATE.selectedNode = node;
-    node.pulse = 1.5; // Efecto visual
-    playTone(300);    // Sonido suave
+    node.pulse = 1.5; 
+    playTone(300);
     return;
   }
 
-  // Caso 2: Clic en el MISMO nodo -> Deseleccionar
+  // 2. Clic en el mismo: Deseleccionar
   if(STATE.selectedNode === node){
     STATE.selectedNode = null;
     return;
   }
 
-  // Caso 3: Clic en OTRO nodo -> ¡CONECTAR!
-  // Verificar si ya existe conexión
+  // 3. Clic en otro: Conectar
   const exists = STATE.connections.some(c => 
     (c.from === STATE.selectedNode && c.to === node) || 
     (c.from === node && c.to === STATE.selectedNode)
@@ -137,20 +132,18 @@ function handleNodeClick(node){
   if(!exists){
     showHabitMenu(STATE.selectedNode, node);
   }
-  
-  STATE.selectedNode = null; // Resetear selección
+  STATE.selectedNode = null; 
 }
 
 function showHabitMenu(nodeA, nodeB){
   STATE.activeMenu = true;
-  // Posicionar menú entre los dos nodos
   const midX = (nodeA.x + nodeB.x)/2;
   const midY = (nodeA.y + nodeB.y)/2;
   
   habitMenu.style.left = (midX - 110) + 'px';
   habitMenu.style.top  = (midY - 110) + 'px';
   habitMenu.classList.add('show');
-  habitMenu.innerHTML = ''; // Limpiar
+  habitMenu.innerHTML = ''; 
 
   const habits = [
     {emoji:'🍃', p:'flora'}, {emoji:'💧', p:'agua'}, {emoji:'🌱', p:'tierra'},
@@ -162,14 +155,13 @@ function showHabitMenu(nodeA, nodeB){
     const btn = document.createElement('div');
     btn.className = 'habit-btn';
     btn.textContent = h.emoji;
-    // Posición circular botones
     btn.style.left = (110 + Math.cos(angle)*75 - 28) + 'px';
     btn.style.top  = (110 + Math.sin(angle)*75 - 28) + 'px';
     btn.style.borderColor = CONFIG.PATTERNS[h.p].color;
     btn.style.color = CONFIG.PATTERNS[h.p].color;
     
     btn.onclick = (e)=>{ 
-      e.stopPropagation(); // Evitar que el clic pase al canvas
+      e.stopPropagation(); 
       createConnection(nodeA, nodeB, h.p); 
       closeMenu(); 
     };
@@ -187,9 +179,7 @@ function createConnection(nodeA, nodeB, pattern){
   STATE.totalConnections++;
   countDisplay.textContent = STATE.totalConnections;
   playTone(CONFIG.PATTERNS[pattern].sound);
-  
   if(STATE.totalConnections >= CONFIG.CENTER_AWAKEN_THRESHOLD){
-    // Efecto final simple
     document.body.style.transition = "background 2s";
     document.body.style.background = "#0b1a30"; 
   }
@@ -208,10 +198,8 @@ function animate(){
     ctx.stroke();
   }
 
-  // Dibujar línea temporal si hay uno seleccionado
+  // Línea visual si hay selección
   if(STATE.selectedNode){
-    // Como no trackeamos el mouse constantemente para ahorrar recursos,
-    // solo dibujamos un anillo alrededor del seleccionado
     ctx.beginPath();
     ctx.arc(STATE.selectedNode.x, STATE.selectedNode.y, CONFIG.NODE_RADIUS + 10, 0, Math.PI*2);
     ctx.strokeStyle = "white";
@@ -220,10 +208,8 @@ function animate(){
     ctx.setLineDash([]);
   }
 
-  // Dibujar nodos
-  const now = Date.now();
+  // Nodos
   for(const node of STATE.nodes){
-    // Movimiento orbital suave
     node.baseAngle += CONFIG.ORBIT_SPEED;
     const cx = canvas.width/2, cy = canvas.height/2;
     node.x = cx + Math.cos(node.baseAngle)*node.orbitRadius;
@@ -231,16 +217,12 @@ function animate(){
 
     ctx.beginPath();
     ctx.arc(node.x, node.y, CONFIG.NODE_RADIUS, 0, Math.PI*2);
-    
-    // Color: Si está seleccionado, brilla más
     if(node === STATE.selectedNode) ctx.fillStyle = "#ffffff";
     else ctx.fillStyle = "rgba(180,230,255,0.8)";
-    
     ctx.shadowBlur = 15;
     ctx.shadowColor = '#00d0ff';
     ctx.fill();
 
-    // Pulso al hacer clic
     if(node.pulse > 0){
       ctx.beginPath();
       ctx.arc(node.x, node.y, CONFIG.NODE_RADIUS + node.pulse*20, 0, Math.PI*2);
@@ -249,7 +231,6 @@ function animate(){
       node.pulse -= 0.1;
     }
   }
-
   requestAnimationFrame(animate);
 }
 
