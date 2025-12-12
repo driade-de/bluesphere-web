@@ -1,4 +1,4 @@
-// game.js - VERSIÓN MAESTRA: SECUENCIA SAGRADA + ESTRELLA
+// game.js - VERSIÓN FINAL: METAMORFOSIS + SECUENCIA + ESTRELLA
 const CONFIG = {
   NODE_COUNT: 12, 
   NODE_RADIUS: 25,
@@ -13,12 +13,12 @@ const CONFIG = {
   },
   // EL ORDEN SAGRADO (12 Pasos)
   SEQUENCE: [
-    'agua', 'agua',         // 1. Hidratar
-    'tierra', 'tierra',     // 2. Cimentar
-    'flora', 'flora',       // 3. Florecer
-    'energia', 'energia',   // 4. Vitalizar
-    'transporte', 'transporte', // 5. Mover
-    'reciclar', 'reciclar'  // 6. Renovar
+    'agua', 'agua',         // Etapa 1: Caos -> Esperanza
+    'tierra', 'tierra',     
+    'flora', 'flora',       // Etapa 2: Esperanza -> Paraíso
+    'energia', 'energia',   
+    'transporte', 'transporte', 
+    'reciclar', 'reciclar'  
   ],
   CENTER_AWAKEN_THRESHOLD: 12
 };
@@ -45,17 +45,17 @@ function init(){
   createNodes(); 
   setupAudio(); 
   setupListeners(); 
-  updateMissionHint(); // Mostrar la primera misión
+  updateMissionHint(); 
   animate();
 }
 
+// Actualizar texto de misión
 function updateMissionHint(){
   if(STATE.totalConnections >= CONFIG.SEQUENCE.length) return;
   
   const currentKey = CONFIG.SEQUENCE[STATE.totalConnections];
   const target = CONFIG.PATTERNS[currentKey];
   
-  // Buscar el emoji correspondiente
   const habits = [
     {e:'🍃',p:'flora'}, {e:'💧',p:'agua'}, {e:'🌱',p:'tierra'},
     {e:'🚲',p:'transporte'}, {e:'♻️',p:'reciclar'}, {e:'💡',p:'energia'}
@@ -68,6 +68,7 @@ function updateMissionHint(){
   }
 }
 
+// Crear rejilla negra
 function createMaskTiles(){
   if(!maskGrid) return;
   maskGrid.innerHTML = '';
@@ -78,6 +79,14 @@ function createMaskTiles(){
     maskGrid.appendChild(tile);
   }
 }
+
+// --- ESTA ES LA FUNCIÓN QUE FALTABA ---
+function revealNextTile(){
+  const tileIndex = STATE.totalConnections - 1;
+  const tile = document.getElementById('tile-' + tileIndex);
+  if(tile) tile.classList.add('revealed');
+}
+// --------------------------------------
 
 function resizeCanvas(){ 
   const parent = canvas.parentElement;
@@ -127,7 +136,7 @@ function playErrorSound(){
   if(!STATE.audioCtx) return;
   const o = STATE.audioCtx.createOscillator();
   const g = STATE.audioCtx.createGain();
-  o.type = 'sawtooth'; o.frequency.value = 100; // Sonido grave "Incorrecto"
+  o.type = 'sawtooth'; o.frequency.value = 100;
   g.gain.setValueAtTime(0.2, STATE.audioCtx.currentTime);
   g.gain.exponentialRampToValueAtTime(0.001, STATE.audioCtx.currentTime + 0.4);
   o.connect(g); g.connect(STATE.masterGain);
@@ -164,7 +173,7 @@ function handleNodeClick(node){
   }
   if(STATE.selectedNode === node){ STATE.selectedNode = null; return; }
 
-  // REGLA 1: GEOMETRÍA (ESTRELLA)
+  // REGLA 1: ESTRELLA (No vecinos)
   const diff = Math.abs(STATE.selectedNode.id - node.id);
   const isNeighbor = (diff === 1) || (diff === (CONFIG.NODE_COUNT - 1));
   if(isNeighbor){
@@ -207,16 +216,12 @@ function showHabitMenu(nodeA, nodeB){
     btn.style.borderColor = CONFIG.PATTERNS[h.p].color;
     btn.style.color = CONFIG.PATTERNS[h.p].color;
     
-    // AQUÍ ESTÁ LA NUEVA VALIDACIÓN DE SECUENCIA
-    btn.onclick = (e)=>{ 
-      e.stopPropagation(); 
-      checkSelection(nodeA, nodeB, h.p); 
-    };
+    btn.onclick = (e)=>{ e.stopPropagation(); checkSelection(nodeA, nodeB, h.p); };
     habitMenu.appendChild(btn);
   });
 }
 
-// REGLA 2: LA SECUENCIA CORRECTA
+// REGLA 2: SECUENCIA CORRECTA
 function checkSelection(nodeA, nodeB, pattern){
   const required = CONFIG.SEQUENCE[STATE.totalConnections];
   
@@ -227,8 +232,6 @@ function checkSelection(nodeA, nodeB, pattern){
   } else {
     // ¡INCORRECTO!
     playErrorSound();
-    // Animación de "temblor" o feedback visual
-    const hint = document.getElementById('hint');
     if(hint) {
         hint.style.color = 'red';
         setTimeout(()=> hint.style.color = '', 400);
@@ -244,37 +247,29 @@ function createConnection(nodeA, nodeB, pattern){
   if(countDisplay) countDisplay.textContent = STATE.totalConnections;
   
   playTone(CONFIG.PATTERNS[pattern].sound);
-
-  // === NUEVA LÓGICA: TRANSFORMACIÓN VISUAL ===
+  
+  // === METAMORFOSIS VISUAL ===
   const imageContainer = document.querySelector('.image-container');
-  
-  // Al terminar la conexión 4 (Fin de etapa Agua/Tierra) -> Pasamos a Recuperación
-  if(STATE.totalConnections === 4){
-       imageContainer.classList.add('stage-recovery');
-       // Un sonido especial mágico para marcar el cambio
-       playTone(440, 'triangle'); 
-       setTimeout(()=> playTone(554, 'triangle'), 200);
-       setTimeout(()=> playTone(659, 'triangle'), 400);
+  if(imageContainer){
+      // Cambio a etapa 2 (Esperanza) tras 4 conexiones
+      if(STATE.totalConnections === 4){
+           imageContainer.classList.add('stage-recovery');
+           playTone(440, 'triangle'); 
+      }
+      // Cambio a etapa 3 (Paraíso) tras 8 conexiones
+      if(STATE.totalConnections === 8){
+           imageContainer.classList.remove('stage-recovery');
+           imageContainer.classList.add('stage-final');
+           playTone(523, 'triangle');
+      }
   }
   
-  // Al terminar la conexión 8 (Fin de etapa Flora/Energía) -> Pasamos al Paraíso Final
-  if(STATE.totalConnections === 8){
-       imageContainer.classList.remove('stage-recovery');
-       imageContainer.classList.add('stage-final');
-       // Otro sonido mágico
-       playTone(523, 'triangle');
-       setTimeout(()=> playTone(659, 'triangle'), 200);
-       setTimeout(()=> playTone(784, 'triangle'), 400);
-  }
-  // ===========================================
-  
-  // Revelar pieza de imagen (quitando el cuadro negro)
+  // Revelar cuadro negro
   revealNextTile();
-  
-  // Actualizar pista para el siguiente paso
+  // Siguiente misión
   updateMissionHint();
 
-  // Victoria Final (Conexión 12)
+  // Victoria
   if(STATE.totalConnections >= CONFIG.CENTER_AWAKEN_THRESHOLD){
     setTimeout(()=>{
       if(oracleCard) oracleCard.classList.add('visible');
@@ -289,19 +284,16 @@ function animate(){
     ctx.beginPath(); ctx.moveTo(c.from.x, c.from.y); ctx.lineTo(c.to.x, c.to.y);
     ctx.strokeStyle = CONFIG.PATTERNS[c.pattern].color; ctx.lineWidth = 3; ctx.stroke();
   }
-  // Errores
   for(let i=STATE.errorLines.length-1; i>=0; i--){
     const err = STATE.errorLines[i];
     ctx.beginPath(); ctx.moveTo(err.from.x, err.from.y); ctx.lineTo(err.to.x, err.to.y);
     ctx.strokeStyle = `rgba(255, 50, 50, ${err.life})`; ctx.lineWidth = 4; ctx.stroke();
     err.life -= 0.05; if(err.life <= 0) STATE.errorLines.splice(i, 1);
   }
-  // Selección
   if(STATE.selectedNode){
     ctx.beginPath(); ctx.arc(STATE.selectedNode.x, STATE.selectedNode.y, CONFIG.NODE_RADIUS + 10, 0, Math.PI*2);
     ctx.strokeStyle = "white"; ctx.setLineDash([5,5]); ctx.stroke(); ctx.setLineDash([]);
   }
-  // Nodos
   for(const node of STATE.nodes){
     node.baseAngle += CONFIG.ORBIT_SPEED;
     const cx = canvas.width/2, cy = canvas.height/2;
