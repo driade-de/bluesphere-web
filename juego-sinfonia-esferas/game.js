@@ -1,23 +1,32 @@
-// game.js - VERSIÓN "REGLA DE LA ESTRELLA" (Dificultad Media)
+// game.js - VERSIÓN MAESTRA: SECUENCIA SAGRADA + ESTRELLA
 const CONFIG = {
   NODE_COUNT: 12, 
   NODE_RADIUS: 25,
   ORBIT_SPEED: 0.001,
   PATTERNS: {
-    flora:    { color:'#FF6BCB', sound:392 },
-    agua:     { color:'#2F9BFF', sound:523 },
-    tierra:   { color:'#8AFF80', sound:659 },
-    transporte:{ color:'#FFAA33', sound:440 },
-    reciclar: { color:'#9D6BFF', sound:587 },
-    energia:  { color:'#FFFF80', sound:349 }
+    flora:    { color:'#FF6BCB', sound:392, name:'FLORA' },
+    agua:     { color:'#2F9BFF', sound:523, name:'AGUA' },
+    tierra:   { color:'#8AFF80', sound:659, name:'TIERRA' },
+    transporte:{ color:'#FFAA33', sound:440, name:'MOVILIDAD' },
+    reciclar: { color:'#9D6BFF', sound:587, name:'RECICLAJE' },
+    energia:  { color:'#FFFF80', sound:349, name:'ENERGÍA' }
   },
+  // EL ORDEN SAGRADO (12 Pasos)
+  SEQUENCE: [
+    'agua', 'agua',         // 1. Hidratar
+    'tierra', 'tierra',     // 2. Cimentar
+    'flora', 'flora',       // 3. Florecer
+    'energia', 'energia',   // 4. Vitalizar
+    'transporte', 'transporte', // 5. Mover
+    'reciclar', 'reciclar'  // 6. Renovar
+  ],
   CENTER_AWAKEN_THRESHOLD: 12
 };
 
 const STATE = {
   nodes: [], connections: [], totalConnections:0,
   selectedNode: null, activeMenu: false, audioCtx: null, masterGain: null,
-  errorLines: [] // Para dibujar líneas rojas de error
+  errorLines: []
 };
 
 // DOM Elements
@@ -36,10 +45,27 @@ function init(){
   createNodes(); 
   setupAudio(); 
   setupListeners(); 
+  updateMissionHint(); // Mostrar la primera misión
   animate();
+}
+
+function updateMissionHint(){
+  if(STATE.totalConnections >= CONFIG.SEQUENCE.length) return;
   
-  // Actualizar pista para el jugador
-  if(hint) hint.innerHTML = "✨ Regla de la Estrella: <br>No conectes vecinos. Cruza el centro para tejer la red.";
+  const currentKey = CONFIG.SEQUENCE[STATE.totalConnections];
+  const target = CONFIG.PATTERNS[currentKey];
+  
+  // Buscar el emoji correspondiente
+  const habits = [
+    {e:'🍃',p:'flora'}, {e:'💧',p:'agua'}, {e:'🌱',p:'tierra'},
+    {e:'🚲',p:'transporte'}, {e:'♻️',p:'reciclar'}, {e:'💡',p:'energia'}
+  ];
+  const icon = habits.find(h => h.p === currentKey).e;
+
+  if(hint){
+    hint.innerHTML = `Misión ${STATE.totalConnections + 1}/12: <br> 
+    Conecta la energía de <strong style="color:${target.color}">${target.name} ${icon}</strong>`;
+  }
 }
 
 function createMaskTiles(){
@@ -50,23 +76,6 @@ function createMaskTiles(){
     tile.className = 'mask-tile';
     tile.id = 'tile-' + i;
     maskGrid.appendChild(tile);
-  }
-}
-
-function revealNextTile(){
-  const tileIndex = STATE.totalConnections - 1;
-  const tile = document.getElementById('tile-' + tileIndex);
-  if(tile) tile.classList.add('revealed');
-  
-  if(STATE.totalConnections >= CONFIG.CENTER_AWAKEN_THRESHOLD){
-    setTimeout(showOracle, 1500);
-  }
-}
-
-function showOracle(){
-  if(oracleCard){
-    oracleCard.classList.add('visible');
-    playTone(880, 'sine');
   }
 }
 
@@ -84,13 +93,11 @@ function createNodes(){
   const cx = canvas.width/2;
   const cy = canvas.height/2;
   const radius = Math.min(cx,cy) * 0.65;
-  
   for(let i=0;i<CONFIG.NODE_COUNT;i++){
     const angle = (i/CONFIG.NODE_COUNT)*Math.PI*2;
     STATE.nodes.push({
       id:i, baseAngle: angle, orbitRadius: radius,
-      x: cx + Math.cos(angle)*radius, y: cy + Math.sin(angle)*radius,
-      pulse:0
+      x: cx + Math.cos(angle)*radius, y: cy + Math.sin(angle)*radius, pulse:0
     });
   }
 }
@@ -109,8 +116,7 @@ function playTone(freq, type='sine'){
   if(!STATE.audioCtx) return;
   const o = STATE.audioCtx.createOscillator();
   const g = STATE.audioCtx.createGain();
-  o.type = type;
-  o.frequency.value = freq;
+  o.type = type; o.frequency.value = freq;
   g.gain.setValueAtTime(0.1, STATE.audioCtx.currentTime);
   g.gain.exponentialRampToValueAtTime(0.001, STATE.audioCtx.currentTime + 0.5);
   o.connect(g); g.connect(STATE.masterGain);
@@ -121,12 +127,11 @@ function playErrorSound(){
   if(!STATE.audioCtx) return;
   const o = STATE.audioCtx.createOscillator();
   const g = STATE.audioCtx.createGain();
-  o.type = 'sawtooth'; // Sonido rasposo de error
-  o.frequency.value = 150;
-  g.gain.setValueAtTime(0.1, STATE.audioCtx.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.001, STATE.audioCtx.currentTime + 0.3);
+  o.type = 'sawtooth'; o.frequency.value = 100; // Sonido grave "Incorrecto"
+  g.gain.setValueAtTime(0.2, STATE.audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, STATE.audioCtx.currentTime + 0.4);
   o.connect(g); g.connect(STATE.masterGain);
-  o.start(); o.stop(STATE.audioCtx.currentTime + 0.4);
+  o.start(); o.stop(STATE.audioCtx.currentTime + 0.5);
 }
 
 function setupListeners(){
@@ -149,36 +154,24 @@ function onCanvasClick(e){
     const dist = Math.hypot(mouseX - node.x, mouseY - node.y);
     if(dist < CONFIG.NODE_RADIUS * 1.8){ clickedNode = node; break; }
   }
-
   if(clickedNode) handleNodeClick(clickedNode);
   else STATE.selectedNode = null;
 }
 
-// === LÓGICA DE LA ESTRELLA AQUI ===
 function handleNodeClick(node){
-  // 1. Primer clic
   if(!STATE.selectedNode){
-    STATE.selectedNode = node;
-    node.pulse = 1.5; playTone(300); return;
+    STATE.selectedNode = node; node.pulse = 1.5; playTone(300); return;
   }
-  // 2. Clic en el mismo (cancelar)
   if(STATE.selectedNode === node){ STATE.selectedNode = null; return; }
 
-  // 3. VALIDACIÓN: ¿Son vecinos?
-  const idA = STATE.selectedNode.id;
-  const idB = node.id;
-  const diff = Math.abs(idA - idB);
-  // Es vecino si la diferencia es 1 O si es el cierre del círculo (ej: 0 y 11)
+  // REGLA 1: GEOMETRÍA (ESTRELLA)
+  const diff = Math.abs(STATE.selectedNode.id - node.id);
   const isNeighbor = (diff === 1) || (diff === (CONFIG.NODE_COUNT - 1));
-
   if(isNeighbor){
-    // ¡ERROR! No permitido
     triggerError(STATE.selectedNode, node);
-    STATE.selectedNode = null; // Reiniciar selección
-    return;
+    STATE.selectedNode = null; return;
   }
 
-  // 4. Si pasa la validación, conectar
   const exists = STATE.connections.some(c => (c.from === STATE.selectedNode && c.to === node) || (c.from === node && c.to === STATE.selectedNode));
   if(!exists) showHabitMenu(STATE.selectedNode, node);
   STATE.selectedNode = null; 
@@ -186,7 +179,6 @@ function handleNodeClick(node){
 
 function triggerError(nodeA, nodeB){
   playErrorSound();
-  // Agregamos una línea roja temporal
   STATE.errorLines.push({ from: nodeA, to: nodeB, life: 1.0 });
 }
 
@@ -214,9 +206,32 @@ function showHabitMenu(nodeA, nodeB){
     btn.style.top  = (110 + Math.sin(angle)*75 - 25) + 'px';
     btn.style.borderColor = CONFIG.PATTERNS[h.p].color;
     btn.style.color = CONFIG.PATTERNS[h.p].color;
-    btn.onclick = (e)=>{ e.stopPropagation(); createConnection(nodeA, nodeB, h.p); closeMenu(); };
+    
+    // AQUÍ ESTÁ LA NUEVA VALIDACIÓN DE SECUENCIA
+    btn.onclick = (e)=>{ 
+      e.stopPropagation(); 
+      checkSelection(nodeA, nodeB, h.p); 
+    };
     habitMenu.appendChild(btn);
   });
+}
+
+// REGLA 2: LA SECUENCIA CORRECTA
+function checkSelection(nodeA, nodeB, pattern){
+  const required = CONFIG.SEQUENCE[STATE.totalConnections];
+  
+  if(pattern === required){
+    // ¡CORRECTO!
+    createConnection(nodeA, nodeB, pattern);
+    closeMenu();
+  } else {
+    // ¡INCORRECTO!
+    playErrorSound();
+    // Animación de "temblor" o feedback visual
+    const hint = document.getElementById('hint');
+    hint.style.color = 'red';
+    setTimeout(()=> hint.style.color = '', 400);
+  }
 }
 
 function closeMenu(){ habitMenu.classList.remove('show'); STATE.activeMenu = false; }
@@ -225,46 +240,53 @@ function createConnection(nodeA, nodeB, pattern){
   STATE.connections.push({ from: nodeA, to: nodeB, pattern, age:0 });
   STATE.totalConnections++;
   if(countDisplay) countDisplay.textContent = STATE.totalConnections;
+  
   playTone(CONFIG.PATTERNS[pattern].sound);
-  revealNextTile(); 
+  
+  // Revelar pieza de imagen
+  const tileIndex = STATE.totalConnections - 1;
+  const tile = document.getElementById('tile-' + tileIndex);
+  if(tile) tile.classList.add('revealed');
+  
+  // Actualizar pista para el siguiente paso
+  updateMissionHint();
+
+  // Victoria
+  if(STATE.totalConnections >= CONFIG.CENTER_AWAKEN_THRESHOLD){
+    setTimeout(()=>{
+      if(oracleCard) oracleCard.classList.add('visible');
+      playTone(880, 'sine');
+    }, 1500);
+  }
 }
 
 function animate(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  
-  // Dibujar conexiones
   for(const c of STATE.connections){
     ctx.beginPath(); ctx.moveTo(c.from.x, c.from.y); ctx.lineTo(c.to.x, c.to.y);
     ctx.strokeStyle = CONFIG.PATTERNS[c.pattern].color; ctx.lineWidth = 3; ctx.stroke();
   }
-
-  // Dibujar errores (Líneas rojas que desaparecen)
+  // Errores
   for(let i=STATE.errorLines.length-1; i>=0; i--){
     const err = STATE.errorLines[i];
     ctx.beginPath(); ctx.moveTo(err.from.x, err.from.y); ctx.lineTo(err.to.x, err.to.y);
-    ctx.strokeStyle = `rgba(255, 50, 50, ${err.life})`; 
-    ctx.lineWidth = 4; ctx.stroke();
-    err.life -= 0.05; // Desvanecer
-    if(err.life <= 0) STATE.errorLines.splice(i, 1);
+    ctx.strokeStyle = `rgba(255, 50, 50, ${err.life})`; ctx.lineWidth = 4; ctx.stroke();
+    err.life -= 0.05; if(err.life <= 0) STATE.errorLines.splice(i, 1);
   }
-
-  // Línea de selección
+  // Selección
   if(STATE.selectedNode){
     ctx.beginPath(); ctx.arc(STATE.selectedNode.x, STATE.selectedNode.y, CONFIG.NODE_RADIUS + 10, 0, Math.PI*2);
     ctx.strokeStyle = "white"; ctx.setLineDash([5,5]); ctx.stroke(); ctx.setLineDash([]);
   }
-  
   // Nodos
   for(const node of STATE.nodes){
     node.baseAngle += CONFIG.ORBIT_SPEED;
     const cx = canvas.width/2, cy = canvas.height/2;
     node.x = cx + Math.cos(node.baseAngle)*node.orbitRadius;
     node.y = cy + Math.sin(node.baseAngle)*node.orbitRadius;
-    
     ctx.beginPath(); ctx.arc(node.x, node.y, CONFIG.NODE_RADIUS, 0, Math.PI*2);
     if(node === STATE.selectedNode) ctx.fillStyle = "#ffffff"; else ctx.fillStyle = "rgba(180,230,255,0.8)";
     ctx.shadowBlur = 15; ctx.shadowColor = '#00d0ff'; ctx.fill();
-    
     if(node.pulse > 0){
       ctx.beginPath(); ctx.arc(node.x, node.y, CONFIG.NODE_RADIUS + node.pulse*20, 0, Math.PI*2);
       ctx.strokeStyle = "white"; ctx.stroke(); node.pulse -= 0.1;
