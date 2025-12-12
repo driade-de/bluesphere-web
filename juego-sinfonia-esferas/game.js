@@ -1,4 +1,4 @@
-// game.js - VERSIÓN CORREGIDA (Sin deformación)
+// game.js - VERSIÓN "REGLA DE LA ESTRELLA" (Dificultad Media)
 const CONFIG = {
   NODE_COUNT: 12, 
   NODE_RADIUS: 25,
@@ -16,7 +16,8 @@ const CONFIG = {
 
 const STATE = {
   nodes: [], connections: [], totalConnections:0,
-  selectedNode: null, activeMenu: false, audioCtx: null, masterGain: null
+  selectedNode: null, activeMenu: false, audioCtx: null, masterGain: null,
+  errorLines: [] // Para dibujar líneas rojas de error
 };
 
 // DOM Elements
@@ -26,17 +27,19 @@ const habitMenu = document.getElementById('habitMenu');
 const countDisplay = document.getElementById('count');
 const maskGrid = document.getElementById('mask-grid');
 const oracleCard = document.getElementById('oracle-card');
+const hint = document.getElementById('hint');
 
 function init(){
   createMaskTiles(); 
-  // Forzamos el ajuste de tamaño dos veces para asegurar que el CSS cargó
   resizeCanvas(); 
   setTimeout(resizeCanvas, 100); 
-  
   createNodes(); 
   setupAudio(); 
   setupListeners(); 
   animate();
+  
+  // Actualizar pista para el jugador
+  if(hint) hint.innerHTML = "✨ Regla de la Estrella: <br>No conectes vecinos. Cruza el centro para tejer la red.";
 }
 
 function createMaskTiles(){
@@ -63,18 +66,15 @@ function revealNextTile(){
 function showOracle(){
   if(oracleCard){
     oracleCard.classList.add('visible');
-    playTone(880);
+    playTone(880, 'sine');
   }
 }
 
-// === FIX IMPORTANTE: Ajuste de Pantalla ===
 function resizeCanvas(){ 
-  // Obtenemos el tamaño real del contenedor padre
   const parent = canvas.parentElement;
   if(parent){
     canvas.width = parent.clientWidth; 
     canvas.height = parent.clientHeight; 
-    // Regeneramos los nodos si el tamaño cambia mucho
     createNodes();
   }
 }
@@ -83,7 +83,6 @@ function createNodes(){
   STATE.nodes = [];
   const cx = canvas.width/2;
   const cy = canvas.height/2;
-  // Calculamos el radio basado en el menor lado para que siempre sea CIRCULAR
   const radius = Math.min(cx,cy) * 0.65;
   
   for(let i=0;i<CONFIG.NODE_COUNT;i++){
@@ -105,10 +104,12 @@ function setupAudio(){
     STATE.masterGain.connect(STATE.audioCtx.destination);
   }catch(e){}
 }
-function playTone(freq){
+
+function playTone(freq, type='sine'){
   if(!STATE.audioCtx) return;
   const o = STATE.audioCtx.createOscillator();
   const g = STATE.audioCtx.createGain();
+  o.type = type;
   o.frequency.value = freq;
   g.gain.setValueAtTime(0.1, STATE.audioCtx.currentTime);
   g.gain.exponentialRampToValueAtTime(0.001, STATE.audioCtx.currentTime + 0.5);
@@ -116,10 +117,21 @@ function playTone(freq){
   o.start(); o.stop(STATE.audioCtx.currentTime + 0.6);
 }
 
+function playErrorSound(){
+  if(!STATE.audioCtx) return;
+  const o = STATE.audioCtx.createOscillator();
+  const g = STATE.audioCtx.createGain();
+  o.type = 'sawtooth'; // Sonido rasposo de error
+  o.frequency.value = 150;
+  g.gain.setValueAtTime(0.1, STATE.audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, STATE.audioCtx.currentTime + 0.3);
+  o.connect(g); g.connect(STATE.masterGain);
+  o.start(); o.stop(STATE.audioCtx.currentTime + 0.4);
+}
+
 function setupListeners(){
-  window.addEventListener('resize', resizeCanvas); // Re-ajustar si cambian tamaño de ventana
+  window.addEventListener('resize', resizeCanvas);
   canvas.addEventListener('click', onCanvasClick);
-  
   document.addEventListener('click', (e)=>{ 
     if(STATE.activeMenu && !habitMenu.contains(e.target) && e.target !== canvas) closeMenu(); 
   });
@@ -128,14 +140,11 @@ function setupListeners(){
 
 function onCanvasClick(e){
   if(STATE.activeMenu) return; 
-  
-  // FIX: Coordenadas precisas
   const rect = canvas.getBoundingClientRect();
   const mouseX = e.clientX - rect.left;
   const mouseY = e.clientY - rect.top;
 
   let clickedNode = null;
-  // Aumentamos un poco el área de clic (1.8x) para facilitar
   for(const node of STATE.nodes){
     const dist = Math.hypot(mouseX - node.x, mouseY - node.y);
     if(dist < CONFIG.NODE_RADIUS * 1.8){ clickedNode = node; break; }
@@ -145,21 +154,44 @@ function onCanvasClick(e){
   else STATE.selectedNode = null;
 }
 
+// === LÓGICA DE LA ESTRELLA AQUI ===
 function handleNodeClick(node){
+  // 1. Primer clic
   if(!STATE.selectedNode){
     STATE.selectedNode = node;
     node.pulse = 1.5; playTone(300); return;
   }
+  // 2. Clic en el mismo (cancelar)
   if(STATE.selectedNode === node){ STATE.selectedNode = null; return; }
 
+  // 3. VALIDACIÓN: ¿Son vecinos?
+  const idA = STATE.selectedNode.id;
+  const idB = node.id;
+  const diff = Math.abs(idA - idB);
+  // Es vecino si la diferencia es 1 O si es el cierre del círculo (ej: 0 y 11)
+  const isNeighbor = (diff === 1) || (diff === (CONFIG.NODE_COUNT - 1));
+
+  if(isNeighbor){
+    // ¡ERROR! No permitido
+    triggerError(STATE.selectedNode, node);
+    STATE.selectedNode = null; // Reiniciar selección
+    return;
+  }
+
+  // 4. Si pasa la validación, conectar
   const exists = STATE.connections.some(c => (c.from === STATE.selectedNode && c.to === node) || (c.from === node && c.to === STATE.selectedNode));
   if(!exists) showHabitMenu(STATE.selectedNode, node);
   STATE.selectedNode = null; 
 }
 
+function triggerError(nodeA, nodeB){
+  playErrorSound();
+  // Agregamos una línea roja temporal
+  STATE.errorLines.push({ from: nodeA, to: nodeB, life: 1.0 });
+}
+
 function showHabitMenu(nodeA, nodeB){
   STATE.activeMenu = true;
-  // Ajuste de posición del menú
   const rect = canvas.getBoundingClientRect();
   const midX = (nodeA.x + nodeB.x)/2 + rect.left; 
   const midY = (nodeA.y + nodeB.y)/2 + rect.top;
@@ -178,7 +210,6 @@ function showHabitMenu(nodeA, nodeB){
     const btn = document.createElement('div');
     btn.className = 'habit-btn';
     btn.textContent = h.emoji;
-    // Ajuste fino de la posición de los botones
     btn.style.left = (110 + Math.cos(angle)*75 - 25) + 'px';
     btn.style.top  = (110 + Math.sin(angle)*75 - 25) + 'px';
     btn.style.borderColor = CONFIG.PATTERNS[h.p].color;
@@ -206,11 +237,23 @@ function animate(){
     ctx.beginPath(); ctx.moveTo(c.from.x, c.from.y); ctx.lineTo(c.to.x, c.to.y);
     ctx.strokeStyle = CONFIG.PATTERNS[c.pattern].color; ctx.lineWidth = 3; ctx.stroke();
   }
+
+  // Dibujar errores (Líneas rojas que desaparecen)
+  for(let i=STATE.errorLines.length-1; i>=0; i--){
+    const err = STATE.errorLines[i];
+    ctx.beginPath(); ctx.moveTo(err.from.x, err.from.y); ctx.lineTo(err.to.x, err.to.y);
+    ctx.strokeStyle = `rgba(255, 50, 50, ${err.life})`; 
+    ctx.lineWidth = 4; ctx.stroke();
+    err.life -= 0.05; // Desvanecer
+    if(err.life <= 0) STATE.errorLines.splice(i, 1);
+  }
+
   // Línea de selección
   if(STATE.selectedNode){
     ctx.beginPath(); ctx.arc(STATE.selectedNode.x, STATE.selectedNode.y, CONFIG.NODE_RADIUS + 10, 0, Math.PI*2);
     ctx.strokeStyle = "white"; ctx.setLineDash([5,5]); ctx.stroke(); ctx.setLineDash([]);
   }
+  
   // Nodos
   for(const node of STATE.nodes){
     node.baseAngle += CONFIG.ORBIT_SPEED;
