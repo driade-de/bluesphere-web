@@ -7,14 +7,34 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="ui">
-    <h1 id="title">Sinfonía de Esferas</h1>
-    <div id="subtitle">Conecta los nodos para despertar la conciencia</div>
+
+  <div class="main-layout">
+    <div class="game-area">
+      <div id="ui">
+        <h1 id="title">Sinfonía</h1>
+        <div id="subtitle">Conecta para revelar</div>
+      </div>
+      <canvas id="gameCanvas"></canvas>
+      <div id="hint">Haz CLIC en dos puntos para conectar</div>
+    </div>
+
+    <div class="reward-area">
+      <div class="image-container">
+        <div id="mask-grid">
+          </div>
+        
+        <div id="oracle-card">
+          <h2>El Ciclo Completo</h2>
+          <p>"Al igual que uniste estos puntos, hoy tu conciencia une tu voluntad con la salud del planeta."</p>
+          <button onclick="location.reload()">Jugar de nuevo</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <div id="counter">Conexiones: <span id="count">0</span></div>
-  <div id="hint">Arrastra entre nodos para crear hábitos</div>
-  <canvas id="gameCanvas"></canvas>
+
   <div id="habitMenu"></div>
+  <div id="counter-box">Conexiones: <span id="count">0</span>/12</div>
+
   <script src="game.js"></script>
 </body>
 </html>
