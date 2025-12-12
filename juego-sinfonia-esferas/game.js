@@ -1,6 +1,6 @@
-// game.js - VERSIÓN REVELACIÓN DE IMAGEN
+// game.js - VERSIÓN CORREGIDA (Sin deformación)
 const CONFIG = {
-  NODE_COUNT: 12, // 12 nodos = 12 piezas de imagen
+  NODE_COUNT: 12, 
   NODE_RADIUS: 25,
   ORBIT_SPEED: 0.001,
   PATTERNS: {
@@ -19,7 +19,7 @@ const STATE = {
   selectedNode: null, activeMenu: false, audioCtx: null, masterGain: null
 };
 
-// DOM
+// DOM Elements
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d', { alpha:true });
 const habitMenu = document.getElementById('habitMenu');
@@ -28,14 +28,20 @@ const maskGrid = document.getElementById('mask-grid');
 const oracleCard = document.getElementById('oracle-card');
 
 function init(){
-  createMaskTiles(); // Crear los cuadros negros
-  resizeCanvas(); createNodes(); setupAudio(); setupListeners(); animate();
+  createMaskTiles(); 
+  // Forzamos el ajuste de tamaño dos veces para asegurar que el CSS cargó
+  resizeCanvas(); 
+  setTimeout(resizeCanvas, 100); 
+  
+  createNodes(); 
+  setupAudio(); 
+  setupListeners(); 
+  animate();
 }
 
-// 1. CREAR REJILLA NEGRA
 function createMaskTiles(){
+  if(!maskGrid) return;
   maskGrid.innerHTML = '';
-  // Creamos 12 cuadros (para tapar la imagen)
   for(let i=0; i<12; i++){
     const tile = document.createElement('div');
     tile.className = 'mask-tile';
@@ -44,40 +50,42 @@ function createMaskTiles(){
   }
 }
 
-// 2. REVELAR UN CUADRO
 function revealNextTile(){
-  // El número de conexiones actual nos dice qué cuadro quitar (del 0 al 11)
   const tileIndex = STATE.totalConnections - 1;
   const tile = document.getElementById('tile-' + tileIndex);
+  if(tile) tile.classList.add('revealed');
   
-  if(tile) {
-    tile.classList.add('revealed'); // CSS hace que desaparezca suavemente
-  }
-  
-  // Si llegamos a 12, ganamos
   if(STATE.totalConnections >= CONFIG.CENTER_AWAKEN_THRESHOLD){
-    setTimeout(showOracle, 1500); // Esperar un poco y mostrar mensaje final
+    setTimeout(showOracle, 1500);
   }
 }
 
 function showOracle(){
-  oracleCard.classList.add('visible');
-  playTone(880); // Sonido de victoria
+  if(oracleCard){
+    oracleCard.classList.add('visible');
+    playTone(880);
+  }
 }
 
-// ... EL RESTO DEL JUEGO (Igual que antes) ...
-
+// === FIX IMPORTANTE: Ajuste de Pantalla ===
 function resizeCanvas(){ 
-  // Ajustamos el canvas al tamaño del contenedor padre, no de toda la ventana
+  // Obtenemos el tamaño real del contenedor padre
   const parent = canvas.parentElement;
-  canvas.width = parent.clientWidth; 
-  canvas.height = parent.clientHeight; 
+  if(parent){
+    canvas.width = parent.clientWidth; 
+    canvas.height = parent.clientHeight; 
+    // Regeneramos los nodos si el tamaño cambia mucho
+    createNodes();
+  }
 }
 
 function createNodes(){
   STATE.nodes = [];
-  const cx = canvas.width/2, cy = canvas.height/2;
+  const cx = canvas.width/2;
+  const cy = canvas.height/2;
+  // Calculamos el radio basado en el menor lado para que siempre sea CIRCULAR
   const radius = Math.min(cx,cy) * 0.65;
+  
   for(let i=0;i<CONFIG.NODE_COUNT;i++){
     const angle = (i/CONFIG.NODE_COUNT)*Math.PI*2;
     STATE.nodes.push({
@@ -109,8 +117,9 @@ function playTone(freq){
 }
 
 function setupListeners(){
-  window.addEventListener('resize', ()=>{ resizeCanvas(); createNodes(); });
+  window.addEventListener('resize', resizeCanvas); // Re-ajustar si cambian tamaño de ventana
   canvas.addEventListener('click', onCanvasClick);
+  
   document.addEventListener('click', (e)=>{ 
     if(STATE.activeMenu && !habitMenu.contains(e.target) && e.target !== canvas) closeMenu(); 
   });
@@ -119,14 +128,17 @@ function setupListeners(){
 
 function onCanvasClick(e){
   if(STATE.activeMenu) return; 
+  
+  // FIX: Coordenadas precisas
   const rect = canvas.getBoundingClientRect();
   const mouseX = e.clientX - rect.left;
   const mouseY = e.clientY - rect.top;
 
   let clickedNode = null;
+  // Aumentamos un poco el área de clic (1.8x) para facilitar
   for(const node of STATE.nodes){
     const dist = Math.hypot(mouseX - node.x, mouseY - node.y);
-    if(dist < CONFIG.NODE_RADIUS * 1.5){ clickedNode = node; break; }
+    if(dist < CONFIG.NODE_RADIUS * 1.8){ clickedNode = node; break; }
   }
 
   if(clickedNode) handleNodeClick(clickedNode);
@@ -147,9 +159,9 @@ function handleNodeClick(node){
 
 function showHabitMenu(nodeA, nodeB){
   STATE.activeMenu = true;
-  // Ajuste para que el menú salga cerca del click dentro del canvas
+  // Ajuste de posición del menú
   const rect = canvas.getBoundingClientRect();
-  const midX = (nodeA.x + nodeB.x)/2 + rect.left; // Sumamos offset
+  const midX = (nodeA.x + nodeB.x)/2 + rect.left; 
   const midY = (nodeA.y + nodeB.y)/2 + rect.top;
   
   habitMenu.style.left = (midX - 110) + 'px';
@@ -166,6 +178,7 @@ function showHabitMenu(nodeA, nodeB){
     const btn = document.createElement('div');
     btn.className = 'habit-btn';
     btn.textContent = h.emoji;
+    // Ajuste fino de la posición de los botones
     btn.style.left = (110 + Math.cos(angle)*75 - 25) + 'px';
     btn.style.top  = (110 + Math.sin(angle)*75 - 25) + 'px';
     btn.style.borderColor = CONFIG.PATTERNS[h.p].color;
@@ -180,31 +193,35 @@ function closeMenu(){ habitMenu.classList.remove('show'); STATE.activeMenu = fal
 function createConnection(nodeA, nodeB, pattern){
   STATE.connections.push({ from: nodeA, to: nodeB, pattern, age:0 });
   STATE.totalConnections++;
-  countDisplay.textContent = STATE.totalConnections;
+  if(countDisplay) countDisplay.textContent = STATE.totalConnections;
   playTone(CONFIG.PATTERNS[pattern].sound);
-  
-  // ¡¡AQUÍ ESTÁ LA MAGIA!!
   revealNextTile(); 
 }
 
 function animate(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
+  
+  // Dibujar conexiones
   for(const c of STATE.connections){
     ctx.beginPath(); ctx.moveTo(c.from.x, c.from.y); ctx.lineTo(c.to.x, c.to.y);
     ctx.strokeStyle = CONFIG.PATTERNS[c.pattern].color; ctx.lineWidth = 3; ctx.stroke();
   }
+  // Línea de selección
   if(STATE.selectedNode){
     ctx.beginPath(); ctx.arc(STATE.selectedNode.x, STATE.selectedNode.y, CONFIG.NODE_RADIUS + 10, 0, Math.PI*2);
     ctx.strokeStyle = "white"; ctx.setLineDash([5,5]); ctx.stroke(); ctx.setLineDash([]);
   }
+  // Nodos
   for(const node of STATE.nodes){
     node.baseAngle += CONFIG.ORBIT_SPEED;
     const cx = canvas.width/2, cy = canvas.height/2;
     node.x = cx + Math.cos(node.baseAngle)*node.orbitRadius;
     node.y = cy + Math.sin(node.baseAngle)*node.orbitRadius;
+    
     ctx.beginPath(); ctx.arc(node.x, node.y, CONFIG.NODE_RADIUS, 0, Math.PI*2);
     if(node === STATE.selectedNode) ctx.fillStyle = "#ffffff"; else ctx.fillStyle = "rgba(180,230,255,0.8)";
     ctx.shadowBlur = 15; ctx.shadowColor = '#00d0ff'; ctx.fill();
+    
     if(node.pulse > 0){
       ctx.beginPath(); ctx.arc(node.x, node.y, CONFIG.NODE_RADIUS + node.pulse*20, 0, Math.PI*2);
       ctx.strokeStyle = "white"; ctx.stroke(); node.pulse -= 0.1;
