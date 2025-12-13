@@ -63,7 +63,7 @@ canvas {
   /* Transición suave de 1.5 segundos al cambiar de etapa */
   transition: background-image 1.5s ease-in-out; 
 
- /* === ZONA DE IMÁGENES (TUS FOTOS) === */
+ /* === ZONA DE IMÁGENES (TUS ARCHIVOS LOCALES) === */
 
 /* ETAPA 1: EL CAOS (Imagen inicial) */
 .image-container {
@@ -83,18 +83,17 @@ canvas {
 }
 
 /* ETAPA 2: LA ESPERANZA (Intermedio) */
-/* Si no tienes una imagen intermedia, usaremos 'base.jpg' con un filtro, 
-   o puedes subir una 'medio.jpg' después. Por ahora repetimos base. */
+/* Como solo subiste 2 fotos, usaremos 'base.jpg' con un filtro mágico para la etapa media */
 .image-container.stage-recovery {
   background-image: url('base.jpg') !important;
-  filter: brightness(1.2) sepia(0.3); /* Efecto visual temporal */
+  filter: brightness(1.2) sepia(0.5) hue-rotate(90deg); /* Efecto de transformación */
 }
 
 /* ETAPA 3: EL PARAÍSO FINAL (Imagen Final) */
 .image-container.stage-final {
   /* AQUÍ ESTÁ EL CAMBIO: Usamos tu archivo 'reveal.jpg' */
   background-image: url('reveal.jpg') !important;
-  filter: none; /* Quitamos filtros */
+  filter: none; /* Quitamos los filtros para verla pura */
 }
 /* ================================== */
 
