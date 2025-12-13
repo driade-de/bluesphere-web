@@ -293,6 +293,16 @@ const IMAGE_SYSTEM = {
 
 const STATE = {
   nodes: [], connections: [], totalConnections:0,
+      // ========== NUEVO: ACTUALIZAR SISTEMA DE IMÁGENES ==========
+    // Activar el panel en la primera conexión
+    if (STATE.totalConnections === 1) {
+        IMAGE_SYSTEM.init();
+    }
+    
+    // Actualizar revelación de imágenes
+    if (IMAGE_SYSTEM.isActive) {
+        IMAGE_SYSTEM.revealNextSection(STATE.totalConnections);
+    }
   selectedNode: null, activeMenu: false, audioCtx: null, masterGain: null,
   errorLines: []
 };
