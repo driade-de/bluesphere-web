@@ -24,10 +24,10 @@ const IMAGE_SYSTEM = {
 
   init: function() {
     console.log("Iniciando sistema de imágenes...");
-    // 1. Cargar imágenes (¡REEMPLAZA ESTAS URLS CON TUS IMÁGENES REALES!)
-    this.loadImage('URL_DE_TU_IMAGEN_HUELLA_BN', 'baseImage');
-    this.loadImage('URL_DE_TU_IMAGEN_REGENERACION_COLOR', 'revealImage');
-  },
+    // 1. Cargar imágenes
+    this.loadImage('https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=800&auto=format&fit=crop', 'baseImage');
+    this.loadImage('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=800&auto=format&fit=crop', 'revealImage');
+},
 
   loadImage: function(src, target) {
     const img = new Image();
