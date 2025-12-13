@@ -39,15 +39,44 @@
     <h1>📚 Biblioteca BlueSphere</h1>
     <p class="subtitulo">Conocimiento exclusivo para Guardianes</p>
 
+    <!-- VALIDACIÓN -->
     <div class="acceso-box" id="boxValidacion">
         <p>Ingresa tu código de acceso:</p>
         <input type="text" id="inputCodigo" placeholder="Ej: GPR-AQUA-0021">
+        <br>
         <button onclick="validar()">Desbloquear</button>
-        <p id="msgError" style="color: #ff7b7b; display: none; margin-top: 10px;">Código no válido.</p>
+        <p id="msgError" style="color:#ff7b7b; display:none; margin-top:10px;">
+            Código no válido.
+        </p>
     </div>
 
+    <!-- BIBLIOTECA -->
     <div id="gridLibros" class="hidden">
-        <h3 style="color:var(--accent-green); text-align:center;">🔓 Acceso Concedido</h3>
+
+        <h3 style="color:var(--accent-green); text-align:center;">
+            🔓 Acceso Concedido
+        </h3>
+
+        <!-- NOTA DE CUSTODIA -->
+        <div class="custodia-box">
+            <h4>🌱 Nota de Custodia</h4>
+            <p>
+                Las obras disponibles en esta biblioteca corresponden a ediciones semilla,
+                versiones de principios o legados conscientes.
+            </p>
+            <p>
+                Su propósito no es la difusión inmediata,
+                sino la siembra interior.
+            </p>
+            <p>
+                Al descargar una obra, el Guardián acepta custodiar su contenido con respeto,
+                evitando su difusión pública hasta su liberación oficial.
+            </p>
+            <p class="custodia-cierre">
+                La biblioteca no entrega libros:<br>
+                <strong>confía conciencia.</strong>
+            </p>
+        </div>
         
         <div class="libros-grid" style="display: grid;">
     <div class="libro-card">
