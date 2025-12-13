@@ -587,5 +587,42 @@ function animate(){
   }
   requestAnimationFrame(animate);
 }
-
+// ========== NUEVO: FUNCIÓN PARA REINICIAR ==========
+function resetGame() {
+    // 1. Confirmar
+    if (STATE.totalConnections < 12 && !confirm("¿Seguro que quieres empezar una nueva sinfonía? Perderás el progreso actual.")) {
+        return;
+    }
+    
+    // 2. Reiniciar estado del juego
+    STATE.connections = [];
+    STATE.totalConnections = 0;
+    document.getElementById('count').textContent = '0';
+    
+    // 3. Reiniciar sistema de imágenes
+    if (IMAGE_SYSTEM.isActive) {
+        IMAGE_SYSTEM.currentRevealPercent = 0;
+        IMAGE_SYSTEM.revealNextSection(0);
+        IMAGE_SYSTEM.updateReflectionText(0);
+        IMAGE_SYSTEM.updateProgressBar(0);
+        
+        // Restablecer mensaje original
+        const mainMessage = document.getElementById('dynamicMessage');
+        if (mainMessage) {
+            mainMessage.textContent = '"Al igual que uniste estos puntos, hoy tu conciencia une tu voluntad con la salud del planeta."';
+            mainMessage.style.color = '#cbd5e1';
+            mainMessage.style.fontWeight = 'normal';
+        }
+        
+        // Limpiar canvases de efecto
+        const effectCtx = document.getElementById('effectCanvas').getContext('2d');
+        effectCtx.clearRect(0, 0, effectCtx.canvas.width, effectCtx.canvas.height);
+    }
+    
+    // 4. Redibujar
+    if (typeof draw === 'function') {
+        draw();
+    }
+    console.log("Juego reiniciado");
+}
 window.addEventListener('load', init);
