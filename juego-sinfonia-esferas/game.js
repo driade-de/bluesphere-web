@@ -46,9 +46,9 @@ const IMAGE_SYSTEM = {
 
   init: function () {
     console.log("Iniciando sistema de imágenes...");
-    this.loadImage('https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=800&auto=format&fit=crop', 'baseImage');
-    this.loadImage('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=800&auto=format&fit=crop', 'revealImage');
-  },
+    this.loadImage('base.jpg', 'baseImage');
+    this.loadImage('reveal.jpg', 'revealImage');
+},
 
   loadImage: function (src, target) {
     const img = new Image();
