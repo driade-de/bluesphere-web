@@ -51,25 +51,24 @@ const IMAGE_SYSTEM = {
 },
 
   loadImage: function (src, target) {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = () => {
-      this[target] = img;
-      console.log(`Imagen cargada: ${target}`);
-      if (this.baseImage && this.revealImage) {
-        this.setupCanvases();
-      }
-    };
-    img.onerror = () => {
-      console.error(`Error cargando imagen: ${src}`);
-      this.createFallbackImage(target);
-    };
-    if (src && src.startsWith('http')) {
-      img.src = src;
-    } else {
-      this.createFallbackImage(target);
+  const img = new Image();
+  
+  img.onload = () => {
+    this[target] = img;
+    console.log(`✅ Imagen cargada: ${target} - ${src}`);
+    if (this.baseImage && this.revealImage) {
+      this.setupCanvases();
     }
-  },
+  };
+  
+  img.onerror = () => {
+    console.error(`❌ Error cargando imagen: ${src}`);
+    this.createFallbackImage(target);
+  };
+  
+  // Versión mejorada con caché evitado:
+  img.src = src + '?t=' + Date.now();
+},
 
   createFallbackImage: function (target) {
     const canvas = document.createElement('canvas');
