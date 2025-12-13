@@ -18,17 +18,34 @@
       <div id="hint">Haz CLIC en dos puntos para conectar</div>
     </div>
 
-    <div class="reward-area">
-      <div class="image-container">
-        <div id="mask-grid">
-          </div>
+        <div class="reward-area">
+      <!-- ========== NUEVO: SISTEMA DE IMÁGENES DOBLES ========== -->
+      <div id="imageRevealPanel">
+        <div class="panel-header">
+          <h3>El Espejo de la Conciencia</h3>
+          <p id="imageReflectionText">Cada conexión revela la vida que persiste bajo nuestra huella...</p>
+        </div>
         
-        <div id="oracle-card">
+        <div class="canvas-container">
+          <canvas id="baseLayerCanvas"></canvas>
+          <canvas id="revealLayerCanvas"></canvas>
+          <canvas id="effectCanvas"></canvas>
+        </div>
+        
+        <div class="oracle-card">
           <h2>El Ciclo Completo</h2>
-          <p>"Al igual que uniste estos puntos, hoy tu conciencia une tu voluntad con la salud del planeta."</p>
-          <button onclick="location.reload()">Jugar de nuevo</button>
+          <p id="dynamicMessage">"Al igual que uniste estos puntos, hoy tu conciencia une tu voluntad con la salud del planeta."</p>
+          <div class="image-progress">
+            <div class="progress-bar">
+              <div id="imageProgressFill" class="progress-fill"></div>
+            </div>
+            <span id="progressText">Revelado: <span id="progressPercent">0%</span></span>
+          </div>
+          <button onclick="resetGame()">Crear Nueva Sinfonía</button>
         </div>
       </div>
+      <!-- ========== FIN NUEVO ========== -->
+    </div>
     </div>
   </div>
 
