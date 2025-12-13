@@ -63,27 +63,39 @@ canvas {
   /* Transición suave de 1.5 segundos al cambiar de etapa */
   transition: background-image 1.5s ease-in-out; 
 
-  /* --- IMAGEN 1: SMOG / CIUDAD CONTAMINADA --- */
-  /* (Placeholder: Cambia esta URL por la tuya de contaminación) */
-  background-image: url('https://images.unsplash.com/photo-1623235851037-686886e43144?q=80&w=1000&auto=format&fit=crop');
+ /* === ZONA DE IMÁGENES (TUS FOTOS) === */
+
+/* ETAPA 1: EL CAOS (Imagen inicial) */
+.image-container {
+  width: 380px;
+  height: 550px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,255,255,0.1);
+  
+  background-size: cover;
+  background-position: center;
+  transition: background-image 1.5s ease-in-out; 
+
+  /* AQUÍ ESTÁ EL CAMBIO: Usamos tu archivo 'base.jpg' */
+  background-image: url('base.jpg');
 }
 
-/* ETAPA 2: LA ESPERANZA (Se activa en la conexión #4) */
-/* Un brote de vida surgiendo */
+/* ETAPA 2: LA ESPERANZA (Intermedio) */
+/* Si no tienes una imagen intermedia, usaremos 'base.jpg' con un filtro, 
+   o puedes subir una 'medio.jpg' después. Por ahora repetimos base. */
 .image-container.stage-recovery {
-  /* --- IMAGEN 2: BROTE VERDE --- */
-  /* (Placeholder) */
-  background-image: url('https://images.unsplash.com/photo-1504194311138-7755e5162731?q=80&w=1000&auto=format&fit=crop') !important;
+  background-image: url('base.jpg') !important;
+  filter: brightness(1.2) sepia(0.3); /* Efecto visual temporal */
 }
 
-/* ETAPA 3: EL PARAÍSO FINAL (Se activa en la conexión #8) */
-/* La naturaleza restaurada */
+/* ETAPA 3: EL PARAÍSO FINAL (Imagen Final) */
 .image-container.stage-final {
-  /* --- IMAGEN 3: BOSQUE GHIBLI --- */
-  /* (Placeholder: Esta es la que se destapa al final) */
-  background-image: url('https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=1000&auto=format&fit=crop') !important;
+  /* AQUÍ ESTÁ EL CAMBIO: Usamos tu archivo 'reveal.jpg' */
+  background-image: url('reveal.jpg') !important;
+  filter: none; /* Quitamos filtros */
 }
-
 /* ================================== */
 
 /* REJILLA DE MÁSCARA */
