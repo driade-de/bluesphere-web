@@ -5,6 +5,142 @@
     <title>BlueSphere: El Arrecife de la Memoria</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;700&display=swap');
+        /* =========================================== */
+/* RESPONSIVE MÓVIL - PRIORIDAD MÁXIMA        */
+/* =========================================== */
+@media (max-width: 1000px) {
+    body {
+        padding: 10px;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+    }
+    
+    #game-container {
+        flex-direction: column;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        box-shadow: none;
+        border-radius: 10px;
+        margin: 0 auto;
+    }
+    
+    #ecosystem-panel {
+        width: 100%;
+        height: 180px;
+        border-radius: 10px 10px 0 0;
+        border-right: none;
+        border-bottom: 2px solid rgba(0, 255, 255, 0.2);
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+    
+    #game-panel {
+        width: 100%;
+        padding: 15px;
+        border-radius: 0 0 10px 10px;
+    }
+    
+    #game-wrapper {
+        transform: scale(0.9);
+        transform-origin: center;
+        margin: 0 auto;
+    }
+    
+    #game {
+        width: 100%;
+        height: auto;
+    }
+    
+    .tutorial-box {
+        max-width: 95vw !important;
+        padding: 15px !important;
+        margin: 5px !important;
+        font-size: 14px;
+    }
+    
+    .tutorial-step {
+        margin-bottom: 15px;
+    }
+    
+    .step-text {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+    
+    #start-overlay, .tutorial-overlay {
+        padding: 20px !important;
+    }
+    
+    #start-btn, .tutorial-btn {
+        padding: 12px 25px;
+        font-size: 16px;
+        width: 90%;
+        max-width: 300px;
+    }
+    
+    #score-display {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin-top: 15px;
+    }
+    
+    #controls {
+        font-size: 11px;
+        margin-top: 10px;
+    }
+    
+    #experience-credit {
+        font-size: 12px;
+        margin-top: 15px;
+    }
+    
+    /* Ajustar textos para móvil */
+    #game-title {
+        font-size: 22px;
+        margin-bottom: 5px;
+    }
+    
+    #game-subtitle {
+        font-size: 12px;
+        margin-bottom: 15px;
+    }
+    
+    #ecosystem-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+    
+    .life-indicator {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .life-icon {
+        font-size: 12px;
+    }
+}
+
+/* Para pantallas MUY pequeñas (iPhone SE, etc) */
+@media (max-width: 400px) {
+    #ecosystem-panel {
+        height: 160px;
+        padding: 10px;
+    }
+    
+    #game-wrapper {
+        transform: scale(0.8);
+    }
+    
+    .tutorial-box {
+        padding: 10px !important;
+    }
+    
+    .step-text {
+        font-size: 13px;
+    }
+}
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Quicksand', sans-serif;
@@ -991,4 +1127,5 @@
         });
     </script>
 </body>
+
 </html>
