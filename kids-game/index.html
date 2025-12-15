@@ -223,6 +223,49 @@
             z-index: 50;
             max-width: 300px;
         }
+        /* ... (resto del código de education-panel que ya tienes) ... */
+            box-shadow: 0 0 50px rgba(0,255,255,0.4);
+            z-index: 50;
+            max-width: 300px;
+        }
+
+        /* --- 📱 CORRECCIONES PARA CELULAR (PEGAR AQUÍ) --- */
+        @media (max-width: 768px) {
+            .game-container {
+                height: 95dvh;
+                width: 98%; /* Usamos casi todo el ancho */
+                gap: 5px;
+            }
+            .real-data-header {
+                padding: 8px;
+                font-size: 0.75rem;
+                flex-direction: column;
+                gap: 5px;
+            }
+            /* Botes más pequeños y ajustados a la izquierda */
+            .bin {
+                width: 18%; /* Usamos porcentaje en vez de pixeles fijos */
+                height: 80px;
+                font-size: 0.7rem;
+            }
+            .bin-icon { font-size: 25px; }
+            .bin-label { font-size: 7px; }
+
+            /* Posiciones relativas para que no se salgan */
+            .plastic-bin { left: 2%; }
+            .paper-bin   { left: 26%; }
+            .glass-bin   { left: 51%; }
+            .organic-bin { left: 76%; } /* Ahora sí entra la manzana */
+
+            .trash-item { font-size: 60px; }
+            
+            .score-panel {
+                padding: 5px;
+                font-size: 0.75rem;
+            }
+        }
+
+    </style>
     </style>
 </head>
 <body>
