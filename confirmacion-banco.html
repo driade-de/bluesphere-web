@@ -18,90 +18,56 @@
         .bank-details strong { color: var(--gold); display: inline-block; width: 120px; }
 
         label { display: block; color: var(--accent); margin-bottom: 5px; font-weight: bold; }
+        /* Estilos para inputs */
         .input-group input, .input-group textarea { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #19434d; background: #021219; color: var(--text); box-sizing: border-box; margin-bottom: 15px; }
         
-        .btn { padding: 12px 20px; background: var(--accent); color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; }
+        /* Botón estilo neón */
+        .btn { padding: 15px 20px; background: linear-gradient(90deg, #00c6ff, #0072ff); color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(0, 198, 255, 0.3); transition: transform 0.2s; }
+        .btn:hover { transform: scale(1.02); }
 
         .note { font-size: 0.9rem; color: #8fb3c4; margin-top: 20px; text-align: center; }
-        .hidden { display: none; }
     </style>
 </head>
 <body>
     <div class="wrap">
         <div class="card">
             <h1>Transferencia Bancaria</h1>
-            <p class="lead">Para activar tu código de Guardián, completa la transferencia y confirma tu contribución con el comprobante.</p>
+            <p class="lead">Para activar tu código de Guardián, completa la transferencia y confirma tu contribución.</p>
 
-           <div class="bank-details">
-    <div><strong>Banco:</strong> <span id="bank-name">SANTANDER</span></div>
+            <div class="bank-details">
+                <div><strong>Banco:</strong> <span id="bank-name">SANTANDER</span></div>
+                <div><strong>Cuenta No.:</strong> <span id="account-number">60632777105</span></div>
+                <div><strong>CLABE:</strong> <span id="clabe-number">014888606327771051</span></div>
+                <div><strong>Beneficiario:</strong> <span id="beneficiary-name">JOSE CB / EL VUELO DE LA CONCIENCIA</span></div>
+                <div><strong>Referencia:</strong> <span id="reference">DONACION VOLUNTARIA GOTA DE CONCIENCIA</span></div>
+            </div> 
 
-    <div><strong>Cuenta No.:</strong> <span id="account-number">60632777105</span></div>
+            <p style="text-align:center; margin-top: -10px; color: #ff7b7b; font-weight: bold;">¡IMPORTANTE! Realiza la transferencia ANTES de llenar este formulario.</p>
 
-    <div><strong>CLABE:</strong> <span id="clabe-number">014888606327771051</span></div>
-
-    <div><strong>Beneficiario:</strong> <span id="beneficiary-name">JOSE CB / EL VUELO DE LA CONCIENCIA</span></div>
-    
-    <div><strong>Referencia:</strong> <span id="reference">DONACION VOLUNTARIA GOTA DE CONCIENCIA</span></div>
-</div> 
-
-            <p style="text-align:center; margin-top: -10px; color: #ff7b7b;">¡IMPORTANTE! Realiza la transferencia ANTES de llenar este formulario.</p>
-
-            <form id="confirmationForm" class="input-group">
-                <label for="nameInput">Tu Nombre Completo (como donante)</label>
-                <input type="text" id="nameInput" required placeholder="Ej: Hermes Antares">
-
-                <label for="emailInput">Correo Electrónico (para recibir el código)</label>
-                <input type="email" id="emailInput" required placeholder="tu-correo@dominio.com">
-
-                <label for="fileInput">Sube el Comprobante (Ticket o Captura)</label>
-                <input type="file" id="fileInput" accept="image/*, application/pdf" required style="padding:10px;">
-
-                <label for="amountInput">Monto de la Transferencia</label>
-                <input type="text" id="amountInput" required placeholder="Ej: 50 USD o 950 MXN">
-
-                <label for="commentInput">Comentarios Adicionales (Opcional)</label>
-                <textarea id="commentInput" rows="2" placeholder="Cualquier nota sobre la donación..."></textarea>
+            <form action="https://formspree.io/f/mvgenprp" method="POST" enctype="multipart/form-data" class="input-group">
                 
-                <button type="button" class="btn" onclick="submitConfirmation()">Confirmar Transferencia</button>
+                <label>Tu Nombre Completo (como donante)</label>
+                <input type="text" name="nombre" required placeholder="Ej: Hermes Antares">
+
+                <label>Correo Electrónico (para recibir el código)</label>
+                <input type="email" name="email" required placeholder="tu-correo@dominio.com">
+
+                <label>Sube el Comprobante (Opcional)</label>
+                <input type="file" name="comprobante" accept="image/*, application/pdf" style="padding:10px;">
+
+                <label>Monto de la Transferencia</label>
+                <input type="text" name="monto" required placeholder="Ej: 50 USD o 950 MXN">
+
+                <label>Comentarios Adicionales</label>
+                <textarea name="mensaje" rows="2" placeholder="Cualquier nota sobre la donación..."></textarea>
+                
+                <input type="hidden" name="_subject" value="💰 NUEVO PAGO: Confirmación de Transferencia BlueSphere">
+
+                <button type="submit" class="btn">✅ Confirmar y Notificar</button>
             </form>
 
-            <div id="successMessage" class="note hidden">
-                ¡Gracias por tu apoyo! Hemos recibido tu confirmación y comprobante. Una vez verificado el depósito (esto puede tardar hasta 24 horas), **recibirás tu código de Guardián por correo electrónico**.
-            </div>
-
         </div>
-        <div class="note">El proceso de verificación de transferencias es manual para garantizar la seguridad.</div>
+        <div class="note">🔒 El proceso de verificación es manual para garantizar tu seguridad.</div>
     </div>
-
-<script>
-    // ** NOTA TÉCNICA: ESTA FUNCIÓN DEBE SER CONECTADA A UN SERVIDOR/EMAIL DE ENVÍO **
-    // Dado que no podemos enviar correos desde el frontend puro, esta función 
-    // SIMULA el envío de los datos a una API para que tú los recibas.
-
-    function submitConfirmation() {
-        const form = document.getElementById('confirmationForm');
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
-
-        const name = document.getElementById('nameInput').value;
-        const email = document.getElementById('emailInput').value;
-        const file = document.getElementById('fileInput').files[0];
-        const amount = document.getElementById('amountInput').value;
-        const comment = document.getElementById('commentInput').value;
-
-        // ** AQUÍ VA LA LÓGICA DE ENVÍO REAL **
-        // En producción, se usaría fetch() a un servidor (ej: Netlify Forms, Zapier o un Endpoint de Supabase Edge Function) 
-        // para recibir el archivo y enviar la notificación por correo al administrador.
-
-        // SIMULACIÓN (para mostrar el mensaje de éxito)
-        console.log(`[SIMULACIÓN] Confirmación recibida: ${name}, Email: ${email}, Monto: ${amount}`);
-        
-        // Mostrar mensaje de éxito y resetear el formulario
-        form.classList.add('hidden');
-        document.getElementById('successMessage').classList.remove('hidden');
-    }
-</script>
 </body>
 </html>
