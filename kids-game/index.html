@@ -252,10 +252,19 @@
             .bin-label { font-size: 7px; }
 
             /* Posiciones relativas para que no se salgan */
-            .plastic-bin { left: 2%; }
-            .paper-bin   { left: 26%; }
-            .glass-bin   { left: 51%; }
-            .organic-bin { left: 76%; } /* Ahora sí entra la manzana */
+            /* --- AJUSTE MANUAL DE POSICIONES (Celular) --- */
+            
+            /* Bote 1 (Plástico - Amarillo) */
+            .plastic-bin { left: 1%; }   /* Antes estaba en 2%, lo pegamos más a la orilla */
+
+            /* Bote 2 (Papel - Azul) */
+            .paper-bin   { left: 26%; }  /* Mantenemos o ajustamos */
+
+            /* Bote 3 (Vidrio - Verde) */
+            .glass-bin   { left: 51%; } 
+
+            /* Bote 4 (Orgánico - Manzana) -> ESTE ES EL QUE SE CORTA */
+            .organic-bin { left: 75%; }  /* Bájalo a 74% o 73% si todavía se corta */
 
             .trash-item { font-size: 60px; }
             
