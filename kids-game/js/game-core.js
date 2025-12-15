@@ -1,351 +1,178 @@
-// game-core.js - Lógica principal del juego BlueSphere Kids (VERSIÓN CORREGIDA)
+// CONFIGURACIÓN DEL JUEGO
+const trashTypes = [
+    { name: 'Botella', type: 'plastic', icon: '🧴', decay: 450 },
+    { name: 'Bolsa', type: 'plastic', icon: '🛍️', decay: 150 },
+    { name: 'Periódico', type: 'paper', icon: '📰', decay: 0.1 }, // 6 semanas
+    { name: 'Caja', type: 'paper', icon: '📦', decay: 0.2 },
+    { name: 'Botella Vidrio', type: 'glass', icon: '🍾', decay: 4000 },
+    { name: 'Manzana', type: 'organic', icon: '🍎', decay: 0.1 }, // 2 meses
+    { name: 'Plátano', type: 'organic', icon: '🍌', decay: 0.1 }
+];
 
-// ============================================
-// DATOS DEL JUEGO
-// ============================================
+const facts = [
+    "¡Una botella de plástico tarda 450 años en desaparecer!",
+    "El vidrio es 100% reciclable y se puede usar infinitas veces.",
+    "Si reciclas una tonelada de papel, salvas 17 árboles.",
+    "El 80% de la contaminación del océano viene de la tierra."
+];
 
-const GAME_DATA = {
-    player: {
-        score: 0,
-        itemsCleaned: 0,
-        realImpactKg: 0,
-        treesEarned: 0,
-        decayTimer: 450 // años iniciales
-    },
+let score = 0;
+let realImpactKg = 0;
+let levelItems = 0;
+const MAX_ITEMS_LEVEL = 10;
+let activeTrash = null;
+
+// ELEMENTOS DOM
+const gameArea = document.getElementById('game-area');
+const scoreEl = document.getElementById('score-count');
+const impactEl = document.getElementById('real-impact');
+const progressEl = document.getElementById('level-progress');
+const decayClock = document.getElementById('decay-clock');
+const factPanel = document.querySelector('.education-panel');
+const factText = document.getElementById('fact-text');
+const victoryModal = document.getElementById('victory-modal');
+
+// SONIDOS (Sintetizados para no depender de archivos externos por ahora)
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playSound(type) {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
     
-    trashItems: [
-        { type: 'plastic', emoji: '🥤', name: 'Botella', decayYears: 450, weightKg: 0.05 },
-        { type: 'plastic', emoji: '🛍️', name: 'Bolsa', decayYears: 150, weightKg: 0.01 },
-        { type: 'paper', emoji: '📄', name: 'Papel', decayYears: 2, weightKg: 0.001 },
-        { type: 'paper', emoji: '📦', name: 'Caja', decayYears: 5, weightKg: 0.02 },
-        { type: 'glass', emoji: '🥛', name: 'Vaso', decayYears: 4000, weightKg: 0.1 },
-        { type: 'glass', emoji: '🍾', name: 'Botella', decayYears: 4000, weightKg: 0.3 },
-        { type: 'organic', emoji: '🍎', name: 'Manzana', decayYears: 0.5, weightKg: 0.15 },
-        { type: 'organic', emoji: '🥬', name: 'Lechuga', decayYears: 0.3, weightKg: 0.08 }
-    ],
-    
-    educationalFacts: [
-        "¡Cada año, 8 millones de toneladas de plástico terminan en el océano!",
-        "Una botella de plástico puede tardar hasta 450 años en descomponerse.",
-        "Las bolsas de plástico se usan en promedio 15 minutos, pero duran 150 años.",
-        "El papel se recicla hasta 7 veces antes de perder calidad.",
-        "Reciclar vidrio ahorra el 30% de energía comparado con producirlo nuevo.",
-        "Los residuos orgánicos pueden convertirse en compost para fertilizar plantas.",
-        "El 80% de la basura marina proviene de actividades terrestres.",
-        "Las tortugas marinas confunden las bolsas plásticas con medusas y las comen."
-    ],
-    
-    beachData: {
-        name: "Playa del Carmen, México",
-        realTrashKg: 2540.75,
-        cleanupProjects: 3,
-        lastCleanup: "2024-03-10"
+    if (type === 'good') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+    } else {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+        osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.2);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
     }
-};
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.3);
+}
 
-// ============================================
-// VARIABLES GLOBALES
-// ============================================
-
-let currentFactIndex = 0;
-let gameActive = true;
-let itemsOnScreen = [];
-let objectsGenerated = 0;
-const VIRTUAL_TO_REAL_RATIO = 100;
-const OBJECTS_PER_LEVEL = 20;
-const MAX_OBJECTS_ON_SCREEN = 8;
-
-// ============================================
-// INICIALIZACIÓN DEL JUEGO
-// ============================================
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("BlueSphere Kids iniciado");
-    initGame();
-    setupEventListeners();
-    generateTrashItems(8);
-    updateEducationalFact();
+// INICIAR JUEGO
+function initGame() {
+    score = 0;
+    realImpactKg = 0;
+    levelItems = 0;
     updateUI();
+    spawnTrash();
+}
+
+// GENERAR BASURA
+function spawnTrash() {
+    if (levelItems >= MAX_ITEMS_LEVEL) {
+        endLevel();
+        return;
+    }
+
+    // Limpiar basura anterior si existe
+    const existing = document.querySelector('.trash-item');
+    if (existing) existing.remove();
+
+    const itemData = trashTypes[Math.floor(Math.random() * trashTypes.length)];
+    const trash = document.createElement('div');
+    trash.classList.add('trash-item');
+    trash.textContent = itemData.icon;
+    trash.dataset.type = itemData.type;
+    trash.dataset.decay = itemData.decay;
+    
+    // Posición aleatoria en el "cielo/mar"
+    trash.style.left = Math.random() * (gameArea.offsetWidth - 50) + 'px';
+    trash.style.top = '50px';
+    
+    // DRAG AND DROP LÓGICA
+    trash.draggable = true;
+    trash.addEventListener('dragstart', (e) => {
+        activeTrash = trash;
+        decayClock.textContent = itemData.decay; // Mostrar tiempo de vida
+        e.dataTransfer.setData('text/plain', itemData.type);
+        setTimeout(() => trash.style.display = 'none', 0); // Ocultar visualmente al arrastrar
+    });
+    
+    trash.addEventListener('dragend', () => {
+        trash.style.display = 'block'; // Volver a mostrar si se suelta mal
+        activeTrash = null;
+    });
+
+    gameArea.appendChild(trash);
+}
+
+// CONFIGURAR BOTES (DROP ZONES)
+document.querySelectorAll('.bin').forEach(bin => {
+    bin.addEventListener('dragover', e => e.preventDefault());
+    
+    bin.addEventListener('drop', e => {
+        e.preventDefault();
+        const type = e.dataTransfer.getData('text/plain');
+        const binType = bin.dataset.accepts;
+
+        if (type === binType) {
+            handleSuccess();
+        } else {
+            handleMistake();
+        }
+    });
 });
 
-function initGame() {
-    objectsGenerated = 0;
-    document.getElementById('beach-name').textContent = GAME_DATA.beachData.name;
-    document.getElementById('real-trash-count').textContent = 
-        GAME_DATA.beachData.realTrashKg.toFixed(2) + ' kg';
-    updateImpactDisplay();
-}
+function handleSuccess() {
+    playSound('good');
+    score++;
+    realImpactKg += 0.5; // Simulación: 0.5kg por objeto
+    levelItems++;
+    
+    // Animación visual de éxito
+    const trash = document.querySelector('.trash-item');
+    if(trash) trash.remove();
 
-// ============================================
-// GENERACIÓN DE OBJETOS
-// ============================================
-
-function generateTrashItems(count) {
-    const gameArea = document.getElementById('game-area');
-    
-    if (GAME_DATA.player.itemsCleaned >= OBJECTS_PER_LEVEL || objectsGenerated >= OBJECTS_PER_LEVEL) {
-        return;
-    }
-    
-    const canGenerate = Math.min(
-        count,
-        OBJECTS_PER_LEVEL - objectsGenerated,
-        MAX_OBJECTS_ON_SCREEN - itemsOnScreen.length
-    );
-    
-    if (canGenerate <= 0) return;
-    
-    for (let i = 0; i < canGenerate; i++) {
-        if (objectsGenerated >= OBJECTS_PER_LEVEL) break;
-        
-        const item = GAME_DATA.trashItems[Math.floor(Math.random() * GAME_DATA.trashItems.length)];
-        const trashElement = createTrashElement(item, objectsGenerated);
-        gameArea.appendChild(trashElement);
-        itemsOnScreen.push(trashElement);
-        objectsGenerated++;
-    }
-}
-
-function createTrashElement(item, id) {
-    const div = document.createElement('div');
-    div.className = `trash-item ${item.type}`;
-    div.id = `trash-${id}`;
-    div.draggable = true;
-    div.dataset.type = item.type;
-    div.dataset.decay = item.decayYears;
-    div.dataset.weight = item.weightKg;
-    
-    const x = 100 + Math.random() * 600;
-    const y = 150 + Math.random() * 300;
-    div.style.left = `${x}px`;
-    div.style.top = `${y}px`;
-    
-    div.innerHTML = `
-        <div class="trash-emoji">${item.emoji}</div>
-        <div class="trash-name">${item.name}</div>
-        <div class="trash-decay">${item.decayYears}a</div>
-    `;
-    
-    div.addEventListener('dragstart', dragStart);
-    return div;
-}
-
-// ============================================
-// DRAG AND DROP (CORREGIDO)
-// ============================================
-
-function dragStart(e) {
-    if (!gameActive) return false;
-    e.dataTransfer.setData('text/plain', e.target.id);
-    e.dataTransfer.effectAllowed = 'move';
-    e.target.style.opacity = '0.7';
-}
-
-function setupEventListeners() {
-    const bins = document.querySelectorAll('.bin');
-    
-    bins.forEach(bin => {
-        bin.addEventListener('dragover', dragOver);
-        bin.addEventListener('dragenter', dragEnter);
-        bin.addEventListener('dragleave', dragLeave);
-        bin.addEventListener('drop', drop);
-    });
-    
-    document.getElementById('btn-new-game').addEventListener('click', resetGame);
-    document.getElementById('btn-back').addEventListener('click', () => {
-        window.location.href = 'index.html';
-    });
-    document.getElementById('btn-help').addEventListener('click', showHelp);
-    document.getElementById('next-fact').addEventListener('click', updateEducationalFact);
-    document.getElementById('btn-continue').addEventListener('click', continueGame);
-    document.getElementById('btn-certificate').addEventListener('click', showCertificate);
-}
-
-function dragOver(e) {
-    if (!gameActive) return false;
-    e.preventDefault();
-}
-
-function dragEnter(e) {
-    if (!gameActive) return;
-    e.target.classList.add('drag-over');
-}
-
-function dragLeave(e) {
-    e.target.classList.remove('drag-over');
-}
-
-function drop(e) {
-    e.preventDefault();
-    e.target.classList.remove('drag-over');
-    
-    if (!gameActive) return;
-    
-    const trashId = e.dataTransfer.getData('text/plain');
-    const trashElement = document.getElementById(trashId);
-    
-    if (!trashElement) {
-        console.log("Elemento no encontrado:", trashId);
-        return;
-    }
-    
-    const trashType = trashElement.dataset.type;
-    const binType = e.target.dataset.accepts;
-    
-    console.log(`[DEBUG] ${trashType} → ${binType}`);
-    
-    if (trashType === binType) {
-        handleCorrectDrop(trashElement, e.target, trashType); // ← AQUÍ PASA trashType
-    } else {
-        handleIncorrectDrop(trashElement, e.target, trashType); // ← AQUÍ TAMBIÉN
-    }
-}
-
-// ============================================
-// LÓGICA DE ACIERTOS Y ERRORES (CORREGIDO)
-// ============================================
-
-function handleCorrectDrop(trashElement, bin, trashType) { // ← AQUÍ RECIBE trashType
-    bin.classList.add('correct');
-    trashElement.style.opacity = '0';
-    
-    // MEMORIAS DEL OCÉANO
-    if (typeof registerOceanMemory === 'function') {
-        registerOceanMemory(trashType);
-    }
-    
-    // PUNTUACIÓN
-    GAME_DATA.player.score += 10;
-    GAME_DATA.player.itemsCleaned++;
-    GAME_DATA.player.realImpactKg += parseFloat(trashElement.dataset.weight);
-    GAME_DATA.player.decayTimer -= parseInt(trashElement.dataset.decay) / 10;
-    if (GAME_DATA.player.decayTimer < 0) GAME_DATA.player.decayTimer = 0;
-    
+    showFact(); // Mostrar dato curioso ocasionalmente
     updateUI();
-    
-    setTimeout(() => {
-        trashElement.remove();
-        
-        const index = itemsOnScreen.indexOf(trashElement);
-        if (index > -1) itemsOnScreen.splice(index, 1);
-        
-        setTimeout(() => bin.classList.remove('correct'), 500);
-        
-        checkWinCondition();
-        
-        if (itemsOnScreen.length < MAX_OBJECTS_ON_SCREEN && 
-            objectsGenerated < OBJECTS_PER_LEVEL &&
-            GAME_DATA.player.itemsCleaned < OBJECTS_PER_LEVEL) {
-            generateTrashItems(1);
-        }
-    }, 300);
+    setTimeout(spawnTrash, 1500); // Siguiente objeto
 }
 
-function handleIncorrectDrop(trashElement, bin, trashType) { // ← AQUÍ RECIBE trashType
-    bin.classList.add('incorrect');
-    GAME_DATA.player.decayTimer += 5;
-    updateUI();
-    
-    setTimeout(() => {
-        trashElement.style.left = `${100 + Math.random() * 600}px`;
-        trashElement.style.top = `${150 + Math.random() * 300}px`;
-        trashElement.style.opacity = '1';
-        bin.classList.remove('incorrect');
-    }, 500);
+function handleMistake() {
+    playSound('bad');
+    alert("¡Ups! Ese no es el contenedor correcto. Intenta de nuevo.");
+    const trash = document.querySelector('.trash-item');
+    if(trash) trash.style.display = 'block'; // Regresar objeto
 }
 
-// ============================================
-// INTERFAZ DE USUARIO
-// ============================================
+function showFact() {
+    if (Math.random() > 0.7) { // 30% de probabilidad
+        factPanel.style.display = 'block';
+        factText.textContent = facts[Math.floor(Math.random() * facts.length)];
+        setTimeout(() => factPanel.style.display = 'none', 3000);
+    }
+}
 
 function updateUI() {
-    document.getElementById('score-count').textContent = GAME_DATA.player.score;
-    document.getElementById('player-impact').textContent = 
-        `${GAME_DATA.player.itemsCleaned} objetos limpiados`;
-    
-    updateImpactDisplay();
-    
-    const trees = Math.floor(GAME_DATA.player.itemsCleaned / 20);
-    if (trees > GAME_DATA.player.treesEarned) {
-        GAME_DATA.player.treesEarned = trees;
-        document.getElementById('trees-earned').textContent = trees;
-    }
-    
-    document.getElementById('decay-clock').textContent = 
-        Math.max(0, Math.floor(GAME_DATA.player.decayTimer));
-    
-    // Progreso del nivel
-    const progressElement = document.getElementById('level-progress');
-    if (progressElement) {
-        progressElement.textContent = `${GAME_DATA.player.itemsCleaned}/${OBJECTS_PER_LEVEL}`;
-    }
+    scoreEl.textContent = score;
+    impactEl.textContent = realImpactKg.toFixed(2) + ' kg';
+    progressEl.textContent = `${levelItems}/${MAX_ITEMS_LEVEL}`;
 }
 
-function updateImpactDisplay() {
-    const realImpact = GAME_DATA.player.realImpactKg;
-    document.getElementById('real-impact').textContent = 
-        realImpact.toFixed(2) + ' kg';
-    
-    const beachImpact = GAME_DATA.beachData.realTrashKg - (GAME_DATA.player.itemsCleaned / VIRTUAL_TO_REAL_RATIO);
-    document.getElementById('real-trash-count').textContent = 
-        Math.max(0, beachImpact).toFixed(2) + ' kg';
+function endLevel() {
+    victoryModal.style.display = 'flex';
+    document.getElementById('final-score').textContent = score;
+    document.getElementById('final-impact').textContent = realImpactKg.toFixed(2);
 }
 
-function updateEducationalFact() {
-    const factElement = document.getElementById('fact-text');
-    factElement.textContent = GAME_DATA.educationalFacts[currentFactIndex];
-    currentFactIndex = (currentFactIndex + 1) % GAME_DATA.educationalFacts.length;
-}
+// BOTONES DE CONTROL
+document.getElementById('btn-new-game').addEventListener('click', () => {
+    victoryModal.style.display = 'none';
+    initGame();
+});
 
-// ============================================
-// VICTORIA Y CONTROLES
-// ============================================
+document.getElementById('btn-continue').addEventListener('click', () => {
+    victoryModal.style.display = 'none';
+    initGame(); // Por ahora reinicia, luego podríamos subir dificultad
+});
 
-function checkWinCondition() {
-    if (GAME_DATA.player.itemsCleaned >= OBJECTS_PER_LEVEL) {
-        gameActive = false;
-        setTimeout(() => {
-            showVictoryModal();
-        }, 500);
-    }
-}
-
-function showVictoryModal() {
-    const modal = document.getElementById('victory-modal');
-    document.getElementById('final-score').textContent = GAME_DATA.player.score;
-    document.getElementById('final-impact').textContent = 
-        GAME_DATA.player.realImpactKg.toFixed(2);
-    modal.style.display = 'flex';
-}
-
-function resetGame() {
-    GAME_DATA.player = {
-        score: 0,
-        itemsCleaned: 0,
-        realImpactKg: 0,
-        treesEarned: 0,
-        decayTimer: 450
-    };
-    
-    objectsGenerated = 0;
-    itemsOnScreen.forEach(item => item.remove());
-    itemsOnScreen = [];
-    document.getElementById('victory-modal').style.display = 'none';
-    gameActive = true;
-    generateTrashItems(8);
-    updateUI();
-    updateEducationalFact();
-}
-
-function continueGame() {
-    resetGame();
-}
-
-function showHelp() {
-    alert("🎮 CÓMO JUGAR:\n\n1. Arrastra objetos a contenedores correctos\n2. Plástico→♻️ Papel→📄 Vidrio→🥛 Orgánico→🍎\n3. Limpia 20 objetos para ganar\n4. ¡Cada objeto tiene una historia!");
-}
-
-function showCertificate() {
-    const cert = `🏆 CERTIFICADO BLUESPHERE 🏆\n\nHas limpiado: ${GAME_DATA.player.itemsCleaned} objetos\nImpacto: ${GAME_DATA.player.realImpactKg.toFixed(2)} kg\nÁrboles: ${GAME_DATA.player.treesEarned}\n\n🌍 ${new Date().toLocaleDateString()}`;
-    alert(cert);
-}
+// Inicializar al cargar
+initGame();
