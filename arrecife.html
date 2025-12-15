@@ -1127,8 +1127,8 @@
         });
             <!-- TODO tu código actual del juego... -->
 
-    <!-- ============================================= -->
-    <!-- BOTONES TÁCTILES PARA MÓVIL (añade esto ANTES) -->
+        <!-- ============================================= -->
+    <!-- BOTONES TÁCTILES PARA MÓVIL                   -->
     <!-- ============================================= -->
     <div id="mobile-controls">
         <div class="mobile-controls-row">
@@ -1141,73 +1141,7 @@
         </div>
     </div>
 
-    <style>
-        /* BOTONES MÓVIL - SOLO EN PANTALLAS PEQUEÑAS */
-        #mobile-controls {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            z-index: 1000;
-            padding: 10px;
-        }
-        
-        .mobile-controls-row {
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        
-        .mobile-btn {
-            background: linear-gradient(135deg, #ff00cc, #3333ff);
-            border: none;
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            user-select: none;
-            touch-action: manipulation;
-        }
-        
-        .mobile-btn:active {
-            transform: scale(0.95);
-            background: linear-gradient(135deg, #cc00aa, #2222dd);
-        }
-        
-        @media (max-width: 1000px) {
-            #mobile-controls {
-                display: block;
-            }
-            
-            #game-panel {
-                padding-bottom: 100px;
-            }
-        }
-        
-        @media (max-width: 400px) {
-            .mobile-btn {
-                width: 60px;
-                height: 60px;
-                font-size: 18px;
-            }
-            
-            .mobile-controls-row {
-                gap: 10px;
-            }
-        }
-    </style>
-
-        <script>
+    <script>
         // CONTROL TÁCTIL PARA MÓVIL
         document.addEventListener('DOMContentLoaded', function() {
             const buttons = document.querySelectorAll('.mobile-btn');
@@ -1225,23 +1159,23 @@
             });
             
             function handleMobileControl(action) {
-                if (!piece || !isPlaying) return;
+                if (!window.piece || !window.isPlaying) return;
                 
                 switch(action) {
                     case 'left': 
-                        piece.x--;
-                        if (collide()) piece.x++;
+                        window.piece.x--;
+                        if (window.collide()) window.piece.x++;
                         break;
                     case 'right':
-                        piece.x++;
-                        if (collide()) piece.x--;
+                        window.piece.x++;
+                        if (window.collide()) window.piece.x--;
                         break;
                     case 'down':
-                        piece.y++;
-                        if (collide()) piece.y--;
+                        window.piece.y++;
+                        if (window.collide()) window.piece.y--;
                         break;
                     case 'rotate':
-                        rotatePiece();
+                        window.rotatePiece();
                         break;
                 }
             }
