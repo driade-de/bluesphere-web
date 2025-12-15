@@ -1,477 +1,206 @@
-/* game-style.css - Estilos del juego BlueSphere Kids */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+:root {
+    --ocean-deep: #006994;
+    --ocean-light: #48cae4;
+    --sand: #f4e4bc;
+    --coral: #ff8fa3;
+    --glass: rgba(255, 255, 255, 0.25);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --text-dark: #0a2463;
 }
 
 body {
-    background: linear-gradient(135deg, #1a5276 0%, #0a3d62 100%);
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+    /* Fondo animado estilo Ghibli: Cielo y Mar */
+    background: linear-gradient(180deg, #89f7fe 0%, #66a6ff 100%);
+    height: 100vh;
+    overflow: hidden;
     color: white;
-    min-height: 100vh;
-    padding: 20px;
-    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .game-container {
+    width: 90%;
     max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* CABECERA CON DATOS REALES */
-.real-data-header {
+    height: 90vh;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-rows: auto 1fr auto;
     gap: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 25px;
-    margin-bottom: 30px;
-    border: 2px solid rgba(77, 195, 255, 0.3);
+}
+
+/* --- CABECERA DE DATOS REALES --- */
+.real-data-header {
+    background: var(--glass);
     backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: 15px 30px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+    font-weight: 700;
+    color: var(--text-dark);
 }
 
-.real-data-header > div {
-    text-align: center;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 15px;
-}
-
-.location-info {
-    color: #4dc3ff;
-    font-size: 1.2rem;
-}
-
-.pollution-data {
-    color: #ff6b6b;
-    font-size: 1.2rem;
-}
-
-.impact-counter {
-    color: #2ecc71;
-    font-size: 1.2rem;
-}
-
-/* ÁREA DE JUEGO */
+/* --- ÁREA DE JUEGO --- */
 .game-area {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 25px;
-    padding: 40px;
-    min-height: 500px;
-    margin-bottom: 30px;
     position: relative;
-    border: 3px dashed rgba(77, 195, 255, 0.4);
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: auto;
-    gap: 30px;
-    align-items: end;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    border: 2px dashed rgba(255,255,255,0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    overflow: hidden;
 }
 
-/* PERSONAJE AZULINA */
+/* Personaje Azulina */
 .character {
     position: absolute;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 20px;
+    left: 20px;
     text-align: center;
+    animation: float 3s ease-in-out infinite;
     z-index: 10;
 }
+.character-icon { font-size: 60px; filter: drop-shadow(0 0 10px rgba(0,255,255,0.5)); }
+.character-name { font-size: 14px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 
-.character-icon {
-    font-size: 4rem;
-    animation: float 3s ease-in-out infinite;
-}
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-.character-name {
-    font-size: 1.5rem;
-    color: #4dc3ff;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-}
-
-/* OBJETOS RECICLABLES */
+/* Basura (Items Draggables) */
 .trash-item {
-    width: 100px;
-    height: 100px;
-    background: white;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: grab;
-    user-select: none;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     position: absolute;
-    font-size: 2.5rem;
+    font-size: 40px;
+    cursor: grab;
+    transition: transform 0.2s;
+    user-select: none;
 }
+.trash-item:active { cursor: grabbing; transform: scale(1.2); }
 
-.trash-item:hover {
-    transform: scale(1.1);
-}
-
-.trash-item.plastic {
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    color: white;
-}
-
-.trash-item.paper {
-    background: linear-gradient(135deg, #f1c40f, #f39c12);
-    color: white;
-}
-
-.trash-item.glass {
-    background: linear-gradient(135deg, #1abc9c, #16a085);
-    color: white;
-}
-
-.trash-item.organic {
-    background: linear-gradient(135deg, #e67e22, #d35400);
-    color: white;
-}
-
-/* CONTENEDORES */
+/* Contenedores */
 .bin {
-    width: 120px;
-    height: 150px;
-    background: rgba(255, 255, 255, 0.15);
+    width: 100px;
+    height: 120px;
+    background: rgba(255,255,255,0.9);
     border-radius: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 3px solid transparent;
-    padding: 15px;
+    position: absolute;
+    bottom: 20px;
+    transition: transform 0.3s;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
+.bin:hover { transform: scale(1.05) translateY(-5px); }
 
-.bin:hover {
-    transform: translateY(-10px);
-    background: rgba(255, 255, 255, 0.25);
-}
+/* Posiciones de los botes */
+.plastic-bin { left: 10%; border-bottom: 5px solid #ffcc00; } /* Amarillo */
+.paper-bin { left: 35%; border-bottom: 5px solid #3366cc; }   /* Azul */
+.glass-bin { left: 60%; border-bottom: 5px solid #009933; }   /* Verde */
+.organic-bin { left: 85%; border-bottom: 5px solid #996633; } /* Café */
 
-.bin.correct {
-    border-color: #2ecc71;
-    background: rgba(46, 204, 113, 0.2);
-    animation: pulse-green 0.5s;
-}
+.bin-icon { font-size: 40px; margin-bottom: 5px; }
+.bin-label { font-size: 12px; font-weight: bold; color: #555; }
 
-.bin.incorrect {
-    border-color: #e74c3c;
-    background: rgba(231, 76, 60, 0.2);
-    animation: shake 0.5s;
-}
-
-.bin-icon {
-    font-size: 3rem;
-    margin-bottom: 10px;
-}
-
-.bin-label {
-    font-size: 0.9rem;
-    font-weight: bold;
-    text-align: center;
-}
-
-@keyframes pulse-green {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    75% { transform: translateX(10px); }
-}
-
-/* TIMER DE DESCOMPOSICIÓN */
+/* Timer de Descomposición */
 .decay-timer {
-    grid-column: span 4;
-    background: rgba(231, 76, 60, 0.2);
-    border-radius: 15px;
-    padding: 20px;
-    text-align: center;
-    margin-top: 30px;
-    border: 2px solid #e74c3c;
-}
-
-.timer-icon {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-.timer-text {
-    font-size: 1.2rem;
-}
-
-/* PANEL EDUCATIVO */
-.education-panel {
-    background: rgba(155, 89, 182, 0.2);
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
     border-radius: 20px;
-    padding: 25px;
-    margin: 30px 0;
-    border: 2px solid #9b59b6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
 }
 
-.education-panel h3 {
-    color: #9b59b6;
-    margin-bottom: 15px;
-    font-size: 1.5rem;
-}
-
-#fact-text {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    min-height: 60px;
-}
-
-#next-fact {
-    background: #9b59b6;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-#next-fact:hover {
-    background: #8e44ad;
-    transform: translateY(-3px);
-}
-
-/* PUNTUACIÓN */
+/* --- PANELES INFERIORES --- */
 .score-panel {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    background: rgba(52, 152, 219, 0.2);
-    border-radius: 20px;
-    padding: 25px;
-    margin: 30px 0;
-    border: 2px solid #3498db;
-}
-
-.score-item {
-    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    background: white;
     padding: 15px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-}
-
-.score-label {
-    display: block;
-    color: #bdc3c7;
-    font-size: 0.9rem;
-    margin-bottom: 8px;
-}
-
-.score-value {
-    display: block;
-    font-size: 2rem;
+    border-radius: 20px;
+    color: var(--text-dark);
     font-weight: bold;
-    color: #4dc3ff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* CONTROLES */
 .controls {
     display: flex;
     justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
+    gap: 15px;
 }
 
 .control-btn {
-    background: linear-gradient(135deg, #2ecc71, #1abc9c);
-    color: white;
+    padding: 12px 25px;
     border: none;
-    padding: 15px 30px;
-    border-radius: 50px;
-    cursor: pointer;
-    font-size: 1.1rem;
+    border-radius: 25px;
+    background: white;
+    color: var(--ocean-deep);
     font-weight: bold;
-    transition: all 0.3s ease;
-    min-width: 180px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+    font-family: 'Quicksand', sans-serif;
 }
+.control-btn:hover { background: var(--sand); transform: translateY(-2px); }
 
-.control-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(46, 204, 113, 0.4);
-}
-
-/* MODAL DE VICTORIA */
+/* --- MODAL --- */
 .modal {
-    display: none;
+    display: none; /* Oculto por defecto */
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 100;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
 }
-
 .modal-content {
-    background: linear-gradient(135deg, #0a3d62, #1a5276);
+    background: white;
+    padding: 40px;
     border-radius: 30px;
-    padding: 50px;
-    max-width: 600px;
-    width: 90%;
     text-align: center;
-    border: 3px solid #4dc3ff;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    color: var(--text-dark);
+    max-width: 400px;
+    animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-
-.modal h2 {
-    color: #4dc3ff;
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-}
-
-.modal p {
-    font-size: 1.3rem;
-    margin: 15px 0;
-    line-height: 1.6;
-}
+@keyframes popUp { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 .modal-btn {
-    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    margin-top: 20px;
+    padding: 15px 30px;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
     color: white;
     border: none;
-    padding: 15px 35px;
     border-radius: 50px;
+    font-size: 16px;
     cursor: pointer;
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 10px;
-    transition: all 0.3s ease;
 }
 
-.modal-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(155, 89, 182, 0.4);
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .game-area {
-        grid-template-columns: repeat(2, 1fr);
-        padding: 20px;
-        gap: 20px;
-    }
-    
-    .trash-item {
-        width: 80px;
-        height: 80px;
-        font-size: 2rem;
-    }
-    
-    .bin {
-        width: 100px;
-        height: 130px;
-    }
-    
-    .controls {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .control-btn {
-        width: 90%;
-    }
-}
-
-@media (max-width: 480px) {
-    .game-area {
-        grid-template-columns: 1fr;
-    }
-    
-    .real-data-header {
-        grid-template-columns: 1fr;
-    }
-    
-    .score-panel {
-        grid-template-columns: 1fr;
-    }
-    }  ← (Esta llave cierra el @media query)
-
-/* ==================== ESTILOS PARA MEMORIAS DEL OCÉANO ==================== */
-
-/* El botón del diario en controles */
-.controls button {
-    transition: all 0.3s;
-}
-
-.controls button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Efecto especial cuando hay memoria nueva */
-.bin.correct {
-    animation: memoryGlow 1s ease-in-out;
-}
-
-@keyframes memoryGlow {
-    0% { box-shadow: 0 0 5px rgba(79, 195, 247, 0.5); }
-    50% { box-shadow: 0 0 20px rgba(79, 195, 247, 0.8); }
-    100% { box-shadow: 0 0 5px rgba(79, 195, 247, 0.5); }
-}
-
-/* Indicador de progreso en el panel de puntuación */
-.score-panel {
-    position: relative;
-}
-
-/* Este es el efecto de la esfera azul flotante */
-.score-panel::after {
-    content: "🌀";
+/* Educación */
+.education-panel {
     position: absolute;
-    top: -15px;
-    right: -15px;
-    font-size: 1.8em;
-    opacity: 0;
-    animation: float 3s infinite ease-in-out;
-    transition: opacity 0.5s;
-}
-
-/* Solo mostrar la esfera si hay memorias desbloqueadas */
-.score-panel.has-memories::after {
-    opacity: 0.7;
-}
-
-@keyframes float {
-    0%, 100% { 
-        transform: translateY(0) rotate(0deg); 
-    }
-    50% { 
-        transform: translateY(-8px) rotate(15deg); 
-    }
-}
-
-/* Modal de memoria - versión responsive */
-@media (max-width: 600px) {
-    .score-panel::after {
-        font-size: 1.3em;
-        top: -10px;
-        right: -10px;
-    }
-}
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    display: none; /* Se muestra con eventos */
+    color: #333;
+    box-shadow: 0 0 50px rgba(0,255,255,0.4);
+    z-index: 50;
+    max-width: 300px;
 }
