@@ -125,6 +125,17 @@
         }
         
         @media (max-width: 400px) {
+            @media (max-width: 1000px) { ... }
+
+@media (max-width: 400px) { ... }
+
+/* ↓ NUEVO CÓDIGO AQUÍ ↓ */
+@media (max-width: 360px) { ... }
+
+@media (max-width: 320px) { ... }
+/* ↑ NUEVO CÓDIGO AQUÍ ↑ */
+
+/* Y luego vendría el resto de tu CSS si hay más */
             #ecosystem-panel {
                 height: 160px;
                 padding: 10px;
@@ -1189,4 +1200,5 @@
     </script>
 </body>
 </html>
+
 
