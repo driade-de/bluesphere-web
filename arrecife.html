@@ -8,165 +8,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;700&display=swap');
         
         /* =========================================== */
-        /* RESPONSIVE MÓVIL - PRIORIDAD MÁXIMA        */
-        /* =========================================== */
-        @media (max-width: 1000px) {
-            body {
-                padding: 10px;
-                height: auto;
-                min-height: 100vh;
-                overflow-y: auto;
-            }
-            
-            #game-container {
-                flex-direction: column;
-                width: 100%;
-                max-width: 100%;
-                height: auto;
-                box-shadow: none;
-                border-radius: 10px;
-                margin: 0 auto;
-            }
-            
-            #ecosystem-panel {
-                width: 100%;
-                height: 180px;
-                border-radius: 10px 10px 0 0;
-                border-right: none;
-                border-bottom: 2px solid rgba(0, 255, 255, 0.2);
-                padding: 15px;
-                margin-bottom: 10px;
-            }
-            
-            #game-panel {
-                width: 100%;
-                padding: 15px;
-                border-radius: 0 0 10px 10px;
-                padding-bottom: 120px; /* Espacio para botones móvil */
-            }
-            
-            #game-wrapper {
-                transform: scale(0.9);
-                transform-origin: center;
-                margin: 0 auto;
-            }
-            
-            .tutorial-box {
-                max-width: 95vw !important;
-                padding: 15px !important;
-                margin: 5px !important;
-                font-size: 14px;
-            }
-            
-            .tutorial-step {
-                margin-bottom: 15px;
-            }
-            
-            .step-text {
-                font-size: 14px;
-                line-height: 1.4;
-            }
-            
-            #start-overlay, .tutorial-overlay {
-                padding: 20px !important;
-            }
-            
-            #start-btn, .tutorial-btn {
-                padding: 12px 25px;
-                font-size: 16px;
-                width: 90%;
-                max-width: 300px;
-            }
-            
-            #score-display {
-                padding: 10px 20px;
-                font-size: 16px;
-                margin-top: 15px;
-            }
-            
-            #controls {
-                font-size: 11px;
-                margin-top: 10px;
-            }
-            
-            #experience-credit {
-                font-size: 12px;
-                margin-top: 15px;
-            }
-            
-            #game-title {
-                font-size: 22px;
-                margin-bottom: 5px;
-            }
-            
-            #game-subtitle {
-                font-size: 12px;
-                margin-bottom: 15px;
-            }
-            
-            #ecosystem-title {
-                font-size: 18px;
-                margin-bottom: 15px;
-            }
-            
-            .life-indicator {
-                padding: 10px;
-                margin-bottom: 10px;
-            }
-            
-            .life-icon {
-                font-size: 12px;
-            }
-            
-            /* BOTONES MÓVIL */
-            #mobile-controls {
-                display: block !important;
-            }
-        }
-        
-        @media (max-width: 400px) {
-            @media (max-width: 1000px) { ... }
-
-@media (max-width: 400px) { ... }
-
-/* ↓ NUEVO CÓDIGO AQUÍ ↓ */
-@media (max-width: 360px) { ... }
-
-@media (max-width: 320px) { ... }
-/* ↑ NUEVO CÓDIGO AQUÍ ↑ */
-
-/* Y luego vendría el resto de tu CSS si hay más */
-            #ecosystem-panel {
-                height: 160px;
-                padding: 10px;
-            }
-            
-            #game-wrapper {
-                transform: scale(0.8);
-            }
-            
-            .tutorial-box {
-                padding: 10px !important;
-            }
-            
-            .step-text {
-                font-size: 13px;
-            }
-            
-           #mobile-controls .mobile-btn {
-    width: 50px;      /* ← Cambiado: era 60px */
-    height: 50px;     /* ← Cambiado: era 60px */
-    font-size: 12px;  /* ← Cambiado: era 18px */
-    margin: 3px;      /* ← NUEVO: añade espacio entre botones */
-    padding: 5px;     /* ← NUEVO: mejora el aspecto */
-}
-            
-            #mobile-controls .mobile-controls-row {
-                gap: 10px;
-            }
-        }
-
-        /* =========================================== */
         /* ESTILOS PRINCIPALES                         */
         /* =========================================== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -335,6 +176,45 @@
         }
         #start-btn:hover { transform: scale(1.1); }
         
+        /* --- BOTONES MÓVIL --- */
+        #mobile-controls {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 1000;
+            padding: 10px;
+        }
+        .mobile-controls-row {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .mobile-btn {
+            background: linear-gradient(135deg, #ff00cc, #3333ff);
+            border: none;
+            color: white;
+            font-size: 20px !important;
+            font-weight: bold;
+            width: 70px !important;
+            height: 70px !important;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .mobile-btn:active {
+            transform: scale(0.95);
+            background: linear-gradient(135deg, #cc00aa, #2222dd);
+        }
+        
         /* --- TUTORIAL --- */
         .tutorial-overlay {
             position: absolute;
@@ -417,43 +297,226 @@
             margin-top: 15px;
         }
         
-        /* --- BOTONES MÓVIL --- */
-        #mobile-controls {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            z-index: 1000;
-            padding: 10px;
+        /* =========================================== */
+        /* RESPONSIVE MÓVIL - PRIORIDAD MÁXIMA        */
+        /* =========================================== */
+        @media (max-width: 1000px) {
+            body {
+                padding: 10px;
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+            }
+            
+            #game-container {
+                flex-direction: column;
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+                box-shadow: none;
+                border-radius: 10px;
+                margin: 0 auto;
+            }
+            
+            #ecosystem-panel {
+                width: 100%;
+                height: 180px;
+                border-radius: 10px 10px 0 0;
+                border-right: none;
+                border-bottom: 2px solid rgba(0, 255, 255, 0.2);
+                padding: 15px;
+                margin-bottom: 10px;
+            }
+            
+            #game-panel {
+                width: 100%;
+                padding: 15px;
+                border-radius: 0 0 10px 10px;
+                padding-bottom: 120px; /* Espacio para botones móvil */
+            }
+            
+            #game-wrapper {
+                transform: scale(0.9);
+                transform-origin: center;
+                margin: 0 auto;
+            }
+            
+            .tutorial-box {
+                max-width: 95vw !important;
+                padding: 15px !important;
+                margin: 5px !important;
+                font-size: 14px;
+            }
+            
+            .tutorial-step {
+                margin-bottom: 15px;
+            }
+            
+            .step-text {
+                font-size: 14px;
+                line-height: 1.4;
+            }
+            
+            #start-overlay, .tutorial-overlay {
+                padding: 20px !important;
+            }
+            
+            #start-btn, .tutorial-btn {
+                padding: 12px 25px;
+                font-size: 16px;
+                width: 90%;
+                max-width: 300px;
+            }
+            
+            #score-display {
+                padding: 10px 20px;
+                font-size: 16px;
+                margin-top: 15px;
+            }
+            
+            #controls {
+                font-size: 11px;
+                margin-top: 10px;
+            }
+            
+            #experience-credit {
+                font-size: 12px;
+                margin-top: 15px;
+            }
+            
+            #game-title {
+                font-size: 22px;
+                margin-bottom: 5px;
+            }
+            
+            #game-subtitle {
+                font-size: 12px;
+                margin-bottom: 15px;
+            }
+            
+            #ecosystem-title {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+            
+            .life-indicator {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .life-icon {
+                font-size: 12px;
+            }
+            
+            /* BOTONES MÓVIL */
+            #mobile-controls {
+                display: block !important;
+            }
         }
-        .mobile-controls-row {
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+        
+        @media (max-width: 400px) {
+            #ecosystem-panel {
+                height: 160px;
+                padding: 10px;
+            }
+            
+            #game-wrapper {
+                transform: scale(0.8);
+            }
+            
+            .tutorial-box {
+                padding: 10px !important;
+            }
+            
+            .step-text {
+                font-size: 13px;
+            }
+            
+            #mobile-controls .mobile-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 12px;
+                margin: 3px;
+                padding: 5px;
+            }
+            
+            #mobile-controls .mobile-controls-row {
+                gap: 10px;
+            }
         }
-        .mobile-btn {
-            background: linear-gradient(135deg, #ff00cc, #3333ff);
-            border: none;
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            user-select: none;
-            touch-action: manipulation;
+
+        /* =========================================== */
+        /* ULTRA-MÓVIL - Pantallas MUY pequeñas        */
+        /* =========================================== */
+        @media (max-width: 360px) {
+            body {
+                padding: 5px !important;
+            }
+            
+            #ecosystem-panel {
+                height: 140px !important;
+                padding: 8px !important;
+                margin-bottom: 8px !important;
+            }
+            
+            #game-panel {
+                padding: 10px !important;
+                padding-bottom: 90px !important;
+            }
+            
+            #game-wrapper {
+                transform: scale(0.7) !important;
+            }
+            
+            #game-title {
+                font-size: 20px !important;
+            }
+            
+            #game-subtitle {
+                font-size: 10px !important;
+            }
+            
+            #mobile-controls .mobile-btn {
+                width: 45px !important;
+                height: 45px !important;
+                font-size: 11px !important;
+                margin: 2px !important;
+                padding: 4px !important;
+            }
+            
+            #mobile-controls .mobile-controls-row {
+                gap: 6px !important;
+            }
+            
+            .mobile-btn[data-action="rotate"] {
+                width: 50px !important;
+                font-size: 10px !important;
+            }
         }
-        .mobile-btn:active {
-            transform: scale(0.95);
-            background: linear-gradient(135deg, #cc00aa, #2222dd);
+
+        /* =========================================== */
+        /* EXTREMO - Para iPhones pequeños (320px)     */
+        /* =========================================== */
+        @media (max-width: 320px) {
+            #mobile-controls .mobile-btn {
+                width: 40px !important;
+                height: 40px !important;
+                font-size: 10px !important;
+                margin: 1px !important;
+            }
+            
+            .mobile-btn[data-action="rotate"] {
+                width: 45px !important;
+                font-size: 9px !important;
+            }
+            
+            #game-wrapper {
+                transform: scale(0.65) !important;
+            }
+            
+            #ecosystem-panel {
+                height: 130px !important;
+            }
         }
     </style>
 </head>
@@ -1200,5 +1263,3 @@
     </script>
 </body>
 </html>
-
-
