@@ -1,146 +1,161 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlueSphere: El Arrecife de la Memoria</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;700&display=swap');
+        
         /* =========================================== */
-/* RESPONSIVE MÓVIL - PRIORIDAD MÁXIMA        */
-/* =========================================== */
-@media (max-width: 1000px) {
-    body {
-        padding: 10px;
-        height: auto;
-        min-height: 100vh;
-        overflow-y: auto;
-    }
-    
-    #game-container {
-        flex-direction: column;
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-        box-shadow: none;
-        border-radius: 10px;
-        margin: 0 auto;
-    }
-    
-    #ecosystem-panel {
-        width: 100%;
-        height: 180px;
-        border-radius: 10px 10px 0 0;
-        border-right: none;
-        border-bottom: 2px solid rgba(0, 255, 255, 0.2);
-        padding: 15px;
-        margin-bottom: 10px;
-    }
-    
-    #game-panel {
-        width: 100%;
-        padding: 15px;
-        border-radius: 0 0 10px 10px;
-    }
-    
-    #game-wrapper {
-        transform: scale(0.9);
-        transform-origin: center;
-        margin: 0 auto;
-    }
-    
-    #game {
-        width: 100%;
-        height: auto;
-    }
-    
-    .tutorial-box {
-        max-width: 95vw !important;
-        padding: 15px !important;
-        margin: 5px !important;
-        font-size: 14px;
-    }
-    
-    .tutorial-step {
-        margin-bottom: 15px;
-    }
-    
-    .step-text {
-        font-size: 14px;
-        line-height: 1.4;
-    }
-    
-    #start-overlay, .tutorial-overlay {
-        padding: 20px !important;
-    }
-    
-    #start-btn, .tutorial-btn {
-        padding: 12px 25px;
-        font-size: 16px;
-        width: 90%;
-        max-width: 300px;
-    }
-    
-    #score-display {
-        padding: 10px 20px;
-        font-size: 16px;
-        margin-top: 15px;
-    }
-    
-    #controls {
-        font-size: 11px;
-        margin-top: 10px;
-    }
-    
-    #experience-credit {
-        font-size: 12px;
-        margin-top: 15px;
-    }
-    
-    /* Ajustar textos para móvil */
-    #game-title {
-        font-size: 22px;
-        margin-bottom: 5px;
-    }
-    
-    #game-subtitle {
-        font-size: 12px;
-        margin-bottom: 15px;
-    }
-    
-    #ecosystem-title {
-        font-size: 18px;
-        margin-bottom: 15px;
-    }
-    
-    .life-indicator {
-        padding: 10px;
-        margin-bottom: 10px;
-    }
-    
-    .life-icon {
-        font-size: 12px;
-    }
-}
+        /* RESPONSIVE MÓVIL - PRIORIDAD MÁXIMA        */
+        /* =========================================== */
+        @media (max-width: 1000px) {
+            body {
+                padding: 10px;
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+            }
+            
+            #game-container {
+                flex-direction: column;
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+                box-shadow: none;
+                border-radius: 10px;
+                margin: 0 auto;
+            }
+            
+            #ecosystem-panel {
+                width: 100%;
+                height: 180px;
+                border-radius: 10px 10px 0 0;
+                border-right: none;
+                border-bottom: 2px solid rgba(0, 255, 255, 0.2);
+                padding: 15px;
+                margin-bottom: 10px;
+            }
+            
+            #game-panel {
+                width: 100%;
+                padding: 15px;
+                border-radius: 0 0 10px 10px;
+                padding-bottom: 120px; /* Espacio para botones móvil */
+            }
+            
+            #game-wrapper {
+                transform: scale(0.9);
+                transform-origin: center;
+                margin: 0 auto;
+            }
+            
+            .tutorial-box {
+                max-width: 95vw !important;
+                padding: 15px !important;
+                margin: 5px !important;
+                font-size: 14px;
+            }
+            
+            .tutorial-step {
+                margin-bottom: 15px;
+            }
+            
+            .step-text {
+                font-size: 14px;
+                line-height: 1.4;
+            }
+            
+            #start-overlay, .tutorial-overlay {
+                padding: 20px !important;
+            }
+            
+            #start-btn, .tutorial-btn {
+                padding: 12px 25px;
+                font-size: 16px;
+                width: 90%;
+                max-width: 300px;
+            }
+            
+            #score-display {
+                padding: 10px 20px;
+                font-size: 16px;
+                margin-top: 15px;
+            }
+            
+            #controls {
+                font-size: 11px;
+                margin-top: 10px;
+            }
+            
+            #experience-credit {
+                font-size: 12px;
+                margin-top: 15px;
+            }
+            
+            #game-title {
+                font-size: 22px;
+                margin-bottom: 5px;
+            }
+            
+            #game-subtitle {
+                font-size: 12px;
+                margin-bottom: 15px;
+            }
+            
+            #ecosystem-title {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+            
+            .life-indicator {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .life-icon {
+                font-size: 12px;
+            }
+            
+            /* BOTONES MÓVIL */
+            #mobile-controls {
+                display: block !important;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            #ecosystem-panel {
+                height: 160px;
+                padding: 10px;
+            }
+            
+            #game-wrapper {
+                transform: scale(0.8);
+            }
+            
+            .tutorial-box {
+                padding: 10px !important;
+            }
+            
+            .step-text {
+                font-size: 13px;
+            }
+            
+            #mobile-controls .mobile-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 18px;
+            }
+            
+            #mobile-controls .mobile-controls-row {
+                gap: 10px;
+            }
+        }
 
-/* Para pantallas MUY pequeñas (iPhone SE, etc) */
-@media (max-width: 400px) {
-    #ecosystem-panel {
-        height: 160px;
-        padding: 10px;
-    }
-    
-    #game-wrapper {
-        transform: scale(0.8);
-    }
-    
-    .tutorial-box {
-        padding: 10px !important;
-    }
-    
-    .step-text {
-        font-size: 13px;
-    }
-}
+        /* =========================================== */
+        /* ESTILOS PRINCIPALES                         */
+        /* =========================================== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Quicksand', sans-serif;
@@ -306,7 +321,7 @@
             margin: 20px 0;
         }
         #start-btn:hover { transform: scale(1.1); }
-
+        
         /* --- TUTORIAL --- */
         .tutorial-overlay {
             position: absolute;
@@ -388,24 +403,44 @@
             font-size: 14px;
             margin-top: 15px;
         }
-
-        /* --- INDICADOR VISUAL DEL TUTORIAL EN JUEGO --- */
-        .tutorial-hint {
-            position: absolute;
-            background: rgba(0, 255, 255, 0.9);
-            color: #000;
-            padding: 8px 15px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: bold;
-            z-index: 150;
-            pointer-events: none;
-            animation: pulse 2s infinite;
+        
+        /* --- BOTONES MÓVIL --- */
+        #mobile-controls {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 1000;
+            padding: 10px;
         }
-        @keyframes pulse {
-            0% { opacity: 0.7; }
-            50% { opacity: 1; }
-            100% { opacity: 0.7; }
+        .mobile-controls-row {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .mobile-btn {
+            background: linear-gradient(135deg, #ff00cc, #3333ff);
+            border: none;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .mobile-btn:active {
+            transform: scale(0.95);
+            background: linear-gradient(135deg, #cc00aa, #2222dd);
         }
     </style>
 </head>
@@ -471,7 +506,7 @@
             </div>
         </div>
 
-        <!-- SEGUNDA PARTE DEL TUTORIAL (EN JUEGO) -->
+        <!-- SEGUNDA PARTE DEL TUTORIAL -->
         <div id="tutorial-step2" class="tutorial-overlay">
             <div class="tutorial-box" style="max-width: 400px;">
                 <h2 class="tutorial-title">🎮 PRIMERA MISIÓN</h2>
@@ -547,6 +582,18 @@
         </div>
     </div>
 
+    <!-- BOTONES MÓVIL -->
+    <div id="mobile-controls">
+        <div class="mobile-controls-row">
+            <button class="mobile-btn" data-action="rotate">↻ ROTAR</button>
+        </div>
+        <div class="mobile-controls-row">
+            <button class="mobile-btn" data-action="left">←</button>
+            <button class="mobile-btn" data-action="down">↓ BAJAR</button>
+            <button class="mobile-btn" data-action="right">→</button>
+        </div>
+    </div>
+
     <script>
         // ====================
         // CONFIGURACIÓN
@@ -576,22 +623,10 @@
             document.getElementById('tutorial-overlay').style.display = 'none';
             document.getElementById('tutorial-step2').style.display = 'flex';
             tutorialStep = tutorialStates.FIRST_MOVE;
-            
-            // Crear indicador visual en el juego
-            const hint = document.createElement('div');
-            hint.className = 'tutorial-hint';
-            hint.id = 'move-hint';
-            hint.style.left = '50%';
-            hint.style.top = '50%';
-            hint.style.transform = 'translate(-50%, -50%)';
-            hint.innerHTML = 'MUEVE CON ← →';
-            document.getElementById('game-wrapper').appendChild(hint);
         }
 
         function completeTutorial() {
             document.getElementById('tutorial-step2').style.display = 'none';
-            const hint = document.getElementById('move-hint');
-            if (hint) hint.remove();
             tutorialStep = tutorialStates.COMPLETED;
             isPlaying = true;
             audio.init();
@@ -761,17 +796,6 @@
             audio.place();
             sweepLines();
             newPiece();
-            
-            // Completar tutorial después de primera pieza colocada
-            if (tutorialStep === tutorialStates.FIRST_MOVE) {
-                setTimeout(() => {
-                    const hint = document.getElementById('move-hint');
-                    if (hint) {
-                        hint.innerHTML = '¡BIEN HECHO! TUTORIAL COMPLETO';
-                        setTimeout(() => hint.remove(), 1500);
-                    }
-                }, 300);
-            }
         }
 
         function sweepLines() {
@@ -1070,15 +1094,12 @@
             showTutorial();
             initGame();
             
-            // Configurar canvas del ecosistema
             ecoCanvas.width = ecoCanvas.offsetWidth;
             ecoCanvas.height = ecoCanvas.offsetHeight;
             
-            // Inicializar ecosistema
             initFishes(config.ecosystem.initialFish);
             initPlankton(config.ecosystem.initialPlankton);
             
-            // Redimensionar en caso de cambio de ventana
             window.addEventListener('resize', () => {
                 ecoCanvas.width = ecoCanvas.offsetWidth;
                 ecoCanvas.height = ecoCanvas.offsetHeight;
@@ -1086,11 +1107,51 @@
         }
 
         // ====================
-        // 8. EVENTOS
+        // 8. CONTROL MÓVIL
+        // ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Botones táctiles
+            const mobileButtons = document.querySelectorAll('.mobile-btn');
+            mobileButtons.forEach(button => {
+                button.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    handleMobileControl(this.getAttribute('data-action'));
+                });
+                
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    handleMobileControl(this.getAttribute('data-action'));
+                });
+            });
+            
+            function handleMobileControl(action) {
+                if (!piece || !isPlaying) return;
+                
+                switch(action) {
+                    case 'left': 
+                        piece.x--;
+                        if (collide()) piece.x++;
+                        break;
+                    case 'right':
+                        piece.x++;
+                        if (collide()) piece.x--;
+                        break;
+                    case 'down':
+                        piece.y++;
+                        if (collide()) piece.y--;
+                        break;
+                    case 'rotate':
+                        rotatePiece();
+                        break;
+                }
+            }
+        });
+
+        // ====================
+        // 9. EVENTOS
         // ====================
         document.addEventListener('keydown', (e) => {
             if (tutorialStep === tutorialStates.SHOWING_CONTROLS) return;
-            
             if (!isPlaying && tutorialStep !== tutorialStates.FIRST_MOVE) return;
             
             switch(e.key) {
@@ -1113,72 +1174,15 @@
             e.preventDefault();
         });
 
-        // Botón de inicio principal
+        // Botones de inicio
         document.getElementById('start-btn').addEventListener('click', startExperience);
-
-        // Botones del tutorial
         document.getElementById('tutorial-start-btn').addEventListener('click', showSecondTutorialStep);
         document.getElementById('tutorial-continue-btn').addEventListener('click', completeTutorial);
 
-        // Inicializar dimensiones del canvas cuando cargue la página
+        // Inicializar dimensiones
         window.addEventListener('load', () => {
             ecoCanvas.width = ecoCanvas.offsetWidth;
             ecoCanvas.height = ecoCanvas.offsetHeight;
-        });
-            <!-- TODO tu código actual del juego... -->
-
-        <!-- ============================================= -->
-    <!-- BOTONES TÁCTILES PARA MÓVIL                   -->
-    <!-- ============================================= -->
-    <div id="mobile-controls">
-        <div class="mobile-controls-row">
-            <button class="mobile-btn" data-action="rotate">↻ ROTAR</button>
-        </div>
-        <div class="mobile-controls-row">
-            <button class="mobile-btn" data-action="left">←</button>
-            <button class="mobile-btn" data-action="down">↓ BAJAR</button>
-            <button class="mobile-btn" data-action="right">→</button>
-        </div>
-    </div>
-
-    <script>
-        // CONTROL TÁCTIL PARA MÓVIL
-        document.addEventListener('DOMContentLoaded', function() {
-            const buttons = document.querySelectorAll('.mobile-btn');
-            
-            buttons.forEach(button => {
-                button.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                    handleMobileControl(this.getAttribute('data-action'));
-                });
-                
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    handleMobileControl(this.getAttribute('data-action'));
-                });
-            });
-            
-            function handleMobileControl(action) {
-                if (!window.piece || !window.isPlaying) return;
-                
-                switch(action) {
-                    case 'left': 
-                        window.piece.x--;
-                        if (window.collide()) window.piece.x++;
-                        break;
-                    case 'right':
-                        window.piece.x++;
-                        if (window.collide()) window.piece.x--;
-                        break;
-                    case 'down':
-                        window.piece.y++;
-                        if (window.collide()) window.piece.y--;
-                        break;
-                    case 'rotate':
-                        window.rotatePiece();
-                        break;
-                }
-            }
         });
     </script>
 </body>
