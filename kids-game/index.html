@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BlueSphere Kids - El Arrecife Mágico</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
@@ -21,23 +21,26 @@
             margin: 0;
             padding: 0;
             font-family: 'Quicksand', sans-serif;
-            /* DEGRADADO AZUL GHIBLI */
             background: linear-gradient(180deg, #89f7fe 0%, #66a6ff 100%);
-            height: 100vh;
+            height: 100vh; /* Fallback */
+            height: 100dvh; /* Altura dinámica para celulares modernos */
             overflow: hidden;
-            color: white; /* Texto blanco */
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
+            /* Previene el rebote elástico en iPhone */
+            overscroll-behavior: none; 
         }
 
         .game-container {
             width: 90%;
             max-width: 1000px;
-            height: 90vh;
+            height: 95%; /* Usamos casi toda la altura disponible */
             display: grid;
             grid-template-rows: auto 1fr auto;
-            gap: 20px;
+            gap: 15px;
+            box-sizing: border-box;
         }
 
         /* --- CABECERA --- */
@@ -45,7 +48,7 @@
             background: var(--glass);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            padding: 15px 30px;
+            padding: 10px 20px;
             border-radius: 50px;
             display: flex;
             justify-content: space-between;
@@ -66,8 +69,10 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 20px;
+            padding: 10px;
             overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         /* Personaje Azulina */
@@ -79,24 +84,26 @@
             animation: float 3s ease-in-out infinite;
             z-index: 10;
         }
-        .character-icon { font-size: 60px; filter: drop-shadow(0 0 10px rgba(0,255,255,0.5)); }
-        .character-name { font-size: 14px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .character-icon { font-size: 50px; filter: drop-shadow(0 0 10px rgba(0,255,255,0.5)); }
+        .character-name { font-size: 12px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         /* Basura (Items Draggables) */
         .trash-item {
             position: absolute;
-            font-size: 50px; /* Más grande para que se vea bien */
+            font-size: 50px;
             cursor: grab;
             transition: transform 0.2s;
             user-select: none;
             z-index: 20;
             filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2));
+            /* Importante para touch */
+            touch-action: none; 
         }
         .trash-item:active { cursor: grabbing; transform: scale(1.2); }
 
-        /* Contenedores */
+        /* Contenedores PC (Base) */
         .bin {
             width: 80px;
             height: 100px;
@@ -114,11 +121,11 @@
         }
         .bin:hover { transform: scale(1.05) translateY(-5px); }
 
-        /* Posiciones y Colores */
-        .plastic-bin { left: 10%; border-color: #ffcc00; } /* Amarillo */
-        .paper-bin { left: 35%; border-color: #3366cc; }   /* Azul */
-        .glass-bin { left: 60%; border-color: #009933; }   /* Verde */
-        .organic-bin { left: 85%; border-color: #996633; } /* Café */
+        /* Posiciones PC */
+        .plastic-bin { left: 10%; border-color: #ffcc00; }
+        .paper-bin { left: 35%; border-color: #3366cc; }
+        .glass-bin { left: 60%; border-color: #009933; }
+        .organic-bin { left: 85%; border-color: #996633; }
 
         .bin-icon { font-size: 35px; margin-bottom: 5px; }
         .bin-label { font-size: 10px; font-weight: bold; color: #555; text-transform: uppercase; }
@@ -126,15 +133,15 @@
         /* Timer de Descomposición */
         .decay-timer {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             background: rgba(0,0,0,0.6);
-            padding: 8px 15px;
+            padding: 5px 12px;
             border-radius: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 13px;
+            gap: 5px;
+            font-size: 12px;
             color: white;
         }
 
@@ -143,11 +150,14 @@
             display: flex;
             justify-content: space-around;
             background: white;
-            padding: 15px;
+            padding: 10px;
             border-radius: 20px;
             color: var(--text-dark);
             font-weight: bold;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+            gap: 5px;
+            font-size: 0.9rem;
         }
 
         .controls {
@@ -155,10 +165,11 @@
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
+            padding-bottom: 5px; /* Aire extra abajo */
         }
 
         .control-btn {
-            padding: 10px 20px;
+            padding: 10px 25px;
             border: none;
             border-radius: 25px;
             background: white;
@@ -171,7 +182,6 @@
             text-decoration: none;
             font-size: 14px;
         }
-        .control-btn:hover { background: var(--sand); transform: translateY(-2px); }
 
         /* --- MODAL --- */
         .modal {
@@ -185,19 +195,16 @@
         }
         .modal-content {
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 30px;
             text-align: center;
             color: var(--text-dark);
-            max-width: 400px;
-            animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 85%;
             box-shadow: 0 0 50px rgba(0,255,255,0.5);
         }
-        @keyframes popUp { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
         .modal-btn {
-            margin-top: 20px;
-            padding: 15px 30px;
+            margin-top: 15px;
+            padding: 12px 30px;
             background: linear-gradient(90deg, #00c6ff, #0072ff);
             color: white;
             border: none;
@@ -210,8 +217,7 @@
         /* Educación */
         .education-panel {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(255, 255, 255, 0.95);
             padding: 20px;
@@ -221,74 +227,75 @@
             color: #333;
             box-shadow: 0 0 50px rgba(0,255,255,0.4);
             z-index: 50;
-            max-width: 300px;
-        }
-        /* ... (resto del código de education-panel que ya tienes) ... */
-            box-shadow: 0 0 50px rgba(0,255,255,0.4);
-            z-index: 50;
-            max-width: 300px;
+            max-width: 250px;
         }
 
-        /* --- 📱 CORRECCIONES PARA CELULAR (PEGAR AQUÍ) --- */
+        /* --- 📱 CORRECCIONES MAESTRAS PARA CELULAR --- */
         @media (max-width: 768px) {
             .game-container {
-                height: 95dvh;
-                width: 98%; /* Usamos casi todo el ancho */
-                gap: 5px;
+                height: 100dvh; /* Altura dinámica real */
+                width: 98%;
+                gap: 8px;
+                padding: 5px 0;
             }
+
+            /* Cabecera compacta */
             .real-data-header {
                 padding: 8px;
-                font-size: 0.75rem;
-                flex-direction: column;
-                gap: 5px;
-            }
-            /* Botes más pequeños y ajustados a la izquierda */
-            .bin {
-                width: 16%; /* Usamos porcentaje en vez de pixeles fijos */
-                height: 80px;
                 font-size: 0.7rem;
+                justify-content: center;
+                gap: 8px;
             }
-            /* 3. Botes de Basura: Más delgados (15%) */
+            
+            /* Botes Estilizados */
             .bin {
-                width: 15%;  /* <--- ESTO ES LA CLAVE: Los hace más angostos */
-                height: 80px;
-                font-size: 0.7rem;
+                width: 17%; /* Tamaño ideal */
+                height: 75px;
+                font-size: 0.65rem;
+                bottom: 10px;
             }
-            .bin-icon { font-size: 25px; }
-            .bin-label { font-size: 7px; }
+            .bin-icon { font-size: 24px; margin-bottom: 2px; }
+            .bin-label { font-size: 7px; letter-spacing: -0.5px; }
 
-            /* Posiciones ajustadas para botes delgados */
-            .plastic-bin { left: 3%; }
-            .paper-bin   { left: 27%; }
+            /* --- DISTRIBUCIÓN PERFECTA --- */
+            .plastic-bin { left: 2%; }
+            .paper-bin   { left: 26%; }
             .glass-bin   { left: 51%; }
             
-            /* Ahora que mide 15%, al ponerlo en 75% termina en el 90% de la pantalla. 
-               ¡Le sobra espacio! */
-            .organic-bin { left: 75%; } 
+            /* TRUCO MAESTRO: Anclar a la derecha */
+            /* En vez de left, usamos right: 2% */
+            /* Así NUNCA se saldrá de la pantalla */
+            .organic-bin { 
+                left: auto; 
+                right: 2%; 
+            }
 
-            .trash-item { font-size: 60px; }
+            .trash-item { font-size: 55px; }
             
             .score-panel {
-                padding: 5px;
-                font-size: 0.75rem;
+                padding: 8px;
+                font-size: 0.7rem;
+            }
+            
+            .control-btn {
+                padding: 8px 15px;
+                font-size: 12px;
             }
         }
-
-    </style>
     </style>
 </head>
 <body>
     <div class="game-container">
         <div class="real-data-header">
             <div class="location-info">
-                🌎 <strong>Playa Real:</strong> <span id="beach-name">Playa del Carmen, México</span>
+                🌎 <strong>Playa:</strong> <span id="beach-name">Del Carmen</span>
             </div>
             <div class="pollution-data">
-                🗑️ <strong>Basura Global:</strong> 
+                🗑️ <strong>Basura:</strong> 
                 <span id="real-trash-count">2,540 kg</span>
             </div>
             <div class="impact-counter">
-                🌱 <strong>Tu impacto:</strong>
+                🌱 <strong>Tú:</strong>
                 <span id="player-impact">Reciclando...</span>
             </div>
         </div>
@@ -322,7 +329,7 @@
             <div class="decay-timer">
                 <div class="timer-icon">⏳</div>
                 <div class="timer-text">
-                    Vida de basura: <span id="decay-clock">---</span>
+                    Vida: <span id="decay-clock">---</span>
                 </div>
             </div>
 
@@ -334,7 +341,7 @@
         
         <div class="score-panel">
             <div class="score-item">
-                <span class="score-label">Limpiados:</span>
+                <span class="score-label">Limpio:</span>
                 <span id="score-count" class="score-value">0</span>
             </div>
             <div class="score-item">
@@ -438,7 +445,6 @@
                 return;
             }
 
-            // Limpiar anterior
             const existing = document.querySelector('.trash-item');
             if (existing) existing.remove();
 
@@ -448,20 +454,18 @@
             trash.textContent = itemData.icon;
             trash.dataset.type = itemData.type;
             
-            // Posición aleatoria (respetando márgenes)
-            const maxX = gameArea.offsetWidth - 100;
+            // Posición aleatoria
+            const maxX = gameArea.offsetWidth - 80;
             trash.style.left = Math.max(20, Math.random() * maxX) + 'px';
             trash.style.top = '50px';
             
             // DRAG EVENTS
             trash.draggable = true;
             
-            // SOPORTE MÓVIL (Touch)
             trash.addEventListener('touchstart', handleTouchStart, {passive: false});
             trash.addEventListener('touchmove', handleTouchMove, {passive: false});
             trash.addEventListener('touchend', handleTouchEnd);
 
-            // SOPORTE PC (Mouse)
             trash.addEventListener('dragstart', (e) => {
                 activeTrash = trash;
                 decayClock.textContent = itemData.decay;
@@ -477,14 +481,13 @@
             gameArea.appendChild(trash);
         }
 
-        // LÓGICA TOUCH (Para celulares)
+        // LÓGICA TOUCH
         let initialX, initialY;
         function handleTouchStart(e) {
             e.preventDefault();
             initialX = e.touches[0].clientX - e.target.offsetLeft;
             initialY = e.touches[0].clientY - e.target.offsetTop;
             activeTrash = e.target;
-            // Mostrar dato de vida
             const type = activeTrash.dataset.type;
             const item = trashTypes.find(t => t.type === type);
             if(item) decayClock.textContent = item.decay;
@@ -500,7 +503,6 @@
         }
         function handleTouchEnd(e) {
             if (!activeTrash) return;
-            // Detectar si cayó en un bote
             const bins = document.querySelectorAll('.bin');
             const trashRect = activeTrash.getBoundingClientRect();
             let dropped = false;
@@ -513,20 +515,17 @@
                     trashRect.top < binRect.bottom &&
                     trashRect.bottom > binRect.top
                 ) {
-                    // Cayó dentro
                     dropped = true;
                     checkRecycle(activeTrash.dataset.type, bin.dataset.accepts);
                 }
             });
 
             if (!dropped) {
-                // Regresar si no cayó en nada
                 activeTrash.style.top = '50px';
             }
             activeTrash = null;
         }
 
-        // DROP ZONES (PC)
         document.querySelectorAll('.bin').forEach(bin => {
             bin.addEventListener('dragover', e => e.preventDefault());
             bin.addEventListener('drop', e => {
@@ -568,7 +567,7 @@
             alert("¡Ese no es el contenedor correcto!");
             const trash = document.querySelector('.trash-item');
             if(trash) {
-                trash.style.top = '50px'; // Regresar arriba
+                trash.style.top = '50px';
                 trash.style.opacity = '1';
             }
         }
@@ -595,7 +594,6 @@
             initGame();
         });
 
-        // ARRANCAR
         initGame();
     </script>
 </body>
