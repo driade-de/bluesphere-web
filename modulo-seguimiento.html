@@ -20,8 +20,6 @@
   --quantum: #00ffaa;
   --success: #3ddc84;
   --warning: #ffb74d;
-  --chakra-raiz: #ff0000; --chakra-sacral: #ff9900; --chakra-plexo: #ffff00;
-  --chakra-corazon: #00ff00; --chakra-garganta: #00ffff; --chakra-tercer-ojo: #9900ff;
 }
 
 /* ==================== UNIVERSO VISUAL ==================== */
@@ -38,7 +36,7 @@ body {
 #particles-js { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
 .wrap {
-  position: relative; z-index: 2; max-width: 1000px; margin: 0 auto;
+  position: relative; z-index: 2; max-width: 1100px; margin: 0 auto;
   animation: fadeIn 1s ease;
 }
 
@@ -91,15 +89,15 @@ body {
 }
 .btn-quantum:hover { transform: scale(1.02); box-shadow: 0 0 50px rgba(0, 255, 170, 0.5); }
 
-/* GRID DE ACCIONES (ORBES) */
+/* GRID DE ACCIONES (ORBES) - AJUSTADO PARA 18 */
 .acciones-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px;
   margin: 20px 0;
 }
 
 .accion-label {
-  display: flex; align-items: center; gap: 15px;
-  background: rgba(255, 255, 255, 0.05); padding: 15px;
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255, 255, 255, 0.05); padding: 12px;
   border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
 }
@@ -116,7 +114,7 @@ body {
   box-shadow: 0 0 20px rgba(0, 255, 170, 0.2);
 }
 
-.orb-icon { font-size: 1.8rem; min-width: 40px; text-align: center; }
+.orb-icon { font-size: 1.6rem; min-width: 35px; text-align: center; }
 
 /* MEDALLAS */
 .medalla-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; margin-top: 20px; }
@@ -167,15 +165,16 @@ body {
     </div>
 
     <h3 style="color: var(--light); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 20px;">
-      🌿 OFRENDAS DEL DÍA
+      🌿 OFRENDAS DEL DÍA (LOS 18 HÁBITOS)
     </h3>
 
     <div class="acciones-grid">
+      
       <label class="accion-label">
         <input type="checkbox" class="accion-chk" value="menos_plastico">
         <div class="orb-icon">🥤</div>
         <div class="accion-content">
-          <strong>Reducción de Plásticos</strong><br><span style="font-size:0.8rem; opacity:0.7;">Chakra Raíz</span>
+          <strong>Reducción Plásticos</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Raíz</span>
         </div>
       </label>
 
@@ -183,23 +182,15 @@ body {
         <input type="checkbox" class="accion-chk" value="transporte_limpio">
         <div class="orb-icon">🚲</div>
         <div class="accion-content">
-          <strong>Transporte Sagrado</strong><br><span style="font-size:0.8rem; opacity:0.7;">Chakra Raíz</span>
+          <strong>Transporte Sagrado</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Raíz</span>
         </div>
       </label>
 
       <label class="accion-label">
-        <input type="checkbox" class="accion-chk" value="ahorro_agua">
-        <div class="orb-icon">💧</div>
+        <input type="checkbox" class="accion-chk" value="reciclaje">
+        <div class="orb-icon">♻️</div>
         <div class="accion-content">
-          <strong>Bendición del Agua</strong><br><span style="font-size:0.8rem; opacity:0.7;">Chakra Sacro</span>
-        </div>
-      </label>
-
-      <label class="accion-label">
-        <input type="checkbox" class="accion-chk" value="reforestacion">
-        <div class="orb-icon">🌳</div>
-        <div class="accion-content">
-          <strong>Siembra de Vida</strong><br><span style="font-size:0.8rem; opacity:0.7;">Chakra Corazón (+Impacto)</span>
+          <strong>Alquimia Residuos</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Raíz</span>
         </div>
       </label>
 
@@ -207,31 +198,122 @@ body {
         <input type="checkbox" class="accion-chk" value="limpieza_natural">
         <div class="orb-icon">🏖️</div>
         <div class="accion-content">
-          <strong>Sanación de Espacios</strong><br><span style="font-size:0.8rem; opacity:0.7;">Chakra Raíz (+Impacto)</span>
+          <strong>Sanación Espacios</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Raíz</span>
+        </div>
+      </label>
+      
+      <label class="accion-label">
+        <input type="checkbox" class="accion-chk" value="reparar_objetos">
+        <div class="orb-icon">🧩</div>
+        <div class="accion-content">
+          <strong>Kintsugi / Reparar</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Raíz</span>
+        </div>
+      </label>
+
+      <label class="accion-label">
+        <input type="checkbox" class="accion-chk" value="ahorro_agua">
+        <div class="orb-icon">💧</div>
+        <div class="accion-content">
+          <strong>Bendición del Agua</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Sacro</span>
+        </div>
+      </label>
+
+      <label class="accion-label">
+        <input type="checkbox" class="accion-chk" value="sin_desperdicio">
+        <div class="orb-icon">🥗</div>
+        <div class="accion-content">
+          <strong>Eucaristía Alimentaria</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Sacro</span>
+        </div>
+      </label>
+      
+      <label class="accion-label">
+        <input type="checkbox" class="accion-chk" value="cosmetica_natural">
+        <div class="orb-icon">🧴</div>
+        <div class="accion-content">
+          <strong>Ungüentos Naturales</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Sacro</span>
+        </div>
+      </label>
+
+      <label class="accion-label">
+        <input type="checkbox" class="accion-chk" value="energia_ahorro">
+        <div class="orb-icon">🔋</div>
+        <div class="accion-content">
+          <strong>Meditación Energética</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Plexo</span>
+        </div>
+      </label>
+
+      <label class="accion-label">
+        <input type="checkbox" class="accion-chk" value="consumo_local">
+        <div class="orb-icon">🛒</div>
+        <div class="accion-content">
+          <strong>Compra Voto Sagrado</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Plexo</span>
+        </div>
+      </label>
+
+      <label class="accion-label">
+        <input type="checkbox" class="accion-chk" value="reforestacion">
+        <div class="orb-icon">🌳</div>
+        <div class="accion-content">
+          <strong>Plantación Ceremonial</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Corazón</span>
+        </div>
+      </label>
+
+      <label class="accion-label">
+        <input type="checkbox" class="accion-chk" value="dia_sin_carne">
+        <div class="orb-icon">🌿</div>
+        <div class="accion-content">
+          <strong>Ayuno de Compasión</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Corazón</span>
+        </div>
+      </label>
+      
+      <label class="accion-label">
+        <input type="checkbox" class="accion-chk" value="polinizadores">
+        <div class="orb-icon">🐝</div>
+        <div class="accion-content">
+          <strong>Santuario Abejas</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Corazón</span>
+        </div>
+      </label>
+      
+      <label class="accion-label">
+        <input type="checkbox" class="accion-chk" value="comercio_justo">
+        <div class="orb-icon">🤝</div>
+        <div class="accion-content">
+          <strong>Comercio Justo</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Corazón</span>
+        </div>
+      </label>
+
+      <label class="accion-label">
+        <input type="checkbox" class="accion-chk" value="activismo_digital">
+        <div class="orb-icon">📢</div>
+        <div class="accion-content">
+          <strong>Evangelio Digital</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Garganta</span>
+        </div>
+      </label>
+
+      <label class="accion-label">
+        <input type="checkbox" class="accion-chk" value="digital_limpio">
+        <div class="orb-icon">📵</div>
+        <div class="accion-content">
+          <strong>Silencio Digital</strong><br><span style="font-size:0.75rem; opacity:0.7;">Tercer Ojo</span>
+        </div>
+      </label>
+      
+       <label class="accion-label">
+        <input type="checkbox" class="accion-chk" value="formacion_ambiental">
+        <div class="orb-icon">📚</div>
+        <div class="accion-content">
+          <strong>Transmisión Sabiduría</strong><br><span style="font-size:0.75rem; opacity:0.7;">Tercer Ojo</span>
         </div>
       </label>
 
       <label class="accion-label">
         <input type="checkbox" class="accion-chk" value="voluntariado">
-        <div class="orb-icon">🤝</div>
+        <div class="orb-icon">🙌</div>
         <div class="accion-content">
-          <strong>Servicio Sagrado</strong><br><span style="font-size:0.8rem; opacity:0.7;">Chakra Corona (+Impacto)</span>
+          <strong>Servicio Sagrado</strong><br><span style="font-size:0.75rem; opacity:0.7;">Chakra Corona</span>
         </div>
       </label>
-       <label class="accion-label">
-        <input type="checkbox" class="accion-chk" value="consumo_local">
-        <div class="orb-icon">🌱</div>
-        <div class="accion-content">
-          <strong>Consumo Local</strong><br><span style="font-size:0.8rem; opacity:0.7;">Chakra Plexo</span>
-        </div>
-      </label>
-      <label class="accion-label">
-        <input type="checkbox" class="accion-chk" value="reciclaje">
-        <div class="orb-icon">♻️</div>
-        <div class="accion-content">
-          <strong>Alquimia de Residuos</strong><br><span style="font-size:0.8rem; opacity:0.7;">Chakra Raíz</span>
-        </div>
-      </label>
+
     </div>
 
     <div style="margin: 20px 0;">
@@ -308,10 +390,11 @@ body {
       checkboxes.forEach(c => {
         if(c.checked) {
           const val = c.value;
-          // Valores arbitrarios de CO2 por acción
-          if(val === 'reforestacion' || val === 'voluntariado') impacto += 5.0;
-          else if(val === 'transporte_limpio') impacto += 2.5;
-          else impacto += 0.5;
+          // Impacto ponderado según el tipo de acción
+          if(val === 'reforestacion' || val === 'voluntariado' || val === 'limpieza_natural') impacto += 5.0;
+          else if(val === 'transporte_limpio' || val === 'dia_sin_carne' || val === 'reparar_objetos') impacto += 2.5;
+          else if(val === 'activismo_digital' || val === 'digital_limpio') impacto += 0.5;
+          else impacto += 1.0;
         }
       });
       impactoTotal = impacto;
@@ -359,6 +442,10 @@ body {
       
       // Recargar medallas para ver si ganó alguna nueva
       cargarMedallas(codigo);
+      
+      // Resetear checkboxes
+      checkboxes.forEach(c => c.checked = false);
+      impactoDisplay.textContent = "0.0";
 
     } catch (err) {
       console.error(err);
@@ -370,9 +457,6 @@ body {
 
   // 7. CARGAR MEDALLAS (Sistema Simplificado)
   async function cargarMedallas(codigo) {
-    // Aquí consultaríamos historial para calcular medallas
-    // Por ahora, simularemos que si tiene registros, gana la medalla "Iniciado"
-    
     const { data, error } = await supabase
       .from('seguimiento')
       .select('*')
@@ -381,21 +465,19 @@ body {
     if(data && data.length > 0) {
       document.getElementById('seccionMedallas').classList.remove('hidden');
       const grid = document.getElementById('gridMedallas');
-      grid.innerHTML = `
-        <div class="medalla-item">
-          <div style="font-size:2rem">🌱</div>
-          <div style="font-weight:bold; color:#FFD700">Primer Paso</div>
-        </div>
-      `;
+      let html = '';
       
-      if(data.length >= 5) {
-        grid.innerHTML += `
-          <div class="medalla-item">
-            <div style="font-size:2rem">🔥</div>
-            <div style="font-weight:bold; color:#FFD700">Constancia</div>
-          </div>
-        `;
-      }
+      // Lógica simple de medallas basada en cantidad de registros
+      if(data.length >= 1) html += `<div class="medalla-item"><div style="font-size:2rem">🌱</div><div style="font-weight:bold; color:#FFD700">Primer Paso</div></div>`;
+      if(data.length >= 5) html += `<div class="medalla-item"><div style="font-size:2rem">🔥</div><div style="font-weight:bold; color:#FFD700">Constancia</div></div>`;
+      if(data.length >= 15) html += `<div class="medalla-item"><div style="font-size:2rem">🛡️</div><div style="font-weight:bold; color:#FFD700">Guardián</div></div>`;
+      if(data.length >= 30) html += `<div class="medalla-item"><div style="font-size:2rem">⭐</div><div style="font-weight:bold; color:#FFD700">Maestro Azul</div></div>`;
+      
+      // Calcular impacto total acumulado
+      const impactoAcumulado = data.reduce((sum, item) => sum + (item.impacto_co2 || 0), 0);
+      if(impactoAcumulado > 50) html += `<div class="medalla-item"><div style="font-size:2rem">💎</div><div style="font-weight:bold; color:#FFD700">Impacto Alto</div></div>`;
+
+      grid.innerHTML = html;
     }
   }
 
