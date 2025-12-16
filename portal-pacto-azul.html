@@ -51,46 +51,17 @@ header{position:relative; z-index:2; padding:20px 20px 10px; text-align:center}
 
 /* ========== RESPONSIVE ADICIONAL ========== */
 @media (max-width: 768px) {
-    header {
-        padding: 15px 15px 5px !important;
-    }
-    
-    .wrap {
-        margin: 10px auto 20px !important;
-        padding: 15px !important;
-    }
-    
-    .title {
-        font-size: 1.8rem !important;
-    }
-    
-    .subtitle {
-        font-size: 0.9rem !important;
-    }
-    
-    .card {
-        padding: 18px !important;
-    }
-    
-    .grid {
-        gap: 15px !important;
-    }
+    header { padding: 15px 15px 5px !important; }
+    .wrap { margin: 10px auto 20px !important; padding: 15px !important; }
+    .title { font-size: 1.8rem !important; }
+    .subtitle { font-size: 0.9rem !important; }
+    .card { padding: 18px !important; }
+    .grid { gap: 15px !important; }
 }
-
 @media (max-height: 700px) {
-    header {
-        padding-top: 15px !important;
-        padding-bottom: 5px !important;
-    }
-    
-    .wrap {
-        margin-top: 10px !important;
-        margin-bottom: 20px !important;
-    }
-    
-    .muroside {
-        max-height: 300px !important;
-    }
+    header { padding-top: 15px !important; padding-bottom: 5px !important; }
+    .wrap { margin-top: 10px !important; margin-bottom: 20px !important; }
+    .muroside { max-height: 300px !important; }
 }
 </style>
 </head>
@@ -181,7 +152,7 @@ header{position:relative; z-index:2; padding:20px 20px 10px; text-align:center}
 // ==================== CONFIGURACIÓN SUPABASE ====================
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-// TUS CREDENCIALES
+// TUS CREDENCIALES (Mantenidas intactas)
 const supabaseUrl = "https://ophicpcbgdgzthjamzoz.supabase.co";
 const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c";
 
@@ -203,17 +174,32 @@ let codigoActual = '';
 
 // ==================== FUNCIONES ====================
 
-// 1. VALIDAR CÓDIGO
+// 1. VALIDAR CÓDIGO (¡EL CEREBRO NUEVO! 🧠)
 async function validarCodigo() {
-    const codigo = document.getElementById('codigoInput').value.trim();
+    const codigoRaw = document.getElementById('codigoInput').value.trim();
+    const codigo = codigoRaw.toUpperCase(); // Asegurar mayúsculas
+    
     if(!codigo) return mostrarError('Ingresa un código');
 
+    // --- LÓGICA DE ENRUTAMIENTO ZIRIUX ---
+    let tablaDestino = "";
+    
+    if (codigo.startsWith("GPR")) {
+        tablaDestino = "codigos_gpr";  // Tabla Personas
+    } else if (codigo.startsWith("CORP") || codigo.startsWith("TITAN")) {
+        tablaDestino = "codigos_corp"; // Tabla Empresas
+    } else {
+        // Fallback por seguridad o para los 10 códigos viejos si los metiste en GPR
+        tablaDestino = "codigos_gpr"; 
+    }
+    // -------------------------------------
+
     codigoActual = codigo;
-    mostrarCarga(true, "Verificando código...");
+    mostrarCarga(true, "Verificando en BlueSphere...");
 
     try {
         const { data, error } = await supabase
-            .from('codigos')
+            .from(tablaDestino) // Usamos la tabla inteligente
             .select('*')
             .eq('codigo', codigo)
             .single();
@@ -224,6 +210,7 @@ async function validarCodigo() {
             mostrarError('❌ Código no válido o no encontrado.');
             codigoValidado = false;
         } else {
+            // ÉXITO
             resultadoEl.className = 'hidden';
             faseCodigo.classList.add('hidden');
             faseFirma.classList.remove('hidden');
