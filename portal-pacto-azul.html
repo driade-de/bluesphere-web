@@ -1,151 +1,756 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Portal del Pacto Azul — Ritual Sagrado</title>
-<style>
-/* --- ESTÉTICA VISUAL (Ghibli/Dark) --- */
-:root{ --bg:#010912; --card: rgba(6,30,40,0.65); --glow:#00c4ff; --light:#8feaff; --muted:#b7e9ff; --accent-dark:#002731; }
-*{box-sizing:border-box}
-html,body{height:100%}
-body{ margin:0; font-family:Inter, system-ui, sans-serif; background: radial-gradient(circle at 15% 10%, rgba(0,120,180,0.06), transparent), radial-gradient(circle at 85% 80%, rgba(0,40,90,0.06), transparent), var(--bg); color:#eaffff; overflow-x:hidden; }
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Portal del Pacto Azul — Ritual de Sincronización Cuántica</title>
+    <style>
+        /* --- ESTÉTICA VISUAL (Ghibli/Dark) --- */
+        :root { 
+            --bg: #010912; 
+            --card: rgba(6, 30, 40, 0.85); 
+            --glow: #00c4ff; 
+            --light: #8feaff; 
+            --muted: #b7e9ff; 
+            --accent-dark: #002731; 
+            --quantum: #00ffaa;
+        }
+        * { box-sizing: border-box; }
+        html, body { height: 100%; }
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: 
+                radial-gradient(circle at 15% 10%, rgba(0, 120, 180, 0.1), transparent),
+                radial-gradient(circle at 85% 80%, rgba(0, 40, 90, 0.1), transparent),
+                var(--bg);
+            color: #eaffff;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-/* Efectos de Fondo */
-#bgCanvas{position:fixed; inset:0; z-index:0; pointer-events:none}
-.water-overlay{position:fixed; inset:0; z-index:0; pointer-events:none; mix-blend-mode:screen; opacity:0.95}
-.water-overlay::before{content:""; position:absolute; inset:0; background: radial-gradient(circle at 30% 20%, rgba(0,120,180,0.05), transparent 10%), radial-gradient(circle at 80% 80%, rgba(0,60,140,0.05), transparent 15%); transform: translateY(0); animation: drift 18s linear infinite}
-@keyframes drift{0%{transform:translateY(0)}50%{transform:translateY(-12px)}100%{transform:translateY(0)}}
+        /* Efectos de Fondo */
+        #bgCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .water-overlay {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none; 
+            mix-blend-mode: screen; opacity: 0.95;
+        }
+        .water-overlay::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(0, 120, 180, 0.08), transparent 10%),
+                radial-gradient(circle at 80% 80%, rgba(0, 60, 140, 0.08), transparent 15%);
+            transform: translateY(0);
+            animation: drift 18s linear infinite;
+        }
+        @keyframes drift {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0); }
+        }
 
-/* Layout OPTIMIZADO */
-header{position:relative; z-index:2; padding:20px 20px 10px; text-align:center}
-.title{font-size:2.4rem; color:var(--glow); font-weight:900; letter-spacing:1px; text-shadow:0 0 18px rgba(0,180,255,0.18)}
-.subtitle{color:var(--muted); margin-top:6px}
-.wrap{position:relative; z-index:2; max-width:1100px; margin:15px auto 40px; padding:20px}
-.card{background:var(--card); border-radius:16px; padding:24px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.08); box-shadow:0 12px 40px rgba(0,10,20,0.6); backdrop-filter: blur(8px)}
-.grid{display:grid; grid-template-columns:1fr 420px; gap:20px; align-items:start}
-@media(max-width:920px){ .grid{grid-template-columns:1fr} }
+        /* Layout OPTIMIZADO */
+        header {
+            position: relative;
+            z-index: 2;
+            padding: 30px 20px 15px;
+            text-align: center;
+        }
+        .title {
+            font-size: 3.2rem;
+            background: linear-gradient(135deg, #00c4ff, #8feaff, #00ffaa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(0, 196, 255, 0.3);
+            margin-bottom: 10px;
+            animation: titleGlow 4s ease-in-out infinite alternate;
+        }
+        @keyframes titleGlow {
+            0% { filter: drop-shadow(0 0 20px rgba(0, 196, 255, 0.5)); }
+            100% { filter: drop-shadow(0 0 40px rgba(0, 255, 170, 0.7)); }
+        }
+        .subtitle {
+            font-family: 'Courier New', monospace;
+            color: #b7e9ff;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            position: relative;
+        }
+        .subtitle span {
+            color: var(--quantum);
+            margin-right: 15px;
+        }
+        .subtitle .pulse {
+            display: inline-block;
+            width: 8px; height: 8px;
+            background: var(--quantum);
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+            box-shadow: 0 0 10px var(--quantum);
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
 
-/* UI Elements */
-.center{text-align:center}
-.input{width:100%; padding:14px; border-radius:10px; border:1px solid rgba(0,196,255,0.3); background:rgba(2,26,34,0.6); color:#fff; font-size:1rem; outline:none; margin-top:8px; display:block;}
-.input:focus{border-color:var(--glow); box-shadow:0 0 10px rgba(0,196,255,0.2)}
-.btn{display:block; width:100%; margin-top:18px; padding:14px; border-radius:10px; font-weight:800; background:linear-gradient(135deg,var(--glow),var(--light)); color:var(--accent-dark); border:none; cursor:pointer; box-shadow:0 0 20px rgba(0,196,255,0.2); transition:transform 0.2s}
-.btn:hover{transform:scale(1.02); filter:brightness(1.1)}
-.btn-ghost{background:transparent; border:1px solid rgba(255,255,255,0.2); color:var(--muted); padding:10px; width:100%; margin-top:10px; border-radius:10px; cursor:pointer}
+        .wrap {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 20px auto 50px;
+            padding: 20px;
+        }
+        .card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 15px 50px rgba(0, 10, 20, 0.7),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 450px;
+            gap: 25px;
+            align-items: start;
+        }
+        @media(max-width: 1024px) {
+            .grid { grid-template-columns: 1fr; }
+        }
 
-/* Feedback & Muro */
-.result-box{margin-top:16px; padding:14px; border-radius:12px; text-align:center; font-weight:bold}
-.ok{background:rgba(0,50,60,0.6); color:#9effd8; border:1px solid #9effd8}
-.fail{background:rgba(50,10,10,0.6); color:#ff9b9b; border:1px solid #ff9b9b}
-.hidden{display:none !important}
+        /* UI Elements */
+        .center { text-align: center; }
+        .input {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 196, 255, 0.4);
+            background: rgba(2, 26, 34, 0.7);
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            margin-top: 10px;
+            display: block;
+            transition: all 0.3s;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+        .input:focus {
+            border-color: var(--glow);
+            box-shadow: 
+                0 0 15px rgba(0, 196, 255, 0.3),
+                inset 0 0 20px rgba(0, 196, 255, 0.1);
+        }
+        textarea.input {
+            min-height: 100px;
+            resize: vertical;
+        }
+        select.input {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300c4ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 15px;
+        }
 
-/* Muro */
-.muroside{max-height:500px; overflow-y:auto}
-.name-item{padding:12px; margin:8px 0; border-radius:8px; background:linear-gradient(90deg, rgba(0,200,255,0.05), transparent); border-bottom:1px solid rgba(255,255,255,0.05); animation:fadeIn 0.5s ease}
-.name-glow{color:var(--light); font-weight:bold; font-size:1.1rem}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        .btn {
+            display: block;
+            width: 100%;
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 12px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--glow), var(--light));
+            color: var(--accent-dark);
+            border: none;
+            cursor: pointer;
+            box-shadow: 
+                0 0 25px rgba(0, 196, 255, 0.3),
+                0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+            box-shadow: 
+                0 0 35px rgba(0, 196, 255, 0.5),
+                0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .btn-quantum {
+            background: linear-gradient(135deg, #00ffaa, #00c4ff);
+            background-size: 200% 200%;
+            animation: gradientFlow 3s ease infinite;
+        }
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--muted);
+            padding: 12px;
+            width: 100%;
+            margin-top: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-ghost:hover {
+            border-color: var(--glow);
+            color: var(--light);
+        }
 
-/* Overlay */
-#ritualOverlay{position:fixed; inset:0; z-index:99; background:radial-gradient(circle, rgba(0,10,20,0.95), black); display:none; align-items:center; justify-content:center; flex-direction:column}
+        /* Feedback & Muro */
+        .result-box {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+            animation: fadeIn 0.5s ease;
+        }
+        .ok {
+            background: rgba(0, 50, 60, 0.6);
+            color: #9effd8;
+            border: 1px solid #9effd8;
+            box-shadow: 0 0 15px rgba(158, 255, 216, 0.2);
+        }
+        .fail {
+            background: rgba(50, 10, 10, 0.6);
+            color: #ff9b9b;
+            border: 1px solid #ff9b9b;
+            box-shadow: 0 0 15px rgba(255, 155, 155, 0.2);
+        }
+        .hidden { display: none !important; }
 
-/* ========== RESPONSIVE ADICIONAL ========== */
-@media (max-width: 768px) {
-    header { padding: 15px 15px 5px !important; }
-    .wrap { margin: 10px auto 20px !important; padding: 15px !important; }
-    .title { font-size: 1.8rem !important; }
-    .subtitle { font-size: 0.9rem !important; }
-    .card { padding: 18px !important; }
-    .grid { gap: 15px !important; }
-}
-@media (max-height: 700px) {
-    header { padding-top: 15px !important; padding-bottom: 5px !important; }
-    .wrap { margin-top: 10px !important; margin-bottom: 20px !important; }
-    .muroside { max-height: 300px !important; }
-}
-</style>
+        /* Muro */
+        .muroside {
+            max-height: 500px;
+            overflow-y: auto;
+            position: relative;
+        }
+        .muroside::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 30px;
+            background: linear-gradient(to bottom, var(--card), transparent);
+            z-index: 2;
+            border-radius: 20px 20px 0 0;
+        }
+        .muroside::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 30px;
+            background: linear-gradient(to top, var(--card), transparent);
+            z-index: 2;
+            border-radius: 0 0 20px 20px;
+        }
+        .name-item {
+            padding: 14px 18px;
+            margin: 10px 0;
+            border-radius: 10px;
+            background: linear-gradient(90deg, 
+                rgba(0, 200, 255, 0.08), 
+                transparent);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            animation: fadeIn 0.5s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        .name-item::before {
+            content: "🌀";
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        .name-glow {
+            color: var(--light);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Overlay */
+        #ritualOverlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: radial-gradient(circle, 
+                rgba(0, 10, 20, 0.97), 
+                rgba(0, 5, 15, 0.98));
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            backdrop-filter: blur(5px);
+        }
+        .portal-glow {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, 
+                rgba(0, 196, 255, 0.2) 0%, 
+                transparent 70%);
+            filter: blur(50px);
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        /* Sección de Accesos */
+        #accesosBox {
+            max-width: 900px;
+            margin: 30px auto;
+            text-align: center;
+        }
+        .accesos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        .acceso-card {
+            background: linear-gradient(135deg, 
+                rgba(0, 40, 60, 0.6), 
+                rgba(0, 20, 40, 0.8));
+            border-radius: 15px;
+            padding: 25px 20px;
+            border: 1px solid rgba(0, 196, 255, 0.3);
+            transition: all 0.3s;
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+        .acceso-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--glow);
+            box-shadow: 0 10px 30px rgba(0, 196, 255, 0.3);
+        }
+        .acceso-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        .acceso-title {
+            font-weight: bold;
+            color: var(--light);
+            margin-bottom: 8px;
+        }
+        .acceso-desc {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            header { padding: 20px 15px 10px !important; }
+            .title { font-size: 2.2rem !important; }
+            .subtitle { font-size: 0.8rem !important; letter-spacing: 2px !important; }
+            .wrap { margin: 10px auto 30px !important; padding: 15px !important; }
+            .card { padding: 20px !important; }
+            .grid { gap: 20px !important; }
+            .btn { padding: 16px !important; }
+        }
+        @media (max-height: 700px) {
+            .muroside { max-height: 350px !important; }
+        }
+    </style>
 </head>
 <body>
 
 <canvas id="bgCanvas"></canvas>
 <div class="water-overlay"></div>
+<div class="portal-glow"></div>
 
 <header>
-    <div class="title">El Pacto Azul</div>
-    <div class="subtitle">Ritual Sagrado — Inscribe tu nombre en el Registro Azul Histórico</div>
+    <div class="title">EL PACTO AZUL</div>
+    <div class="subtitle">
+        <span>ACTIVANDO SISTEMA NERVIOSO PLANETARIO</span>
+        <div class="pulse"></div>
+    </div>
 </header>
 
 <main class="wrap">
     <section class="grid">
         
         <div class="card">
-            <h2 class="center" style="color:var(--glow)">🔑 Acceso Sagrado</h2>
+            <h2 class="center" style="color:var(--glow); margin-bottom: 25px;">
+                🧬 IDENTIFICACIÓN DE CONSCIENCIA
+            </h2>
             
             <div id="faseCodigo">
-                <p class="center" style="color:var(--muted)">Introduce tu código de Guardián para abrir el portal.</p>
-                <input id="codigoInput" class="input" type="text" placeholder="Ej: GPR-AQUA-ZIRIUX-000050">
-                <button class="btn" id="btnValidar">Validar Código</button>
+                <p class="center" style="color:var(--muted); line-height: 1.6; margin-bottom: 20px;">
+                    Tu código contiene tu <strong style="color:var(--quantum)">firma energética única</strong>.<br>
+                    Al validarlo, declaras qué tipo de órgano serás en el cuerpo de la nueva civilización.
+                </p>
+                
+                <!-- Chips de Identidad -->
+                <div style="display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;">
+                    <div class="chip-identidad" data-tipo="GPR" style="
+                        flex: 1;
+                        min-width: 200px;
+                        background: rgba(0, 60, 100, 0.3);
+                        border: 1px solid rgba(0, 180, 255, 0.3);
+                        border-radius: 12px;
+                        padding: 15px;
+                        cursor: pointer;
+                        transition: all 0.3s;
+                    ">
+                        <div style="font-size: 1.8rem; margin-bottom: 8px;">👤</div>
+                        <div style="font-weight: bold; color: var(--light);">GPR</div>
+                        <div style="color: var(--muted); font-size: 0.9rem; margin-top: 5px;">
+                            Guardián Personal<br>
+                            <small>Semilla de Conciencia Individual</small>
+                        </div>
+                    </div>
+                    
+                    <div class="chip-identidad" data-tipo="CORP" style="
+                        flex: 1;
+                        min-width: 200px;
+                        background: rgba(0, 60, 100, 0.3);
+                        border: 1px solid rgba(0, 180, 255, 0.3);
+                        border-radius: 12px;
+                        padding: 15px;
+                        cursor: pointer;
+                        transition: all 0.3s;
+                    ">
+                        <div style="font-size: 1.8rem; margin-bottom: 8px;">🏢</div>
+                        <div style="font-weight: bold; color: var(--light);">CORP/TITAN</div>
+                        <div style="color: var(--muted); font-size: 0.9rem; margin-top: 5px;">
+                            Entidad Corporativa<br>
+                            <small>Neurona del Sistema Nervioso</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Input con Efecto -->
+                <div style="position: relative; margin-bottom: 10px;">
+                    <input id="codigoInput" class="input" type="text" 
+                           placeholder="Ej: GPR-AQUA-ZIRIUX-000050"
+                           style="
+                               padding: 18px 20px;
+                               font-size: 1.1rem;
+                               letter-spacing: 2px;
+                               background: rgba(2, 26, 34, 0.8);
+                               border: 1px solid rgba(0, 196, 255, 0.5);
+                               box-shadow: 
+                                   inset 0 0 20px rgba(0, 196, 255, 0.1),
+                                   0 0 30px rgba(0, 196, 255, 0.2);
+                           ">
+                    
+                    <div id="energiaResonante" style="
+                        position: absolute;
+                        top: -5px; left: -5px; right: -5px; bottom: -5px;
+                        border-radius: 12px;
+                        pointer-events: none;
+                        border: 2px solid transparent;
+                        background: conic-gradient(from 0deg, 
+                            transparent, 
+                            rgba(0, 196, 255, 0.2), 
+                            transparent);
+                        opacity: 0;
+                        z-index: -1;
+                        transition: opacity 0.3s;
+                    "></div>
+                </div>
+                
+                <button class="btn btn-quantum" id="btnValidar" style="margin-top: 20px;">
+                    <span style="position: relative; z-index: 2;">
+                        ⚡ VALIDAR FIRMA ENERGÉTICA
+                    </span>
+                    <div style="
+                        position: absolute;
+                        top: 0; left: -100%;
+                        width: 100%; height: 100%;
+                        background: linear-gradient(90deg, 
+                            transparent, 
+                            rgba(255, 255, 255, 0.3), 
+                            transparent);
+                        animation: shine 2s infinite;
+                    "></div>
+                </button>
+                
                 <div id="resultado" class="result-box hidden"></div>
             </div>
 
             <div id="faseFirma" class="hidden">
-                <h3 class="center" style="color:var(--light)">✍️ Firma el Pacto</h3>
-                <p class="center" style="color:var(--muted); font-size:0.9rem">Tu nombre será sellado para siempre.</p>
+                <h3 class="center" style="color:var(--light); margin-bottom: 5px;">
+                    🔮 RITUAL DE SINCRONIZACIÓN
+                </h3>
+                <p class="center" style="color:var(--muted); max-width: 500px; margin: 0 auto 25px;">
+                    Cada campo que completas modifica tu frecuencia en el campo cuántico colectivo
+                </p>
                 
-                <input id="nombreInput" class="input" type="text" placeholder="Tu Nombre Completo *">
-                <input id="paisInput" class="input" type="text" placeholder="País / Ciudad (Opcional)">
-                <input id="notaInput" class="input" type="text" placeholder="Mensaje para el futuro (Opcional)">
+                <div style="max-width: 500px; margin: 0 auto;">
+                    <!-- Nombre -->
+                    <div style="margin-bottom: 25px; position: relative;">
+                        <label style="
+                            display: block;
+                            text-align: left;
+                            color: var(--light);
+                            margin-bottom: 8px;
+                            font-weight: bold;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        ">
+                            <span>👁️</span> NOMBRE DE CONSCIENCIA
+                        </label>
+                        <input id="nombreInput" class="input" type="text" 
+                               placeholder="Como quieres resonar en la red..."
+                               style="
+                                   background: rgba(0, 40, 60, 0.3);
+                                   border: 1px solid rgba(143, 234, 255, 0.4);
+                               ">
+                        <div class="resonance-bar" style="
+                            height: 2px;
+                            background: linear-gradient(90deg, transparent, var(--glow), transparent);
+                            width: 0%;
+                            margin-top: 5px;
+                            transition: width 0.5s;
+                        "></div>
+                    </div>
+                    
+                    <!-- País -->
+                    <div style="margin-bottom: 25px;">
+                        <label style="
+                            display: block;
+                            text-align: left;
+                            color: var(--light);
+                            margin-bottom: 8px;
+                            font-weight: bold;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        ">
+                            <span>🌍</span> FRECUENCIA GEOGRÁFICA (Opcional)
+                        </label>
+                        <select id="paisInput" class="input">
+                            <option value="">Selecciona tu nodo en la red planetaria</option>
+                            <option value="MEX">México - Latido 7.83Hz</option>
+                            <option value="BRA">Brasil - Pulmón Verde</option>
+                            <option value="ARG">Argentina - Cono Sur</option>
+                            <option value="COL">Colombia - Puente Andino</option>
+                            <option value="ESP">España - Puente Atlántico</option>
+                            <option value="USA">USA - Melting Pot</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Mensaje -->
+                    <div style="margin-bottom: 25px;">
+                        <label style="
+                            display: block;
+                            text-align: left;
+                            color: var(--light);
+                            margin-bottom: 8px;
+                            font-weight: bold;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        ">
+                            <span>💫</span> SEMILLA DE INTENCIÓN (Opcional)
+                        </label>
+                        <textarea id="notaInput" class="input" 
+                                  placeholder="Planta una intención en el campo cuántico..."
+                                  rows="3"></textarea>
+                    </div>
+                </div>
                 
-                <button class="btn" id="btnFirmar">SELLAR FIRMA</button>
-                <button class="btn-ghost" id="btnCancelar">Cancelar</button>
+                <!-- Botones -->
+                <button class="btn btn-quantum" id="btnFirmar" style="
+                    padding: 18px 40px;
+                    font-size: 1.2rem;
+                ">
+                    🌟 SELLAR CONEXIÓN CUÁNTICA
+                </button>
+                
+                <button class="btn-ghost" id="btnCancelar" style="margin-top: 15px;">
+                    Volver al Umbral
+                </button>
             </div>
 
-            <div id="seal" class="hidden center" style="margin-top:20px">
-                <svg width="100" height="100" viewBox="0 0 100 100" style="filter:drop-shadow(0 0 10px #00c4ff)">
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="#00c4ff" stroke-width="2"/>
-                    <path d="M30 50 Q50 20 70 50 T30 50" fill="none" stroke="#8feaff" stroke-width="2"/>
+            <div id="seal" class="hidden center" style="margin-top: 30px;">
+                <svg width="120" height="120" viewBox="0 0 120 120" style="filter: drop-shadow(0 0 20px #00c4ff);">
+                    <circle cx="60" cy="60" r="55" fill="none" stroke="url(#gradient)" stroke-width="3" 
+                            stroke-dasharray="2,8" style="animation: rotate 20s linear infinite;" />
+                    <path d="M40 60 Q60 30 80 60 T40 60" fill="none" stroke="#8feaff" stroke-width="2" />
+                    <circle cx="60" cy="60" r="15" fill="none" stroke="#00ffaa" stroke-width="2" />
                 </svg>
-                <p style="color:#00c4ff; font-weight:bold">REGISTRO COMPLETADO</p>
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#00c4ff;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#00ffaa;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <p style="color:#00c4ff; font-weight: bold; font-size: 1.2rem; margin-top: 15px;">
+                    CONEXIÓN CUÁNTICA ESTABLECIDA
+                </p>
             </div>
         </div>
 
         <aside class="card muroside">
-            <h2 class="center" style="color:var(--glow)">🌐 Muro del Pacto</h2>
+            <h2 class="center" style="color:var(--glow); margin-bottom: 20px;">
+                🌐 MURO DEL PACTO
+            </h2>
             <div id="muro">
-                <div class="center" style="padding:20px; color:var(--muted)">Conectando...</div>
+                <div class="center" style="padding: 30px; color: var(--muted);">
+                    Conectando con la red consciente...
+                </div>
             </div>
-            <button class="btn-ghost" id="btnActualizar">↻ Actualizar Lista</button>
+            <button class="btn-ghost" id="btnActualizar" style="margin-top: 20px;">
+                ↻ Actualizar Resonancias
+            </button>
         </aside>
 
     </section>
 
-    <section id="accesosBox" class="card hidden center" style="max-width:800px; margin:20px auto;">
-        <h2>🎉 ¡Bienvenido Guardián!</h2>
-        <p style="color:var(--muted); margin-bottom: 20px;">Tu firma ha sido sellada. Ahora tienes acceso total al ecosistema BlueSphere.</p>
+    <!-- RUTA DE INICIACIÓN -->
+    <section id="rutaIniciacion" class="card hidden" style="text-align: center; margin-top: 30px;">
+        <h3 style="color:var(--glow); margin-bottom: 20px;">🧭 TU RUTA DE INICIACIÓN COMPLETA</h3>
         
-        <div style="display:flex; gap:15px; justify-content:center; flex-wrap: wrap;">
-            <a id="btnCertificado" href="#" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block;">
-                📜 Descargar Certificado
+        <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 25px;">
+            <div class="etapa activa" style="
+                background: rgba(0, 196, 255, 0.15);
+                border: 1px solid var(--glow);
+                color: var(--light);
+                padding: 12px 20px;
+                border-radius: 25px;
+                font-weight: bold;
+                min-width: 160px;
+            ">1. Registro Eterno ✓</div>
+            
+            <div class="etapa" style="
+                background: rgba(0, 196, 255, 0.1);
+                border: 1px solid rgba(0, 196, 255, 0.3);
+                color: var(--muted);
+                padding: 12px 20px;
+                border-radius: 25px;
+                font-weight: bold;
+                min-width: 160px;
+            ">2. Certificado Único →</div>
+            
+            <div class="etapa" style="
+                background: rgba(0, 196, 255, 0.1);
+                border: 1px solid rgba(0, 196, 255, 0.3);
+                color: var(--muted);
+                padding: 12px 20px;
+                border-radius: 25px;
+                font-weight: bold;
+                min-width: 160px;
+            ">3. Biblioteca Sagrada →</div>
+            
+            <div class="etapa" style="
+                background: rgba(0, 196, 255, 0.1);
+                border: 1px solid rgba(0, 196, 255, 0.3);
+                color: var(--muted);
+                padding: 12px 20px;
+                border-radius: 25px;
+                font-weight: bold;
+                min-width: 160px;
+            ">4. Hábitos Regenerativos →</div>
+            
+            <div class="etapa" style="
+                background: rgba(0, 196, 255, 0.1);
+                border: 1px solid rgba(0, 196, 255, 0.3);
+                color: var(--muted);
+                padding: 12px 20px;
+                border-radius: 25px;
+                font-weight: bold;
+                min-width: 160px;
+            ">5. Dashboard Vivo →</div>
+            
+            <div class="etapa" style="
+                background: rgba(0, 196, 255, 0.1);
+                border: 1px solid rgba(0, 196, 255, 0.3);
+                color: var(--muted);
+                padding: 12px 20px;
+                border-radius: 25px;
+                font-weight: bold;
+                min-width: 160px;
+            ">6. Parte de GAIA ✓</div>
+        </div>
+        
+        <p style="color:var(--muted); max-width: 700px; margin: 0 auto;">
+            <strong>Tu código <span id="codigoDisplay" style="color:var(--quantum); font-family: monospace;"></span> 
+            es ahora tu identidad en el ecosistema completo.</strong><br>
+            Cada paso que des activará nuevas capas del sistema nervioso planetario.
+        </p>
+    </section>
+
+    <!-- ACCESOS COMPLETOS -->
+    <section id="accesosBox" class="card hidden center">
+        <h2 style="color:var(--quantum); margin-bottom: 10px;">🎉 ¡BIENVENIDO GUARDIÁN!</h2>
+        <p style="color:var(--muted); margin-bottom: 30px;">
+            Tu firma ha sido sellada en el registro cuántico. Ahora tienes acceso total al ecosistema BlueSphere.
+        </p>
+        
+        <div class="accesos-grid">
+            <a id="btnCertificado" href="#" target="_blank" class="acceso-card">
+                <div class="acceso-icon">📜</div>
+                <div class="acceso-title">Certificado Digital</div>
+                <div class="acceso-desc">Tu credencial única con nombre y código</div>
             </a>
             
-            <a id="btnBiblioteca" href="modulo-biblioteca.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block; text-align:center;">
-                📚 Biblioteca
+            <a id="btnBiblioteca" href="#" target="_blank" class="acceso-card">
+                <div class="acceso-icon">📚</div>
+                <div class="acceso-title">Biblioteca BlueSphere</div>
+                <div class="acceso-desc">Manifiestos y conocimiento exclusivo</div>
             </a>
 
-            <a id="btnSeguimiento" href="modulo-seguimiento.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block; text-align:center;">
-                🔁 Seguimiento
+            <a id="btnSeguimiento" href="#" target="_blank" class="acceso-card">
+                <div class="acceso-icon">🔄</div>
+                <div class="acceso-title">Seguimiento de Hábitos</div>
+                <div class="acceso-desc">Monitorea tus 18 hábitos regenerativos</div>
             </a>
 
-            <a id="btnDashboard" href="dashboard-global-impacto.html" target="_blank" class="btn" style="width:auto; text-decoration:none; min-width:160px; display:inline-block; text-align:center;">
-                🌍 Dashboard
+            <a id="btnDashboard" href="#" target="_blank" class="acceso-card">
+                <div class="acceso-icon">🌍</div>
+                <div class="acceso-title">Dashboard Global</div>
+                <div class="acceso-desc">Sistema nervioso planetario en vivo</div>
             </a>
         </div>
     </section>
 </main>
 
+<!-- OVERLAY DE CARGA -->
 <div id="ritualOverlay">
-    <h2 style="color:var(--glow); font-size:2rem">Procesando...</h2>
-    <p style="color:var(--muted)">Consultando la base de datos</p>
+    <div class="portal-glow"></div>
+    <h2 style="color:var(--glow); font-size: 2.5rem; margin-bottom: 20px;">PROCESANDO...</h2>
+    <p style="color:var(--muted); font-size: 1.1rem;">Consultando la base de datos cuántica</p>
+    <div style="
+        width: 60px; height: 60px;
+        border: 3px solid transparent;
+        border-top-color: var(--glow);
+        border-radius: 50%;
+        margin-top: 30px;
+        animation: spin 1s linear infinite;
+    "></div>
 </div>
 
 <script type="module">
@@ -167,6 +772,9 @@ const faseFirma = document.getElementById('faseFirma');
 const seal = document.getElementById('seal');
 const accesosBox = document.getElementById('accesosBox');
 const ritualOverlay = document.getElementById('ritualOverlay');
+const rutaIniciacion = document.getElementById('rutaIniciacion');
+const codigoDisplay = document.getElementById('codigoDisplay');
+const energiaResonante = document.getElementById('energiaResonante');
 
 // ==================== VARIABLES GLOBALES ====================
 let codigoValidado = false;
@@ -179,7 +787,10 @@ async function validarCodigo() {
     const codigoRaw = document.getElementById('codigoInput').value.trim();
     const codigo = codigoRaw.toUpperCase(); // Asegurar mayúsculas
     
-    if(!codigo) return mostrarError('Ingresa un código');
+    if(!codigo) {
+        mostrarError('❌ Ingresa tu semilla de identidad resonante');
+        return false;
+    }
 
     // --- LÓGICA DE ENRUTAMIENTO ZIRIUX ---
     let tablaDestino = "";
@@ -189,13 +800,13 @@ async function validarCodigo() {
     } else if (codigo.startsWith("CORP") || codigo.startsWith("TITAN")) {
         tablaDestino = "codigos_corp"; // Tabla Empresas
     } else {
-        // Fallback por seguridad o para los 10 códigos viejos si los metiste en GPR
+        // Fallback por seguridad
         tablaDestino = "codigos_gpr"; 
     }
     // -------------------------------------
 
     codigoActual = codigo;
-    mostrarCarga(true, "Verificando en BlueSphere...");
+    mostrarCarga(true, "Verificando firma energética...");
 
     try {
         const { data, error } = await supabase
@@ -207,39 +818,49 @@ async function validarCodigo() {
         mostrarCarga(false);
 
         if (error || !data) {
-            mostrarError('❌ Código no válido o no encontrado.');
+            mostrarError('❌ Semilla no reconocida en el campo cuántico.');
             codigoValidado = false;
+            return false;
         } else {
             // ÉXITO
             resultadoEl.className = 'hidden';
             faseCodigo.classList.add('hidden');
             faseFirma.classList.remove('hidden');
             codigoValidado = true;
+            
+            // Actualizar placeholder según tipo
+            const esCorp = codigo.startsWith("CORP") || codigo.startsWith("TITAN");
+            document.getElementById('nombreInput').placeholder = esCorp 
+                ? "Nombre de la Entidad Corporativa" 
+                : "Tu Nombre de Conciencia";
+            
+            return true;
         }
     } catch (err) {
         mostrarCarga(false);
-        mostrarError('❌ Error de conexión con la base de datos');
+        mostrarError('❌ Error de conexión con la base de datos cuántica');
         console.error('Error validando código:', err);
+        return false;
     }
 }
 
-// 2. FIRMAR PACTO
+// 2. FIRMAR PACTO CON RITUAL
 async function startRitual() {
     if(!codigoValidado) {
-        alert('Error de validación');
+        alert('Error de validación cuántica');
         return;
     }
     
     const nombre = document.getElementById('nombreInput').value.trim();
-    const pais = document.getElementById('paisInput').value.trim();
+    const pais = document.getElementById('paisInput').value;
     const nota = document.getElementById('notaInput').value.trim();
 
     if(!nombre) {
-        alert('El nombre es obligatorio');
+        alert('El nombre de consciencia es obligatorio para la sincronización');
         return;
     }
 
-    mostrarCarga(true, "Sellando firma...");
+    mostrarCarga(true, "Sellando firma en el registro cuántico...");
 
     try {
         const { error } = await supabase
@@ -255,14 +876,18 @@ async function startRitual() {
         mostrarCarga(false);
 
         if (error) {
-            alert('Error al guardar: ' + error.message);
+            alert('Error al guardar en el campo cuántico: ' + error.message);
         } else {
-            // ÉXITO
+            // ÉXITO TOTAL
             faseFirma.classList.add('hidden');
             seal.classList.remove('hidden');
+            rutaIniciacion.classList.remove('hidden');
             accesosBox.classList.remove('hidden');
             
-            // Configurar enlaces
+            // Mostrar código en la ruta
+            codigoDisplay.textContent = codigoActual;
+            
+            // Configurar enlaces dinámicos
             const btnCert = document.getElementById('btnCertificado');
             const btnDash = document.getElementById('btnDashboard');
             const btnBiblio = document.getElementById('btnBiblioteca');
@@ -273,43 +898,52 @@ async function startRitual() {
             if (btnBiblio) btnBiblio.href = `modulo-biblioteca.html?codigo=${encodeURIComponent(codigoActual)}`;
             if (btnSeg) btnSeg.href = `modulo-seguimiento.html?codigo=${encodeURIComponent(codigoActual)}`;
             
-            // Actualizar muro
+            // Actualizar muro y animar etapas
             await cargarMuro();
+            animarRutaIniciacion();
         }
     } catch (err) {
         mostrarCarga(false);
-        alert('Error inesperado: ' + err.message);
+        alert('Error inesperado en la sincronización: ' + err.message);
         console.error('Error firmando:', err);
     }
 }
 
-// 3. CARGAR MURO
+// 3. CARGAR MURO MEJORADO
 async function cargarMuro() {
-    muroEl.innerHTML = '<div class="center" style="color:var(--muted)">Actualizando...</div>';
+    muroEl.innerHTML = '<div class="center" style="padding: 30px; color: var(--muted);">Actualizando resonancias...</div>';
     
     try {
         const { data, error } = await supabase
             .from('firmantes')
-            .select('nombre')
+            .select('nombre, fecha_firma')
             .order('fecha_firma', { ascending: false })
-            .limit(20);
+            .limit(25);
 
         if (error) throw error;
 
         if (!data || data.length === 0) {
-            muroEl.innerHTML = '<div class="center" style="color:var(--muted)">Sé el primero en firmar.</div>';
+            muroEl.innerHTML = '<div class="center" style="padding: 40px; color: var(--muted);">Sé el primero en sellar tu conexión.</div>';
         } else {
             muroEl.innerHTML = '';
-            data.forEach(item => {
+            data.forEach((item, index) => {
                 const div = document.createElement('div');
-                div.className = 'name-item name-glow';
-                div.textContent = item.nombre;
+                div.className = 'name-item';
+                
+                // Añadir delay escalonado para animación
+                div.style.animationDelay = `${index * 0.05}s`;
+                
+                const nombreSpan = document.createElement('span');
+                nombreSpan.className = 'name-glow';
+                nombreSpan.textContent = item.nombre;
+                
+                div.appendChild(nombreSpan);
                 muroEl.appendChild(div);
             });
         }
     } catch (error) {
         console.error('Error cargando muro:', error);
-        muroEl.innerHTML = '<div class="center fail">Error de conexión</div>';
+        muroEl.innerHTML = '<div class="center fail" style="padding: 30px;">Error de conexión cuántica</div>';
     }
 }
 
@@ -318,6 +952,15 @@ function mostrarError(msg) {
     resultadoEl.textContent = msg;
     resultadoEl.className = 'result-box fail';
     resultadoEl.classList.remove('hidden');
+    
+    // Efecto de error en el input
+    const input = document.getElementById('codigoInput');
+    input.style.borderColor = '#ff9b9b';
+    input.style.boxShadow = '0 0 20px rgba(255, 155, 155, 0.3)';
+    setTimeout(() => {
+        input.style.borderColor = '';
+        input.style.boxShadow = '';
+    }, 2000);
 }
 
 function mostrarCarga(show, msg) {
@@ -333,10 +976,70 @@ function cancelarFirma() {
     resultadoEl.classList.add('hidden');
 }
 
+function animarRutaIniciacion() {
+    const etapas = document.querySelectorAll('.etapa');
+    etapas.forEach((etapa, index) => {
+        setTimeout(() => {
+            etapa.style.background = 'rgba(0, 196, 255, 0.15)';
+            etapa.style.border = '1px solid var(--glow)';
+            etapa.style.color = 'var(--light)';
+            etapa.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                etapa.style.transform = 'scale(1)';
+            }, 300);
+        }, index * 400);
+    });
+}
+
 // ==================== EVENT LISTENERS ====================
 document.addEventListener('DOMContentLoaded', async () => {
-    // Configurar botones
-    document.getElementById('btnValidar').addEventListener('click', validarCodigo);
+    // Configurar chips de identidad
+    document.querySelectorAll('.chip-identidad').forEach(chip => {
+        chip.addEventListener('click', function() {
+            const tipo = this.getAttribute('data-tipo');
+            document.getElementById('codigoInput').placeholder = `Ej: ${tipo}-AQUA-ZIRIUX-000050`;
+            
+            // Efecto visual de selección
+            document.querySelectorAll('.chip-identidad').forEach(c => {
+                c.style.opacity = '0.6';
+                c.style.border = '1px solid rgba(0, 180, 255, 0.3)';
+            });
+            this.style.opacity = '1';
+            this.style.border = '2px solid var(--glow)';
+            this.style.boxShadow = '0 0 20px rgba(0, 196, 255, 0.3)';
+        });
+    });
+    
+    // Efectos en el input de código
+    const codigoInput = document.getElementById('codigoInput');
+    codigoInput.addEventListener('focus', () => {
+        energiaResonante.style.opacity = '1';
+        energiaResonante.style.animation = 'spin 2s linear infinite';
+    });
+    codigoInput.addEventListener('blur', () => {
+        energiaResonante.style.opacity = '0';
+        energiaResonante.style.animation = 'none';
+    });
+    
+    // Barra de resonancia para nombre
+    const nombreInput = document.getElementById('nombreInput');
+    nombreInput.addEventListener('input', function() {
+        const bar = this.nextElementSibling;
+        const length = Math.min(this.value.length * 8, 100);
+        bar.style.width = length + '%';
+        bar.style.opacity = length > 0 ? 1 : 0.3;
+    });
+
+    // Configurar botones principales
+    document.getElementById('btnValidar').addEventListener('click', async () => {
+        const valido = await validarCodigo();
+        if(valido) {
+            // Efecto de éxito
+            document.getElementById('codigoInput').style.borderColor = '#9effd8';
+            document.getElementById('codigoInput').style.boxShadow = '0 0 25px rgba(158, 255, 216, 0.3)';
+        }
+    });
+    
     document.getElementById('btnFirmar').addEventListener('click', startRitual);
     document.getElementById('btnCancelar').addEventListener('click', cancelarFirma);
     document.getElementById('btnActualizar').addEventListener('click', cargarMuro);
@@ -354,11 +1057,12 @@ function initStars() {
     w = canvas.width = innerWidth; 
     h = canvas.height = innerHeight;
     stars = [];
-    for(let i = 0; i < 80; i++) {
+    for(let i = 0; i < 120; i++) {
         stars.push({
             x: Math.random() * w,
             y: Math.random() * h,
-            s: Math.random() * 0.5
+            s: Math.random() * 0.8 + 0.2,
+            r: Math.random() * 1.5 + 0.5
         });
     }
 }
@@ -368,9 +1072,12 @@ function draw() {
     ctx.fillStyle = "#8feaff";
     stars.forEach(p => { 
         p.y -= p.s; 
-        if(p.y < 0) p.y = h; 
+        if(p.y < 0) {
+            p.y = h;
+            p.x = Math.random() * w;
+        }
         ctx.beginPath(); 
-        ctx.arc(p.x, p.y, Math.random() * 2, 0, Math.PI * 2); 
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); 
         ctx.fill(); 
     });
     requestAnimationFrame(draw);
@@ -379,6 +1086,28 @@ function draw() {
 initStars();
 draw();
 window.addEventListener('resize', initStars);
+
+// ==================== ANIMACIONES CSS ADICIONALES ====================
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    @keyframes shine {
+        0% { left: -100%; }
+        100% { left: 100%; }
+    }
+    @keyframes pulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+    }
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(style);
 
 // ==================== EXPORTAR FUNCIONES ====================
 window.validarCodigo = validarCodigo;
