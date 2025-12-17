@@ -908,24 +908,23 @@
     const btnRegistrar = document.getElementById('btnRegistrar');
     
     btnRegistrar.addEventListener('click', async () => {
-        // OBTENER CÓDIGO DEL INPUT
+        // 1. OBTENER CÓDIGO
         const codigoInput = document.getElementById('codigoInput');
-        const codigoGuardian = codigoInput ? codigoInput.value.trim() : '';
+        const codigoGuardian = codigoInput.value.trim();
         
-        // VALIDAR CÓDIGO
         if (!codigoGuardian || codigoGuardian.length < 10) {
-            alert("🌀 Ingresa tu código en el campo 'CÓDIGO DE GUARDIÁN'");
-            if (codigoInput) codigoInput.focus();
+            alert("🌀 Ingresa tu código de guardián");
+            codigoInput.focus();
             return;
         }
         
-        // VALIDAR ACCIONES
+        // 2. VALIDAR ACCIONES
         if (impactoDirecto === 0 && !modoObservacion) {
             alert("🌿 Selecciona al menos una ofrenda");
             return;
         }
 
-        // PREPARAR DATOS
+        // 3. PREPARAR DATOS
         const checkboxes = document.querySelectorAll('.accion-chk');
         const acciones = Array.from(checkboxes)
             .filter(c => c.checked)
@@ -933,37 +932,32 @@
             .join(', ');
         const comentario = document.getElementById('comentarioInput').value;
 
-        // MOSTRAR LOADER
+        // 4. MOSTRAR LOADER
         document.getElementById('loader').style.display = 'block';
         btnRegistrar.style.display = 'none';
 
         try {
-            // INSERTAR EN SUPABASE
-            const { data, error } = await supabase
+            // 5. INSERTAR EN SUPABASE (SIN .select())
+            const { error } = await supabase
                 .from('seguimiento')
-                .insert([{
+                .insert({
                     codigo_guardian: codigoGuardian,
                     acciones_realizadas: acciones,
-                    impacto_directo: impactoDirecto || 0,
-                    impacto_sistemico: impactoSistemico || 0,
-                    modo_observacion: modoObservacion || false,
-                    intencion_sincronizada: intencionActiva || false,
-                    comentario: comentario || ''
-                }])
-                .select();
+                    impacto_directo: impactoDirecto,
+                    impacto_sistemico: impactoSistemico,
+                    modo_observacion: modoObservacion,
+                    intencion_sincronizada: intencionActiva,
+                    comentario: comentario
+                });
 
             if (error) throw error;
 
-            // ÉXITO
-            console.log('✅ Registro guardado:', data[0]);
+            // 6. ÉXITO
+            console.log('✅ Registro guardado');
             document.getElementById('loader').style.display = 'none';
             document.getElementById('successMsg').style.display = 'block';
 
-            // Recargar medallas y reporte
-            await cargarMedallas(codigoGuardian);
-            await generarReporteEcoSincronia(codigoGuardian);
-
-            // Resetear después de 3 segundos
+            // 7. RESETEAR
             setTimeout(() => {
                 document.getElementById('successMsg').style.display = 'none';
                 btnRegistrar.style.display = 'block';
