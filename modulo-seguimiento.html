@@ -923,17 +923,17 @@
         try {
             // Insertar en Supabase
             const { error } = await supabase
-                .from('seguimiento')
-                .insert([{
-                    codigo_guardian: codigoGuardian,
-                    acciones_realizadas: acciones,
-                    impacto_directo: impactoDirecto,
-                    impacto_sistemico: impactoSistemico,
-                    modo_observacion: modoObservacion,
-                    intencion_sincronizada: intencionActiva,
-                    comentario: comentario
-                    // fecha_reporte: fecha  ← COMENTADA
-                }]);
+    .from('seguimiento')
+    .insert([{
+        codigo_guardian: codigoGuardian || '',
+        acciones_realizadas: acciones || '',
+        impacto_directo: impactoDirecto || 0,
+        impacto_sistemico: impactoSistemico || 0,
+        modo_observacion: modoObservacion || false,
+        intencion_sincronizada: intencionActiva || false,
+        comentario: comentario || ''
+        // fecha_reporte: fecha  ← COMENTADA
+    }]);
                 
             // ... resto del código ...
                     if (error) throw error;
