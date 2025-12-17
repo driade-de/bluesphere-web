@@ -903,49 +903,39 @@
         }
 
         function configurarBotonRegistro() {
-            const btnRegistrar = document.getElementById('btnRegistrar');
-            
-            btnRegistrar.addEventListener('click', async () => {
-                // Validaciones
-                if (!codigoGuardian || codigoGuardian.length < 10) {
-                    alert("🌀 Por favor, ingresa o verifica tu código de guardián (mínimo 10 caracteres).");
-                    return;
-                }
+    const btnRegistrar = document.getElementById('btnRegistrar');
+    
+    btnRegistrar.addEventListener('click', async () => {
+        // ... validaciones ...
 
-                if (impactoDirecto === 0 && !modoObservacion) {
-                    alert("🌿 Selecciona al menos una ofrenda (acción o estado de ser) para registrar tu pulso.");
-                    return;
-                }
+        // Preparar datos
+        const checkboxes = document.querySelectorAll('.accion-chk');
+        const acciones = Array.from(checkboxes)
+            .filter(c => c.checked)
+            .map(c => c.value)
+            .join(', ');
 
-                // Preparar datos
-                const checkboxes = document.querySelectorAll('.accion-chk');
-                const acciones = Array.from(checkboxes)
-                    .filter(c => c.checked)
-                    .map(c => c.value)
-                    .join(', ');
+        const comentario = document.getElementById('comentarioInput').value;
+        // const fecha = new Date().toISOString();  // ← COMENTADA
 
-                const comentario = document.getElementById('comentarioInput').value;
-                const fecha = new Date().toISOString();
+        // Mostrar loader...
 
-                // Mostrar loader
-                document.getElementById('loader').style.display = 'block';
-                btnRegistrar.style.display = 'none';
-
-                try {
-                    // Insertar en Supabase
-                    const { error } = await supabase
-                        .from('seguimiento')
-                        .insert([{
-                            codigo_guardian: codigoGuardian,
-                            acciones_realizadas: acciones,
-                            impacto_directo: impactoDirecto,
-                            impacto_sistemico: impactoSistemico,
-                            modo_observacion: modoObservacion,
-                            intencion_sincronizada: intencionActiva,
-                            comentario: comentario,
-                            fecha_reporte: fecha
-                        }]);
-
+        try {
+            // Insertar en Supabase
+            const { error } = await supabase
+                .from('seguimiento')
+                .insert([{
+                    codigo_guardian: codigoGuardian,
+                    acciones_realizadas: acciones,
+                    impacto_directo: impactoDirecto,
+                    impacto_sistemico: impactoSistemico,
+                    modo_observacion: modoObservacion,
+                    intencion_sincronizada: intencionActiva,
+                    comentario: comentario
+                    // fecha_reporte: fecha  ← COMENTADA
+                }]);
+                
+            // ... resto del código ...
                     if (error) throw error;
 
                     // Éxito
