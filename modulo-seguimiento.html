@@ -922,18 +922,40 @@
 
         try {
             // Insertar en Supabase
-            const { error } = await supabase
-    .from('seguimiento')
-    .insert([{
-        codigo_guardian: codigoGuardian || '',
-        acciones_realizadas: acciones || '',
-        impacto_directo: impactoDirecto || 0,
-        impacto_sistemico: impactoSistemico || 0,
-        modo_observacion: modoObservacion || false,
-        intencion_sincronizada: intencionActiva || false,
-        comentario: comentario || ''
-        // fecha_reporte: fecha  ← COMENTADA
-    }]);
+       try {
+    // Insertar en Supabase
+    const { data, error } = await supabase
+        .from('seguimiento')
+        .insert([
+            {
+                codigo_guardian: codigoGuardian || '',
+                acciones_realizadas: acciones || '',
+                impacto_directo: impactoDirecto || 0,
+                impacto_sistemico: impactoSistemico || 0,
+                modo_observacion: modoObservacion || false,
+                intencion_sincronizada: intencionActiva || false,
+                comentario: comentario || ''
+                // fecha_reporte: fecha  ← NO VA
+            }
+        ])
+        .select();
+
+    // Verificar error
+    if (error) {
+        console.error('Error en Supabase:', error);
+        alert('Error al guardar el registro');
+        return;
+    }
+
+    // Éxito
+    console.log('✅ Registro insertado:', data[0]);
+    console.log('📅 Fecha automática asignada:', data[0].fecha_reporte);
+    alert('✨ Registro guardado exitosamente en la red GAIA');
+
+} catch (err) {
+    console.error('Error general:', err);
+    alert('⚠️ Error inesperado. Intenta nuevamente.');
+}
                 
             // ... resto del código ...
                     if (error) throw error;
