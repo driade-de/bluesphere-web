@@ -1843,26 +1843,34 @@ setInterval(sincronizarGaia, 15000);
          Cada línea ejecutada, un latido más 
          en el corazón despertando de Gaia."
         `);
-     // --- MOTOR DE ARMONIZACIÓN GAIA (ESTABILIZADO) ---
+    // --- MOTOR DE ARMONIZACIÓN GAIA (ESTABILIZADO V.PRO) ---
 function restaurarEquilibrioVisual() {
-    const listaHabitos = document.querySelector('.habitos-container') || document.getElementById('arbol-habitos');
-    const globoContainer = document.getElementById('globe-container');
+    const listaHabitos = document.querySelector('.habitos-container') || document.querySelector('.left-panel');
+    const globoContainer = document.getElementById('globe-container') || document.querySelector('canvas');
+    const fondoParticulas = document.getElementById('particles-js');
 
+    // 1. Prioridad Absoluta a la Acción Humana (Hábitos)
     if(listaHabitos) {
-        // Aseguramos que los hábitos tengan prioridad de renderizado
         listaHabitos.style.position = "relative";
-        listaHabitos.style.zIndex = "2000";
+        listaHabitos.style.zIndex = "9999"; 
         listaHabitos.style.display = "block";
-        console.log("🌿 Hábitos Regenerativos: RESTAURADOS.");
+        listaHabitos.style.opacity = "1";
+        console.log("🌿 Hábitos Regenerativos: VISIBILIDAD RESTAURADA.");
     }
 
+    // 2. Materialización de la Esfera de Cristal sin Interferencia
     if(globoContainer) {
-        // Materializamos la Esfera de Cristal sin bloquear los hábitos
-        globoContainer.style.boxShadow = "inset 0 0 80px rgba(0, 255, 127, 0.3), 0 0 30px rgba(0, 200, 255, 0.1)";
-        globoContainer.style.borderRadius = "50%";
+        globoContainer.style.position = "relative";
+        globoContainer.style.zIndex = "1000";
+        globoContainer.style.boxShadow = "inset 0 0 100px rgba(0, 255, 127, 0.3), 0 0 40px rgba(0, 200, 255, 0.2)";
         console.log("🔮 Esfera de Cristal: SINCRONIZADA.");
+    }
+
+    // 3. Envío al fondo de la decoración cósmica
+    if(fondoParticulas) {
+        fondoParticulas.style.zIndex = "1";
     }
 }
 
-// Activación inmediata tras la carga del DOM
-window.addEventListener('DOMContentLoaded', restaurarEquilibrioVisual);
+// Activación inmediata tras la carga del sistema nervioso
+window.addEventListener('load', restaurarEquilibrioVisual);
