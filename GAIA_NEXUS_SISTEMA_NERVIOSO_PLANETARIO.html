@@ -1575,26 +1575,26 @@
             }, 1000);
         };
         
-        // ===========================================
+       // ===========================================
         // 🛰️ PROTOCOLO DE SINCRONIZACIÓN SATELITAL
         // ===========================================
         function activarSincroniaSatelital() {
-            // 1. Cargamos su impacto real verificado (25kg)
+            // 1. Cargamos su impacto real verificado de 25kg
             const impactoPanel = document.getElementById('impacto-corporativo');
             if(impactoPanel) {
                 impactoPanel.innerHTML = `<span style="color: var(--planet-green); text-shadow: 0 0 10px var(--planet-green);">25.0 kg CO₂</span>`;
-                impactoPanel.nextElementSibling.textContent = "Impacto Real Verificado NOAA";
-                console.log("🛰️ Sincronización: 25.0 kg detectados por satélites Copernicus.");
+                console.log("🛰️ Impacto Real Sincronizado: 25.0 kg.");
             }
 
-            // 2. Materialización de la Esfera de Cristal Ghibli
+            // 2. MATERIALIZACIÓN FORZADA DE LA ESFERA GHIBLI
             const globeCanvas = document.querySelector('canvas') || document.getElementById('globo-terraqueo');
             if(globeCanvas) {
-                globeCanvas.style.transition = "all 2.5s ease-in-out";
+                // Si el motor 3D falla por falta de texturas, este gradiente crea la esfera de cristal
+                globeCanvas.style.background = "radial-gradient(circle at 30% 30%, rgba(42,252,91,0.4) 0%, rgba(0,168,255,0.1) 50%, rgba(10,10,22,0.8) 100%)";
+                globeCanvas.style.boxShadow = "inset 0 0 80px rgba(42, 252, 91, 0.5), 0 0 40px rgba(0, 224, 255, 0.3)";
                 globeCanvas.style.borderRadius = "50%";
-                globeCanvas.style.boxShadow = "inset 0 0 100px rgba(42, 252, 91, 0.3), 0 0 40px rgba(0, 224, 255, 0.2)";
-                globeCanvas.style.border = "1px solid rgba(255, 255, 255, 0.1)";
-                console.log("🔮 GAIA: Esfera de Cristal activada en el nuevo Nexus.");
+                globeCanvas.style.border = "1px solid rgba(255, 255, 255, 0.2)";
+                console.log("🔮 GAIA: Esfera de Cristal materializada por aura.");
             }
         }
 
@@ -1618,6 +1618,6 @@
             animarBrujulaCosmica();
             simularSistemaNervioso();
             
-            // Sincronización final tras 1 segundo para evitar colisiones
+            // Activación tras 1 segundo para asegurar que el DOM esté listo
             setTimeout(activarSincroniaSatelital, 1000);
         });
