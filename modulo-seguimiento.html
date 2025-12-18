@@ -458,11 +458,13 @@ body {
       document.getElementById('loader').style.display = 'none';
       document.getElementById('successMsg').style.display = 'block';
 
-      // RECONEXIÓN CON EL DASHBOARD
+      // RECONEXIÓN CON EL NEXO DE IMPACTO GLOBAL
       const btnDashboard = document.getElementById('btnDashboard');
       if(btnDashboard) {
-          btnDashboard.style.display = 'inline-block'; // El portal se vuelve visible
-          console.log("Portal al Dashboard activo."); 
+          // Aseguramos que el botón sea visible
+          btnDashboard.style.display = 'inline-block'; 
+          // El enlace ya debe estar corregido en el HTML a "dashboard-global-impacto.html"
+          console.log("Portal al Dashboard Global activo."); 
       }
       
       // Recargar medallas para ver si ganó alguna nueva
