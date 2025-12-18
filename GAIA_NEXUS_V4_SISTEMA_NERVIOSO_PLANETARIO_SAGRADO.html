@@ -1843,22 +1843,22 @@ setInterval(sincronizarGaia, 15000);
          Cada línea ejecutada, un latido más 
          en el corazón despertando de Gaia."
         `);
-       // --- MOTOR VISUAL ESTABILIZADO: ESFERA GHIBLI ---
+       // --- MOTOR VISUAL ESTABILIZADO: ESFERA GAIA ---
 function materializarEsferaImpacto() {
-    // Buscamos el lienzo donde vive Gaia
     const canvasGaia = document.querySelector('canvas') || document.getElementById('globe-container');
     
     if(canvasGaia) {
-        // En lugar de cambiar el material 3D (que da error), 
-        // envolvemos el contenedor en un aura de cristal externa
+        // Aplicamos el aura de cristal sin romper el motor 3D
         canvasGaia.style.transition = "all 2s ease-in-out";
         canvasGaia.style.borderRadius = "50%";
-        canvasGaia.style.boxShadow = "inset 0 0 100px rgba(0, 255, 127, 0.2), 0 0 50px rgba(0, 200, 255, 0.1)";
-        canvasGaia.style.border = "2px solid rgba(255, 255, 255, 0.05)";
-        
-        console.log("🔮 GAIA: La Esfera de Cristal ha sido estabilizada externamente.");
+        canvasGaia.style.boxShadow = "inset 0 0 80px rgba(0, 255, 127, 0.3), 0 0 40px rgba(0, 255, 255, 0.1)";
+        canvasGaia.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+        console.log("🔮 GAIA: La Esfera de Cristal ha sido materializada.");
     }
 }
 
-// Ejecución segura sin interferir con Supabase
-window.addEventListener('DOMContentLoaded', materializarEsferaImpacto);
+// Sincronización segura al cargar el Nexus
+window.addEventListener('load', materializarEsferaImpacto);
+</script>
+</body>
+</html>
