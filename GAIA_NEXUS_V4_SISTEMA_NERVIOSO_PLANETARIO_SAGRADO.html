@@ -206,23 +206,28 @@
             100% { transform: translateX(100%); }
         }
         
-        /* =========================================== */
+       /* =========================================== */
         /* CENTRO - SISTEMA NERVIOSO PLANETARIO SAGRADO */
         /* =========================================== */
         .panel-planetario {
             grid-row: 2;
             position: relative;
-            background: rgba(5, 5, 15, 0.8);
+            /* Fondo con profundidad espacial estilo Ghibli */
+            background: radial-gradient(circle at center, #0d1b2a 0%, #05050f 100%); 
             border-radius: 20px;
             overflow: hidden;
-            border: 1px solid rgba(0, 224, 255, 0.2);
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 224, 255, 0.4);
+            box-shadow: inset 0 0 80px rgba(0, 224, 255, 0.15); 
         }
         
         #globo-terraqueo {
             width: 100%;
             height: 100%;
-            position: absolute;
+            /* Cambiamos a relative para que el motor gráfico sea visible */
+            position: relative; 
+            z-index: 1;
+            /* Suavizado de bordes para la atmósfera */
+            filter: drop-shadow(0 0 15px rgba(0, 224, 255, 0.2)); 
         }
         
         /* CAPAS DE CONCIENCIA SAGRADA */
