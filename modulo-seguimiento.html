@@ -315,16 +315,20 @@
 
         <div class="card-ceremonial">
             
-            <!-- CÓDIGO DE GUARDIÁN -->
             <div style="margin-bottom: 30px;">
-                <label style="color: var(--glow); font-weight: bold; margin-bottom: 10px; display: block;">
-                    🔮 CÓDIGO DE GUARDIÁN • MODO OBSERVACIÓN ACTIVO
-                </label>
-                <input id="codigoInput" class="input-ceremonial" placeholder="GPR-AQUA-ZIRIUX-..." readonly>
-                <div id="statusCodigo" style="margin-top: 10px; font-size: 0.9rem; color: var(--muted);">
-                    🌀 Escaneando frecuencia guardián...
-                </div>
-            </div>
+    <label id="labelGuardian" style="color: var(--glow); font-weight: bold; margin-bottom: 10px; display: block;">
+        🔮 CÓDIGO DE GUARDIÁN • ESPERANDO SINCRONÍA
+    </label>
+    <div style="display: flex; gap: 10px;">
+        <input id="codigoInput" class="input-ceremonial" placeholder="Ingresa tu firma vibratoria..." style="flex-grow: 1;">
+        <button onclick="sincronizarGuardian()" style="background: rgba(0, 224, 255, 0.2); border: 1px solid var(--glow); color: var(--glow); border-radius: 8px; cursor: pointer; padding: 5px 15px;">
+            SINC
+        </button>
+    </div>
+    <div id="statusCodigo" style="margin-top: 10px; font-size: 0.9rem; color: var(--muted);">
+        🌀 Escaneando frecuencia guardián...
+    </div>
+</div>
 
             <!-- TABS DE CATEGORÍAS -->
             <div class="categoria-tabs">
@@ -1176,6 +1180,37 @@
             
             🔮 "Cada pulso es un latido en el corazón de Gaia"
         `);
+        // --- SISTEMA DE IDENTIDAD DE GUARDIÁN DINÁMICO ---
+function sincronizarGuardian() {
+    const input = document.getElementById('codigoInput');
+    const status = document.getElementById('statusCodigo');
+    const label = document.getElementById('labelGuardian');
+    
+    if (input && input.value) {
+        const codigo = input.value.trim();
+        // Sellar en la memoria local del navegador
+        localStorage.setItem('firmaGuardian', codigo);
+        
+        // Estética Ghibli de activación exitosa
+        label.innerHTML = `✨ PRESENCIA CONFIRMADA • GUARDIÁN ACTIVO`;
+        label.style.color = "#4dff88"; 
+        status.innerHTML = `✅ Frecuencia "${codigo}" vinculada al Sistema Nervioso Planetario.`;
+        status.style.color = "#4dff88";
+        console.log("🌲 El espíritu del bosque reconoce al Guardián:", codigo);
+    }
+}
+
+// Reconocimiento automático al entrar al puente de mando
+window.addEventListener('DOMContentLoaded', () => {
+    const firmaGuardada = localStorage.getItem('firmaGuardian');
+    if (firmaGuardada) {
+        const input = document.getElementById('codigoInput');
+        if (input) {
+            input.value = firmaGuardada;
+            sincronizarGuardian();
+        }
+    }
+});
     </script>
 </body>
 </html>
