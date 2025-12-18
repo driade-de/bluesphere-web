@@ -277,7 +277,7 @@
     // --- 2. INICIALIZACIÓN AUTOMÁTICA ---
     window.onload = function() {
         cargarDatosReales();
-        setInterval(cargarDatosReales, 10000); // Sincronización cada 10s
+        setInterval(cargarDatosReales, 10000); // Sincronización interestelar cada 10s
     };
 
     // --- 3. MOTOR DE DATOS (EL CORAZÓN) ---
@@ -297,7 +297,7 @@
             .select('impacto_co2, acciones_realizadas, codigo_guardian, fecha_reporte');
 
         if (seguimientos && seguimientos.length > 0) {
-            // 1. Cálculo de Impacto Total
+            // 1. Cálculo de Impacto Total (6.5 + 15.0 + 11.5)
             const co2Acumulado = seguimientos.reduce((sum, s) => sum + (s.impacto_co2 || 0), 0);
             
             // Inyectar en barra de impacto superior
@@ -319,7 +319,7 @@
                 }
             });
 
-            // 3. Renderizar Últimos Guardianes (000051, 52, 53)
+            // 3. Renderizar Últimos Guardianes (Muestra códigos reales)
             let htmlGuardianes = '';
             const ultimos = seguimientos.sort((a,b) => new Date(b.fecha_reporte) - new Date(a.fecha_reporte)).slice(0, 5);
             ultimos.forEach(u => {
@@ -334,7 +334,7 @@
             });
             document.getElementById('lista-real-guardianes').innerHTML = htmlGuardianes;
 
-            // --- 4. DISPARAR FUNCIONES VISUALES (Independientes) ---
+            // --- 4. DISPARAR FUNCIONES VISUALES ---
             actualizarRankingVisual(conteoHabitos);
             inicializarGraficaEvolucion(seguimientos);
             animarRadar(countFirmantes || 4);
@@ -361,7 +361,7 @@
         rankingBox.innerHTML = html || '<p style="color:gray; text-align:center;">Sincronizando...</p>';
     }
 
-    // --- 6. ANIMACIÓN DE PARTÍCULAS (Radar Background) ---
+    // --- 6. ANIMACIÓN DE PARTÍCULAS (Radar) ---
     function animarRadar(totalGuardianes) {
         const radar = document.getElementById('ranking-habitos-dinamico');
         if (!radar) return;
@@ -375,7 +375,7 @@
         }
     }
 
-    // --- 7. GRÁFICA DE EVOLUCIÓN (Impacto en el Tiempo) ---
+    // --- 7. GRÁFICA DE EVOLUCIÓN REAL ---
     function inicializarGraficaEvolucion(seguimientos) {
         const ctx = document.getElementById('chartEvolucion');
         if (!ctx) return;
