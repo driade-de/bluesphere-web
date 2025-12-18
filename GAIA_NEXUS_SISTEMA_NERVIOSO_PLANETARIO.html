@@ -211,45 +211,32 @@
             border: 1px solid rgba(0, 224, 255, 0.2);
         }
         
-        /* GLOBO TERRÁQUEO 3D */
+        /* GLOBO TERRÁQUEO 3D - VERSIÓN CRISTAL GHIBLI */
         #globo-terraqueo {
             width: 100%;
             height: 100%;
             position: absolute;
-        }
-        
-        /* CAPAS DE DATOS SOBRE EL MAPA */
-        .capas-datos {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 15px;
-            border-radius: 15px;
-            width: 300px;
-        }
-        
-        .selector-capa {
+            /* Inyectamos el aura esmeralda directamente por si el 3D falla */
+            background: radial-gradient(circle at center, 
+                rgba(42, 252, 91, 0.15) 0%, 
+                rgba(0, 168, 255, 0.05) 50%, 
+                transparent 70%);
+            border-radius: 50%;
+            box-shadow: inset 0 0 50px rgba(42, 252, 91, 0.2);
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
+            align-items: center;
+            justify-content: center;
         }
-        
-        .capa-btn {
-            padding: 8px 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: white;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.3s;
-        }
-        
-        .capa-btn.activo {
-            background: var(--stardust-blue);
-            color: black;
+
+        /* EFECTO DE LUZ PARA EL MODO ESTÁTICO */
+        #globo-terraqueo::after {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
         }
         
         /* =========================================== */
@@ -1599,9 +1586,10 @@
         }
 
         // ===========================================
-        // CONFIGURACIÓN DE SLIDERS Y ARRANQUE
+        // 🚀 CONFIGURACIÓN DE SLIDERS Y ARRANQUE FORZADO
         // ===========================================
         document.addEventListener('DOMContentLoaded', function() {
+            // 1. Inicialización de controles deslizantes (Sliders)
             const sliders = document.querySelectorAll('input[type="range"]');
             sliders.forEach(slider => {
                 const updateSlider = (s) => {
@@ -1612,12 +1600,18 @@
                 updateSlider(slider); 
             });
 
-            renderizarArbolHabitos();
+            // 2. DESPERTAR DEL SISTEMA (Ejecución inmediata)
+            console.log("🌍 GAIA: Iniciando renderizado de hábitos...");
+            renderizarArbolHabitos(); // Sella la fisura de la lista vacía
             configurarFiltrosHabitos();
             actualizarEmpresaDemo();
             animarBrujulaCosmica();
             simularSistemaNervioso();
             
-            // Activación tras 1 segundo para asegurar que el DOM esté listo
-            setTimeout(activarSincroniaSatelital, 1000);
+            // 3. SINCRONIZACIÓN FINAL (25kg e Impacto Visual)
+            // Bajamos el tiempo a 500ms para que el impacto de 25kg aparezca más rápido
+            setTimeout(() => {
+                activarSincroniaSatelital();
+                console.log("✨ GAIA: Sincronía de cristal completada.");
+            }, 500); 
         });
