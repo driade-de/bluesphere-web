@@ -368,7 +368,7 @@ body {
   const impactoDisplay = document.getElementById('impactoDisplay');
   let impactoTotal = 0;
 
-  // 4. INICIALIZACIÓN (DETECTAR CÓDIGO)
+  // 4. INICIALIZACIÓN (DETECTAR Y ESCUCHAR CÓDIGO)
   window.onload = async () => {
     const params = new URLSearchParams(window.location.search);
     const codigoURL = params.get('codigo');
@@ -382,6 +382,17 @@ body {
       codigoInput.removeAttribute('readonly');
     }
   };
+
+  // 4.1 ESCUCHADOR DE ENTRADA MANUAL (EL PARCHE)
+  codigoInput.addEventListener('input', () => {
+    const valor = codigoInput.value.trim();
+    if(valor.length >= 10) {
+      statusCodigo.innerHTML = `<span style="color:#3ddc84">✅ Código Detectado (Validando...)</span>`;
+      cargarMedallas(valor); // Esto recupera tus medallas automáticamente
+    } else {
+      statusCodigo.innerHTML = `<span style="color:#ffb74d">⚠️ Modo Manual (Ingresa tu código)</span>`;
+    }
+  });
 
   // 5. CALCULAR IMPACTO EN TIEMPO REAL
   checkboxes.forEach(chk => {
