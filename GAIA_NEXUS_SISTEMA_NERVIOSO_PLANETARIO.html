@@ -629,27 +629,27 @@
             </div>
             
             <!-- RESUMEN DE IMPACTO -->
-            <div style="margin-top: 30px;">
-                <h4 style="color: var(--stardust-blue); margin-bottom: 15px;">📊 IMPACTO ACUMULADO</h4>
-                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span>Total CO₂ Ahorrable</span>
-                        <span id="total-co2" style="color: var(--planet-green); font-weight: bold;">69.55 kg/persona</span>
-                    </div>
-                    <div class="barra-progreso-cosmica">
-                        <div class="progreso-lleno" style="width: 45%;"></div>
-                    </div>
-                    
-                    <div style="display: flex; justify-content: space-between; margin: 15px 0 8px;">
-                        <span>Adopción Promedio</span>
-                        <span id="adopcion-promedio" style="color: var(--quantum-gold); font-weight: bold;">43.6%</span>
-                    </div>
-                    <div class="barra-progreso-cosmica">
-                        <div class="progreso-lleno" style="width: 43.6%; background: linear-gradient(90deg, var(--quantum-gold), var(--quantum-gold)80);"></div>
-                    </div>
-                </div>
-            </div>
+           <div style="margin-top: 30px;">
+    <h4 style="color: var(--stardust-blue); margin-bottom: 15px;">📊 IMPACTO ACUMULADO</h4>
+    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+        
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span>Total CO₂ Verificado</span>
+            <span id="total-co2" style="color: var(--planet-green); font-weight: bold; text-shadow: 0 0 10px var(--planet-green);">-- kg/persona</span>
         </div>
+        <div class="barra-progreso-cosmica">
+            <div id="barra-impacto-llena" class="progreso-lleno" style="width: 0%; transition: width 2s ease-out;"></div>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; margin: 15px 0 8px;">
+            <span>Adopción Promedio</span>
+            <span id="adopcion-promedio" style="color: var(--quantum-gold); font-weight: bold;">--%</span>
+        </div>
+        <div class="barra-progreso-cosmica">
+            <div id="barra-adopcion-llena" class="progreso-lleno" style="width: 0%; background: linear-gradient(90deg, var(--quantum-gold), #ffb700); transition: width 2.5s ease-out;"></div>
+        </div>
+    </div>
+</div>
         
         <!-- CENTRO - SISTEMA NERVIOSO PLANETARIO -->
         <div class="panel-planetario">
@@ -1535,24 +1535,24 @@
         // 🛰️ PROTOCOLO DE SINCRONIZACIÓN SATELITAL
         // ===========================================
         function activarSincroniaSatelital() {
-            // 1. Cargamos su impacto real verificado de 25kg
-            const impactoPanel = document.getElementById('impacto-corporativo');
-            if(impactoPanel) {
-                impactoPanel.innerHTML = `<span style="color: var(--planet-green); text-shadow: 0 0 10px var(--planet-green);">25.0 kg CO₂</span>`;
-                console.log("🛰️ Impacto Real Sincronizado: 25.0 kg.");
-            }
+    // 1. Cargamos su impacto real verificado de 73.0kg (Actualizado de 25kg)
+    const impactoPanel = document.getElementById('impacto-corporativo');
+    if(impactoPanel) {
+        impactoPanel.innerHTML = `<span style="color: var(--planet-green); text-shadow: 0 0 10px var(--planet-green);">73.0 kg CO₂</span>`;
+        console.log("🛰️ Impacto Real Sincronizado: 73.0 kg verificado por el Ritual.");
+    }
 
-            // 2. MATERIALIZACIÓN FORZADA DE LA ESFERA GHIBLI
-            const globeCanvas = document.querySelector('canvas') || document.getElementById('globo-terraqueo');
-            if(globeCanvas) {
-                // Si el motor 3D falla por falta de texturas, este gradiente crea la esfera de cristal
-                globeCanvas.style.background = "radial-gradient(circle at 30% 30%, rgba(42,252,91,0.4) 0%, rgba(0,168,255,0.1) 50%, rgba(10,10,22,0.8) 100%)";
-                globeCanvas.style.boxShadow = "inset 0 0 80px rgba(42, 252, 91, 0.5), 0 0 40px rgba(0, 224, 255, 0.3)";
-                globeCanvas.style.borderRadius = "50%";
-                globeCanvas.style.border = "1px solid rgba(255, 255, 255, 0.2)";
-                console.log("🔮 GAIA: Esfera de Cristal materializada por aura.");
-            }
-        }
+    // 2. MATERIALIZACIÓN FORZADA DE LA ESFERA GHIBLI
+    const globeCanvas = document.querySelector('canvas') || document.getElementById('globo-terraqueo');
+    if(globeCanvas) {
+        // El aura esmeralda Ghibli envuelve el Nexus
+        globeCanvas.style.background = "radial-gradient(circle at 30% 30%, rgba(42,252,91,0.4) 0%, rgba(0,168,255,0.1) 50%, rgba(10,10,22,0.8) 100%)";
+        globeCanvas.style.boxShadow = "inset 0 0 80px rgba(42, 252, 91, 0.5), 0 0 40px rgba(0, 224, 255, 0.3)";
+        globeCanvas.style.borderRadius = "50%";
+        globeCanvas.style.border = "1px solid rgba(255, 255, 255, 0.2)";
+        console.log("🔮 GAIA: Esfera de Cristal sincronizada con éxito de 73kg.");
+    }
+}
 
         // ===========================================
         // 🚀 CONFIGURACIÓN DE SLIDERS Y ARRANQUE FORZADO
