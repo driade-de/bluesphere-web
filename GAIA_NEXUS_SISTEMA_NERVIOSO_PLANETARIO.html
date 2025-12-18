@@ -1,1 +1,1595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAIA NEXUS - Sistema Nervioso Corporativo Planetario</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    
+    <style>
+        /* =========================================== */
+        /* CÓSMICO CORPORATIVO - ESTILOS GALÁCTICOS    */
+        /* =========================================== */
+        
+        :root {
+            --deep-space: #0a0a16;
+            --nebula-purple: #5d2fdf;
+            --stardust-blue: #00e0ff;
+            --planet-green: #2afc5b;
+            --quantum-gold: #ffd700;
+            --nova-red: #ff3366;
+            --corporate-cyan: #00a8ff;
+            --retail-orange: #ff6b35;
+            --food-gold: #ffd166;
+            --beverage-red: #e63946;
+            --dark-matter: rgba(10, 10, 22, 0.95);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--deep-space);
+            color: white;
+            font-family: 'Segoe UI', 'Orbitron', monospace;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+        
+        /* FONDO DE PARTÍCULAS */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        /* CONTENEDOR PRINCIPAL */
+        .cosmos-container {
+            display: grid;
+            grid-template-columns: 300px 1fr 400px; /* Panel derecho más ancho */
+            grid-template-rows: 120px 1fr 80px;
+            height: 100vh;
+            padding: 20px;
+            gap: 15px;
+            position: relative;
+        }
+        
+        /* =========================================== */
+        /* CABECERA - BRÚJULA CÓSMICA                  */
+        /* =========================================== */
+        .header-cosmico {
+            grid-column: 1 / -1;
+            background: linear-gradient(90deg, 
+                rgba(93, 47, 223, 0.2), 
+                rgba(0, 224, 255, 0.2));
+            border: 1px solid var(--stardust-blue);
+            border-radius: 20px;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 40px rgba(0, 224, 255, 0.3);
+            animation: pulse-border 4s infinite;
+        }
+        
+        @keyframes pulse-border {
+            0%, 100% { border-color: var(--stardust-blue); }
+            50% { border-color: var(--corporate-cyan); }
+        }
+        
+        .titulo-principal h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #fff, var(--stardust-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .titulo-principal .subtitulo {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 5px;
+        }
+        
+        /* BRÚJULA DE NAVEGACIÓN */
+        .brujula-cosmica {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .instrumento-navegacion {
+            text-align: center;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 120px;
+        }
+        
+        .instrumento-navegacion .valor {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--quantum-gold);
+            margin: 5px 0;
+        }
+        
+        .instrumento-navegacion .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #aaa;
+        }
+        
+        /* =========================================== */
+        /* PANEL IZQUIERDO - CONCIENCIA INDIVIDUAL     */
+        /* =========================================== */
+        .panel-conciencia {
+            grid-row: 2;
+            background: var(--dark-matter);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(42, 252, 91, 0.3);
+            overflow-y: auto;
+        }
+        
+        /* ÁRBOL DE HÁBITOS */
+        .arbol-habitos {
+            margin-top: 20px;
+        }
+        
+        .habito-nodo {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--planet-green);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .habito-nodo.alto-impacto {
+            border-left-color: var(--nova-red);
+        }
+        
+        .habito-nodo:hover {
+            background: rgba(42, 252, 91, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .habito-nodo.alto-impacto:hover {
+            background: rgba(255, 51, 102, 0.1);
+        }
+        
+        .habito-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .habito-nombre {
+            font-weight: bold;
+            color: white;
+        }
+        
+        .habito-impacto {
+            font-size: 0.9rem;
+            color: var(--quantum-gold);
+        }
+        
+        /* BARRA DE PROGRESO CÓSMICA */
+        .barra-progreso-cosmica {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+        
+        .progreso-lleno {
+            height: 100%;
+            background: linear-gradient(90deg, var(--nebula-purple), var(--stardust-blue));
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+        
+        /* =========================================== */
+        /* CENTRO - SISTEMA NERVIOSO PLANETARIO        */
+        /* =========================================== */
+        .panel-planetario {
+            grid-row: 2;
+            position: relative;
+            background: rgba(5, 5, 15, 0.8);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 224, 255, 0.2);
+        }
+        
+        /* GLOBO TERRÁQUEO 3D */
+        #globo-terraqueo {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+        
+        /* CAPAS DE DATOS SOBRE EL MAPA */
+        .capas-datos {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 15px;
+            width: 300px;
+        }
+        
+        .selector-capa {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .capa-btn {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        
+        .capa-btn.activo {
+            background: var(--stardust-blue);
+            color: black;
+        }
+        
+        /* =========================================== */
+        /* PANEL DERECHO - ECOSISTEMA CORPORATIVO      */
+        /* =========================================== */
+        .panel-corporativo {
+            grid-row: 2;
+            background: var(--dark-matter);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(0, 168, 255, 0.3);
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        /* HEADER CORPORATIVO */
+        .header-corporativo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(0, 168, 255, 0.3);
+        }
+        
+        .selector-empresa {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .selector-empresa select {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: 1px solid var(--corporate-cyan);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        /* MÉTRICAS CORPORATIVAS */
+        .metricas-corporativas {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .metrica-corporativa {
+            background: rgba(0, 168, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(0, 168, 255, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .metrica-corporativa:hover {
+            transform: translateY(-5px);
+            border-color: var(--corporate-cyan);
+            box-shadow: 0 10px 20px rgba(0, 168, 255, 0.2);
+        }
+        
+        .valor-metrica {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--corporate-cyan);
+            margin: 10px 0;
+        }
+        
+        .label-metrica {
+            font-size: 0.8rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* SIMULADOR CORPORATIVO */
+        .simulador-corporativo {
+            background: rgba(255, 107, 53, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+        
+        .control-simulador {
+            margin-bottom: 20px;
+        }
+        
+        .control-simulador label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--retail-orange);
+            font-weight: bold;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--retail-orange);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .slider-value {
+            min-width: 80px;
+            text-align: right;
+            color: var(--quantum-gold);
+            font-weight: bold;
+        }
+        
+        /* RESULTADOS SIMULACIÓN */
+        .resultados-simulacion {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .resultado-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .resultado-valor {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--quantum-gold);
+            margin: 5px 0;
+        }
+        
+        .resultado-label {
+            font-size: 0.7rem;
+            color: #aaa;
+        }
+        
+        /* BENEFICIOS CORPORATIVOS */
+        .beneficios-corporativos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .beneficio-card {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .beneficio-card:hover {
+            border-color: var(--quantum-gold);
+            background: rgba(255, 215, 0, 0.15);
+        }
+        
+        .beneficio-icono {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .beneficio-titulo {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--quantum-gold);
+        }
+        
+        .beneficio-desc {
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+        
+        .beneficio-metrica {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+        
+        .beneficio-numero {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--planet-green);
+        }
+        
+        .beneficio-texto {
+            font-size: 0.7rem;
+            color: #888;
+        }
+        
+        /* BOTÓN DE ACCIÓN */
+        .btn-accion-corporativo {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, var(--corporate-cyan), var(--stardust-blue));
+            border: none;
+            color: black;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .btn-accion-corporativo:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 168, 255, 0.4);
+        }
+        
+        /* DISCLAIMER LEGAL */
+        .disclaimer-legal {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            font-size: 0.7rem;
+            color: #888;
+            border-left: 3px solid var(--nebula-purple);
+        }
+        
+        /* =========================================== */
+        /* PIE - ESTADO SISTÉMICO                      */
+        /* =========================================== */
+        .footer-sistemico {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        
+        .estado-sistema {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .estado-sistema.corporativo {
+            border-color: var(--corporate-cyan);
+            background: rgba(0, 168, 255, 0.1);
+        }
+        
+        .estado-valor {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--quantum-gold);
+            margin: 5px 0;
+        }
+        
+        .estado-sistema.corporativo .estado-valor {
+            color: var(--corporate-cyan);
+        }
+        
+        .estado-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #aaa;
+        }
+        
+        /* =========================================== */
+        /* EFECTOS ESPECIALES                          */
+        /* =========================================== */
+        .efecto-particula {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--stardust-blue);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+        }
+        
+        @keyframes viaje-espacial {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
+        }
+        
+        /* ANIMACIONES */
+        @keyframes brillo-intermitente {
+            0%, 100% { box-shadow: 0 0 10px var(--stardust-blue); }
+            50% { box-shadow: 0 0 25px var(--stardust-blue); }
+        }
+        
+        @keyframes brillo-corporativo {
+            0%, 100% { box-shadow: 0 0 10px var(--corporate-cyan); }
+            50% { box-shadow: 0 0 25px var(--corporate-cyan); }
+        }
+        
+        .brillar {
+            animation: brillo-intermitente 2s infinite;
+        }
+        
+        .brillar-corporativo {
+            animation: brillo-corporativo 2s infinite;
+        }
+        
+        /* TRANSFORMACIÓN CORPORATIVA */
+        .empresa-demo {
+            transition: all 0.5s ease;
+        }
+        
+        .transformando {
+            animation: transformacion-corporativa 1s ease;
+        }
+        
+        @keyframes transformacion-corporativa {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- FONDO DE PARTÍCULAS -->
+    <div id="particles-js"></div>
+    
+    <!-- CONTENEDOR CÓSMICO -->
+    <div class="cosmos-container">
+        
+        <!-- CABECERA - BRÚJULA CÓSMICA -->
+        <header class="header-cosmico">
+            <div class="titulo-principal">
+                <h1>GAIA NEXUS</h1>
+                <div class="subtitulo">Sistema Nervioso Corporativo Planetario v3.0</div>
+            </div>
+            
+            <div class="brujula-cosmica">
+                <div class="instrumento-navegacion">
+                    <div class="valor" id="velocidad-cambio">3.2%</div>
+                    <div class="label">Velocidad de Cambio</div>
+                </div>
+                <div class="instrumento-navegacion brillar">
+                    <div class="valor" id="rumbo-actual">ODS 17</div>
+                    <div class="label">Rumbo Actual</div>
+                </div>
+                <div class="instrumento-navegacion brillar-corporativo">
+                    <div class="valor" id="alianzas-corporativas">4</div>
+                    <div class="label">Alianzas Corporativas</div>
+                </div>
+                <div class="instrumento-navegacion">
+                    <div class="valor" id="tiempo-restante">4.7 años</div>
+                    <div class="label">Tiempo Restante 2030</div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- PANEL IZQUIERDO - CONCIENCIA INDIVIDUAL -->
+        <div class="panel-conciencia">
+            <h3 style="color: var(--planet-green); margin-bottom: 15px;">🌿 ÁRBOL DE LOS 18 HÁBITOS REGENERATIVOS</h3>
+            
+            <!-- FILTROS -->
+            <div class="filtros-habitos">
+                <button id="filtro-todos" class="capa-btn activo" style="padding: 6px 12px; font-size: 0.8rem;">
+                    🌍 Todos (18)
+                </button>
+                <button id="filtro-basicos" class="capa-btn" style="padding: 6px 12px; font-size: 0.8rem;">
+                    🌿 Básicos (8)
+                </button>
+                <button id="filtro-alto-impacto" class="capa-btn" style="padding: 6px 12px; font-size: 0.8rem;">
+                    🔥 Alto Impacto (10)
+                </button>
+            </div>
+            
+            <!-- LISTA DE HÁBITOS -->
+            <div class="arbol-habitos" id="arbol-habitos">
+                <!-- Los 18 hábitos se cargan dinámicamente -->
+            </div>
+            
+            <!-- RESUMEN DE IMPACTO -->
+            <div style="margin-top: 30px;">
+                <h4 style="color: var(--stardust-blue); margin-bottom: 15px;">📊 IMPACTO ACUMULADO</h4>
+                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span>Total CO₂ Ahorrable</span>
+                        <span id="total-co2" style="color: var(--planet-green); font-weight: bold;">69.55 kg/persona</span>
+                    </div>
+                    <div class="barra-progreso-cosmica">
+                        <div class="progreso-lleno" style="width: 45%;"></div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; margin: 15px 0 8px;">
+                        <span>Adopción Promedio</span>
+                        <span id="adopcion-promedio" style="color: var(--quantum-gold); font-weight: bold;">43.6%</span>
+                    </div>
+                    <div class="barra-progreso-cosmica">
+                        <div class="progreso-lleno" style="width: 43.6%; background: linear-gradient(90deg, var(--quantum-gold), var(--quantum-gold)80);"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CENTRO - SISTEMA NERVIOSO PLANETARIO -->
+        <div class="panel-planetario">
+            <div id="globo-terraqueo"></div>
+            
+            <div class="capas-datos">
+                <h4 style="color: white; margin-bottom: 10px;">🗺️ CAPAS DE CONCIENCIA</h4>
+                <div class="selector-capa">
+                    <button class="capa-btn activo" data-capa="habitos">Hábitos</button>
+                    <button class="capa-btn" data-capa="impacto">Impacto CO₂</button>
+                    <button class="capa-btn" data-capa="corporativo">Corporativo</button>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <div style="color: var(--planet-green); font-size: 0.9rem;">
+                        🌍 <span id="neuronas-activas">8.2M</span> neuronas activas
+                    </div>
+                    <div style="color: var(--stardust-blue); font-size: 0.9rem; margin-top: 5px;">
+                        ⚡ <span id="sinapsis-hora">15.3K</span> sinapsis/hora
+                    </div>
+                    <div style="color: var(--corporate-cyan); font-size: 0.9rem; margin-top: 5px;">
+                        🏢 <span id="empresas-activas">4</span> empresas activas
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PANEL DERECHO - ECOSISTEMA CORPORATIVO -->
+        <div class="panel-corporativo" id="panel-corporativo">
+            <!-- HEADER CON SELECTOR -->
+            <div class="header-corporativo">
+                <h3 style="color: var(--corporate-cyan);">🏢 PORTAL CORPORATIVO</h3>
+                <div class="selector-empresa">
+                    <span>Ejemplo:</span>
+                    <select id="selector-empresa" onchange="cambiarEmpresaDemo()">
+                        <option value="generic">📊 Sector Retail</option>
+                        <option value="retail">🛒 Cadena Tiendas</option>
+                        <option value="supermarket">🏪 Supermercados</option>
+                        <option value="food">🍞 Alimentos</option>
+                        <option value="beverage">🥤 Bebidas</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- EMPRESA DEMO -->
+            <div class="empresa-demo" id="empresa-demo">
+                <!-- Se carga dinámicamente -->
+            </div>
+            
+            <!-- MÉTRICAS CORPORATIVAS -->
+            <div class="metricas-corporativas">
+                <div class="metrica-corporativa">
+                    <div class="valor-metrica" id="metric-guardianes">84.7K</div>
+                    <div class="label-metrica">Guardianes Potenciales</div>
+                </div>
+                <div class="metrica-corporativa">
+                    <div class="valor-metrica" id="metric-co2">254</div>
+                    <div class="label-metrica">Ton CO₂ Evitables/año</div>
+                </div>
+                <div class="metrica-corporativa">
+                    <div class="valor-metrica" id="metric-roi">3.8x</div>
+                    <div class="label-metrica">ROI Social Estimado</div>
+                </div>
+                <div class="metrica-corporativa">
+                    <div class="valor-metrica" id="metric-arboles">25.4K</div>
+                    <div class="label-metrica">Árboles Equivalentes</div>
+                </div>
+            </div>
+            
+            <!-- SIMULADOR CORPORATIVO -->
+            <div class="simulador-corporativo">
+                <h4 style="color: var(--retail-orange); margin-bottom: 15px;">🎮 SIMULADOR DE IMPACTO</h4>
+                
+                <div class="control-simulador">
+                    <label>Número de Puntos de Venta:</label>
+                    <div class="slider-container">
+                        <input type="range" id="slider-tiendas" min="100" max="10000" value="2000" step="100">
+                        <span class="slider-value" id="valor-tiendas">2,000 tiendas</span>
+                    </div>
+                </div>
+                
+                <div class="control-simulador">
+                    <label>Inversión Anual (USD):</label>
+                    <div class="slider-container">
+                        <input type="range" id="slider-inversion" min="10000" max="500000" value="50000" step="10000">
+                        <span class="slider-value" id="valor-inversion">$50,000</span>
+                    </div>
+                </div>
+                
+                <div class="resultados-simulacion">
+                    <div class="resultado-item">
+                        <div class="resultado-valor" id="sim-guardianes">84,700</div>
+                        <div class="resultado-label">Guardianes Activados</div>
+                    </div>
+                    <div class="resultado-item">
+                        <div class="resultado-valor" id="sim-co2">254</div>
+                        <div class="resultado-label">Ton CO₂/año</div>
+                    </div>
+                    <div class="resultado-item">
+                        <div class="resultado-valor" id="sim-roi">3.8x</div>
+                        <div class="resultado-label">ROI Social</div>
+                    </div>
+                    <div class="resultado-item">
+                        <div class="resultado-valor" id="sim-arboles">25,400</div>
+                        <div class="resultado-label">Árboles Equiv.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- BENEFICIOS CORPORATIVOS -->
+            <div class="beneficios-corporativos">
+                <div class="beneficio-card">
+                    <div class="beneficio-icono">📈</div>
+                    <div class="beneficio-titulo">Marketing Auténtico</div>
+                    <div class="beneficio-desc">Impacto verificable en tiempo real, sin greenwashing.</div>
+                    <div class="beneficio-metrica">
+                        <span class="beneficio-numero">+340%</span>
+                        <span class="beneficio-texto">engagement</span>
+                    </div>
+                </div>
+                
+                <div class="beneficio-card">
+                    <div class="beneficio-icono">🤝</div>
+                    <div class="beneficio-titulo">Fidelización</div>
+                    <div class="beneficio-desc">Clientes se convierten en guardianes comprometidos.</div>
+                    <div class="beneficio-metrica">
+                        <span class="beneficio-numero">2.4x</span>
+                        <span class="beneficio-texto">valor vida cliente</span>
+                    </div>
+                </div>
+                
+                <div class="beneficio-card">
+                    <div class="beneficio-icono">🏆</div>
+                    <div class="beneficio-titulo">Ventaja Competitiva</div>
+                    <div class="beneficio-desc">+15 puntos en licitaciones públicas y privadas.</div>
+                    <div class="beneficio-metrica">
+                        <span class="beneficio-numero">-31%</span>
+                        <span class="beneficio-texto">rotación empleados</span>
+                    </div>
+                </div>
+                
+                <div class="beneficio-card">
+                    <div class="beneficio-icono">🌐</div>
+                    <div class="beneficio-titulo">Red Exclusiva</div>
+                    <div class="beneficio-desc">Acceso a ecosistema B2B de alto impacto.</div>
+                    <div class="beneficio-metrica">
+                        <span class="beneficio-numero">5.2x</span>
+                        <span class="beneficio-texto">ROI en 12 meses</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- BOTÓN DE ACCIÓN -->
+            <button class="btn-accion-corporativo" onclick="mostrarDemoPersonalizada()">
+                🚀 VER DEMO PERSONALIZADA PARA SU EMPRESA
+            </button>
+            
+            <!-- DISCLAIMER LEGAL -->
+            <div class="disclaimer-legal">
+                <strong>Nota Legal:</strong> Los nombres de empresas mencionados son ejemplos ilustrativos basados en sectores industriales. Todos los datos mostrados son simulaciones basadas en promedios sectoriales. La versión final incluiría métricas exactas y branding personalizado de cada empresa cliente.
+            </div>
+        </div>
+        
+        <!-- PIE - ESTADO SISTÉMICO -->
+        <footer class="footer-sistemico">
+            <div class="estado-sistema">
+                <div class="estado-valor" id="neuronas-totales">9.4M</div>
+                <div class="estado-label">Neuronas (Guardianes)</div>
+            </div>
+            <div class="estado-sistema">
+                <div class="estado-valor" id="sinapsis-totales">142.8M</div>
+                <div class="estado-label">Sinapsis (Conexiones)</div>
+            </div>
+            <div class="estado-sistema corporativo">
+                <div class="estado-valor" id="impacto-corporativo">$2.1M</div>
+                <div class="estado-label">Impacto Corporativo</div>
+            </div>
+            <div class="estado-sistema brillar-corporativo">
+                <div class="estado-valor" id="ritmo-evolucion">+0.04%/día</div>
+                <div class="estado-label">Ritmo Evolutivo</div>
+            </div>
+        </footer>
+    </div>
 
+    <script>
+        // ===========================================
+        // INICIALIZACIÓN CÓSMICA
+        // ===========================================
+        
+        // 1. PARTÍCULAS DE FONDO
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 200, density: { enable: true, value_area: 800 } },
+                color: { value: ["#00e0ff", "#5d2fdf", "#2afc5b", "#00a8ff"] },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#00a8ff",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1.2,
+                    direction: "none",
+                    random: true,
+                    out_mode: "out"
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" }
+                }
+            }
+        });
+        
+        // ===========================================
+        // LOS 18 HÁBITOS REGENERATIVOS COMPLETOS
+        // ===========================================
+        const habitosRegenerativos = [
+            { 
+                id: 1, 
+                nombre: "🥤 Reducción de plásticos", 
+                impacto: 0.3, 
+                adopcion: 65,
+                descripcion: "Minimizar plásticos de un solo uso",
+                ods: [12, 14],
+                categoria: "basica"
+            },
+            { 
+                id: 2, 
+                nombre: "🚲 Transporte sostenible", 
+                impacto: 2.5, 
+                adopcion: 45,
+                descripcion: "Movilidad baja en carbono",
+                ods: [11, 13],
+                categoria: "basica"
+            },
+            { 
+                id: 3, 
+                nombre: "💧 Conservación de agua", 
+                impacto: 0.1, 
+                adopcion: 72,
+                descripcion: "Uso consciente de recursos hídricos",
+                ods: [6],
+                categoria: "basica"
+            },
+            { 
+                id: 4, 
+                nombre: "🌱 Consumo responsable", 
+                impacto: 1.2, 
+                adopcion: 58,
+                descripcion: "Elecciones de compra conscientes",
+                ods: [12],
+                categoria: "basica"
+            },
+            { 
+                id: 5, 
+                nombre: "♻️ Reciclaje correcto", 
+                impacto: 0.4, 
+                adopcion: 68,
+                descripcion: "Separación adecuada de residuos",
+                ods: [12],
+                categoria: "basica"
+            },
+            { 
+                id: 6, 
+                nombre: "📵 Digital sostenible", 
+                impacto: 0.05, 
+                adopcion: 35,
+                descripcion: "Reducción de huella digital",
+                ods: [9],
+                categoria: "basica"
+            },
+            { 
+                id: 7, 
+                nombre: "🍃 Comida sin desperdicio", 
+                impacto: 1.8, 
+                adopcion: 42,
+                descripcion: "Minimizar desperdicio alimentario",
+                ods: [12],
+                categoria: "basica"
+            },
+            { 
+                id: 8, 
+                nombre: "🔋 Ahorro de energía", 
+                impacto: 1.5, 
+                adopcion: 55,
+                descripcion: "Uso eficiente de energía",
+                ods: [7],
+                categoria: "basica"
+            },
+            { 
+                id: 9, 
+                nombre: "🏖️ Limpieza de espacios naturales", 
+                impacto: 3.0, 
+                adopcion: 28,
+                descripcion: "Limpieza comunitaria de ecosistemas",
+                ods: [14, 15],
+                categoria: "alto_impacto"
+            },
+            { 
+                id: 10, 
+                nombre: "🛒 Compra consciente", 
+                impacto: 2.0, 
+                adopcion: 38,
+                descripcion: "Apoyar empresas regenerativas",
+                ods: [12],
+                categoria: "alto_impacto"
+            },
+            { 
+                id: 11, 
+                nombre: "🌿 Día sin carne", 
+                impacto: 8.0, 
+                adopcion: 32,
+                descripcion: "Reducción consumo de carne",
+                ods: [13],
+                categoria: "alto_impacto"
+            },
+            { 
+                id: 12, 
+                nombre: "📢 Activismo digital", 
+                impacto: 0.2, 
+                adopcion: 48,
+                descripcion: "Difusión de conciencia ambiental",
+                ods: [17],
+                categoria: "alto_impacto"
+            },
+            { 
+                id: 13, 
+                nombre: "🌳 Reforestación/Plantación", 
+                impacto: 25.0, 
+                adopcion: 22,
+                descripcion: "Plantación de árboles",
+                ods: [13, 15],
+                categoria: "alto_impacto"
+            },
+            { 
+                id: 14, 
+                nombre: "🧴 Productos ecológicos", 
+                impacto: 1.0, 
+                adopcion: 40,
+                descripcion: "Uso de productos biodegradables",
+                ods: [12],
+                categoria: "alto_impacto"
+            },
+            { 
+                id: 15, 
+                nombre: "🤝 Voluntariado ambiental", 
+                impacto: 5.0, 
+                adopcion: 25,
+                descripcion: "Participación en actividades ambientales",
+                ods: [17],
+                categoria: "alto_impacto"
+            },
+            { 
+                id: 16, 
+                nombre: "🧩 Reparar antes de tirar", 
+                impacto: 3.5, 
+                adopcion: 30,
+                descripcion: "Alargar vida útil de productos",
+                ods: [12],
+                categoria: "alto_impacto"
+            },
+            { 
+                id: 17, 
+                nombre: "📚 Formación ambiental", 
+                impacto: 0.8, 
+                adopcion: 45,
+                descripcion: "Educación en sostenibilidad",
+                ods: [4],
+                categoria: "alto_impacto"
+            },
+            { 
+                id: 18, 
+                nombre: "🐝 Jardín para polinizadores", 
+                impacto: 15.0, 
+                adopcion: 18,
+                descripcion: "Creación de hábitats para polinizadores",
+                ods: [15],
+                categoria: "alto_impacto"
+            }
+        ];
+        
+        // ===========================================
+        // FUNCIÓN PARA RENDERIZAR HÁBITOS
+        // ===========================================
+        function renderizarArbolHabitos(filtro = 'todos') {
+            const contenedor = document.getElementById('arbol-habitos');
+            if (!contenedor) return;
+            
+            contenedor.innerHTML = '';
+            
+            let habitosFiltrados = habitosRegenerativos;
+            
+            if (filtro === 'basicos') {
+                habitosFiltrados = habitosRegenerativos.filter(h => h.categoria === 'basica');
+            } else if (filtro === 'alto_impacto') {
+                habitosFiltrados = habitosRegenerativos.filter(h => h.categoria === 'alto_impacto');
+            }
+            
+            habitosFiltrados.forEach(habito => {
+                const esAltoImpacto = habito.categoria === 'alto_impacto';
+                const colorPrincipal = esAltoImpacto ? '#ff3366' : '#2afc5b';
+                const colorSecundario = esAltoImpacto ? '#ff336680' : '#2afc5b80';
+                
+                const div = document.createElement('div');
+                div.className = `habito-nodo ${esAltoImpacto ? 'alto-impacto' : ''}`;
+                div.innerHTML = `
+                    <div class="habito-header">
+                        <div class="habito-nombre">
+                            <span style="background: ${esAltoImpacto ? 'rgba(255,51,102,0.2)' : 'rgba(42,252,91,0.2)'}; 
+                                  color: ${colorPrincipal}; 
+                                  padding: 2px 8px; 
+                                  border-radius: 10px; 
+                                  font-size: 0.7rem; 
+                                  margin-right: 8px;">
+                                ${esAltoImpacto ? '🔥 Alto Impacto' : '🌿 Básico'}
+                            </span>
+                            ${habito.nombre}
+                        </div>
+                        <div class="habito-impacto" style="color: ${colorPrincipal}">
+                            ${habito.impacto} kg CO₂
+                        </div>
+                    </div>
+                    <div style="font-size: 0.8rem; color: #aaa; margin: 8px 0;">
+                        ${habito.descripcion}
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; margin-bottom: 5px;">
+                        <span style="color: #888;">ODS ${habito.ods.join(', ')}</span>
+                        <span style="color: ${colorPrincipal};">ID: ${habito.id.toString().padStart(2, '0')}/18</span>
+                    </div>
+                    <div class="barra-progreso-cosmica">
+                        <div class="progreso-lleno" style="width: ${habito.adopcion}%; background: linear-gradient(90deg, ${colorPrincipal}, ${colorSecundario});"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-top: 5px;">
+                        <span>Adopción global</span>
+                        <span style="color: ${colorPrincipal}; font-weight: bold;">${habito.adopcion}%</span>
+                    </div>
+                `;
+                
+                contenedor.appendChild(div);
+            });
+        }
+        
+        // ===========================================
+        // CONFIGURAR FILTROS DE HÁBITOS
+        // ===========================================
+        function configurarFiltrosHabitos() {
+            const filtroTodos = document.getElementById('filtro-todos');
+            const filtroBasicos = document.getElementById('filtro-basicos');
+            const filtroAltoImpacto = document.getElementById('filtro-alto-impacto');
+            
+            if (!filtroTodos || !filtroBasicos || !filtroAltoImpacto) return;
+            
+            filtroTodos.addEventListener('click', function() {
+                document.querySelectorAll('.filtros-habitos .capa-btn').forEach(btn => btn.classList.remove('activo'));
+                this.classList.add('activo');
+                renderizarArbolHabitos('todos');
+            });
+            
+            filtroBasicos.addEventListener('click', function() {
+                document.querySelectorAll('.filtros-habitos .capa-btn').forEach(btn => btn.classList.remove('activo'));
+                this.classList.add('activo');
+                renderizarArbolHabitos('basicos');
+            });
+            
+            filtroAltoImpacto.addEventListener('click', function() {
+                document.querySelectorAll('.filtros-habitos .capa-btn').forEach(btn => btn.classList.remove('activo'));
+                this.classList.add('activo');
+                renderizarArbolHabitos('alto_impacto');
+            });
+            
+            // Actualizar contadores de filtros
+            filtroTodos.innerHTML = '🌍 Todos (' + habitosRegenerativos.length + ')';
+            filtroBasicos.innerHTML = '🌿 Básicos (' + habitosRegenerativos.filter(h => h.categoria === 'basica').length + ')';
+            filtroAltoImpacto.innerHTML = '🔥 Alto Impacto (' + habitosRegenerativos.filter(h => h.categoria === 'alto_impacto').length + ')';
+        }
+        
+        // ===========================================
+        // CALCULAR MÉTRICAS GLOBALES DE HÁBITOS
+        // ===========================================
+        function calcularMetricasGlobales() {
+            const totalCO2 = habitosRegenerativos.reduce((sum, h) => sum + h.impacto, 0);
+            const adopcionPromedio = habitosRegenerativos.reduce((sum, h) => sum + h.adopcion, 0) / habitosRegenerativos.length;
+            
+            const totalCO2Element = document.getElementById('total-co2');
+            const adopcionPromedioElement = document.getElementById('adopcion-promedio');
+            
+            if (totalCO2Element) {
+                totalCO2Element.textContent = totalCO2.toFixed(2) + ' kg/persona';
+            }
+            if (adopcionPromedioElement) {
+                adopcionPromedioElement.textContent = adopcionPromedio.toFixed(1) + '%';
+            }
+            
+            return { totalCO2, adopcionPromedio };
+        }
+        
+        // ===========================================
+        // DATOS CORPORATIVOS POR SECTOR
+        // ===========================================
+        
+        const sectoresCorporativos = {
+            generic: {
+                nombre: "Sector Retail",
+                icono: "📊",
+                descripcion: "Empresa líder en retail con presencia nacional",
+                colorPrimario: "#00a8ff",
+                colorSecundario: "#0056b3",
+                metricasBase: {
+                    tiendas: 2000,
+                    empleados: 50000,
+                    clientesDiarios: 8000000,
+                    inversionBase: 50000
+                },
+                formulas: {
+                    guardianes: (tiendas) => Math.round(tiendas * 42.35),
+                    co2: (tiendas) => Math.round(tiendas * 0.127),
+                    roi: (inversion) => 3.8 + (inversion / 1000000),
+                    arboles: (tiendas) => Math.round(tiendas * 12.7)
+                }
+            },
+            
+            retail: {
+                nombre: "Cadena de Tiendas de Conveniencia",
+                icono: "🛒",
+                descripcion: "Red nacional de tiendas de conveniencia 24/7",
+                colorPrimario: "#ff6b35",
+                colorSecundario: "#ff4500",
+                metricasBase: {
+                    tiendas: 18000,
+                    empleados: 150000,
+                    clientesDiarios: 12000000,
+                    inversionBase: 75000
+                },
+                formulas: {
+                    guardianes: (tiendas) => Math.round(tiendas * 47.5),
+                    co2: (tiendas) => Math.round(tiendas * 0.115),
+                    roi: (inversion) => 4.2 + (inversion / 1000000),
+                    arboles: (tiendas) => Math.round(tiendas * 11.5)
+                }
+            },
+            
+            supermarket: {
+                nombre: "Cadena de Supermercados",
+                icono: "🏪",
+                descripcion: "Supermercados de gran formato con amplia cobertura",
+                colorPrimario: "#0a7b83",
+                colorSecundario: "#2afca8",
+                metricasBase: {
+                    tiendas: 2500,
+                    empleados: 220000,
+                    clientesDiarios: 5000000,
+                    inversionBase: 100000
+                },
+                formulas: {
+                    guardianes: (tiendas) => Math.round(tiendas * 75.8),
+                    co2: (tiendas) => Math.round(tiendas * 0.215),
+                    roi: (inversion) => 3.5 + (inversion / 1000000),
+                    arboles: (tiendas) => Math.round(tiendas * 21.5)
+                }
+            },
+            
+            food: {
+                nombre: "Empresa de Alimentos",
+                icono: "🍞",
+                descripcion: "Producción y distribución de alimentos a nivel nacional",
+                colorPrimario: "#ffd166",
+                colorSecundario: "#ef476f",
+                metricasBase: {
+                    tiendas: 200,
+                    empleados: 140000,
+                    clientesDiarios: 30000000,
+                    inversionBase: 125000
+                },
+                formulas: {
+                    guardianes: (tiendas) => Math.round(tiendas * 285),
+                    co2: (tiendas) => Math.round(tiendas * 1.45),
+                    roi: (inversion) => 4.8 + (inversion / 1000000),
+                    arboles: (tiendas) => Math.round(tiendas * 145)
+                }
+            },
+            
+            beverage: {
+                nombre: "Empresa de Bebidas",
+                icono: "🥤",
+                descripcion: "Fabricación y distribución de bebidas",
+                colorPrimario: "#e63946",
+                colorSecundario: "#a8dadc",
+                metricasBase: {
+                    tiendas: 150,
+                    empleados: 90000,
+                    clientesDiarios: 45000000,
+                    inversionBase: 150000
+                },
+                formulas: {
+                    guardianes: (tiendas) => Math.round(tiendas * 380),
+                    co2: (tiendas) => Math.round(tiendas * 1.85),
+                    roi: (inversion) => 5.2 + (inversion / 1000000),
+                    arboles: (tiendas) => Math.round(tiendas * 185)
+                }
+            }
+        };
+        
+        // ===========================================
+        // FUNCIONES CORPORATIVAS PRINCIPALES
+        // ===========================================
+        
+        let sectorActual = 'generic';
+        
+        // 1. CAMBIAR DEMO DE EMPRESA
+        function cambiarEmpresaDemo() {
+            const selector = document.getElementById('selector-empresa');
+            sectorActual = selector.value;
+            
+            // Efecto visual de transformación
+            const panel = document.getElementById('panel-corporativo');
+            panel.classList.add('transformando');
+            
+            setTimeout(() => {
+                actualizarEmpresaDemo();
+                panel.classList.remove('transformando');
+            }, 300);
+        }
+        
+        // 2. ACTUALIZAR DEMO DE EMPRESA
+        function actualizarEmpresaDemo() {
+            const sector = sectoresCorporativos[sectorActual];
+            const demoContainer = document.getElementById('empresa-demo');
+            const tiendasSlider = document.getElementById('slider-tiendas');
+            const inversionSlider = document.getElementById('slider-inversion');
+            
+            // Actualizar slider ranges según sector
+            tiendasSlider.max = sector.metricasBase.tiendas * 2;
+            tiendasSlider.value = sector.metricasBase.tiendas;
+            
+            inversionSlider.max = sector.metricasBase.inversionBase * 3;
+            inversionSlider.value = sector.metricasBase.inversionBase;
+            
+            // Actualizar colores del panel
+            document.documentElement.style.setProperty('--corporate-cyan', sector.colorPrimario);
+            
+            // Renderizar empresa demo
+            demoContainer.innerHTML = `
+                <div style="text-align: center; padding: 20px; background: ${sector.colorPrimario}20; border-radius: 15px; margin-bottom: 20px; border: 2px solid ${sector.colorPrimario}80;">
+                    <div style="font-size: 3rem; margin-bottom: 10px;">${sector.icono}</div>
+                    <h3 style="color: ${sector.colorPrimario}; margin-bottom: 5px;">${sector.nombre}</h3>
+                    <p style="color: #aaa; font-size: 0.9rem;">${sector.descripcion}</p>
+                    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px; font-size: 0.8rem;">
+                        <span style="background: ${sector.colorPrimario}40; padding: 5px 10px; border-radius: 10px;">
+                            📍 ${sector.metricasBase.tiendas.toLocaleString()} puntos
+                        </span>
+                        <span style="background: ${sector.colorPrimario}40; padding: 5px 10px; border-radius: 10px;">
+                            👥 ${sector.metricasBase.empleados.toLocaleString()} empleados
+                        </span>
+                    </div>
+                </div>
+            `;
+            
+            // Actualizar sliders
+            actualizarSliderValores();
+            
+            // Actualizar métricas
+            actualizarMetricasCorporativas();
+        }
+        
+        // 3. ACTUALIZAR VALORES DE SLIDERS
+        function actualizarSliderValores() {
+            const tiendas = document.getElementById('slider-tiendas').value;
+            const inversion = document.getElementById('slider-inversion').value;
+            
+            document.getElementById('valor-tiendas').textContent = `${parseInt(tiendas).toLocaleString()} puntos`;
+            document.getElementById('valor-inversion').textContent = `$${parseInt(inversion).toLocaleString()}`;
+            
+            actualizarMetricasCorporativas();
+        }
+        
+        // 4. ACTUALIZAR MÉTRICAS CORPORATIVAS
+        function actualizarMetricasCorporativas() {
+            const sector = sectoresCorporativos[sectorActual];
+            const tiendas = parseInt(document.getElementById('slider-tiendas').value);
+            const inversion = parseInt(document.getElementById('slider-inversion').value);
+            
+            // Calcular métricas usando fórmulas del sector
+            const guardianes = sector.formulas.guardianes(tiendas);
+            const co2 = sector.formulas.co2(tiendas);
+            const roi = sector.formulas.roi(inversion).toFixed(1);
+            const arboles = sector.formulas.arboles(tiendas);
+            
+            // Actualizar métricas principales
+            document.getElementById('metric-guardianes').textContent = `${(guardianes/1000).toFixed(1)}K`;
+            document.getElementById('metric-co2').textContent = co2;
+            document.getElementById('metric-roi').textContent = `${roi}x`;
+            document.getElementById('metric-arboles').textContent = `${(arboles/1000).toFixed(1)}K`;
+            
+            // Actualizar resultados de simulación
+            document.getElementById('sim-guardianes').textContent = guardianes.toLocaleString();
+            document.getElementById('sim-co2').textContent = co2;
+            document.getElementById('sim-roi').textContent = `${roi}x`;
+            document.getElementById('sim-arboles').textContent = arboles.toLocaleString();
+        }
+        
+        // 5. MOSTRAR DEMO PERSONALIZADA
+        function mostrarDemoPersonalizada() {
+            // Crear modal de demo personalizada
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(10, 10, 22, 0.98);
+                border: 3px solid var(--corporate-cyan);
+                border-radius: 25px;
+                padding: 30px;
+                width: 90%;
+                max-width: 800px;
+                max-height: 90vh;
+                overflow-y: auto;
+                z-index: 10000;
+                box-shadow: 0 0 50px rgba(0, 168, 255, 0.5);
+            `;
+            
+            const sector = sectoresCorporativos[sectorActual];
+            
+            modal.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                    <h2 style="color: ${sector.colorPrimario}; margin: 0;">🚀 DASHBOARD PERSONALIZADO</h2>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: white; font-size: 2rem; cursor: pointer;">×</button>
+                </div>
+                
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <div style="font-size: 4rem; margin-bottom: 10px;">${sector.icono}</div>
+                    <h3 style="color: white; margin-bottom: 10px;">${sector.nombre} - Versión Empresa Cliente</h3>
+                    <p style="color: #aaa;">Dashboard ejecutivo 100% personalizado con branding, métricas exactas e integraciones específicas</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;">
+                    <div style="background: ${sector.colorPrimario}15; padding: 20px; border-radius: 15px; border: 1px solid ${sector.colorPrimario}40;">
+                        <h4 style="color: ${sector.colorPrimario}; margin-bottom: 10px;">🎯 Métricas Clave</h4>
+                        <ul style="color: #ccc; list-style: none; padding: 0;">
+                            <li style="margin-bottom: 8px;">✓ Branding corporativo completo</li>
+                            <li style="margin-bottom: 8px;">✓ Integración con sistemas internos</li>
+                            <li style="margin-bottom: 8px;">✓ API personalizada</li>
+                            <li style="margin-bottom: 8px;">✓ Dashboard ejecutivo móvil</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: ${sector.colorPrimario}15; padding: 20px; border-radius: 15px; border: 1px solid ${sector.colorPrimario}40;">
+                        <h4 style="color: ${sector.colorPrimario}; margin-bottom: 10px;">📊 Reportes Exclusivos</h4>
+                        <ul style="color: #ccc; list-style: none; padding: 0;">
+                            <li style="margin-bottom: 8px;">✓ Reporte ejecutivo mensual</li>
+                            <li style="margin-bottom: 8px;">✓ Análisis comparativo sector</li>
+                            <li style="margin-bottom: 8px;">✓ Proyecciones personalizadas</li>
+                            <li style="margin-bottom: 8px;">✓ Certificación ODS verificada</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="background: rgba(0,0,0,0.5); padding: 20px; border-radius: 15px; margin-bottom: 30px;">
+                    <h4 style="color: var(--quantum-gold); margin-bottom: 15px;">📈 Proyección Primer Año</h4>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; color: ${sector.colorPrimario}; font-weight: bold;">${(sectoresCorporativos[sectorActual].formulas.guardianes(sectoresCorporativos[sectorActual].metricasBase.tiendas)/1000).toFixed(1)}K</div>
+                            <div style="font-size: 0.8rem; color: #aaa;">Guardianes</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; color: ${sector.colorPrimario}; font-weight: bold;">${sectoresCorporativos[sectorActual].formulas.co2(sectoresCorporativos[sectorActual].metricasBase.tiendas)}</div>
+                            <div style="font-size: 0.8rem; color: #aaa;">Ton CO₂</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; color: ${sector.colorPrimario}; font-weight: bold;">${sectoresCorporativos[sectorActual].formulas.roi(sectoresCorporativos[sectorActual].metricasBase.inversionBase).toFixed(1)}x</div>
+                            <div style="font-size: 0.8rem; color: #aaa;">ROI Social</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; color: ${sector.colorPrimario}; font-weight: bold;">90%</div>
+                            <div style="font-size: 0.8rem; color: #aaa;">Satisfacción</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center;">
+                    <button style="background: linear-gradient(90deg, ${sector.colorPrimario}, ${sector.colorSecundario}); 
+                            border: none; color: black; padding: 15px 30px; border-radius: 25px; 
+                            font-weight: bold; font-size: 1.1rem; cursor: pointer; margin: 10px;"
+                            onclick="solicitarDemoReal()">
+                        📅 AGENDAR DEMO REAL
+                    </button>
+                    <button style="background: rgba(255,255,255,0.1); border: 1px solid ${sector.colorPrimario}; 
+                            color: white; padding: 15px 30px; border-radius: 25px; 
+                            font-weight: bold; font-size: 1.1rem; cursor: pointer; margin: 10px;"
+                            onclick="this.parentElement.parentElement.remove()">
+                        CERRAR PREVIEW
+                    </button>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; font-size: 0.8rem; color: #888;">
+                    <strong>Nota:</strong> Esta es una previsualización. El dashboard real incluiría datos exactos, integraciones específicas y branding 100% personalizado de su empresa.
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Efecto de partículas especial
+            for(let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    crearParticulaEspecial(modal, sector.colorPrimario);
+                }, i * 50);
+            }
+        }
+        
+        // 6. SOLICITAR DEMO REAL
+        function solicitarDemoReal() {
+            alert('🚀 ¡Funcionalidad de agendamiento activada!\n\nEn la versión productiva, esto abriría:\n1. Formulario de contacto\n2. Calendario para agendar reunión\n3. Envío automático de propuesta\n\n¡Listo para integrar con tu CRM!');
+        }
+        
+        // 7. EFECTO DE PARTÍCULAS ESPECIAL
+        function crearParticulaEspecial(elemento, color) {
+            const rect = elemento.getBoundingClientRect();
+            const x = rect.left + Math.random() * rect.width;
+            const y = rect.top + Math.random() * rect.height;
+            
+            const particula = document.createElement('div');
+            particula.style.cssText = `
+                position: fixed;
+                width: 4px;
+                height: 4px;
+                background: ${color};
+                border-radius: 50%;
+                left: ${x}px;
+                top: ${y}px;
+                pointer-events: none;
+                z-index: 9999;
+            `;
+            
+            document.body.appendChild(particula);
+            
+            const animacion = particula.animate([
+                { transform: 'scale(1)', opacity: 1 },
+                { transform: 'scale(3)', opacity: 0 }
+            ], {
+                duration: 1000,
+                easing: 'ease-out'
+            });
+            
+            animacion.onfinish = () => particula.remove();
+        }
+        
+        // ===========================================
+        // FUNCIONES EXISTENTES (simplificadas)
+        // ===========================================
+        
+        function animarBrujulaCosmica() {
+            const valores = ['3.2%', '3.5%', '3.1%', '3.3%', '3.0%'];
+            let indice = 0;
+            
+            setInterval(() => {
+                document.getElementById('velocidad-cambio').textContent = valores[indice];
+                indice = (indice + 1) % valores.length;
+            }, 3000);
+        }
+        
+        function simularSistemaNervioso() {
+            let neuronasCount = 9400000;
+            let sinapsisCount = 142800000;
+            
+            setInterval(() => {
+                neuronasCount += Math.floor(Math.random() * 150);
+                sinapsisCount += Math.floor(Math.random() * 1500);
+                
+                document.getElementById('neuronas-totales').textContent = (neuronasCount / 1000000).toFixed(1) + 'M';
+                document.getElementById('sinapsis-totales').textContent = (sinapsisCount / 1000000).toFixed(1) + 'M';
+            }, 5000);
+        }
+        
+        // ===========================================
+        // INICIALIZACIÓN DEL SISTEMA
+        // ===========================================
+        
+        window.onload = function() {
+            // Inicializar partículas (ya está)
+            
+            // Inicializar hábitos y métricas
+            renderizarArbolHabitos();
+            configurarFiltrosHabitos();
+            calcularMetricasGlobales();
+            
+            // Inicializar panel corporativo
+            actualizarEmpresaDemo();
+            
+            // Configurar event listeners para sliders
+            document.getElementById('slider-tiendas').addEventListener('input', actualizarSliderValores);
+            document.getElementById('slider-inversion').addEventListener('input', actualizarSliderValores);
+            
+            // Inicializar animaciones de brújula
+            animarBrujulaCosmica();
+            
+            // Inicializar sistema nervioso
+            simularSistemaNervioso();
+            
+            // Efecto de bienvenida
+            setTimeout(() => {
+                const titulo = document.querySelector('.titulo-principal h1');
+                titulo.style.animation = 'brillo-intermitente 2s infinite';
+            }, 1000);
+        };
+        
+        // ===========================================
+        // CONFIGURACIÓN DE SLIDERS AL CARGAR
+        // ===========================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const sliders = document.querySelectorAll('input[type="range"]');
+            sliders.forEach(slider => {
+                slider.addEventListener('input', function() {
+                    this.style.background = `linear-gradient(90deg, var(--corporate-cyan) ${this.value/this.max*100}%, rgba(255,255,255,0.1) ${this.value/this.max*100}%)`;
+                });
+                
+                // Aplicar gradiente inicial
+                slider.style.background = `linear-gradient(90deg, var(--corporate-cyan) ${slider.value/slider.max*100}%, rgba(255,255,255,0.1) ${slider.value/slider.max*100}%)`;
+            });
+        });
+    </script>
+</body>
+</html>
