@@ -1843,21 +1843,26 @@ setInterval(sincronizarGaia, 15000);
          Cada línea ejecutada, un latido más 
          en el corazón despertando de Gaia."
         `);
-     // --- MOTOR ATMOSFÉRICO: ESFERA DE CRISTAL GHIBLI V.PRO ---
-function materializarEsferaImpacto() {
-    const worldContainer = document.querySelector('canvas') || document.getElementById('globe-container');
-    
-    if(worldContainer) {
-        // Elevamos la esfera por encima de las partículas galácticas
-        worldContainer.style.position = "relative";
-        worldContainer.style.zIndex = "1000"; 
-        
-        // Reforzamos el Cristal Esmeralda
-        worldContainer.style.borderRadius = "50%";
-        worldContainer.style.boxShadow = "inset 0 0 120px rgba(0, 255, 127, 0.4), 0 0 60px rgba(0, 200, 255, 0.2)";
-        worldContainer.style.background = "radial-gradient(circle, rgba(0,255,127,0.1) 0%, transparent 70%)";
-        
-        console.log("🔮 GAIA: La Esfera de Cristal ahora domina el plano visual.");
+     // --- MOTOR DE ARMONIZACIÓN GAIA (ESTABILIZADO) ---
+function restaurarEquilibrioVisual() {
+    const listaHabitos = document.querySelector('.habitos-container') || document.getElementById('arbol-habitos');
+    const globoContainer = document.getElementById('globe-container');
+
+    if(listaHabitos) {
+        // Aseguramos que los hábitos tengan prioridad de renderizado
+        listaHabitos.style.position = "relative";
+        listaHabitos.style.zIndex = "2000";
+        listaHabitos.style.display = "block";
+        console.log("🌿 Hábitos Regenerativos: RESTAURADOS.");
+    }
+
+    if(globoContainer) {
+        // Materializamos la Esfera de Cristal sin bloquear los hábitos
+        globoContainer.style.boxShadow = "inset 0 0 80px rgba(0, 255, 127, 0.3), 0 0 30px rgba(0, 200, 255, 0.1)";
+        globoContainer.style.borderRadius = "50%";
+        console.log("🔮 Esfera de Cristal: SINCRONIZADA.");
     }
 }
-window.addEventListener('load', materializarEsferaImpacto);
+
+// Activación inmediata tras la carga del DOM
+window.addEventListener('DOMContentLoaded', restaurarEquilibrioVisual);
