@@ -285,15 +285,37 @@
     };
 
     // --- 3. DATOS REALES DE SUPABASE (CONEXIÓN INTERESTELAR) ---
-    async function cargarDatosReales() {
-        // A. Contar Pactos (Firmantes)
-        const { count: countFirmantes } = await supabase
-            .from('firmantes')
-            .select('*', { count: 'exact', head: true });
+async function cargarDatosReales() {
+    // A. Contar Pactos (Firmantes)
+    const { count: countFirmantes } = await supabase
+        .from('firmantes')
+        .select('*', { count: 'exact', head: true });
+    
+    if(countFirmantes) {
+        document.getElementById('real-pactos-count').innerText = countFirmantes.toLocaleString();
+    }
+
+    // B. Cargar Seguimientos para Impacto y Gráfica
+    const { data: seguimientos, error } = await supabase
+        .from('seguimiento')
+        .select('impacto_co2, fecha');
+
+    if (seguimientos) {
+        // 1. Calculamos el impacto total para la barra superior
+        const totalCO2 = seguimientos.reduce((acc, curr) => acc + (curr.impacto_co2 || 0), 0);
+        document.getElementById('display-co2').innerText = `${totalCO2.toLocaleString()} kg CO₂`;
         
-        if(countFirmantes) {
-            document.getElementById('real-pactos-count').innerText = countFirmantes.toLocaleString();
-        }
+        // 2. Actualizamos el KPI de Check-ins (Seguimiento)
+        document.getElementById('kpi-checkins').innerText = seguimientos.length.toLocaleString();
+        document.getElementById('mod-seguimiento-real').innerText = seguimientos.length.toLocaleString();
+
+        // 3. ACTIVAMOS LA GRÁFICA (Punto 6)
+        inicializarGraficaEvolucion(seguimientos); 
+        
+        // 4. ACTIVAMOS EL RADAR (Punto 5)
+        animarRadar(countFirmantes || 4);
+    }
+}
 
        // B. TRAER IMPACTO REAL DESDE 'SEGUIMIENTO' (LOS 18 HÁBITOS)
 const { data: seguimientos, error: errSeg } = await supabase
