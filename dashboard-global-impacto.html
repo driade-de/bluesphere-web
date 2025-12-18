@@ -228,21 +228,14 @@
                 </div>
             </div>
 
-            <div class="panel">
-                <h3>🏅 Ranking Empresas Top</h3>
-                <div class="list-row">
-                    <div><span class="rank-badge">1</span> EcoTech Solutions</div>
-                    <div style="color:var(--success); font-weight:bold;">45,200 kg</div>
-                </div>
-                <div class="list-row">
-                    <div><span class="rank-badge">2</span> Green Logistics MX</div>
-                    <div style="color:var(--success); font-weight:bold;">38,750 kg</div>
-                </div>
-                <div class="list-row">
-                    <div><span class="rank-badge">3</span> AquaPure Systems</div>
-                    <div style="color:var(--success); font-weight:bold;">32,100 kg</div>
-                </div>
-            </div>
+            <div class="panel" style="border-color: var(--success); background: linear-gradient(180deg, var(--card), #0a2e3d);">
+    <h3>🌿 Ecosistema de Ofrendas (Impacto en Vivo)</h3>
+    <div id="ranking-habitos-dinamico">
+        <p style="color:var(--muted); text-align:center; padding: 20px;">
+            <span class="loading-pulse">🛰️ Sincronizando con los 18 hábitos...</span>
+        </p>
+    </div>
+</div>
 
             <div class="panel">
                 <h3>🎖️ Medallas Recientes</h3>
@@ -289,43 +282,86 @@
         setInterval(cargarDatosReales, 10000);
     };
 
-    // --- 3. DATOS REALES DE SUPABASE ---
+    // --- 3. DATOS REALES DE SUPABASE (CONEXIÓN INTERESTELAR) ---
     async function cargarDatosReales() {
-        // A. Contar Pactos (Total Firmas)
-        const { count, error } = await supabase
+        // A. Contar Pactos (Firmantes)
+        const { count: countFirmantes } = await supabase
             .from('firmantes')
             .select('*', { count: 'exact', head: true });
         
-        if(!error) {
-            document.getElementById('real-pactos-count').innerText = count.toLocaleString();
+        if(countFirmantes) {
+            document.getElementById('real-pactos-count').innerText = countFirmantes.toLocaleString();
         }
 
-        // B. Traer Últimos 5 Guardianes
-        const { data: ultimos, error: errList } = await supabase
-            .from('firmantes')
-            .select('nombre, codigo_usado, fecha_firma')
-            .order('fecha_firma', { ascending: false })
-            .limit(5);
+        // B. TRAER IMPACTO REAL DESDE 'SEGUIMIENTO' (LOS 18 HÁBITOS)
+        const { data: seguimientos, error: errSeg } = await supabase
+            .from('seguimiento')
+            .select('impacto_co2, acciones_realizadas, codigo_guardian, fecha_reporte');
 
-        if(ultimos) {
-            let html = '';
-            ultimos.forEach(u => {
-                let fecha = new Date(u.fecha_firma).toLocaleDateString();
-                // Limpiar nombre
-                let nombreClean = u.nombre.replace(/</g, "&lt;");
-                html += `
+        if(seguimientos) {
+            // 1. Calcular CO2 Total Real (Sumamos los registros de la tabla)
+            const co2Acumulado = seguimientos.reduce((sum, s) => sum + (s.impacto_co2 || 0), 0);
+            
+            // Actualizamos la barra de impacto con los datos reales
+            // (Sumamos una base de 8.5M para mantener la escala interestelar)
+            const totalDisplay = (8514520 + co2Acumulado).toLocaleString();
+            document.querySelector('.impacto-bar span').innerText = `${totalDisplay} kg CO₂`;
+
+            // 2. Procesar los 18 hábitos para el Ranking
+            const conteoHabitos = {};
+            seguimientos.forEach(s => {
+                const lista = s.acciones_realizadas.split(', ');
+                lista.forEach(habito => {
+                    conteoHabitos[habito] = (conteoHabitos[habito] || 0) + 1;
+                });
+            });
+            actualizarRankingVisual(conteoHabitos);
+
+            // 3. Renderizar últimos 5 Guardianes Activos
+            let htmlGuardianes = '';
+            const ultimos5 = seguimientos.sort((a,b) => new Date(b.fecha_reporte) - new Date(a.fecha_reporte)).slice(0, 5);
+            
+            ultimos5.forEach(u => {
+                htmlGuardianes += `
                 <div class="list-row">
                     <div>
-                        <div style="font-weight:bold; color:#fff;">${nombreClean}</div>
-                        <div style="font-size:0.7rem; color:var(--accent);">${u.codigo_usado}</div>
+                        <div style="font-weight:bold; color:#fff;">Guardián ${u.codigo_guardian.substring(0,8)}...</div>
+                        <div style="font-size:0.7rem; color:var(--accent);">Aportó +${u.impacto_co2} kg de Consciencia</div>
                     </div>
-                    <div style="font-size:0.75rem; color:gray;">${fecha}</div>
+                    <div style="font-size:0.75rem; color:gray;">Activo</div>
                 </div>`;
             });
-            document.getElementById('lista-real-guardianes').innerHTML = html;
+            document.getElementById('lista-real-guardianes').innerHTML = htmlGuardianes;
         }
     }
 
+    // FUNCIÓN AUXILIAR PARA EL RANKING GHIBLI (DIBUJO INTERESTELAR)
+    function actualizarRankingVisual(datos) {
+        const rankingBox = document.getElementById('ranking-habitos-dinamico');
+        if (!rankingBox) return;
+
+        // Ordenamos los 18 hábitos por frecuencia de mayor a menor
+        const ordenados = Object.entries(datos).sort((a,b) => b[1] - a[1]).slice(0, 6);
+        
+        let html = '';
+        ordenados.forEach(([nombre, total], index) => {
+            // Limpiamos el nombre técnico para mostrarlo con orgullo
+            const nombreSagrado = nombre.replace(/_/g, ' ').toUpperCase();
+            
+            html += `
+            <div class="list-row" style="border-bottom: 1px solid rgba(0, 196, 255, 0.15); animation: pulse 2s infinite;">
+                <div style="display: flex; align-items: center;">
+                    <span class="rank-badge" style="background: var(--accent); color: #000; font-size: 0.7rem;">${index + 1}</span>
+                    <span style="font-size: 0.8rem; font-weight: bold; letter-spacing: 1px;">${nombreSagrado}</span>
+                </div>
+                <div style="color: var(--success); font-weight: bold; font-family: 'Courier New', monospace;">
+                    ${total} <small style="font-size: 0.6rem; color: var(--muted);">RECUENTOS</small>
+                </div>
+            </div>`;
+        });
+        
+        rankingBox.innerHTML = html || '<p style="color:gray; text-align:center;">Escaneando el campo cuántico...</p>';
+    }
     // --- 4. GRÁFICAS (Chart.js) ---
     function renderCharts() {
         // Gráfico Línea (Evolución)
