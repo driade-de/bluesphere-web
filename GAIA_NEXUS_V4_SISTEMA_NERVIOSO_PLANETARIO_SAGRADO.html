@@ -1843,22 +1843,28 @@ setInterval(sincronizarGaia, 15000);
          Cada línea ejecutada, un latido más 
          en el corazón despertando de Gaia."
         `);
-       // --- MOTOR VISUAL ESTABILIZADO: ESFERA GAIA ---
-function materializarEsferaImpacto() {
-    const canvasGaia = document.querySelector('canvas') || document.getElementById('globe-container');
+       // --- MOTOR ATMOSFÉRICO: ESFERA DE CRISTAL GHIBLI ---
+function estabilizarGaiaNexus() {
+    // 1. Localizamos el contenedor donde flota el mundo
+    const worldContainer = document.querySelector('canvas') || document.getElementById('globe-container');
     
-    if(canvasGaia) {
-        // Aplicamos el aura de cristal sin romper el motor 3D
-        canvasGaia.style.transition = "all 2s ease-in-out";
-        canvasGaia.style.borderRadius = "50%";
-        canvasGaia.style.boxShadow = "inset 0 0 80px rgba(0, 255, 127, 0.3), 0 0 40px rgba(0, 255, 255, 0.1)";
-        canvasGaia.style.border = "1px solid rgba(255, 255, 255, 0.1)";
-        console.log("🔮 GAIA: La Esfera de Cristal ha sido materializada.");
+    if(worldContainer) {
+        // 2. Creamos la Esfera de Cristal mediante estilos de contenedor
+        // Esto no toca el material 3D, evitando los errores de 'emissive'
+        worldContainer.style.transition = "all 3s ease-in-out";
+        worldContainer.style.borderRadius = "50%";
+        worldContainer.style.background = "radial-gradient(circle, rgba(0,255,127,0.05) 0%, rgba(0,100,255,0.1) 100%)";
+        worldContainer.style.boxShadow = "inset 0 0 100px rgba(0, 255, 127, 0.2), 0 0 50px rgba(0, 200, 255, 0.2)";
+        worldContainer.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+        
+        console.log("🔮 GAIA: Atmosfera de Cristal Ghibli materializada sin errores.");
     }
 }
 
-// Sincronización segura al cargar el Nexus
-window.addEventListener('load', materializarEsferaImpacto);
+// 3. Activación Segura: Esperamos a que todo (hábitos y globo) esté listo
+window.addEventListener('load', () => {
+    setTimeout(estabilizarGaiaNexus, 1000); // Retraso de 1s para asegurar carga
+});
 </script>
 </body>
 </html>
