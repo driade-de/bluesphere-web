@@ -293,29 +293,32 @@
             document.getElementById('real-pactos-count').innerText = countFirmantes.toLocaleString();
         }
 
-        // B. TRAER IMPACTO REAL DESDE 'SEGUIMIENTO' (LOS 18 HÁBITOS)
-        const { data: seguimientos, error: errSeg } = await supabase
-            .from('seguimiento')
-            .select('impacto_co2, acciones_realizadas, codigo_guardian, fecha_reporte');
+       // B. TRAER IMPACTO REAL DESDE 'SEGUIMIENTO' (LOS 18 HÁBITOS)
+const { data: seguimientos, error: errSeg } = await supabase
+    .from('seguimiento')
+    .select('impacto_co2, acciones_realizadas, codigo_guardian, fecha_reporte');
 
-        if(seguimientos) {
-            // 1. Calcular CO2 Total Real (Sumamos los registros de la tabla)
-            const co2Acumulado = seguimientos.reduce((sum, s) => sum + (s.impacto_co2 || 0), 0);
-            
-            // Actualizamos la barra de impacto con los datos reales
-            // (Sumamos una base de 8.5M para mantener la escala interestelar)
-            const totalDisplay = (8514520 + co2Acumulado).toLocaleString();
-            document.querySelector('.impacto-bar span').innerText = `${totalDisplay} kg CO₂`;
+if (seguimientos) {
+    // 1. Calcular CO2 Total Real (Sumamos los registros de la tabla)
+    const co2Acumulado = seguimientos.reduce((sum, s) => sum + (s.impacto_co2 || 0), 0);
+    
+    // CAMBIO CLAVE: Quitamos el "8514520" para que empiece desde CERO REAL
+    const totalDisplay = co2Acumulado.toLocaleString(); 
+    document.querySelector('.impacto-bar span').innerText = `${totalDisplay} kg CO₂`;
 
-            // 2. Procesar los 18 hábitos para el Ranking
-            const conteoHabitos = {};
-            seguimientos.forEach(s => {
-                const lista = s.acciones_realizadas.split(', ');
-                lista.forEach(habito => {
-                    conteoHabitos[habito] = (conteoHabitos[habito] || 0) + 1;
-                });
+    // 2. Procesar los 18 hábitos para el Ranking
+    const conteoHabitos = {};
+    seguimientos.forEach(s => {
+        // Validación de seguridad por si el campo está vacío
+        if (s.acciones_realizadas) {
+            const lista = s.acciones_realizadas.split(', ');
+            lista.forEach(habito => {
+                conteoHabitos[habito] = (conteoHabitos[habito] || 0) + 1;
             });
-            actualizarRankingVisual(conteoHabitos);
+        }
+    });
+    actualizarRankingVisual(conteoHabitos);
+}
 
             // 3. Renderizar últimos 5 Guardianes Activos
             let htmlGuardianes = '';
@@ -406,16 +409,27 @@
         });
     }
 
-    // --- 5. MAPA ANIMADO ---
-    function animarMapa() {
+    // --- 5. MAPA ANIMADO (Sincronizado con Guardianes Reales) ---
+    function animarMapa(totalGuardianes = 4) {
         const mapa = document.getElementById('mapaGlobal');
-        // Crear puntos aleatorios
-        for(let i=0; i<15; i++) {
+        if (!mapa) return;
+        
+        // Limpiamos puntos anteriores para la actualización
+        mapa.innerHTML = '<span style="z-index:2; color:var(--muted)">Visualización de Nodos Activos</span>';
+        
+        // Creamos puntos basados en el número real de Guardianes (mínimo 4 por tus Guardianes Reales)
+        const puntosACrear = Math.min(totalGuardianes, 50); 
+
+        for(let i=0; i < puntosACrear; i++) {
             let dot = document.createElement('div');
+            // Estilo Ghibli: Diferentes intensidades de azul y verde
             dot.className = i % 3 === 0 ? 'map-dot dot-high' : (i % 2 === 0 ? 'map-dot dot-mid' : 'map-dot dot-low');
+            
+            // Posicionamiento aleatorio en el "globo"
             dot.style.left = Math.floor(Math.random() * 90) + '%';
-            dot.style.top = Math.floor(Math.random() * 80 + 10) + '%';
-            dot.style.animationDelay = Math.random() * 2 + 's';
+            dot.style.top = Math.floor(Math.random() * 70 + 15) + '%';
+            dot.style.animationDelay = Math.random() * 3 + 's';
+            
             mapa.appendChild(dot);
         }
     }
