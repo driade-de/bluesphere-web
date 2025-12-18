@@ -269,241 +269,131 @@
 </div>
 
 <script>
-    // --- 1. CONEXIÓN SUPABASE REAL ---
+    // --- 1. NÚCLEO DE CONEXIÓN SUPABASE ---
     const SB_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
     const supabase = window.supabase.createClient(SB_URL, SB_KEY);
 
-    // --- 2. INICIALIZAR ---
+    // --- 2. INICIALIZACIÓN AUTOMÁTICA ---
     window.onload = function() {
-        renderCharts();
-        animarMapa();
         cargarDatosReales();
-        
-        // Auto-refresh datos reales cada 10s
-        setInterval(cargarDatosReales, 10000);
+        setInterval(cargarDatosReales, 10000); // Sincronización cada 10s
     };
 
-    // --- 3. DATOS REALES DE SUPABASE (CONEXIÓN INTERESTELAR) ---
-async function cargarDatosReales() {
-    // A. Contar Pactos (Firmantes)
-    const { count: countFirmantes } = await supabase
-        .from('firmantes')
-        .select('*', { count: 'exact', head: true });
-    
-    if(countFirmantes) {
-        document.getElementById('real-pactos-count').innerText = countFirmantes.toLocaleString();
-    }
-
-    // B. Cargar Seguimientos para Impacto y Gráfica
-    const { data: seguimientos, error } = await supabase
-        .from('seguimiento')
-        .select('impacto_co2, fecha');
-
-    if (seguimientos) {
-        // 1. Calculamos el impacto total para la barra superior
-        const totalCO2 = seguimientos.reduce((acc, curr) => acc + (curr.impacto_co2 || 0), 0);
-        document.getElementById('display-co2').innerText = `${totalCO2.toLocaleString()} kg CO₂`;
+    // --- 3. MOTOR DE DATOS (EL CORAZÓN) ---
+    async function cargarDatosReales() {
+        // A. Contar Pactos (Tus 4 Guardianes Reales)
+        const { count: countFirmantes } = await supabase
+            .from('firmantes')
+            .select('*', { count: 'exact', head: true });
         
-        // 2. Actualizamos el KPI de Check-ins (Seguimiento)
-        document.getElementById('kpi-checkins').innerText = seguimientos.length.toLocaleString();
-        document.getElementById('mod-seguimiento-real').innerText = seguimientos.length.toLocaleString();
-
-        // 3. ACTIVAMOS LA GRÁFICA (Punto 6)
-        inicializarGraficaEvolucion(seguimientos); 
-        
-        // 4. ACTIVAMOS EL RADAR (Punto 5)
-        animarRadar(countFirmantes || 4);
-    }
-}
-
-       // B. TRAER IMPACTO REAL DESDE 'SEGUIMIENTO' (LOS 18 HÁBITOS)
-const { data: seguimientos, error: errSeg } = await supabase
-    .from('seguimiento')
-    .select('impacto_co2, acciones_realizadas, codigo_guardian, fecha_reporte');
-
-if (seguimientos) {
-    // 1. Calcular CO2 Total Real (Suma de sus 2 ofrendas actuales)
-    const co2Acumulado = seguimientos.reduce((sum, s) => sum + (s.impacto_co2 || 0), 0);
-    
-    // Actualizamos la barra de impacto superior con el valor real (21.5 kg)
-    const barSpan = document.querySelector('.impacto-bar span');
-    if (barSpan) {
-        barSpan.innerText = `${co2Acumulado.toLocaleString()} kg CO₂ evitados - 0 kg plástico - 0 l agua`;
-    }
-
-    // 2. Procesar los 18 hábitos para el Radar de Consciencia
-    const conteoHabitos = {};
-    seguimientos.forEach(s => {
-        if (s.acciones_realizadas) {
-            const lista = s.acciones_realizadas.split(', ');
-            lista.forEach(habito => {
-                conteoHabitos[habito] = (conteoHabitos[habito] || 0) + 1;
-            });
+        if(countFirmantes) {
+            document.getElementById('real-pactos-count').innerText = countFirmantes.toLocaleString();
         }
-    });
 
-    // --- INTEGRACIÓN DE LAS FUNCIONES QUE YA TIENE ---
-    actualizarRankingVisual(conteoHabitos); // Alimenta el Radar Ghibli
-    inicializarGraficaEvolucion(seguimientos); // Dibuja la línea de impacto mensual
-}
+        // B. Traer Impacto Real (Tus 33.0 kg actuales)
+        const { data: seguimientos, error } = await supabase
+            .from('seguimiento')
+            .select('impacto_co2, acciones_realizadas, codigo_guardian, fecha_reporte');
 
-            // 3. Renderizar últimos 5 Guardianes Activos
-            let htmlGuardianes = '';
-            const ultimos5 = seguimientos.sort((a,b) => new Date(b.fecha_reporte) - new Date(a.fecha_reporte)).slice(0, 5);
+        if (seguimientos && seguimientos.length > 0) {
+            // 1. Cálculo de Impacto Total
+            const co2Acumulado = seguimientos.reduce((sum, s) => sum + (s.impacto_co2 || 0), 0);
             
-            ultimos5.forEach(u => {
+            // Inyectar en barra de impacto superior
+            const displayCO2 = document.getElementById('display-co2');
+            if (displayCO2) displayCO2.innerText = `${co2Acumulado.toFixed(1)} kg CO₂`;
+
+            // Actualizar KPIs de Seguimiento
+            document.getElementById('kpi-checkins').innerText = seguimientos.length;
+            document.getElementById('mod-seguimiento-real').innerText = seguimientos.length;
+
+            // 2. Procesar los 18 Hábitos para el Radar
+            const conteoHabitos = {};
+            seguimientos.forEach(s => {
+                if (s.acciones_realizadas) {
+                    const lista = s.acciones_realizadas.split(', ');
+                    lista.forEach(habito => {
+                        conteoHabitos[habito] = (conteoHabitos[habito] || 0) + 1;
+                    });
+                }
+            });
+
+            // 3. Renderizar Últimos Guardianes (000051, 52, 53)
+            let htmlGuardianes = '';
+            const ultimos = seguimientos.sort((a,b) => new Date(b.fecha_reporte) - new Date(a.fecha_reporte)).slice(0, 5);
+            ultimos.forEach(u => {
                 htmlGuardianes += `
                 <div class="list-row">
                     <div>
-                        <div style="font-weight:bold; color:#fff;">Guardián ${u.codigo_guardian.substring(0,8)}...</div>
-                        <div style="font-size:0.7rem; color:var(--accent);">Aportó +${u.impacto_co2} kg de Consciencia</div>
+                        <div style="font-weight:bold; color:#fff;">Guardián ${u.codigo_guardian.substring(u.codigo_guardian.length - 6)}</div>
+                        <div style="font-size:0.7rem; color:var(--accent);">Ofrenda: +${u.impacto_co2} kg CO₂</div>
                     </div>
-                    <div style="font-size:0.75rem; color:gray;">Activo</div>
+                    <div style="font-size:0.75rem; color:var(--success);">ACTIVO</div>
                 </div>`;
             });
             document.getElementById('lista-real-guardianes').innerHTML = htmlGuardianes;
+
+            // --- 4. DISPARAR FUNCIONES VISUALES (Independientes) ---
+            actualizarRankingVisual(conteoHabitos);
+            inicializarGraficaEvolucion(seguimientos);
+            animarRadar(countFirmantes || 4);
         }
     }
 
-    // FUNCIÓN AUXILIAR PARA EL RANKING GHIBLI (DIBUJO INTERESTELAR)
+    // --- 5. FUNCIÓN RADAR GHIBLI ---
     function actualizarRankingVisual(datos) {
         const rankingBox = document.getElementById('ranking-habitos-dinamico');
         if (!rankingBox) return;
-
-        // Ordenamos los 18 hábitos por frecuencia de mayor a menor
         const ordenados = Object.entries(datos).sort((a,b) => b[1] - a[1]).slice(0, 6);
-        
         let html = '';
         ordenados.forEach(([nombre, total], index) => {
-            // Limpiamos el nombre técnico para mostrarlo con orgullo
             const nombreSagrado = nombre.replace(/_/g, ' ').toUpperCase();
-            
             html += `
-            <div class="list-row" style="border-bottom: 1px solid rgba(0, 196, 255, 0.15); animation: pulse 2s infinite;">
+            <div class="list-row">
                 <div style="display: flex; align-items: center;">
-                    <span class="rank-badge" style="background: var(--accent); color: #000; font-size: 0.7rem;">${index + 1}</span>
-                    <span style="font-size: 0.8rem; font-weight: bold; letter-spacing: 1px;">${nombreSagrado}</span>
+                    <span class="rank-badge">${index + 1}</span>
+                    <span style="font-size: 0.8rem; font-weight: bold;">${nombreSagrado}</span>
                 </div>
-                <div style="color: var(--success); font-weight: bold; font-family: 'Courier New', monospace;">
-                    ${total} <small style="font-size: 0.6rem; color: var(--muted);">RECUENTOS</small>
-                </div>
+                <div style="color: var(--success); font-weight: bold;">${total} PULSOS</div>
             </div>`;
         });
-        
-        rankingBox.innerHTML = html || '<p style="color:gray; text-align:center;">Escaneando el campo cuántico...</p>';
+        rankingBox.innerHTML = html || '<p style="color:gray; text-align:center;">Sincronizando...</p>';
     }
-    // --- 4. GRÁFICAS (Chart.js) ---
-    function renderCharts() {
-        // Gráfico Línea (Evolución)
-        new Chart(document.getElementById('chartEvolucion'), {
+
+    // --- 6. ANIMACIÓN DE PARTÍCULAS (Radar Background) ---
+    function animarRadar(totalGuardianes) {
+        const radar = document.getElementById('ranking-habitos-dinamico');
+        if (!radar) return;
+        const particulas = 15; 
+        for(let i=0; i < particulas; i++) {
+            let dot = document.createElement('div');
+            dot.className = i % 2 === 0 ? 'map-dot dot-high' : 'map-dot dot-low';
+            dot.style.left = Math.floor(Math.random() * 90) + '%';
+            dot.style.top = Math.floor(Math.random() * 80) + '%';
+            radar.appendChild(dot);
+        }
+    }
+
+    // --- 7. GRÁFICA DE EVOLUCIÓN (Impacto en el Tiempo) ---
+    function inicializarGraficaEvolucion(seguimientos) {
+        const ctx = document.getElementById('chartEvolucion');
+        if (!ctx) return;
+        if (window.miGrafica) window.miGrafica.destroy();
+        window.miGrafica = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul'],
+                labels: seguimientos.map((_, i) => `Ofrenda ${i+1}`),
                 datasets: [{
-                    label: 'Impacto Acumulado',
-                    data: [120, 350, 500, 750, 1100, 1400, 1800],
+                    data: seguimientos.map(s => s.impacto_co2 || 0),
                     borderColor: '#00c4ff',
                     backgroundColor: 'rgba(0, 196, 255, 0.1)',
-                    fill: true,
-                    tension: 0.4
+                    fill: true, tension: 0.4
                 }]
             },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: { 
-                    y: { grid: { color: 'rgba(255,255,255,0.05)' } },
-                    x: { grid: { display: false } }
-                }
-            }
-        });
-
-        // Gráfico Donut (Distribución)
-        new Chart(document.getElementById('chartDistribucion'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Pacto', 'Biblio', 'Medallas'],
-                datasets: [{
-                    data: [90, 78, 45],
-                    backgroundColor: ['#00c4ff', '#4caf50', '#ff9800'],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } }
-            }
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
         });
     }
-
-    // --- 5. RADAR DE CONSCIENCIA (Fusión Ghibli - Partículas de Impacto) ---
-function animarRadar(totalGuardianes = 4) {
-    // Cambiamos el objetivo: del mapa inexistente al nuevo Radar
-    const radar = document.getElementById('ranking-habitos-dinamico');
-    if (!radar) return;
-    
-    // Limpiamos pero mantenemos el mensaje de sincronización
-    radar.innerHTML = '<div style="position:relative; z-index:2; text-align:center; color:var(--muted); padding:20px;">Sincronizando con el campo de consciencia...</div>';
-    
-    // Creamos partículas de luz basadas en tus 4 Guardianes Reales
-    const particulas = Math.min(totalGuardianes * 2, 25); 
-
-    for(let i=0; i < particulas; i++) {
-        let dot = document.createElement('div');
-        // Reutilizamos tus clases Ghibli para mantener la coherencia visual
-        dot.className = i % 3 === 0 ? 'map-dot dot-high' : (i % 2 === 0 ? 'map-dot dot-mid' : 'map-dot dot-low');
-        
-        // Ajuste de profundidad para que el brillo quede detrás de los datos
-        dot.style.position = 'absolute';
-        dot.style.zIndex = '1';
-        dot.style.opacity = '0.5';
-        dot.style.left = Math.floor(Math.random() * 95) + '%';
-        dot.style.top = Math.floor(Math.random() * 85) + '%';
-        dot.style.animationDelay = Math.random() * 4 + 's';
-        
-        radar.appendChild(dot);
-    }
-    // --- 6. GRÁFICA DE EVOLUCIÓN REAL ---
-function inicializarGraficaEvolucion(seguimientos = []) {
-    const ctx = document.getElementById('chartEvolucion');
-    if (!ctx) return;
-
-    // Si no hay seguimientos, la gráfica se queda en el horizonte (cero)
-    // Si hay datos, extraemos los valores de CO2 para graficarlos
-    const dataImpacto = seguimientos.length > 0 
-        ? seguimientos.map(s => s.impacto_co2 || 0) 
-        : [0, 0, 0, 0];
-
-    // Destruimos gráfica previa si existe para evitar duplicados
-    if (window.miGrafica) window.miGrafica.destroy();
-
-    window.miGrafica = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Inicio', 'Fase 1', 'Fase 2', 'Hoy'],
-            datasets: [{
-                label: 'Impacto Real (kg CO₂)',
-                data: dataImpacto,
-                borderColor: '#00c4ff',
-                backgroundColor: 'rgba(0, 196, 255, 0.1)',
-                fill: true,
-                tension: 0.4,
-                pointRadius: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
-                x: { grid: { display: false } }
-            }
-        }
-    });
-}
-}
 </script>
 
 </body>
