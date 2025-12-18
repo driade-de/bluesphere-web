@@ -334,9 +334,16 @@ body {
       <p style="margin-top: 10px; color: var(--quantum);">Sincronizando con Supabase...</p>
     </div>
 
-    <div id="successMsg" class="success-message">
+  <div id="successMsg" class="success-message">
       <h3 style="color: var(--success);">✅ OFRENDA RECIBIDA</h3>
       <p>Tu impacto ha sido grabado en el núcleo de BlueSphere.</p>
+      
+      <div style="margin-top: 20px;">
+          <a href="dashboard.html" id="btnDashboard" 
+             style="display:none; background: linear-gradient(135deg, #00c4ff, #005c84); color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold; box-shadow: 0 0 20px rgba(0,196,255,0.4); border: 1px solid #00ffaa;">
+              📊 Mirar el Dashboard
+          </a>
+      </div>
     </div>
 
   </div>
@@ -447,9 +454,16 @@ body {
 
       if(error) throw error;
 
-      // Éxito
+      // Éxito: La ofrenda ha cruzado el umbral
       document.getElementById('loader').style.display = 'none';
       document.getElementById('successMsg').style.display = 'block';
+
+      // RECONEXIÓN CON EL DASHBOARD
+      const btnDashboard = document.getElementById('btnDashboard');
+      if(btnDashboard) {
+          btnDashboard.style.display = 'inline-block'; // El portal se vuelve visible
+          console.log("Portal al Dashboard activo."); 
+      }
       
       // Recargar medallas para ver si ganó alguna nueva
       cargarMedallas(codigo);
