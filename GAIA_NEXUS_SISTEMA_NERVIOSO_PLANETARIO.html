@@ -1530,37 +1530,6 @@
             }, 5000);
         }
         
-        // ===========================================
-        // INICIALIZACIÓN DEL SISTEMA
-        // ===========================================
-        
-        window.onload = function() {
-            // Inicializar partículas (ya está)
-            
-            // Inicializar hábitos y métricas
-            renderizarArbolHabitos();
-            configurarFiltrosHabitos();
-            calcularMetricasGlobales();
-            
-            // Inicializar panel corporativo
-            actualizarEmpresaDemo();
-            
-            // Configurar event listeners para sliders
-            document.getElementById('slider-tiendas').addEventListener('input', actualizarSliderValores);
-            document.getElementById('slider-inversion').addEventListener('input', actualizarSliderValores);
-            
-            // Inicializar animaciones de brújula
-            animarBrujulaCosmica();
-            
-            // Inicializar sistema nervioso
-            simularSistemaNervioso();
-            
-            // Efecto de bienvenida
-            setTimeout(() => {
-                const titulo = document.querySelector('.titulo-principal h1');
-                titulo.style.animation = 'brillo-intermitente 2s infinite';
-            }, 1000);
-        };
         
        // ===========================================
         // 🛰️ PROTOCOLO DE SINCRONIZACIÓN SATELITAL
@@ -1608,7 +1577,7 @@
             animarBrujulaCosmica();
             simularSistemaNervioso();
             
-            // 3. SINCRONIZACIÓN FINAL (25kg e Impacto Visual)
+            // 3. SINCRONIZACIÓN FINAL (73kg e Impacto Visual)
             // Bajamos el tiempo a 500ms para que el impacto de 25kg aparezca más rápido
             setTimeout(() => {
                 activarSincroniaSatelital();
