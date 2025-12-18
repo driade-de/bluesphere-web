@@ -411,30 +411,34 @@ if (seguimientos) {
         });
     }
 
-    // --- 5. MAPA ANIMADO (Sincronizado con Guardianes Reales) ---
-    function animarMapa(totalGuardianes = 4) {
-        const mapa = document.getElementById('mapaGlobal');
-        if (!mapa) return;
-        
-        // Limpiamos puntos anteriores para la actualización
-        mapa.innerHTML = '<span style="z-index:2; color:var(--muted)">Visualización de Nodos Activos</span>';
-        
-        // Creamos puntos basados en el número real de Guardianes (mínimo 4 por tus Guardianes Reales)
-        const puntosACrear = Math.min(totalGuardianes, 50); 
+    // --- 5. RADAR DE CONSCIENCIA (Fusión Ghibli - Partículas de Impacto) ---
+function animarRadar(totalGuardianes = 4) {
+    // Cambiamos el objetivo: del mapa inexistente al nuevo Radar
+    const radar = document.getElementById('ranking-habitos-dinamico');
+    if (!radar) return;
+    
+    // Limpiamos pero mantenemos el mensaje de sincronización
+    radar.innerHTML = '<div style="position:relative; z-index:2; text-align:center; color:var(--muted); padding:20px;">Sincronizando con el campo de consciencia...</div>';
+    
+    // Creamos partículas de luz basadas en tus 4 Guardianes Reales
+    const particulas = Math.min(totalGuardianes * 2, 25); 
 
-        for(let i=0; i < puntosACrear; i++) {
-            let dot = document.createElement('div');
-            // Estilo Ghibli: Diferentes intensidades de azul y verde
-            dot.className = i % 3 === 0 ? 'map-dot dot-high' : (i % 2 === 0 ? 'map-dot dot-mid' : 'map-dot dot-low');
-            
-            // Posicionamiento aleatorio en el "globo"
-            dot.style.left = Math.floor(Math.random() * 90) + '%';
-            dot.style.top = Math.floor(Math.random() * 70 + 15) + '%';
-            dot.style.animationDelay = Math.random() * 3 + 's';
-            
-            mapa.appendChild(dot);
-        }
+    for(let i=0; i < particulas; i++) {
+        let dot = document.createElement('div');
+        // Reutilizamos tus clases Ghibli para mantener la coherencia visual
+        dot.className = i % 3 === 0 ? 'map-dot dot-high' : (i % 2 === 0 ? 'map-dot dot-mid' : 'map-dot dot-low');
+        
+        // Ajuste de profundidad para que el brillo quede detrás de los datos
+        dot.style.position = 'absolute';
+        dot.style.zIndex = '1';
+        dot.style.opacity = '0.5';
+        dot.style.left = Math.floor(Math.random() * 95) + '%';
+        dot.style.top = Math.floor(Math.random() * 85) + '%';
+        dot.style.animationDelay = Math.random() * 4 + 's';
+        
+        radar.appendChild(dot);
     }
+}
 </script>
 
 </body>
