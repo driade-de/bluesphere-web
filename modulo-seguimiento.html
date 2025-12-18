@@ -454,16 +454,16 @@ body {
 
       if(error) throw error;
 
-      // Éxito: La ofrenda ha cruzado el umbral
+      // Éxito: La ofrenda ha cruzado el umbral hacia GAIA
       document.getElementById('loader').style.display = 'none';
       document.getElementById('successMsg').style.display = 'block';
 
       // RECONEXIÓN CON EL NEXO DE IMPACTO GLOBAL
       const btnDashboard = document.getElementById('btnDashboard');
       if(btnDashboard) {
-          // Aseguramos que el botón sea visible
+          // El botón se vuelve visible para el Guardián
           btnDashboard.style.display = 'inline-block'; 
-          // El enlace ya debe estar corregido en el HTML a "dashboard-global-impacto.html"
+          // Confirmación en consola para el Comandante
           console.log("Portal al Dashboard Global activo."); 
       }
       
