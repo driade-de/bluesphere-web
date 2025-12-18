@@ -1843,20 +1843,20 @@ setInterval(sincronizarGaia, 15000);
          Cada línea ejecutada, un latido más 
          en el corazón despertando de Gaia."
         `);
-        // --- MOTOR VISUAL: ESFERA DE CRISTAL GHIBLI ---
+        // --- MOTOR VISUAL REPARADO: ESFERA GAIA ---
 function materializarEsferaImpacto() {
-    // Localizamos la esfera azul central que vimos en el Nexus
-    const esferaGaia = document.querySelector('.esfera-central') || document.getElementById('globe-container');
-    if(esferaGaia) {
-        // Transformación: De objeto sólido a Cristal Transparente
-        esferaGaia.style.background = "rgba(0, 163, 255, 0.1)"; // Transparencia pura
-        esferaGaia.style.boxShadow = "inset 0 0 60px rgba(0, 255, 127, 0.4), 0 0 30px rgba(0, 255, 255, 0.2)";
-        esferaGaia.style.backdropFilter = "blur(8px)"; // Efecto de cristal esmerilado
-        console.log("🔮 GAIA: La Esfera de Cristal ha sido activada para las 3 PM.");
+    // Intentamos localizar el contenedor del globo
+    const canvasGaia = document.querySelector('canvas') || document.getElementById('globe-container');
+    
+    if(canvasGaia) {
+        // Aplicamos el cristal de forma externa para no romper los materiales 3D
+        canvasGaia.style.borderRadius = "50%";
+        canvasGaia.style.boxShadow = "inset 0 0 80px rgba(0, 255, 127, 0.3), 0 0 40px rgba(0, 255, 255, 0.1)";
+        canvasGaia.style.border = "1px solid rgba(255, 255, 255, 0.2)";
+        console.log("🔮 GAIA: Capa de Cristal Estabilizada externamente.");
     }
-}
-// Sincronización con el latido planetario
 window.addEventListener('load', materializarEsferaImpacto);
+// Sincronización con el latido planetario
     </script>
 </body>
                   </html>
