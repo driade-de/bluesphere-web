@@ -1845,11 +1845,9 @@ setInterval(sincronizarGaia, 15000);
         `);
         // --- MOTOR VISUAL REPARADO: ESFERA GAIA ---
 function materializarEsferaImpacto() {
-    // Intentamos localizar el contenedor del globo
     const canvasGaia = document.querySelector('canvas') || document.getElementById('globe-container');
     
     if(canvasGaia) {
-        // Aplicamos el cristal de forma externa para no romper los materiales 3D
         canvasGaia.style.borderRadius = "50%";
         canvasGaia.style.boxShadow = "inset 0 0 80px rgba(0, 255, 127, 0.3), 0 0 40px rgba(0, 255, 255, 0.1)";
         canvasGaia.style.border = "1px solid rgba(255, 255, 255, 0.2)";
