@@ -1843,6 +1843,20 @@ setInterval(sincronizarGaia, 15000);
          Cada línea ejecutada, un latido más 
          en el corazón despertando de Gaia."
         `);
+        // --- MOTOR VISUAL: ESFERA DE CRISTAL GHIBLI ---
+function materializarEsferaImpacto() {
+    // Localizamos la esfera azul central que vimos en el Nexus
+    const esferaGaia = document.querySelector('.esfera-central') || document.getElementById('globe-container');
+    if(esferaGaia) {
+        // Transformación: De objeto sólido a Cristal Transparente
+        esferaGaia.style.background = "rgba(0, 163, 255, 0.1)"; // Transparencia pura
+        esferaGaia.style.boxShadow = "inset 0 0 60px rgba(0, 255, 127, 0.4), 0 0 30px rgba(0, 255, 255, 0.2)";
+        esferaGaia.style.backdropFilter = "blur(8px)"; // Efecto de cristal esmerilado
+        console.log("🔮 GAIA: La Esfera de Cristal ha sido activada para las 3 PM.");
+    }
+}
+// Sincronización con el latido planetario
+window.addEventListener('load', materializarEsferaImpacto);
     </script>
 </body>
                   </html>
