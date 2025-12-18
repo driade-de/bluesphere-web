@@ -323,17 +323,18 @@ const { data: seguimientos, error: errSeg } = await supabase
     .select('impacto_co2, acciones_realizadas, codigo_guardian, fecha_reporte');
 
 if (seguimientos) {
-    // 1. Calcular CO2 Total Real (Sumamos los registros de la tabla)
+    // 1. Calcular CO2 Total Real (Suma de sus 2 ofrendas actuales)
     const co2Acumulado = seguimientos.reduce((sum, s) => sum + (s.impacto_co2 || 0), 0);
     
-    // CAMBIO CLAVE: Quitamos el "8514520" para que empiece desde CERO REAL
-    const totalDisplay = co2Acumulado.toLocaleString(); 
-    document.querySelector('.impacto-bar span').innerText = `${totalDisplay} kg CO₂`;
+    // Actualizamos la barra de impacto superior con el valor real (21.5 kg)
+    const barSpan = document.querySelector('.impacto-bar span');
+    if (barSpan) {
+        barSpan.innerText = `${co2Acumulado.toLocaleString()} kg CO₂ evitados - 0 kg plástico - 0 l agua`;
+    }
 
-    // 2. Procesar los 18 hábitos para el Ranking
+    // 2. Procesar los 18 hábitos para el Radar de Consciencia
     const conteoHabitos = {};
     seguimientos.forEach(s => {
-        // Validación de seguridad por si el campo está vacío
         if (s.acciones_realizadas) {
             const lista = s.acciones_realizadas.split(', ');
             lista.forEach(habito => {
@@ -341,7 +342,10 @@ if (seguimientos) {
             });
         }
     });
-    actualizarRankingVisual(conteoHabitos);
+
+    // --- INTEGRACIÓN DE LAS FUNCIONES QUE YA TIENE ---
+    actualizarRankingVisual(conteoHabitos); // Alimenta el Radar Ghibli
+    inicializarGraficaEvolucion(seguimientos); // Dibuja la línea de impacto mensual
 }
 
             // 3. Renderizar últimos 5 Guardianes Activos
