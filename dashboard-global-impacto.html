@@ -155,7 +155,7 @@
     <div class="modulos-grid">
         <div class="modulo-item">
             <div>🔑</div>
-            <span class="mod-val">1,247</span>
+           <span class="mod-val" id="real-puntos-consciencia">0</span>
             <span class="mod-lbl">Portal Empresas</span>
         </div>
         <div class="modulo-item active">
@@ -168,11 +168,11 @@
             <span class="mod-val">45,892</span>
             <span class="mod-lbl">Seguimiento</span>
         </div>
-        <div class="modulo-item">
-            <div>🏆</div>
-            <span class="mod-val">128,456</span>
-            <span class="mod-lbl">Medallas</span>
-        </div>
+       <div class="modulo-item">
+    <div>🏆</div>
+    <span class="mod-val" id="mod-medallas-real">0</span>
+    <span class="mod-lbl">Medallas</span>
+</div>
     </div>
 
     <div class="main-layout">
@@ -184,17 +184,19 @@
                 <canvas id="chartEvolucion" height="100"></canvas>
             </div>
 
-            <div class="panel">
-                <h3>🗺️ Mapa de Impacto Global</h3>
-                <div class="map-box" id="mapaGlobal">
-                    <span style="z-index:2; color:var(--muted)">Visualización de Nodos Activos</span>
-                    </div>
-                <div style="margin-top:10px; font-size:0.8rem; text-align:center;">
-                    <span style="color:var(--success)">● Alto</span> &nbsp;
-                    <span style="color:var(--warning)">● Medio</span> &nbsp;
-                    <span style="color:var(--accent)">● Creciente</span>
-                </div>
-            </div>
+            <div class="panel" style="border-left: 4px solid var(--accent);">
+    <h3>📡 Radar de Consciencia (18 Ofrendas)</h3>
+    <div id="ranking-habitos-dinamico" style="min-height: 200px;">
+        <p style="color:var(--muted); text-align:center; padding-top:50px;">
+            <span class="loading-pulse">Sincronizando con el campo cuántico...</span>
+        </p>
+    </div>
+    <div style="margin-top:15px; padding:10px; background:rgba(0,196,255,0.05); border-radius:8px;">
+        <small style="color:var(--accent); display:block; text-align:center;">
+            ✨ Sistema Nervioso Planetario: Activo
+        </small>
+    </div>
+</div>
 
             <div class="panel">
                 <h3>📊 Distribución de Acciones</h3>
