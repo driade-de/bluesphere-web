@@ -43,7 +43,51 @@
             z-index: 0; 
             pointer-events: none; 
         }
+/* ✨ ESTÉTICA GHIBLI: PANEL DE CONCIENCIA CIRCADIANA */
+.ghibli-time-panel {
+    background: rgba(10, 25, 41, 0.7); /* Profundidad de bosque nocturno */
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--quantum); /* Brillo cian del núcleo de Gaia */
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 30px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 204, 255, 0.15);
+}
 
+#reloj-hora {
+    font-size: 3.5rem;
+    font-weight: 200;
+    color: var(--light);
+    letter-spacing: -3px;
+    margin: 0;
+    text-shadow: 0 0 15px var(--glow); /* Efecto de luz mágica */
+}
+
+#ciclo-dia-texto {
+    color: var(--observation);
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+    display: block;
+    margin-top: 8px;
+    text-transform: uppercase;
+}
+
+.progreso-dia-wrapper {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#barra-progreso-dia {
+    height: 100%;
+    background: linear-gradient(90deg, var(--success), var(--quantum));
+    box-shadow: 0 0 10px var(--success);
+    transition: width 1s linear;
+}
         .wrap {
             position: relative; 
             z-index: 2; 
@@ -609,6 +653,20 @@
                 </div>
             </div>
 
+            <div class="ghibli-time-panel">
+    <div class="reloj-astral">
+        <h1 id="reloj-hora">00:00:00</h1>
+        <p id="reloj-fecha">SINCRONIZANDO CICLO...</p>
+    </div>
+    
+    <div class="ciclo-dia-wrapper">
+        <span id="ciclo-dia-texto">CARGANDO...</span>
+    </div>
+
+    <div class="progreso-dia-wrapper">
+        <div id="barra-progreso-dia"></div>
+    </div>
+</div>
             <!-- PANEL DE IMPACTO VISUAL -->
             <div class="impacto-container">
                 <div class="impacto-card">
@@ -833,6 +891,36 @@ function bloquearHabitosRegistrados() {
     });
     console.log("🛡️ Bloqueo de integridad activado sobre los pulsos previos.");
 }
+
+        // ==================== FASE 3: MOTOR DE TIEMPO CIRCADIANO ====================
+function actualizarRelojSistema() {
+    const ahora = new Date();
+    
+    // 1. Elementos de Interfaz
+    const h = document.getElementById('reloj-hora');
+    const f = document.getElementById('reloj-fecha');
+    const ciclo = document.getElementById('ciclo-dia-texto');
+    const barra = document.getElementById('barra-progreso-dia');
+
+    // 2. Actualizar Hora y Fecha [cite: 2025-11-21]
+    if(h) h.textContent = ahora.toLocaleTimeString('es-ES', { hour12: false });
+    if(f) f.textContent = ahora.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' }).toUpperCase();
+
+    // 3. Determinar Ciclo Ghibli [cite: 2025-11-21]
+    const hora = ahora.getHours();
+    if(ciclo) {
+        if (hora >= 5 && hora < 12) ciclo.textContent = "🌅 AMANECER RADIANTE";
+        else if (hora >= 12 && hora < 18) ciclo.textContent = "☀️ CENIT DE CONCIENCIA";
+        else if (hora >= 18 && hora < 21) ciclo.textContent = "🌆 ATARDECER SAGRADO";
+        else ciclo.textContent = "🌌 REGENERACIÓN NOCTURNA";
+    }
+
+    // 4. Barra de Progreso Solar
+    if(barra) {
+        const porcentaje = ((hora * 60 + ahora.getMinutes()) / 1440) * 100;
+        barra.style.width = porcentaje + "%";
+    }
+}
         // ==================== VARIABLES GLOBALES ====================
         let codigoGuardian = '';
         let intencionActiva = INTENCIONES_SEMANALES[0];
@@ -863,6 +951,9 @@ bloquearHabitosRegistrados();
 
             // 6. Inicializar intención semanal
             inicializarIntencionSemanal();
+            // 🌀 ACTIVACIÓN DEL TIEMPO CIRCADIANO Y BLOQUEO FINAL
+actualizarRelojSistema();
+setInterval(actualizarRelojSistema, 1000);
         });
 
         // ==================== FUNCIONES PRINCIPALES ====================
