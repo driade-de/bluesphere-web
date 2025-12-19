@@ -7,10 +7,9 @@
     <title>GAIA NEXUS V4 - Sistema Nervioso Planetario Sagrado</title>
     
     <!-- BIBLIOTECAS CÓSMICAS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<!-- SUPABASE debe cargarse ANTES de tu script -->
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    
     <style>
         /* =========================================== */
         /* PALETA DE CONCIENCIA SAGRADA - GAIA NEXUS V4 */
@@ -1482,114 +1481,95 @@
         }
         
         // ===========================================
-// SUPABASE CONEXIÓN REAL - VERSIÓN CORREGIDA
-// ===========================================
-
-let supabase; // Declarar variable global
-
-function inicializarSupabase() {
-    try {
-        // Verificar que la biblioteca esté cargada
-        if (typeof window.supabase === 'undefined') {
-            console.error('❌ Supabase no está cargado. Recargando página...');
-            setTimeout(() => location.reload(), 2000);
-            return false;
-        }
+        // SUPABASE CONEXIÓN REAL
+        // ===========================================
         
         const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
         
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        console.log('✅ Supabase inicializado correctamente');
-        return true;
-    } catch (error) {
-        console.error('❌ Error inicializando Supabase:', error);
-        return false;
-    }
-}
-
-// Función de ceremonia corregida
-async function iniciarCeremoniaSupabase() {
-    try {
-        console.log("🔄 Conectando con Supabase...");
+        // Inicializar Supabase
+        const { createClient } = window.supabase;
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
         
-        // Inicializar Supabase si no está inicializado
-        if (!supabase && !inicializarSupabase()) {
-            throw new Error("No se pudo inicializar Supabase");
-        }
-        
-        // 1. Verificar conexión
-        const { data: testData, error: testError } = await supabase
-            .from('seguimiento')
-            .select('count')
-            .limit(1);
-        
-        if (testError) throw testError;
-        
-        // 2. Registrar nueva ceremonia
-        const nuevaCeremonia = {
-            empresa_id: 'guardian-000',
-            tipo_ceremonia: 'iniciacion',
-            fecha: new Date().toISOString(),
-            participantes: 1,
-            impacto_co2: -150,
-            nivel_conciencia: 85,
-            estado: 'completada'
-        };
-        
-        const { data, error } = await supabase
-            .from('ceremonias')
-            .insert([nuevaCeremonia])
-            .select();
-        
-        if (error) throw error;
-        
-        // 3. Actualizar métricas
-        await actualizarMetricasSupabase();
-        
-        // 4. Mostrar confirmación
-        alert(`✅ Ceremonia registrada en Supabase\nID: ${data[0].id}\nImpacto: -150 kg CO2`);
-        
-        // 5. Actualizar interfaz
-        document.getElementById('ceremonias-activas').textContent = 
-            parseInt(document.getElementById('ceremonias-activas').textContent) + 1;
-        document.getElementById('ceremonias-completadas').textContent = 
-            parseInt(document.getElementById('ceremonias-completadas').textContent) + 1;
-            
-    } catch (error) {
-        console.error("❌ Error Supabase:", error);
-        alert("Error conectando con Supabase. Usando modo simulación.");
-        iniciarCeremonia(); // Fallback
-    }
-}
-
-async function actualizarMetricasSupabase() {
-    if (!supabase) return;
-    
-    try {
-        const { data: seguimientos, error } = await supabase
-            .from('seguimiento')
-            .select('impacto_co2, nivel_conciencia')
-            .gte('fecha', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString());
-        
-        if (error) throw error;
-        
-        if (seguimientos && seguimientos.length > 0) {
-            const totalCO2 = seguimientos.reduce((sum, item) => sum + (item.impacto_co2 || 0), 0);
-            const avgConciencia = seguimientos.reduce((sum, item) => sum + (item.nivel_conciencia || 0), 0) / seguimientos.length;
-            
-            const concienciaElement = document.getElementById('conciencia-colectiva');
-            if (concienciaElement) {
-                const nuevoValor = Math.min(100, Math.max(0, avgConciencia));
-                concienciaElement.textContent = `${nuevoValor.toFixed(1)}%`;
+        async function iniciarCeremoniaSupabase() {
+            try {
+                console.log("🔄 Conectando con Supabase...");
+                
+                // 1. Verificar conexión
+                const { data: testData, error: testError } = await supabase
+                    .from('seguimiento')
+                    .select('count')
+                    .limit(1);
+                
+                if (testError) throw testError;
+                
+                // 2. Registrar nueva ceremonia
+                const nuevaCeremonia = {
+                    empresa_id: 'guardian-000',
+                    tipo_ceremonia: 'iniciacion',
+                    fecha: new Date().toISOString(),
+                    participantes: 1,
+                    impacto_co2: -150, // kg CO2 compensados
+                    nivel_conciencia: 85,
+                    estado: 'completada'
+                };
+                
+                const { data, error } = await supabase
+                    .from('ceremonias')
+                    .insert([nuevaCeremonia])
+                    .select();
+                
+                if (error) throw error;
+                
+                // 3. Actualizar métricas en tiempo real
+                await actualizarMetricasSupabase();
+                
+                // 4. Mostrar confirmación
+                alert(`✅ Ceremonia registrada en Supabase\nID: ${data[0].id}\nImpacto: -150 kg CO2`);
+                
+                // 5. Actualizar interfaz
+                document.getElementById('ceremonias-activas').textContent = 
+                    parseInt(document.getElementById('ceremonias-activas').textContent) + 1;
+                document.getElementById('ceremonias-completadas').textContent = 
+                    parseInt(document.getElementById('ceremonias-completadas').textContent) + 1;
+                    
+            } catch (error) {
+                console.error("❌ Error Supabase:", error);
+                alert("Error conectando con Supabase. Usando modo simulación.");
+                iniciarCeremonia(); // Fallback a la versión simulada
             }
-            
-            console.log(`📊 Métricas actualizadas: ${seguimientos.length} registros`);
         }
-    } catch (error) {
-        console.warn("⚠️ No se pudieron actualizar métricas:", error);
-    }
-}
+        
+        async function actualizarMetricasSupabase() {
+            try {
+                // Obtener métricas reales
+                const { data: seguimientos, error } = await supabase
+                    .from('seguimiento')
+                    .select('impacto_co2, nivel_conciencia')
+                    .gte('fecha', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString());
+                
+                if (error) throw error;
+                
+                if (seguimientos && seguimientos.length > 0) {
+                    // Calcular métricas
+                    const totalCO2 = seguimientos.reduce((sum, item) => sum + (item.impacto_co2 || 0), 0);
+                    const avgConciencia = seguimientos.reduce((sum, item) => sum + (item.nivel_conciencia || 0), 0) / seguimientos.length;
+                    
+                    // Actualizar interfaz
+                    const concienciaElement = document.getElementById('conciencia-colectiva');
+                    if (concienciaElement) {
+                        const nuevoValor = Math.min(100, Math.max(0, avgConciencia));
+                        concienciaElement.textContent = `${nuevoValor.toFixed(1)}%`;
+                    }
+                    
+                    console.log(`📊 Métricas actualizadas: ${seguimientos.length} registros`);
+                }
+                
+            } catch (error) {
+                console.warn("⚠️ No se pudieron actualizar métricas:", error);
+            }
+        }
+        
         // ===========================================
         // FUNCIONES SAGRADAS PRINCIPALES (MODIFICADAS)
         // ===========================================
