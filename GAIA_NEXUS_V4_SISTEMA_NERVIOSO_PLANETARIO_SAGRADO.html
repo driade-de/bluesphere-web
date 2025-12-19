@@ -2008,40 +2008,43 @@
         document.head.appendChild(estilosDinamicos);
         
         // =========================================================
-        // 🌐 MOTOR DE CONCIENCIA REAL (ACOPLAMIENTO SUPABASE)
-        // =========================================================
-        const SB_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
-        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+        // 🌐 MOTOR DE CONCIENCIA REAL (ACOPLAMIENTO SUPABASE V4)
+const SB_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+
+// ÚNICA DECLARACIÓN DE CLIENTE (Usamos gaiaSupabase para evitar errores de SyntaxError)
+const gaiaSupabase = window.supabase.createClient(SB_URL, SB_KEY);
+
+async function sincronizarGaia() {
+    try {
+        // Usamos gaiaSupabase en lugar de 'supabase'
+        const { data: seguimientos, error } = await gaiaSupabase.from('seguimiento').select('impacto_co2');
         
-        async function sincronizarGaia() {
-            try {
-                // Escaneando pulsos reales de tus Guardianes 000051, 52 y 53
-                const { data: seguimientos, error } = await supabase.from('seguimiento').select('impacto_co2');
-                
-                if (error) {
-                    console.warn("⚠️ Error al sincronizar:", error);
-                    return;
-                }
-                
-                if (seguimientos && seguimientos.length > 0) {
-                    const totalKg = seguimientos.reduce((acc, curr) => acc + (curr.impacto_co2 || 0), 0);
-                    
-                    // Sincronizar con el panel superior del Nexus
-                    const elConciencia = document.getElementById('conciencia-colectiva');
-                    if (elConciencia) {
-                        const porcentaje = Math.min(100, (Math.abs(totalKg) / 1000) * 100);
-                        elConciencia.innerText = `${porcentaje.toFixed(1)}%`;
-                    }
-                    
-                    const elAlianzas = document.getElementById('alianzas-sagradas');
-                    if (elAlianzas) elAlianzas.innerText = seguimientos.length;
-                    
-                    console.log(`📡 Pulso Gaia detectado: ${totalKg}kg registrados.`);
-                }
-            } catch (error) {
-                console.error("❌ Error en sincronización:", error);
-            }
+        if (error) {
+            console.warn("⚠️ Error al sincronizar:", error);
+            return;
         }
+        
+        if (seguimientos && seguimientos.length > 0) {
+            const totalKg = seguimientos.reduce((acc, curr) => acc + (curr.impacto_co2 || 0), 0);
+            
+            // Sincronizar con el panel superior del Nexus
+            const elConciencia = document.getElementById('conciencia-colectiva');
+            if (elConciencia) {
+                // Cálculo de porcentaje basado en 1000kg como meta de conciencia
+                const porcentaje = Math.min(100, (Math.abs(totalKg) / 1000) * 100);
+                elConciencia.innerText = `${porcentaje.toFixed(1)}%`;
+            }
+            
+            const elAlianzas = document.getElementById('alianzas-sagradas');
+            if (elAlianzas) elAlianzas.innerText = seguimientos.length;
+            
+            console.log(`📡 Pulso Gaia detectado: ${totalKg}kg registrados.`);
+        }
+    } catch (error) {
+        console.error("❌ Error en sincronización:", error);
+    }
+}
         
         // ACTIVACIÓN DEL LATIDO
         sincronizarGaia();
