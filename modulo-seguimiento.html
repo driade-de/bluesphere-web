@@ -683,6 +683,79 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        // ==================== FASE 1: SENSOR DE MEMORIA PLANETARIA ====================
+let habitosRegistradosHoy = []; // Memoria volátil de la sesión actual
+
+async function verificarHabitosDelDia(codigoGuardian) {
+    try {
+        const hoy = new Date();
+        // Definimos el inicio del día (00:00:00) para el filtro temporal
+        const inicioDia = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate(), 0, 0, 0, 0);
+        
+        console.log("🔍 Escaneando registros desde:", inicioDia.toISOString());
+
+        // Consulta profesional a la tabla 'seguimiento'
+        const { data, error } = await supabase
+            .from('seguimiento')
+            .select('acciones_realizadas')
+            .eq('codigo_guardian', codigoGuardian)
+            .gte('fecha_reporte', inicioDia.toISOString());
+
+        if (error) throw error;
+
+        habitosRegistradosHoy = [];
+        if (data && data.length > 0) {
+            data.forEach(registro => {
+                if (registro.acciones_realizadas) {
+                    // Extraemos los hábitos únicos registrados
+                    const habitos = registro.acciones_realizadas.split(', ');
+                    habitosRegistradosHoy.push(...habitos);
+                }
+            });
+            habitosRegistradosHoy = [...new Set(habitosRegistradosHoy)];
+        }
+
+        console.log(`🔒 Fase 1 Exitosa: ${habitosRegistradosHoy.length} hábitos recuperados.`);
+        return habitosRegistradosHoy;
+
+    } catch (error) {
+        console.error('❌ Error de conexión en Fase 1:', error.message);
+        return [];
+    }
+}
+        // ==================== FASE 2: BLOQUEO FÍSICO Y VISUAL ====================
+function bloquearHabitosRegistrados() {
+    const checkboxes = document.querySelectorAll('.accion-chk');
+    
+    checkboxes.forEach(checkbox => {
+        // Si el hábito ya fue detectado por el Sensor de la Fase 1...
+        if (habitosRegistradosHoy.includes(checkbox.value)) {
+            const label = checkbox.closest('.accion-label');
+            
+            // 1. Deshabilitar interacción física
+            label.style.opacity = '0.5';
+            label.style.pointerEvents = 'none';
+            checkbox.disabled = true;
+            
+            // 2. Sello Visual de Misión Cumplida
+            const contenido = label.querySelector('.accion-content');
+            if (contenido && !contenido.querySelector('.badge-hoy')) {
+                const badge = document.createElement('div');
+                badge.className = 'badge-hoy';
+                badge.innerHTML = '✅ <span style="font-size:0.7rem; margin-left:2px;">HOY</span>';
+                badge.style.cssText = `
+                    position: absolute; top: 5px; right: 5px;
+                    background: rgba(61, 220, 132, 0.2);
+                    border: 1px solid #3ddc84; border-radius: 10px;
+                    padding: 2px 8px; color: #3ddc84; font-weight: bold;
+                `;
+                contenido.style.position = 'relative';
+                contenido.appendChild(badge);
+            }
+        }
+    });
+    console.log("🛡️ Bloqueo de integridad activado.");
+}
         // ==================== SISTEMA DE IMPACTOS AVANZADO ====================
         const IMPACTOS_AVANZADOS = {
             // HÁBITOS BÁSICOS (18 originales + 3 nuevos)
@@ -726,7 +799,40 @@
             "SANAR RELACIONES ENTRE COMUNIDADES HUMANAS Y NO-HUMANAS",
             "ACTIVAR MEMORIA ANCESTRAL DE CONVIVENCIA CON LA TIERRA"
         ];
-
+// ==================== FASE 2: BLOQUEO FÍSICO Y VISUAL (ALTO) ====================
+function bloquearHabitosRegistrados() {
+    const checkboxes = document.querySelectorAll('.accion-chk');
+    
+    checkboxes.forEach(checkbox => {
+        // Compara el valor del checkbox con lo recuperado en la Fase 1
+        if (habitosRegistradosHoy.includes(checkbox.value)) {
+            const label = checkbox.closest('.accion-label');
+            
+            // 1. Estética Ghibli de Bloqueo [cite: 2025-11-21]
+            label.style.opacity = '0.5';
+            label.style.pointerEvents = 'none'; // Impide clics duplicados
+            checkbox.disabled = true;
+            
+            // 2. Sello Visual de Misión Cumplida
+            const contenido = label.querySelector('.accion-content');
+            if (contenido && !contenido.querySelector('.badge-hoy')) {
+                const badge = document.createElement('div');
+                badge.className = 'badge-hoy';
+                badge.innerHTML = '✅ <span style="font-size:0.7rem; margin-left:2px;">HOY</span>';
+                badge.style.cssText = `
+                    position: absolute; top: 5px; right: 5px;
+                    background: rgba(61, 220, 132, 0.2);
+                    border: 1px solid #3ddc84; border-radius: 10px;
+                    padding: 2px 8px; color: #3ddc84; font-weight: bold;
+                    z-index: 10;
+                `;
+                contenido.style.position = 'relative';
+                contenido.appendChild(badge);
+            }
+        }
+    });
+    console.log("🛡️ Bloqueo de integridad activado sobre los pulsos previos.");
+}
         // ==================== VARIABLES GLOBALES ====================
         let codigoGuardian = '';
         let intencionActiva = INTENCIONES_SEMANALES[0];
@@ -742,11 +848,15 @@
             // 2. Detectar código de guardián
             await inicializarCodigoGuardian();
 
+            // 3. Activar Sensor de Memoria Planetaria (Fase 1)
+if (codigoGuardian) { await verificarHabitosDelDia(codigoGuardian); }
             // 3. Configurar sistema de pestañas
             configurarTabs();
 
             // 4. Configurar checkboxes y cálculos
             configurarSistemaCalculos();
+            // Activar Bloqueo de Seguridad (Fase 2)
+bloquearHabitosRegistrados();
 
             // 5. Configurar botón de registro
             configurarBotonRegistro();
