@@ -1481,65 +1481,69 @@
         }
         
         // ===========================================
-        // SUPABASE CONEXIÓN REAL
-        // ===========================================
-        
-        const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
-        
-        // Inicializar Supabase
-        const { createClient } = window.supabase;
-        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-        
-        async function iniciarCeremoniaSupabase() {
-            try {
-                console.log("🔄 Conectando con Supabase...");
-                
-                // 1. Verificar conexión
-                const { data: testData, error: testError } = await supabase
-                    .from('seguimiento')
-                    .select('count')
-                    .limit(1);
-                
-                if (testError) throw testError;
-                
-                // 2. Registrar nueva ceremonia
-                const nuevaCeremonia = {
-                    empresa_id: 'guardian-000',
-                    tipo_ceremonia: 'iniciacion',
-                    fecha: new Date().toISOString(),
-                    participantes: 1,
-                    impacto_co2: -150, // kg CO2 compensados
-                    nivel_conciencia: 85,
-                    estado: 'completada'
-                };
-                
-                const { data, error } = await supabase
-                    .from('ceremonias')
-                    .insert([nuevaCeremonia])
-                    .select();
-                
-                if (error) throw error;
-                
-                // 3. Actualizar métricas en tiempo real
-                await actualizarMetricasSupabase();
-                
-                // 4. Mostrar confirmación
-                alert(`✅ Ceremonia registrada en Supabase\nID: ${data[0].id}\nImpacto: -150 kg CO2`);
-                
-                // 5. Actualizar interfaz
-                document.getElementById('ceremonias-activas').textContent = 
-                    parseInt(document.getElementById('ceremonias-activas').textContent) + 1;
-                document.getElementById('ceremonias-completadas').textContent = 
-                    parseInt(document.getElementById('ceremonias-completadas').textContent) + 1;
-                    
-            } catch (error) {
-                console.error("❌ Error Supabase:", error);
-                alert("Error conectando con Supabase. Usando modo simulación.");
-                iniciarCeremonia(); // Fallback a la versión simulada
-            }
-        }
-        
+// SUPABASE CONEXIÓN REAL (CORRECTA – CDN v2)
+// ===========================================
+
+const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+
+// El CDN expone "supabase" globalmente
+// NO se redeclara, solo se usa
+const gaiaSupabase = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+async function iniciarCeremoniaSupabase() {
+    try {
+        console.log("🔄 Conectando con Supabase...");
+
+        // 1. Verificar conexión
+        const { error: testError } = await gaiaSupabase
+            .from('seguimiento')
+            .select('*')
+            .limit(1);
+
+        if (testError) throw testError;
+
+        // 2. Registrar nueva ceremonia
+        const nuevaCeremonia = {
+            empresa_id: 'guardian-000',
+            tipo_ceremonia: 'iniciacion',
+            fecha: new Date().toISOString(),
+            participantes: 1,
+            impacto_co2: -150,
+            nivel_conciencia: 85,
+            estado: 'completada'
+        };
+
+        const { data, error } = await gaiaSupabase
+            .from('ceremonias')
+            .insert([nuevaCeremonia])
+            .select();
+
+        if (error) throw error;
+
+        // 3. Actualizar métricas
+        await actualizarMetricasSupabase();
+
+        // 4. Confirmación
+        alert(`✅ Ceremonia registrada\nID: ${data[0].id}\nImpacto: -150 kg CO₂`);
+
+        // 5. UI
+        document.getElementById('ceremonias-activas').textContent =
+            parseInt(document.getElementById('ceremonias-activas').textContent) + 1;
+
+        document.getElementById('ceremonias-completadas').textContent =
+            parseInt(document.getElementById('ceremonias-completadas').textContent) + 1;
+
+    } catch (error) {
+        console.error("❌ Error Supabase:", error);
+        alert("Error conectando con Supabase. Usando modo simulación.");
+        iniciarCeremonia();
+    }
+}
+
         async function actualizarMetricasSupabase() {
             try {
                 // Obtener métricas reales
