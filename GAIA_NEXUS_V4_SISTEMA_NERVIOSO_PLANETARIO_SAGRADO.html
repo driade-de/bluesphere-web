@@ -2012,8 +2012,10 @@
 const SB_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
 
-// ÚNICA DECLARACIÓN DE CLIENTE (Usamos gaiaSupabase para evitar errores de SyntaxError)
-const gaiaSupabase = window.supabase.createClient(SB_URL, SB_KEY);
+// ÚNICA DECLARACIÓN PROTEGIDA (Previene errores si window.supabase no ha cargado)
+const gaiaSupabase = (window.supabase && window.supabase.createClient) 
+    ? window.supabase.createClient(SB_URL, SB_KEY) 
+    : null;
 
 async function sincronizarGaia() {
     try {
