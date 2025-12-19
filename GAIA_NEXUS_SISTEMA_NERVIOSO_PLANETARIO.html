@@ -50,7 +50,7 @@
         /* CONTENEDOR PRINCIPAL */
         .cosmos-container {
             display: grid;
-            grid-template-columns: 300px 1fr 400px; /* Panel derecho más ancho */
+            grid-template-columns: 300px 1fr 400px;
             grid-template-rows: 120px 1fr 80px;
             height: 100vh;
             padding: 20px;
@@ -211,12 +211,11 @@
             border: 1px solid rgba(0, 224, 255, 0.2);
         }
         
-        /* GLOBO TERRÁQUEO 3D - VERSIÓN CRISTAL GHIBLI */
+        /* GLOBO TERRÁQUEO 3D */
         #globo-terraqueo {
             width: 100%;
             height: 100%;
             position: absolute;
-            /* Inyectamos el aura esmeralda directamente por si el 3D falla */
             background: radial-gradient(circle at center, 
                 rgba(42, 252, 91, 0.15) 0%, 
                 rgba(0, 168, 255, 0.05) 50%, 
@@ -226,17 +225,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        /* EFECTO DE LUZ PARA EL MODO ESTÁTICO */
-        #globo-terraqueo::after {
-            content: '';
-            position: absolute;
-            width: 80%;
-            height: 80%;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, transparent 60%);
-            border-radius: 50%;
-            pointer-events: none;
         }
         
         /* =========================================== */
@@ -570,6 +558,28 @@
             0% { transform: scale(0.95); opacity: 0.8; }
             100% { transform: scale(1); opacity: 1; }
         }
+
+        /* FILTROS DE HÁBITOS */
+        .filtro-habito {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .filtro-habito.activo {
+            background: rgba(42, 252, 91, 0.2);
+            border-color: var(--planet-green);
+            color: var(--planet-green);
+        }
+
+        .filtro-habito:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -611,16 +621,10 @@
             <h3 style="color: var(--planet-green); margin-bottom: 15px;">🌿 ÁRBOL DE LOS 18 HÁBITOS REGENERATIVOS</h3>
             
             <!-- FILTROS -->
-            <div class="filtros-habitos">
-                <button id="filtro-todos" class="capa-btn activo" style="padding: 6px 12px; font-size: 0.8rem;">
-                    🌍 Todos (18)
-                </button>
-                <button id="filtro-basicos" class="capa-btn" style="padding: 6px 12px; font-size: 0.8rem;">
-                    🌿 Básicos (8)
-                </button>
-                <button id="filtro-alto-impacto" class="capa-btn" style="padding: 6px 12px; font-size: 0.8rem;">
-                    🔥 Alto Impacto (10)
-                </button>
+            <div style="margin-bottom: 20px; display: flex; gap: 10px;">
+                <button id="filtro-todos" class="filtro-habito activo" onclick="filtrarHabitos('todos')">🌍 Todos (18)</button>
+                <button id="filtro-basicos" class="filtro-habito" onclick="filtrarHabitos('basicos')">🌿 Básicos (8)</button>
+                <button id="filtro-alto-impacto" class="filtro-habito" onclick="filtrarHabitos('alto_impacto')">🔥 Alto Impacto (10)</button>
             </div>
             
             <!-- LISTA DE HÁBITOS -->
@@ -628,60 +632,32 @@
                 <!-- Los 18 hábitos se cargan dinámicamente -->
             </div>
             
-           <!-- RESUMEN DE IMPACTO -->
-<div style="margin-top: 30px;">
-    <h4 style="color: var(--stardust-blue); margin-bottom: 15px;">📊 IMPACTO ACUMULADO</h4>
-    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
-        
-        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-            <span>Total CO₂ Ahorrable</span>
-            <span id="total-co2" style="color: var(--planet-green); font-weight: bold;">73.0 kg/persona</span>
-        </div>
-        
-        <div class="barra-progreso-cosmica">
-            <div class="progreso-lleno" style="width: 45%;"></div>
-        </div>
-        
-        <div style="display: flex; justify-content: space-between; margin: 15px 0 8px;">
-            <span>Adopción Promedio</span>
-            <span id="adopcion-promedio" style="color: var(--quantum-gold); font-weight: bold;">43.6%</span>
-        </div>
-        
-        <div class="barra-progreso-cosmica">
-            <div class="progreso-lleno" 
-                 style="width: 43.6%; 
-                        background: linear-gradient(90deg, var(--quantum-gold), var(--quantum-gold)80);">
+            <!-- RESUMEN DE IMPACTO -->
+            <div style="margin-top: 30px;">
+                <h4 style="color: var(--stardust-blue); margin-bottom: 15px;">📊 IMPACTO ACUMULADO</h4>
+                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span>Total CO₂ Ahorrable</span>
+                        <span id="total-co2" style="color: var(--planet-green); font-weight: bold;">73.0 kg/persona</span>
+                    </div>
+                    <div class="barra-progreso-cosmica">
+                        <div class="progreso-lleno" style="width: 45%;"></div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; margin: 15px 0 8px;">
+                        <span>Adopción Promedio</span>
+                        <span id="adopcion-promedio" style="color: var(--quantum-gold); font-weight: bold;">43.6%</span>
+                    </div>
+                    <div class="barra-progreso-cosmica">
+                        <div class="progreso-lleno" style="width: 43.6%; background: linear-gradient(90deg, var(--quantum-gold), var(--quantum-gold)80);"></div>
+                    </div>
+                </div>
             </div>
         </div>
-        
-    </div>
-</div>
-</div>
         
         <!-- CENTRO - SISTEMA NERVIOSO PLANETARIO -->
         <div class="panel-planetario">
             <div id="globo-terraqueo"></div>
-            
-            <div class="capas-datos">
-                <h4 style="color: white; margin-bottom: 10px;">🗺️ CAPAS DE CONCIENCIA</h4>
-                <div class="selector-capa">
-                    <button class="capa-btn activo" data-capa="habitos">Hábitos</button>
-                    <button class="capa-btn" data-capa="impacto">Impacto CO₂</button>
-                    <button class="capa-btn" data-capa="corporativo">Corporativo</button>
-                </div>
-                
-                <div style="margin-top: 20px;">
-                    <div style="color: var(--planet-green); font-size: 0.9rem;">
-                        🌍 <span id="neuronas-activas">8.2M</span> neuronas activas
-                    </div>
-                    <div style="color: var(--stardust-blue); font-size: 0.9rem; margin-top: 5px;">
-                        ⚡ <span id="sinapsis-hora">15.3K</span> sinapsis/hora
-                    </div>
-                    <div style="color: var(--corporate-cyan); font-size: 0.9rem; margin-top: 5px;">
-                        🏢 <span id="empresas-activas">4</span> empresas activas
-                    </div>
-                </div>
-            </div>
         </div>
         
         <!-- PANEL DERECHO - ECOSISTEMA CORPORATIVO -->
@@ -1117,19 +1093,19 @@
             if (!filtroTodos || !filtroBasicos || !filtroAltoImpacto) return;
             
             filtroTodos.addEventListener('click', function() {
-                document.querySelectorAll('.filtros-habitos .capa-btn').forEach(btn => btn.classList.remove('activo'));
+                document.querySelectorAll('.filtro-habito').forEach(btn => btn.classList.remove('activo'));
                 this.classList.add('activo');
                 renderizarArbolHabitos('todos');
             });
             
             filtroBasicos.addEventListener('click', function() {
-                document.querySelectorAll('.filtros-habitos .capa-btn').forEach(btn => btn.classList.remove('activo'));
+                document.querySelectorAll('.filtro-habito').forEach(btn => btn.classList.remove('activo'));
                 this.classList.add('activo');
                 renderizarArbolHabitos('basicos');
             });
             
             filtroAltoImpacto.addEventListener('click', function() {
-                document.querySelectorAll('.filtros-habitos .capa-btn').forEach(btn => btn.classList.remove('activo'));
+                document.querySelectorAll('.filtro-habito').forEach(btn => btn.classList.remove('activo'));
                 this.classList.add('activo');
                 renderizarArbolHabitos('alto_impacto');
             });
@@ -1511,7 +1487,7 @@
         }
         
         // ===========================================
-        // FUNCIONES EXISTENTES (simplificadas)
+        // ANIMACIONES Y FUNCIONES ADICIONALES
         // ===========================================
         
         function animarBrujulaCosmica() {
@@ -1537,29 +1513,28 @@
             }, 5000);
         }
         
-        
-       // ===========================================
+        // ===========================================
         // 🛰️ PROTOCOLO DE SINCRONIZACIÓN SATELITAL
         // ===========================================
         function activarSincroniaSatelital() {
-    // 1. Cargamos su impacto real verificado de 73.0kg (Actualizado de 25kg)
-    const impactoPanel = document.getElementById('impacto-corporativo');
-    if(impactoPanel) {
-        impactoPanel.innerHTML = `<span style="color: var(--planet-green); text-shadow: 0 0 10px var(--planet-green);">73.0 kg CO₂</span>`;
-        console.log("🛰️ Impacto Real Sincronizado: 73.0 kg verificado por el Ritual.");
-    }
+            // 1. Cargamos su impacto real verificado de 73.0kg (Actualizado de 25kg)
+            const impactoPanel = document.getElementById('impacto-corporativo');
+            if(impactoPanel) {
+                impactoPanel.innerHTML = `<span style="color: var(--planet-green); text-shadow: 0 0 10px var(--planet-green);">73.0 kg CO₂</span>`;
+                console.log("🛰️ Impacto Real Sincronizado: 73.0 kg verificado por el Ritual.");
+            }
 
-    // 2. MATERIALIZACIÓN FORZADA DE LA ESFERA GHIBLI
-    const globeCanvas = document.querySelector('canvas') || document.getElementById('globo-terraqueo');
-    if(globeCanvas) {
-        // El aura esmeralda Ghibli envuelve el Nexus
-        globeCanvas.style.background = "radial-gradient(circle at 30% 30%, rgba(42,252,91,0.4) 0%, rgba(0,168,255,0.1) 50%, rgba(10,10,22,0.8) 100%)";
-        globeCanvas.style.boxShadow = "inset 0 0 80px rgba(42, 252, 91, 0.5), 0 0 40px rgba(0, 224, 255, 0.3)";
-        globeCanvas.style.borderRadius = "50%";
-        globeCanvas.style.border = "1px solid rgba(255, 255, 255, 0.2)";
-        console.log("🔮 GAIA: Esfera de Cristal sincronizada con éxito de 73kg.");
-    }
-}
+            // 2. MATERIALIZACIÓN FORZADA DE LA ESFERA GHIBLI
+            const globeCanvas = document.querySelector('canvas') || document.getElementById('globo-terraqueo');
+            if(globeCanvas) {
+                // El aura esmeralda Ghibli envuelve el Nexus
+                globeCanvas.style.background = "radial-gradient(circle at 30% 30%, rgba(42,252,91,0.4) 0%, rgba(0,168,255,0.1) 50%, rgba(10,10,22,0.8) 100%)";
+                globeCanvas.style.boxShadow = "inset 0 0 80px rgba(42, 252, 91, 0.5), 0 0 40px rgba(0, 224, 255, 0.3)";
+                globeCanvas.style.borderRadius = "50%";
+                globeCanvas.style.border = "1px solid rgba(255, 255, 255, 0.2)";
+                console.log("🔮 GAIA: Esfera de Cristal sincronizada con éxito de 73kg.");
+            }
+        }
 
         // ===========================================
         // 🚀 CONFIGURACIÓN DE SLIDERS Y ARRANQUE FORZADO
@@ -1580,14 +1555,16 @@
             console.log("🌍 GAIA: Iniciando renderizado de hábitos...");
             renderizarArbolHabitos(); // Sella la fisura de la lista vacía
             configurarFiltrosHabitos();
-            actualizarEmpresaDemo();
+            actualizarEmpresaDemo();  // ¡IMPORTANTE! Inicializa la parte corporativa
             animarBrujulaCosmica();
             simularSistemaNervioso();
             
             // 3. SINCRONIZACIÓN FINAL (73kg e Impacto Visual)
-            // Bajamos el tiempo a 500ms para que el impacto de 25kg aparezca más rápido
             setTimeout(() => {
                 activarSincroniaSatelital();
                 console.log("✨ GAIA: Sincronía de cristal completada.");
             }, 500); 
         });
+    </script>
+</body>
+</html>
