@@ -2089,12 +2089,13 @@
             planetasData.forEach((data, index) => {
                 // Geometría del planeta
                 const geometry = new THREE.SphereGeometry(data.radio, 16, 16);
-                const material = new THREE.MeshPhongMaterial({ 
-                    color: data.color,
-                    emissive: data.color,
-                    emissiveIntensity: 0.2,
-                    shininess: 30
-                });
+                const material = new THREE.MeshStandardMaterial({ 
+    color: data.color,
+    emissive: data.color,
+    emissiveIntensity: 0.2, // ¡Ahora sí funciona!
+    roughness: 0.7,
+    metalness: 0.1
+});
                 
                 const planeta = new THREE.Mesh(geometry, material);
                 planeta.userData = {
