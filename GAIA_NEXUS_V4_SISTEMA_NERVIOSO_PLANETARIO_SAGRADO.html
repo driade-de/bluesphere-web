@@ -166,34 +166,29 @@
         height: 350px !important;
     }
 
-    /* 💎 Posicionamiento de la Tríada Gaia */
+   /* 💎 3. Posicionamiento de la Tríada Gaia */
     .triada-gaia-overlay {
         position: relative !important;
         top: 0 !important;
         right: 0 !important;
         width: 100% !important;
         margin-top: 20px !important;
+        padding: 15px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
     }
-} /* <--- ESTA LLAVE CIERRA EL @MEDIA DE LA LÍNEA 117 */
+
+    /* 🔘 Ajuste de Botones en el Árbol (Mobile) */
+    .capa-btn {
         padding: 6px 10px !important;
         font-size: 0.7rem !important;
         margin: 3px !important; /* Mantiene los botones dentro de la caja */
+        white-space: nowrap;
     }
 
-    /* 2. Rescatar la Tríada y el Espejo */
-.cosmos-container {
-    display: flex !important;
-    flex-direction: column !important; /* Apila todo verticalmente en móvil */
-    height: auto !important;
-    min-height: 150vh !important; /* <--- ESTA LÍNEA ES EL SECRETO */
-}
+} /* <--- LLAVE DE SEGURIDAD FINAL: CIERRA EL @MEDIA DE LA LÍNEA 117 */
 
-    .triada-gaia-overlay {
-        position: relative !important; /* Deja de flotar para que no se pierda */
-        width: 100% !important;
-        right: 0 !important;
-        top: 20px !important;
-    }
 
     /* 3. Ajustar el Diamante para la mano */
     #nucleo-luz-guardian, .pulso-personal {
