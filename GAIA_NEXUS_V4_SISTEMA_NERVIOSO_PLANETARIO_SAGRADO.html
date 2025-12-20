@@ -76,6 +76,40 @@
             --ods-16: #00689d;  /* Paz, justicia e instituciones sólidas */
             --ods-17: #19486a;  /* Alianzas para lograr los objetivos */
         }
+
+        /* 🪐 FÍSICA DEL ESPEJO: EL SISTEMA SOLAR PERSONAL */
+#nucleo-luz-guardian {
+    width: 45px;
+    height: 45px;
+    background: var(--light);
+    border-radius: 50%;
+    position: absolute;
+    top: 35%; /* Alineado con la visión del Guardián */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 60px var(--glow), 0 0 120px var(--quantum);
+    z-index: 10001;
+}
+
+.pulso-personal {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--success);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--success);
+    top: 35%;
+    left: 50%;
+    /* 🌀 Trayectoria elíptica de conciencia */
+    offset-path: ellipse(180px 90px at center);
+    animation: orbitar-espejo 8s linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes orbitar-espejo {
+    from { offset-distance: 0%; }
+    to { offset-distance: 100%; }
+}
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -635,7 +669,23 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        
+
+
+        <div id="portal-espejo-v5" style="text-align: center; margin-bottom: 35px;">
+    <button onclick="invocarEspejoGhibli()" class="btn-registro-corp" style="background: var(--quantum); color: var(--dark); border: 2px solid var(--light); box-shadow: 0 0 20px var(--quantum);">
+        ✨ INVOCAR MI ESPEJO EN GAIA
+    </button>
+</div>
+
+<div id="espejo-overlay" style="display:none; position: fixed; inset: 0; background: rgba(10, 25, 41, 0.9); backdrop-filter: blur(20px); z-index: 9999; flex-direction: column; align-items: center; justify-content: center;">
+    <div id="nucleo-luz-guardian"></div>
+    <div id="sistema-solar-personal"></div>
+    <div class="info-espejo-ghibli" style="text-align: center; color: white; margin-top: 180px;">
+        <h1 style="letter-spacing: 5px;">GUARDIÁN #1</h1>
+        <p id="sincronia-detallada">SINCRONÍA COLECTIVA: 92%</p>
+        <button onclick="cerrarEspejoGhibli()" style="margin-top: 30px; background: none; border: 1px solid white; color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer;">VOLVER AL TODO</button>
+    </div>
+</div>
         .simulador-corporativo {
             background: rgba(255, 107, 53, 0.1);
             border-radius: 15px;
@@ -2174,6 +2224,35 @@
                 setTimeout(() => notificacion.remove(), 500);
             }, 3000);
         }
+
+        // 🌀 MOTOR DE INVOCACIÓN: EL ESPEJO GHIBLI V5.0
+function invocarEspejoGhibli() {
+    const overlay = document.getElementById('espejo-overlay');
+    const sistema = document.getElementById('sistema-solar-personal');
+    
+    // Activamos la capa de realidad aumentada sobre la red
+    overlay.style.display = 'flex';
+    sistema.innerHTML = ''; 
+
+    // Transformamos sus 12 registros diarios en joyas de luz
+    for(let i = 0; i < 12; i++) {
+        const pulso = document.createElement('div');
+        pulso.className = 'pulso-personal';
+        
+        // Estética Ghibli: Movimiento orgánico y asíncrono [cite: 2025-11-21]
+        pulso.style.animationDelay = `${i * 0.6}s`; 
+        
+        // Variación de escala para profundidad cuántica
+        const scale = 0.8 + (Math.random() * 0.5);
+        pulso.style.transform = `scale(${scale})`;
+        
+        sistema.appendChild(pulso);
+    }
+}
+
+function cerrarEspejoGhibli() {
+    document.getElementById('espejo-overlay').style.display = 'none';
+}
         
         function firmarPactoGaia() {
             const nombre = prompt("Nombre del representante:");
