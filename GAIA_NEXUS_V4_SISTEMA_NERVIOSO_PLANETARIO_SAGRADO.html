@@ -139,15 +139,25 @@
     }
     
     /* 2. REORGANIZACIÓN DEL LAYOUT - ÚNICA DEFINICIÓN */
-    .cosmos-container {
-        display: flex !important;
-        flex-direction: column !important;
-        height: auto !important;
-        min-height: 100vh !important;
-        padding: 10px !important;
-        gap: 15px !important;
-        margin-top: 0 !important;
-    }
+    /* --- ESTO ARREGLA LA PC (Ponlo fuera de @media) --- */
+.cosmos-container {
+    display: grid !important;
+    grid-template-columns: 320px 1fr 350px !important; /* Mantiene el carril para Empresas */
+    grid-template-rows: auto 1fr auto !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    padding: 20px !important;
+    gap: 20px !important;
+    position: relative !important;
+}
+
+.panel-corporativo {
+    grid-column: 3 !important; /* Manda las empresas a la derecha */
+    display: flex !important; /* Asegura que no esté oculto */
+    flex-direction: column !important;
+    visibility: visible !important;
+    z-index: 10 !important;
+}
     
     /* 3. ORDEN CORRECTO DE ELEMENTOS */
     .header-cosmico {
@@ -313,7 +323,7 @@ body {
     background: var(--deep-space);
     color: white;
     font-family: 'Segoe UI', 'Orbitron', monospace;
-    overflow: hidden;
+   overflow-y: auto !important;
     height: 100vh;
     position: relative;
 }
