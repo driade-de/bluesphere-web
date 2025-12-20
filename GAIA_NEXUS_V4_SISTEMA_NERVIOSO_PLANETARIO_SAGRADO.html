@@ -326,15 +326,83 @@ body {
     z-index: -1;
 }
 
-/* CONTENEDOR CÓSMICO SAGRADO - VERSIÓN DESKTOP */
-.cosmos-container {
-    display: grid;
-    grid-template-columns: minmax(250px, 300px) 1fr minmax(300px, 400px);
-    grid-template-rows: auto 1fr auto;
-    height: 100vh;
-    padding: 20px;
-    gap: 15px;
-    position: relative;
+/* =========================================== */
+/* VERSIÓN PC VERTICAL - NUEVO DISEÑO */
+/* =========================================== */
+
+@media (min-width: 769px) {
+    /* PC VERTICAL PERO CON SECCIONES LATERALES */
+    .cosmos-container {
+        display: grid !important;
+        grid-template-columns: 1fr !important; /* Una columna principal */
+        grid-template-rows: auto auto auto auto auto !important;
+        height: auto !important;
+        min-height: 100vh !important;
+        padding: 20px !important;
+        gap: 20px !important;
+    }
+    
+    /* CABECERA OCUPA ANCHO COMPLETO */
+    .header-cosmico {
+        grid-column: 1 !important;
+        grid-row: 1 !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+    }
+    
+    /* CONTENIDO PRINCIPAL EN GRID DE 2 COLUMNAS */
+    .main-content {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 20px !important;
+        grid-column: 1 !important;
+        grid-row: 2 !important;
+    }
+    
+    /* IZQUIERDA: Árbol + Sistema Solar apilados */
+    .left-column {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+    
+    .panel-conciencia {
+        height: 300px !important;
+        overflow-y: auto !important;
+    }
+    
+    .panel-planetario {
+        height: 400px !important;
+        min-height: 400px !important;
+    }
+    
+    /* DERECHA: Tríada + Panel Corporativo apilados */
+    .right-column {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+    
+    .triada-gaia-overlay {
+        position: relative !important;
+        top: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    .panel-corporativo {
+        height: auto !important;
+        overflow-y: auto !important;
+        max-height: 600px !important;
+    }
+    
+    /* CHAKRAS ABAJO */
+    .chakras-planetarios {
+        grid-column: 1 !important;
+        grid-row: 3 !important;
+        margin-top: 20px !important;
+    }
 }
 
 /* PARA TABLET (1024px o menos) */
