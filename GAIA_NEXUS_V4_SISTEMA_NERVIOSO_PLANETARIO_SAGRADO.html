@@ -607,26 +607,28 @@
         }
         
         /* =========================================== */
-        /* CENTRO - SISTEMA SOLAR SAGRADO */
-        /* =========================================== */
-        .panel-planetario {
-            grid-row: 2;
-            position: relative;
-            background: radial-gradient(circle at center, #0d1b2a 0%, #05050f 100%);
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(0, 224, 255, 0.4);
-            box-shadow: inset 0 0 80px rgba(0, 224, 255, 0.15);
-        }
-        
-        #sistema-solar-sagrado {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            z-index: 1;
-        }
-        
-       /* TRÍADA GAIA OVERLAY - VERSIÓN RESPONSIVE */
+/* CENTRO - SISTEMA SOLAR SAGRADO */
+/* =========================================== */
+.panel-planetario {
+    grid-row: 2;
+    position: relative;
+    background: radial-gradient(circle at center, #0d1b2a 0%, #05050f 100%);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 224, 255, 0.4);
+    box-shadow: inset 0 0 80px rgba(0, 224, 255, 0.15);
+}
+
+#sistema-solar-sagrado {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* =========================================== */
+/* TRÍADA GAIA OVERLAY - VERSIÓN RESPONSIVE */
+/* =========================================== */
 .triada-gaia-overlay {
     position: absolute;
     top: 20px;
@@ -701,80 +703,9 @@
     color: var(--nova-red);
 }
 
-/* ================= MEDIA QUERIES ================= */
-
-/* TABLET (1024px o menos) */
-@media (max-width: 1024px) {
-    .triada-gaia-overlay {
-        width: 280px;
-        max-width: calc(100vw - 40px);
-        right: 10px;
-        top: 10px;
-    }
-}
-
-/* MÓVIL (768px o menos) */
-@media (max-width: 768px) {
-    .triada-gaia-overlay {
-        position: relative !important;
-        top: 0 !important;
-        right: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 20px auto !important;
-        background: rgba(10, 10, 22, 0.98) !important;
-        margin-left: 10px !important;
-        margin-right: 10px !important;
-    }
-    
-    .triada-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 15px;
-        margin-bottom: 15px;
-    }
-    
-    .triada-icono {
-        font-size: 2rem !important;
-        margin-bottom: 10px;
-    }
-    
-    .triada-valor {
-        font-size: 1.6rem !important;
-        margin: 10px 0;
-    }
-    
-    .triada-tendencia {
-        justify-content: center;
-    }
-}
-
-/* MÓVILES MUY PEQUEÑOS (480px o menos) */
-@media (max-width: 480px) {
-    .triada-gaia-overlay {
-        padding: 12px !important;
-        margin: 15px 10px !important;
-        border-radius: 12px;
-    }
-    
-    .triada-item {
-        padding: 12px !important;
-        margin-bottom: 12px !important;
-    }
-    
-    .triada-valor {
-        font-size: 1.4rem !important;
-    }
-    
-    .triada-titulo {
-        font-size: 0.9rem;
-    }
-}
-        
-      /* CONTROLES DEL SISTEMA SOLAR - VERSIÓN RESPONSIVE */
+/* =========================================== */
+/* CONTROLES DEL SISTEMA SOLAR */
+/* =========================================== */
 .controles-solar {
     position: absolute;
     top: 20px;
@@ -844,6 +775,221 @@
     z-index: 1000;
     backdrop-filter: blur(10px);
     display: none;
+}
+
+/* =========================================== */
+/* MEDIA QUERIES RESPONSIVE - CORREGIDAS */
+/* =========================================== */
+
+/* TABLET (1024px o menos) */
+@media (max-width: 1024px) {
+    .triada-gaia-overlay {
+        width: 280px;
+        max-width: calc(100vw - 40px);
+        right: 10px;
+        top: 10px;
+    }
+    
+    .controles-solar {
+        width: 280px;
+        max-width: calc(100% - 40px);
+        left: 10px;
+        top: 10px;
+    }
+}
+
+/* MÓVIL (768px o menos) - CORRECIÓN COMPLETA */
+@media (max-width: 768px) {
+    /* REORGANIZACIÓN DEL LAYOUT */
+    .cosmos-container {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 10px !important;
+        gap: 15px !important;
+    }
+    
+    /* TRÍADA GAIA - CAMBIO RADICAL PARA MÓVIL */
+    .triada-gaia-overlay {
+        /* QUITAR POSICIÓN ABSOLUTA */
+        position: relative !important;
+        top: 0 !important;
+        right: 0 !important;
+        left: 0 !important;
+        
+        /* OCUPAR ANCHO COMPLETO */
+        width: 100% !important;
+        max-width: 100% !important;
+        
+        /* CENTRAR Y DAR ESPACIO */
+        margin: 15px auto !important;
+        padding: 15px !important;
+        display: block !important;
+        
+        /* MÁS VISIBLE */
+        background: rgba(10, 10, 22, 0.98) !important;
+        
+        /* ORDEN EN EL LAYOUT */
+        order: 2 !important;
+    }
+    
+    /* MEJORAR ITEMS DE TRÍADA PARA MÓVIL */
+    .triada-item {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding: 15px !important;
+        margin-bottom: 15px !important;
+        width: 90% !important;
+        max-width: 400px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    
+    .triada-icono {
+        font-size: 2rem !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .triada-valor {
+        font-size: 1.6rem !important;
+        margin: 10px 0 !important;
+    }
+    
+    .triada-tendencia {
+        justify-content: center !important;
+    }
+    
+    /* CONTROLES SOLAR - CAMBIO PARA MÓVIL */
+    .controles-solar {
+        /* QUITAR POSICIÓN ABSOLUTA */
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        
+        /* OCUPAR ANCHO COMPLETO */
+        width: 100% !important;
+        max-width: 100% !important;
+        
+        /* CENTRAR Y DAR ESPACIO */
+        margin: 0 auto 15px auto !important;
+        display: block !important;
+        
+        /* MÁS VISIBLE */
+        background: rgba(0, 0, 0, 0.85) !important;
+        
+        /* ORDEN EN EL LAYOUT */
+        order: 1 !important;
+    }
+    
+    /* MEJORAR BOTONES PARA MÓVIL */
+    .controles-solar .capa-btn {
+        padding: 12px !important;
+        font-size: 14px !important;
+        min-height: 44px; /* Tamaño mínimo táctil */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* AGRUPAR BOTONES EN MÓVIL */
+    .controles-solar > div:first-child {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    /* INFO PLANETA EN MÓVIL */
+    .info-planeta {
+        width: 90% !important;
+        max-width: 300px;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        position: fixed !important;
+        bottom: 20px !important;
+        top: auto !important;
+        z-index: 10000;
+    }
+    
+    /* PANEL PLANETARIO EN MÓVIL */
+    .panel-planetario {
+        height: 350px !important;
+        min-height: 350px !important;
+        order: 3 !important;
+        width: 100% !important;
+    }
+}
+
+/* MÓVILES PEQUEÑOS (480px o menos) */
+@media (max-width: 480px) {
+    .triada-gaia-overlay {
+        padding: 12px !important;
+        margin: 10px 0 !important;
+        border-radius: 12px !important;
+    }
+    
+    .triada-item {
+        padding: 12px !important;
+        margin-bottom: 12px !important;
+    }
+    
+    .triada-valor {
+        font-size: 1.4rem !important;
+    }
+    
+    .triada-titulo {
+        font-size: 0.9rem;
+    }
+    
+    .controles-solar {
+        padding: 12px !important;
+        border-radius: 12px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .controles-solar > div:first-child {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    .controles-solar h4 {
+        font-size: 1rem !important;
+        text-align: center;
+        margin-bottom: 15px !important;
+    }
+    
+    /* PLANETAS MÁS PEQUEÑOS EN MÓVIL */
+    .planeta {
+        font-size: 0.6rem !important;
+    }
+    
+    .info-planeta {
+        width: 95% !important;
+        padding: 10px !important;
+        font-size: 0.9rem;
+    }
+    
+    .panel-planetario {
+        height: 300px !important;
+        min-height: 300px !important;
+    }
+}
+
+/* MÓVILES MUY PEQUEÑOS (360px o menos) */
+@media (max-width: 360px) {
+    .controles-solar > div:first-child {
+        grid-template-columns: 1fr;
+    }
+    
+    .planeta {
+        font-size: 0.5rem !important;
+    }
+    
+    .triada-item {
+        width: 95% !important;
+    }
 }
 
 /* ================= MEDIA QUERIES ================= */
