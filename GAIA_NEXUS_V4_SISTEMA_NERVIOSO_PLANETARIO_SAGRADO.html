@@ -2064,11 +2064,13 @@
             
             // 4. CREAR SOL
             const solGeometry = new THREE.SphereGeometry(3, 32, 32);
-            const solMaterial = new THREE.MeshBasicMaterial({ 
-                color: 0xffd700,
-                emissive: 0xff9900,
-                emissiveIntensity: 0.8
-            });
+            const solMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0xffd700,           // Dorado básico
+    emissive: 0xff9900,        // Naranja para brillo
+    emissiveIntensity: 1.0,    // Intensidad normal
+    roughness: 0.3,            // Valor estándar
+    metalness: 0.1             // Valor estándar
+});
             const sol = new THREE.Mesh(solGeometry, solMaterial);
             sol.userData = { tipo: 'sol', nombre: 'Sol' };
             sistemaSolarScene.add(sol);
