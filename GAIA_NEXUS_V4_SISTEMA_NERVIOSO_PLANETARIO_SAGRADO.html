@@ -632,7 +632,7 @@
     top: 20px;
     right: 20px;
     width: 300px;
-    max-width: calc(100vw - 40px); /* NUEVO: Nunca sale de la pantalla */
+    max-width: calc(100vw - 40px);
     z-index: 100;
     background: rgba(10, 10, 22, 0.95);
     border-radius: 15px;
@@ -640,8 +640,65 @@
     backdrop-filter: blur(10px);
     border: 1px solid rgba(0, 224, 255, 0.3);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    /* NUEVO: Transición suave para cambios */
     transition: all 0.3s ease;
+}
+
+/* ITEMS DE LA TRÍADA */
+.triada-item {
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.triada-item:hover {
+    transform: translateY(-5px);
+}
+
+.triada-oceano {
+    background: linear-gradient(135deg, rgba(10, 151, 217, 0.2), rgba(10, 151, 217, 0.4));
+    border: 1px solid var(--ods-14);
+}
+
+.triada-aire {
+    background: linear-gradient(135deg, rgba(63, 126, 68, 0.2), rgba(63, 126, 68, 0.4));
+    border: 1px solid var(--ods-13);
+}
+
+.triada-hielo {
+    background: linear-gradient(135deg, rgba(0, 104, 157, 0.2), rgba(0, 104, 157, 0.4));
+    border: 1px solid var(--ods-16);
+}
+
+.triada-icono {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.triada-titulo {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.triada-valor {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.triada-tendencia {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.tendencia-positiva {
+    color: var(--planet-green);
+}
+
+.tendencia-negativa {
+    color: var(--nova-red);
 }
 
 /* ================= MEDIA QUERIES ================= */
@@ -656,31 +713,21 @@
     }
 }
 
-/* MÓVIL (768px o menos) - CAMBIO RADICAL */
+/* MÓVIL (768px o menos) */
 @media (max-width: 768px) {
     .triada-gaia-overlay {
-        /* QUITAR POSICIÓN ABSOLUTA */
         position: relative !important;
         top: 0 !important;
         right: 0 !important;
         left: 0 !important;
-        
-        /* OCUPAR TODO EL ANCHO */
         width: 100% !important;
         max-width: 100% !important;
-        
-        /* CENTRAR Y DAR ESPACIO */
         margin: 20px auto !important;
-        display: block !important;
-        
-        /* MÁS OPACO PARA MÓVIL */
         background: rgba(10, 10, 22, 0.98) !important;
-        
-        /* ORDEN EN EL LAYOUT */
-        order: 3;
+        margin-left: 10px !important;
+        margin-right: 10px !important;
     }
     
-    /* MEJORAR LOS ITEMS PARA MÓVIL */
     .triada-item {
         display: flex;
         flex-direction: column;
@@ -709,7 +756,7 @@
 @media (max-width: 480px) {
     .triada-gaia-overlay {
         padding: 12px !important;
-        margin: 15px 0 !important;
+        margin: 15px 10px !important;
         border-radius: 12px;
     }
     
@@ -725,71 +772,9 @@
     .triada-titulo {
         font-size: 0.9rem;
     }
-    
-    .triada-link {
-        font-size: 0.8rem;
-        justify-content: center;
-    }
 }
         
-        .triada-item {
-            margin-bottom: 8px;
-            padding: 10px;
-            border-radius: 10px;
-            transition: all 0.3s;
-        }
-        
-        .triada-item:hover {
-            transform: translateY(-5px);
-        }
-        
-        .triada-oceano {
-            background: linear-gradient(135deg, rgba(10, 151, 217, 0.2), rgba(10, 151, 217, 0.4));
-            border: 1px solid var(--ods-14);
-        }
-        
-        .triada-aire {
-            background: linear-gradient(135deg, rgba(63, 126, 68, 0.2), rgba(63, 126, 68, 0.4));
-            border: 1px solid var(--ods-13);
-        }
-        
-        .triada-hielo {
-            background: linear-gradient(135deg, rgba(0, 104, 157, 0.2), rgba(0, 104, 157, 0.4));
-            border: 1px solid var(--ods-16);
-        }
-        
-        .triada-icono {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-        
-        .triada-titulo {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .triada-valor {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin: 5px 0;
-        }
-        
-        .triada-tendencia {
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .tendencia-positiva {
-            color: var(--planet-green);
-        }
-        
-        .tendencia-negativa {
-            color: var(--nova-red);
-        }
-        
-       /* CONTROLES DEL SISTEMA SOLAR - VERSIÓN RESPONSIVE */
+      /* CONTROLES DEL SISTEMA SOLAR - VERSIÓN RESPONSIVE */
 .controles-solar {
     position: absolute;
     top: 20px;
@@ -799,12 +784,66 @@
     padding: 15px;
     border-radius: 15px;
     width: 320px;
-    max-width: calc(100% - 40px); /* NUEVO: Nunca sale de la pantalla */
+    max-width: calc(100% - 40px);
     backdrop-filter: blur(5px);
     border: 1px solid rgba(0, 224, 255, 0.2);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    /* NUEVO: Transición suave */
     transition: all 0.3s ease;
+}
+
+/* ORBITA VISUAL */
+.orbita {
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* PLANETA */
+.planeta {
+    position: absolute;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 0.7rem;
+    text-shadow: 0 0 3px black;
+}
+
+.planeta:hover {
+    transform: scale(1.3);
+    z-index: 100;
+}
+
+.planeta.sol {
+    background: radial-gradient(circle at 30% 30%, var(--sol), #ff9900);
+    box-shadow: 0 0 40px var(--sol);
+}
+
+.planeta.activo {
+    box-shadow: 0 0 30px var(--conciencia-alta);
+    animation: pulso-planeta 2s infinite;
+}
+
+@keyframes pulso-planeta {
+    0%, 100% { box-shadow: 0 0 20px var(--conciencia-alta); }
+    50% { box-shadow: 0 0 40px var(--conciencia-alta); }
+}
+
+.info-planeta {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(0, 224, 255, 0.3);
+    border-radius: 10px;
+    padding: 15px;
+    width: 250px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    display: none;
 }
 
 /* ================= MEDIA QUERIES ================= */
@@ -861,6 +900,18 @@
         gap: 10px;
         margin-bottom: 15px;
     }
+    
+    /* AJUSTAR INFO PLANETA EN MÓVIL */
+    .info-planeta {
+        width: 90% !important;
+        max-width: 300px;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        position: fixed !important;
+        bottom: 20px !important;
+        top: auto !important;
+        z-index: 10000;
+    }
 }
 
 /* MÓVILES PEQUEÑOS (480px o menos) */
@@ -881,63 +932,29 @@
         text-align: center;
         margin-bottom: 15px !important;
     }
+    
+    /* PLANETAS MÁS PEQUEÑOS EN MÓVIL */
+    .planeta {
+        font-size: 0.6rem !important;
+    }
+    
+    .info-planeta {
+        width: 95% !important;
+        padding: 10px !important;
+        font-size: 0.9rem;
+    }
 }
-        
-        /* ORBITA VISUAL */
-        .orbita {
-            position: absolute;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        /* PLANETA */
-        .planeta {
-            position: absolute;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 0.7rem;
-            text-shadow: 0 0 3px black;
-        }
-        
-        .planeta:hover {
-            transform: scale(1.3);
-            z-index: 100;
-        }
-        
-        .planeta.sol {
-            background: radial-gradient(circle at 30% 30%, var(--sol), #ff9900);
-            box-shadow: 0 0 40px var(--sol);
-        }
-        
-        .planeta.activo {
-            box-shadow: 0 0 30px var(--conciencia-alta);
-            animation: pulso-planeta 2s infinite;
-        }
-        
-        @keyframes pulso-planeta {
-            0%, 100% { box-shadow: 0 0 20px var(--conciencia-alta); }
-            50% { box-shadow: 0 0 40px var(--conciencia-alta); }
-        }
-        
-        .info-planeta {
-            position: absolute;
-            background: rgba(0, 0, 0, 0.85);
-            border: 1px solid rgba(0, 224, 255, 0.3);
-            border-radius: 10px;
-            padding: 15px;
-            width: 250px;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            display: none;
-        }
-        
+
+/* MÓVILES MUY PEQUEÑOS (360px o menos) */
+@media (max-width: 360px) {
+    .controles-solar > div:first-child {
+        grid-template-columns: 1fr;
+    }
+    
+    .planeta {
+        font-size: 0.5rem !important;
+    }
+}
         /* =========================================== */
         /* PANEL DERECHO - PORTAL CORPORATIVO SAGRADO  */
         /* =========================================== */
