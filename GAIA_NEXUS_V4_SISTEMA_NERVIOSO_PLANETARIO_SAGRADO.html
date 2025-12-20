@@ -112,6 +112,41 @@
 }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* 📱 ESCUDO RESPONSIVO GHIBLI V4.1 */
+@media (max-width: 768px) {
+    /* 1. Ordenar el Árbol de Hábitos */
+    .panel-conciencia {
+        width: 100% !important;
+        max-height: 450px;
+        overflow-y: auto; /* Permite scroll si hay muchos hábitos */
+    }
+    
+    .capa-btn {
+        padding: 6px 10px !important;
+        font-size: 0.7rem !important;
+        margin: 3px !important; /* Mantiene los botones dentro de la caja */
+    }
+
+    /* 2. Rescatar la Tríada y el Espejo */
+    .cosmos-container {
+        display: flex;
+        flex-direction: column; /* Apila todo verticalmente en móvil */
+        height: auto !important;
+    }
+
+    .triada-gaia-overlay {
+        position: relative !important; /* Deja de flotar para que no se pierda */
+        width: 100% !important;
+        right: 0 !important;
+        top: 20px !important;
+    }
+
+    /* 3. Ajustar el Diamante para la mano */
+    #nucleo-luz-guardian, .pulso-personal {
+        transform: scale(0.7); 
+    }
+}
         
         body {
             background: var(--deep-space);
@@ -2226,28 +2261,58 @@
         }
 
         // 🌀 MOTOR DE INVOCACIÓN: EL ESPEJO GHIBLI V5.0
+
+        // 🏆 1. Pegue esta lógica de memoria arriba de la línea 2263
+function actualizarLegado() {
+    let invocaciones = parseInt(localStorage.getItem('gaia_invocaciones')) || 0;
+    invocaciones++;
+    localStorage.setItem('gaia_invocaciones', invocaciones);
+
+    // Si llega a 7, el núcleo en la línea 81 brilla con luz Ghibli
+    if (invocaciones >= 7) {
+        const nucleo = document.getElementById('nucleo-luz-guardian');
+        if(nucleo) {
+            nucleo.style.boxShadow = "0 0 150px var(--glow), 0 0 200px var(--quantum)";
+        }
+    }
+    return invocaciones;
+}
 function invocarEspejoGhibli() {
     const overlay = document.getElementById('espejo-overlay');
     const sistema = document.getElementById('sistema-solar-personal');
+
+
+// 🌀 2. Así debe quedar su función de la línea 2264
+function invocarEspejoGhibli() {
+    actualizarLegado(); // <-- INYECTE ESTA LÍNEA AQUÍ (Línea 2267 aproximada)
     
+    const overlay = document.getElementById('espejo-overlay');
+    const sistema = document.getElementById('sistema-solar-personal');
+    // ... resto del código que ya tiene
     // Activamos la capa de realidad aumentada sobre la red
     overlay.style.display = 'flex';
     sistema.innerHTML = ''; 
 
-    // Transformamos sus 12 registros diarios en joyas de luz
+    // Transformamos sus 12 registros actuales en joyas de luz
     for(let i = 0; i < 12; i++) {
         const pulso = document.createElement('div');
         pulso.className = 'pulso-personal';
         
-        // Estética Ghibli: Movimiento orgánico y asíncrono [cite: 2025-11-21]
+        // Estética Ghibli: Movimiento orgánico con desfase [cite: 2025-11-21]
+        // USA ESTA LÍNEA EXACTA (con ` `):
         pulso.style.animationDelay = `${i * 0.6}s`; 
         
-        // Variación de escala para profundidad cuántica
+        // Variación de escala para profundidad visual
         const scale = 0.8 + (Math.random() * 0.5);
         pulso.style.transform = `scale(${scale})`;
         
         sistema.appendChild(pulso);
     }
+}
+
+function cerrarEspejoGhibli() {
+    document.getElementById('espejo-overlay').style.display = 'none';
+}
 }
 
 function cerrarEspejoGhibli() {
