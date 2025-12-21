@@ -44,252 +44,56 @@
             --chakra-garganta: #00ffff;      /* Monte Fuji */
             --chakra-tercer-ojo: #5500ff;    /* Machu Picchu */
             --chakra-corona: #aa00ff;        /* Monte Everest */
-            
-            /* SISTEMA SOLAR SAGRADO */
-            --sol: #ffd700;
-            --mercurio: #c0c0c0;
-            --venus: #ffcc99;
-            --tierra: #00a8ff;
-            --marte: #ff6666;
-            --jupiter: #ff9966;
-            --saturno: #e6b800;
-            --urano: #66ccff;
-            --neptuno: #3366ff;
-            --pluton: #9966cc;
-            
-            /* ODS COLORES OFICIALES */
-            --ods-1: #e5243b;   /* Fin de la pobreza */
-            --ods-2: #dda63a;   /* Hambre cero */
-            --ods-3: #4c9f38;   /* Salud y bienestar */
-            --ods-4: #c5192d;   /* Educación de calidad */
-            --ods-5: #ff3a21;   /* Igualdad de género */
-            --ods-6: #26bde2;   /* Agua limpia y saneamiento */
-            --ods-7: #fcc30b;   /* Energía asequible y no contaminante */
-            --ods-8: #a21942;   /* Trabajo decente y crecimiento económico */
-            --ods-9: #fd6925;   /* Industria, innovación e infraestructura */
-            --ods-10: #dd1367;  /* Reducción de las desigualdades */
-            --ods-11: #fd9d24;  /* Ciudades y comunidades sostenibles */
-            --ods-12: #bf8b2e;  /* Producción y consumo responsables */
-            --ods-13: #3f7e44;  /* Acción por el clima */
-            --ods-14: #0a97d9;  /* Vida submarina */
-            --ods-15: #56c02b;  /* Vida de ecosistemas terrestres */
-            --ods-16: #00689d;  /* Paz, justicia e instituciones sólidas */
-            --ods-17: #19486a;  /* Alianzas para lograr los objetivos */
         }
-
-        /* 🪐 FÍSICA DEL ESPEJO: EL SISTEMA SOLAR PERSONAL */
-#nucleo-luz-guardian {
-    width: 45px;
-    height: 45px;
-    background: var(--light);
-    border-radius: 50%;
-    position: absolute;
-    top: 35%; /* Alineado con la visión del Guardián */
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 60px var(--glow), 0 0 120px var(--quantum);
-    z-index: 10001;
-}
-
-.pulso-personal {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background: var(--success);
-    border-radius: 50%;
-    box-shadow: 0 0 20px var(--success);
-    top: 35%;
-    left: 50%;
-    /* 🌀 Trayectoria elíptica de conciencia */
-    offset-path: ellipse(180px 90px at center);
-    animation: orbitar-espejo 8s linear infinite;
-    opacity: 0.8;
-}
-
-@keyframes orbitar-espejo {
-    from { offset-distance: 0%; }
-    to { offset-distance: 100%; }
-}
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
-/* ============================================================ */
-/* 🚀 BLOQUE MAESTRO GAIA NEXUS: PC 3 COLUMNAS & MÓVIL UNIFICADO */
-/* ============================================================ */
-
-/* 1. CONFIGURACIÓN PARA PC (Escritorio) */
-.cosmos-container {
-    display: grid !important;
-    /* Estructura: Árbol (320px) | Sistema Solar (libre) | Corporativo (350px) */
-    grid-template-columns: 320px 1fr 350px !important; 
-    grid-template-rows: auto 1fr auto !important;
-    min-height: 100vh !important;
-    height: auto !important;
-    padding: 20px !important;
-    gap: 20px !important;
-    position: relative !important;
-}
-
-/* Ubicación de piezas en el tablero PC */
-.header-cosmico      { grid-column: 1 / -1 !important; grid-row: 1 !important; }
-.panel-conciencia    { grid-column: 1 !important; grid-row: 2 !important; }
-.panel-planetario    { grid-column: 2 !important; grid-row: 2 !important; position: relative !important; min-height: 500px !important; }
-.panel-corporativo   { grid-column: 3 !important; grid-row: 2 !important; display: flex !important; visibility: visible !important; }
-.chakras-planetarios { grid-column: 1 / -1 !important; grid-row: 3 !important; }
-
-/* 2. CONFIGURACIÓN PARA MÓVIL Y TABLET (Bajo 1024px) */
-@media (max-width: 1024px) {
-    .cosmos-container {
-        display: flex !important;
-        flex-direction: column !important; /* Colapso vertical Ghibli */
-        padding: 10px !important;
-        gap: 15px !important;
-    }
-
-    /* Orden de aparición en el pergamino móvil */
-    .header-cosmico     { order: 1 !important; }
-    .panel-conciencia   { order: 2 !important; width: 100% !important; max-height: 400px !important; }
-    .panel-planetario   { order: 3 !important; width: 100% !important; height: 350px !important; min-height: 350px !important; }
-    .panel-corporativo  { order: 4 !important; width: 100% !important; }
-    .chakras-planetarios{ order: 5 !important; grid-template-columns: repeat(4, 1fr) !important; }
-
-    /* Ajustes de superposición para móvil */
-    .triada-gaia-overlay, .controles-solar {
-        position: relative !important;
-        top: 0 !important; right: 0 !important; left: 0 !important;
-        width: 100% !important;
-        margin: 10px 0 !important;
-        background: rgba(10, 10, 22, 0.95) !important;
-    }
-}
-
-/* 3. AJUSTES FINOS PARA PANTALLAS PEQUEÑAS (Bajo 480px) */
-@media (max-width: 480px) {
-    .chakras-planetarios { grid-template-columns: repeat(2, 1fr) !important; }
-    .titulo-principal h1 { font-size: 1rem !important; }
-    .brujula-cosmica { 
-        display: grid !important; 
-        grid-template-columns: 1fr 1fr !important; 
-        gap: 8px !important; 
-    }
-}
-
-/* NOTA: EL CÓDIGO PARA MÓVIL (768px o menos) YA ESTÁ ARRIBA, NO LO REPITAS */
+        
+        body {
+            background: var(--deep-space);
+            color: white;
+            font-family: 'Segoe UI', 'Orbitron', monospace;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+        
+        /* FONDO DE PARTÍCULAS GALÁCTICAS */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        /* CONTENEDOR CÓSMICO SAGRADO */
+        .cosmos-container {
+            display: grid;
+            grid-template-columns: 300px 1fr 400px;
+            grid-template-rows: 120px 1fr 100px;
+            height: 100vh;
+            padding: 20px;
+            gap: 15px;
+            position: relative;
+        }
         
         /* =========================================== */
-/* CABECERA - BRÚJULA CÓSMICA SAGRADA          */
-/* =========================================== */
-.header-cosmico {
-    grid-column: 1 / -1;
-    background: linear-gradient(90deg, 
-        rgba(93, 47, 223, 0.2), 
-        rgba(0, 224, 255, 0.2));
-    border: 1px solid var(--stardust-blue);
-    border-radius: 20px;
-    padding: 20px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 40px rgba(0, 224, 255, 0.3);
-    animation: pulso-sagrado 7.83s infinite;
-    /* NUEVO: Flex-wrap para responsiveness */
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-/* ================= MEDIA QUERIES ================= */
-
-/* TABLET (1024px o menos) */
-@media (max-width: 1024px) {
-    .header-cosmico {
-        padding: 15px 20px;
-        gap: 10px;
-    }
-    
-    .titulo-principal h1 {
-        font-size: 1.5rem !important;
-    }
-}
-
-/* MÓVIL (768px o menos) - REORGANIZACIÓN COMPLETA */
-@media (max-width: 768px) {
-    .header-cosmico {
-        /* CAMBIO RADICAL: COLUMNA EN VEZ DE FILA */
-        flex-direction: column !important;
-        text-align: center !important;
-        padding: 15px !important;
-        margin-bottom: 10px !important;
-        
-        /* QUITAR ESPACIADO LATERAL EXCESIVO */
-        justify-content: center !important;
-        align-items: center !important;
-        
-        /* MÁS COMPACTO */
-        border-radius: 15px !important;
-        gap: 10px !important;
-    }
-    
-    /* TÍTULO MÁS PEQUEÑO */
-    .titulo-principal h1 {
-        font-size: 1.2rem !important;
-        line-height: 1.3 !important;
-        margin-bottom: 5px !important;
-        text-align: center !important;
-    }
-    
-    .titulo-principal .subtitulo {
-        font-size: 0.8rem !important;
-        text-align: center !important;
-        margin-bottom: 15px !important;
-    }
-    
-    /* BRÚJULA EN COLUMNA O GRID */
-    .brujula-cosmica {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-    
-    /* INSTRUMENTOS MÁS COMPACTOS */
-    .instrumento-navegacion {
-        min-width: auto !important;
-        width: 100% !important;
-        padding: 10px !important;
-        margin: 0 !important;
-    }
-    
-    .instrumento-navegacion .valor {
-        font-size: 1.1rem !important;
-    }
-    
-    .instrumento-navegacion .label {
-        font-size: 0.7rem !important;
-    }
-}
-
-/* MÓVILES PEQUEÑOS (480px o menos) */
-@media (max-width: 480px) {
-    .header-cosmico {
-        padding: 12px !important;
-        gap: 8px !important;
-        border-radius: 12px !important;
-    }
-    
-    .titulo-principal h1 {
-        font-size: 1rem !important;
-    }
-    
-    .brujula-cosmica {
-        grid-template-columns: 1fr !important;
-        gap: 8px !important;
-    }
-    
-    .instrumento-navegacion {
-        padding: 8px !important;
-    }
-}
+        /* CABECERA - BRÚJULA CÓSMICA SAGRADA          */
+        /* =========================================== */
+        .header-cosmico {
+            grid-column: 1 / -1;
+            background: linear-gradient(90deg, 
+                rgba(93, 47, 223, 0.2), 
+                rgba(0, 224, 255, 0.2));
+            border: 1px solid var(--stardust-blue);
+            border-radius: 20px;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 40px rgba(0, 224, 255, 0.3);
+            animation: pulso-sagrado 7.83s infinite;
+        }
         
         @keyframes pulso-sagrado {
             0%, 100% { 
@@ -321,19 +125,9 @@
         
         /* BRÚJULA DE NAVEGACIÓN SAGRADA */
         .brujula-cosmica {
-    display: flex;
-    gap: 15px;
-    /* NUEVO: Para responsiveness */
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-/* Añade esto después: */
-@media (max-width: 768px) {
-    .brujula-cosmica {
-        justify-content: space-around !important;
-    }
-}
+            display: flex;
+            gap: 15px;
+        }
         
         .instrumento-navegacion {
             text-align: center;
@@ -413,500 +207,39 @@
         }
         
         /* =========================================== */
-/* CENTRO - SISTEMA SOLAR SAGRADO */
-/* =========================================== */
-.panel-planetario {
-    grid-row: 2;
-    position: relative;
-    background: radial-gradient(circle at center, #0d1b2a 0%, #05050f 100%);
-    border-radius: 20px;
-    overflow: hidden;
-    border: 1px solid rgba(0, 224, 255, 0.4);
-    box-shadow: inset 0 0 80px rgba(0, 224, 255, 0.15);
-}
-
-#sistema-solar-sagrado {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    z-index: 1;
-}
-
-/* =========================================== */
-/* TRÍADA GAIA OVERLAY - VERSIÓN RESPONSIVE */
-/* =========================================== */
-.triada-gaia-overlay {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 300px;
-    max-width: calc(100vw - 40px);
-    z-index: 100;
-    background: rgba(10, 10, 22, 0.95);
-    border-radius: 15px;
-    padding: 15px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 224, 255, 0.3);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-}
-
-/* ITEMS DE LA TRÍADA */
-.triada-item {
-    margin-bottom: 8px;
-    padding: 10px;
-    border-radius: 10px;
-    transition: all 0.3s;
-}
-
-.triada-item:hover {
-    transform: translateY(-5px);
-}
-
-.triada-oceano {
-    background: linear-gradient(135deg, rgba(10, 151, 217, 0.2), rgba(10, 151, 217, 0.4));
-    border: 1px solid var(--ods-14);
-}
-
-.triada-aire {
-    background: linear-gradient(135deg, rgba(63, 126, 68, 0.2), rgba(63, 126, 68, 0.4));
-    border: 1px solid var(--ods-13);
-}
-
-.triada-hielo {
-    background: linear-gradient(135deg, rgba(0, 104, 157, 0.2), rgba(0, 104, 157, 0.4));
-    border: 1px solid var(--ods-16);
-}
-
-.triada-icono {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-
-.triada-titulo {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.triada-valor {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin: 5px 0;
-}
-
-.triada-tendencia {
-    font-size: 0.8rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.tendencia-positiva {
-    color: var(--planet-green);
-}
-
-.tendencia-negativa {
-    color: var(--nova-red);
-}
-
-/* =========================================== */
-/* CONTROLES DEL SISTEMA SOLAR */
-/* =========================================== */
-.controles-solar {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    z-index: 10;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 15px;
-    border-radius: 15px;
-    width: 320px;
-    max-width: calc(100% - 40px);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(0, 224, 255, 0.2);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-}
-
-/* ORBITA VISUAL */
-.orbita {
-    position: absolute;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-}
-
-/* PLANETA */
-.planeta {
-    position: absolute;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    font-size: 0.7rem;
-    text-shadow: 0 0 3px black;
-}
-
-.planeta:hover {
-    transform: scale(1.3);
-    z-index: 100;
-}
-
-.planeta.sol {
-    background: radial-gradient(circle at 30% 30%, var(--sol), #ff9900);
-    box-shadow: 0 0 40px var(--sol);
-}
-
-.planeta.activo {
-    box-shadow: 0 0 30px var(--conciencia-alta);
-    animation: pulso-planeta 2s infinite;
-}
-
-@keyframes pulso-planeta {
-    0%, 100% { box-shadow: 0 0 20px var(--conciencia-alta); }
-    50% { box-shadow: 0 0 40px var(--conciencia-alta); }
-}
-
-.info-planeta {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.85);
-    border: 1px solid rgba(0, 224, 255, 0.3);
-    border-radius: 10px;
-    padding: 15px;
-    width: 250px;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-    display: none;
-}
-
-/* =========================================== */
-/* MEDIA QUERIES RESPONSIVE - CORREGIDAS */
-/* =========================================== */
-
-/* TABLET (1024px o menos) */
-@media (max-width: 1024px) {
-    .triada-gaia-overlay {
-        width: 280px;
-        max-width: calc(100vw - 40px);
-        right: 10px;
-        top: 10px;
-    }
-    
-    .controles-solar {
-        width: 280px;
-        max-width: calc(100% - 40px);
-        left: 10px;
-        top: 10px;
-    }
-}
-
-/* MÓVIL (768px o menos) - CORRECIÓN COMPLETA */
-@media (max-width: 768px) {
-    /* REORGANIZACIÓN DEL LAYOUT */
-    .cosmos-container {
-        display: flex !important;
-        flex-direction: column !important;
-        padding: 10px !important;
-        gap: 15px !important;
-    }
-    
-    /* TRÍADA GAIA - CAMBIO RADICAL PARA MÓVIL */
-    .triada-gaia-overlay {
-        /* QUITAR POSICIÓN ABSOLUTA */
-        position: relative !important;
-        top: 0 !important;
-        right: 0 !important;
-        left: 0 !important;
+        /* CENTRO - SISTEMA NERVIOSO PLANETARIO SAGRADO */
+        /* =========================================== */
+        .panel-planetario {
+            grid-row: 2;
+            position: relative;
+            background: rgba(5, 5, 15, 0.8);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 224, 255, 0.2);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
+        }
         
-        /* OCUPAR ANCHO COMPLETO */
-        width: 100% !important;
-        max-width: 100% !important;
+        #globo-terraqueo {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
         
-        /* CENTRAR Y DAR ESPACIO */
-        margin: 15px auto !important;
-        padding: 15px !important;
-        display: block !important;
+        /* CAPAS DE CONCIENCIA SAGRADA */
+        .capas-conciencia {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 15px;
+            width: 320px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 224, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
         
-        /* MÁS VISIBLE */
-        background: rgba(10, 10, 22, 0.98) !important;
-        
-        /* ORDEN EN EL LAYOUT */
-        order: 2 !important;
-    }
-    
-    /* MEJORAR ITEMS DE TRÍADA PARA MÓVIL */
-    .triada-item {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        text-align: center !important;
-        padding: 15px !important;
-        margin-bottom: 15px !important;
-        width: 90% !important;
-        max-width: 400px !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-    }
-    
-    .triada-icono {
-        font-size: 2rem !important;
-        margin-bottom: 10px !important;
-    }
-    
-    .triada-valor {
-        font-size: 1.6rem !important;
-        margin: 10px 0 !important;
-    }
-    
-    .triada-tendencia {
-        justify-content: center !important;
-    }
-    
-    /* CONTROLES SOLAR - CAMBIO PARA MÓVIL */
-    .controles-solar {
-        /* QUITAR POSICIÓN ABSOLUTA */
-        position: relative !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        
-        /* OCUPAR ANCHO COMPLETO */
-        width: 100% !important;
-        max-width: 100% !important;
-        
-        /* CENTRAR Y DAR ESPACIO */
-        margin: 0 auto 15px auto !important;
-        display: block !important;
-        
-        /* MÁS VISIBLE */
-        background: rgba(0, 0, 0, 0.85) !important;
-        
-        /* ORDEN EN EL LAYOUT */
-        order: 1 !important;
-    }
-    
-    /* MEJORAR BOTONES PARA MÓVIL */
-    .controles-solar .capa-btn {
-        padding: 12px !important;
-        font-size: 14px !important;
-        min-height: 44px; /* Tamaño mínimo táctil */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    /* AGRUPAR BOTONES EN MÓVIL */
-    .controles-solar > div:first-child {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-        margin-bottom: 15px;
-    }
-    
-    /* INFO PLANETA EN MÓVIL */
-    .info-planeta {
-        width: 90% !important;
-        max-width: 300px;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        position: fixed !important;
-        bottom: 20px !important;
-        top: auto !important;
-        z-index: 10000;
-    }
-    
-    /* PANEL PLANETARIO EN MÓVIL */
-    .panel-planetario {
-        height: 350px !important;
-        min-height: 350px !important;
-        order: 3 !important;
-        width: 100% !important;
-    }
-}
-
-/* MÓVILES PEQUEÑOS (480px o menos) */
-@media (max-width: 480px) {
-    .triada-gaia-overlay {
-        padding: 12px !important;
-        margin: 10px 0 !important;
-        border-radius: 12px !important;
-    }
-    
-    .triada-item {
-        padding: 12px !important;
-        margin-bottom: 12px !important;
-    }
-    
-    .triada-valor {
-        font-size: 1.4rem !important;
-    }
-    
-    .triada-titulo {
-        font-size: 0.9rem;
-    }
-    
-    .controles-solar {
-        padding: 12px !important;
-        border-radius: 12px !important;
-        margin-bottom: 15px !important;
-    }
-    
-    .controles-solar > div:first-child {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-    }
-    
-    .controles-solar h4 {
-        font-size: 1rem !important;
-        text-align: center;
-        margin-bottom: 15px !important;
-    }
-    
-    /* PLANETAS MÁS PEQUEÑOS EN MÓVIL */
-    .planeta {
-        font-size: 0.6rem !important;
-    }
-    
-    .info-planeta {
-        width: 95% !important;
-        padding: 10px !important;
-        font-size: 0.9rem;
-    }
-    
-    .panel-planetario {
-        height: 300px !important;
-        min-height: 300px !important;
-    }
-}
-
-/* MÓVILES MUY PEQUEÑOS (360px o menos) */
-@media (max-width: 360px) {
-    .controles-solar > div:first-child {
-        grid-template-columns: 1fr;
-    }
-    
-    .planeta {
-        font-size: 0.5rem !important;
-    }
-    
-    .triada-item {
-        width: 95% !important;
-    }
-}
-
-/* ================= MEDIA QUERIES ================= */
-
-/* TABLET (1024px o menos) */
-@media (max-width: 1024px) {
-    .controles-solar {
-        width: 280px;
-        max-width: calc(100% - 40px);
-        left: 10px;
-        top: 10px;
-    }
-}
-
-/* MÓVIL (768px o menos) - REUBICACIÓN COMPLETA */
-@media (max-width: 768px) {
-    .controles-solar {
-        /* QUITAR POSICIÓN ABSOLUTA */
-        position: relative !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        
-        /* OCUPAR ANCHO COMPLETO */
-        width: 100% !important;
-        max-width: 100% !important;
-        
-        /* CENTRAR Y DAR ESPACIO */
-        margin: 0 auto 20px auto !important;
-        display: block !important;
-        
-        /* MÁS VISIBLE EN MÓVIL */
-        background: rgba(0, 0, 0, 0.85) !important;
-        backdrop-filter: blur(10px) !important;
-        
-        /* ORDEN EN EL LAYOUT - ANTES DEL SISTEMA SOLAR */
-        order: 1;
-    }
-    
-    /* MEJORAR BOTONES PARA MÓVIL */
-    .controles-solar .capa-btn {
-        padding: 12px !important;
-        font-size: 14px !important;
-        min-height: 44px; /* Tamaño mínimo táctil */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    /* AGRUPAR BOTONES EN MÓVIL */
-    .controles-solar > div:first-child {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-        margin-bottom: 15px;
-    }
-    
-    /* AJUSTAR INFO PLANETA EN MÓVIL */
-    .info-planeta {
-        width: 90% !important;
-        max-width: 300px;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        position: fixed !important;
-        bottom: 20px !important;
-        top: auto !important;
-        z-index: 10000;
-    }
-}
-
-/* MÓVILES PEQUEÑOS (480px o menos) */
-@media (max-width: 480px) {
-    .controles-solar {
-        padding: 12px !important;
-        border-radius: 12px !important;
-        margin-bottom: 15px !important;
-    }
-    
-    .controles-solar > div:first-child {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-    }
-    
-    .controles-solar h4 {
-        font-size: 1rem !important;
-        text-align: center;
-        margin-bottom: 15px !important;
-    }
-    
-    /* PLANETAS MÁS PEQUEÑOS EN MÓVIL */
-    .planeta {
-        font-size: 0.6rem !important;
-    }
-    
-    .info-planeta {
-        width: 95% !important;
-        padding: 10px !important;
-        font-size: 0.9rem;
-    }
-}
-
-/* MÓVILES MUY PEQUEÑOS (360px o menos) */
-@media (max-width: 360px) {
-    .controles-solar > div:first-child {
-        grid-template-columns: 1fr;
-    }
-    
-    .planeta {
-        font-size: 0.5rem !important;
-    }
-}
         /* =========================================== */
         /* PANEL DERECHO - PORTAL CORPORATIVO SAGRADO  */
         /* =========================================== */
@@ -939,111 +272,16 @@
             text-shadow: 0 0 10px rgba(0, 168, 255, 0.5);
         }
         
-       /* =========================================== */
-/* SISTEMA DE CHAKRAS PLANETARIOS - RESPONSIVE */
-/* =========================================== */
-.chakras-planetarios {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-    height: auto; /* CAMBIO: auto en lugar de 100px fijo */
-    min-height: 100px;
-    padding: 10px 0;
-}
-
-/* ================= MEDIA QUERIES ================= */
-
-/* TABLET (1024px o menos) */
-@media (max-width: 1024px) {
-    .chakras-planetarios {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
-        min-height: 140px; /* Más alto para 2 filas */
-    }
-    
-    /* Ocultar algunos chakras menos importantes en tablet */
-    .chakras-planetarios .chakra-punto:nth-child(n+5) {
-        grid-column: span 1;
-    }
-}
-
-/* MÓVIL (768px o menos) */
-@media (max-width: 768px) {
-    .chakras-planetarios {
-        /* CAMBIO COMPLETO: 4 columnas en móvil */
-        grid-template-columns: repeat(4, 1fr) !important;
-        gap: 8px !important;
-        height: auto !important;
-        min-height: 140px !important;
-        margin-top: 20px !important;
-        padding: 10px !important;
-        order: 5; /* Va al final en móvil */
-    }
-    
-    /* MEJORAR VISUAL PARA MÓVIL */
-    .chakra-punto {
-        padding: 8px !important;
-        border-radius: 8px !important;
-        min-height: 70px; /* Más alto para dedos */
-    }
-    
-    .chakra-icono {
-        font-size: 1.2rem !important;
-        margin-bottom: 5px !important;
-    }
-    
-    .chakra-nombre {
-        font-size: 0.6rem !important;
-        line-height: 1.2;
-    }
-    
-    /* AJUSTAR ESPACIO ENTRE FILAS */
-    .chakra-punto:nth-child(n+5) {
-        margin-top: 5px;
-    }
-}
-
-/* MÓVILES PEQUEÑOS (480px o menos) */
-@media (max-width: 480px) {
-    .chakras-planetarios {
-        /* 2 columnas en móviles muy pequeños */
-        grid-template-columns: repeat(2, 1fr) !important;
-        min-height: 200px !important;
-        gap: 6px !important;
-    }
-    
-    .chakra-punto {
-        min-height: 65px !important;
-        padding: 6px !important;
-    }
-    
-    .chakra-icono {
-        font-size: 1rem !important;
-    }
-    
-    .chakra-nombre {
-        font-size: 0.55rem !important;
-    }
-}
-
-/* TELÉFONOS MUY PEQUEÑOS (360px o menos) */
-@media (max-width: 360px) {
-    .chakras-planetarios {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 4px !important;
-        padding: 5px !important;
-    }
-    
-    .chakra-nombre {
-        font-size: 0.5rem !important;
-    }
-    
-    .chakra-punto {
-        padding: 4px !important;
-        min-height: 60px !important;
-    }
-}
+        /* =========================================== */
+        /* PIE - SISTEMA DE CHAKRAS PLANETARIOS        */
+        /* =========================================== */
+        .chakras-planetarios {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            height: 100px;
+        }
         
         .chakra-punto {
             display: flex;
@@ -1238,23 +476,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
-
-        <div id="portal-espejo-v5" style="text-align: center; margin-bottom: 35px;">
-    <button onclick="invocarEspejoGhibli()" class="btn-registro-corp" style="background: var(--quantum); color: var(--dark); border: 2px solid var(--light); box-shadow: 0 0 20px var(--quantum);">
-        ✨ INVOCAR MI ESPEJO EN GAIA
-    </button>
-</div>
-
-<div id="espejo-overlay" style="display:none; position: fixed; inset: 0; background: rgba(10, 25, 41, 0.9); backdrop-filter: blur(20px); z-index: 9999; flex-direction: column; align-items: center; justify-content: center;">
-    <div id="nucleo-luz-guardian"></div>
-    <div id="sistema-solar-personal"></div>
-    <div class="info-espejo-ghibli" style="text-align: center; color: white; margin-top: 180px;">
-        <h1 style="letter-spacing: 5px;">GUARDIÁN #1</h1>
-        <p id="sincronia-detallada">SINCRONÍA COLECTIVA: 92%</p>
-        <button onclick="cerrarEspejoGhibli()" style="margin-top: 30px; background: none; border: 1px solid white; color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer;">VOLVER AL TODO</button>
-    </div>
-</div>
+        
         .simulador-corporativo {
             background: rgba(255, 107, 53, 0.1);
             border-radius: 15px;
@@ -1399,40 +621,6 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(170,0,255,0.3);
         }
-        
-        /* ICONOS ODS */
-        .ods-iconos {
-            display: flex;
-            gap: 5px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .ods-icono {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            font-size: 0.6rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-        
-        .triada-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: var(--stardust-blue);
-            cursor: pointer;
-        }
-        
-        .triada-link:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
@@ -1451,7 +639,7 @@
         <header class="header-cosmico">
             <div class="titulo-principal">
                 <h1>🌍 GAIA NEXUS V4.0</h1>
-                <div class="subtitulo">Sistema Nervioso Planetario - Tríada Gaia</div>
+                <div class="subtitulo">Sistema Nervioso Planetario - Edición Sagrada</div>
             </div>
             
             <div class="brujula-cosmica">
@@ -1469,7 +657,7 @@
                 </div>
                 <div class="instrumento-navegacion">
                     <div class="valor" id="ceremonias-activas">12</div>
-                    <div class="label">Registros Diarios</div>
+                    <div class="label">Ceremonias Activas</div>
                 </div>
             </div>
         </header>
@@ -1481,139 +669,95 @@
             </h3>
             
             <!-- FILTROS DE CONCIENCIA -->
-            <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap;">
-    <button class="capa-btn activo" onclick="filtrarHabitos('todos')">
-        🌍 Todos
-    </button>
-    <button class="capa-btn" onclick="filtrarHabitos('alta')">
-        💎 Conciencia Alta
-    </button>
-    <button class="capa-btn" onclick="filtrarHabitos('media')">
-        ⚡ Conciencia Media
-    </button>
-    <button class="capa-btn" onclick="filtrarHabitos('ods')">
-        🎯 Por ODS
-    </button>
-</div>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
+                <button class="capa-btn activo" onclick="filtrarHabitos('todos')">
+                    🌍 Todos
+                </button>
+                <button class="capa-btn" onclick="filtrarHabitos('alta')">
+                    💎 Conciencia Alta
+                </button>
+                <button class="capa-btn" onclick="filtrarHabitos('media')">
+                    ⚡ Conciencia Media
+                </button>
+            </div>
             
             <!-- LISTA DE HÁBITOS CON CONCIENCIA -->
             <div class="arbol-habitos" id="arbol-habitos">
                 <!-- Cargado dinámicamente -->
             </div>
             
-            <!-- REGISTRO DIARIO -->
+            <!-- MEDITACIÓN DEL DÍA -->
             <div style="margin-top: 30px; padding: 20px; background: linear-gradient(135deg, rgba(0,255,170,0.1), rgba(85,0,255,0.1)); border-radius: 15px;">
-                <h4 style="color: var(--chakra-tercer-ojo); margin-bottom: 10px; text-align: center;">📊 REGISTRO DE IMPACTO DIARIO</h4>
+                <h4 style="color: var(--chakra-tercer-ojo); margin-bottom: 10px; text-align: center;">🧘 MEDITACIÓN CORPORATIVA</h4>
                 <p style="color: #ccc; font-size: 0.9rem; margin-bottom: 15px; text-align: center;">
-                    "Cada hábito registrado es un latido en la red planetaria."
+                    "Cada decisión empresarial es una oración. Cada transacción, un intercambio energético sagrado."
                 </p>
                 <div style="text-align: center;">
-                    <button class="capa-btn" style="background: var(--chakra-corazon); color: black; border: none; padding: 10px 20px; border-radius: 25px; font-weight: bold;" onclick="abrirRegistroDiario()">
-                        📝 REGISTRAR MI IMPACTO HOY
+                    <button class="capa-btn" style="background: var(--chakra-corazon); color: black; border: none; padding: 10px 20px; border-radius: 25px; font-weight: bold;" onclick="iniciarMeditacion()">
+                        🕊️ INICIAR MEDITACIÓN GRUPAL
                     </button>
                 </div>
             </div>
         </div>
         
-        <!-- CENTRO - SISTEMA SOLAR SAGRADO CON TRÍADA GAIA -->
+        <!-- CENTRO - SISTEMA NERVIOSO PLANETARIO SAGRADO -->
         <div class="panel-planetario latir">
-            <div id="sistema-solar-sagrado"></div>
+            <div id="globo-terraqueo"></div>
             
-            <!-- TRÍADA GAIA OVERLAY -->
-            <div class="triada-gaia-overlay">
-                <h4 style="color: var(--conciencia-alta); margin-bottom: 15px; text-align: center;">🌊❄️🌬️ TRÍADA GAIA</h4>
-                
-                <div class="triada-item triada-oceano">
-                    <div class="triada-icono">🌊</div>
-                    <div class="triada-titulo">OCÉANO</div>
-                    <div class="triada-valor" id="temperatura-oceano">+0.8°C</div>
-                    <div class="triada-tendencia tendencia-negativa">
-                        <span>▲</span> Anomalía térmica
-                    </div>
-                    <div class="triada-link" onclick="mostrarDetallesOceano()">
-                        <span>Ver datos NASA OceanColor</span>
-                        <span>→</span>
-                    </div>
-                </div>
-                
-                <div class="triada-item triada-aire">
-                    <div class="triada-icono">🌬️</div>
-                    <div class="triada-titulo">AIRE</div>
-                    <div class="triada-valor" id="co2-concentracion">415 ppm</div>
-                    <div class="triada-tendencia tendencia-negativa">
-                        <span>▲</span> +2.5 ppm/año
-                    </div>
-                    <div class="triada-link" onclick="mostrarDetallesAire()">
-                        <span>Ver datos OpenAQ</span>
-                        <span>→</span>
-                    </div>
-                </div>
-                
-                <div class="triada-item triada-hielo">
-                    <div class="triada-icono">❄️</div>
-                    <div class="triada-titulo">HIELO</div>
-                    <div class="triada-valor" id="perdida-hielo">-7.8%</div>
-                    <div class="triada-tendencia tendencia-negativa">
-                        <span>▼</span> Pérdida anual
-                    </div>
-                    <div class="triada-link" onclick="mostrarDetallesHielo()">
-                        <span>Ver datos NASA IceSat</span>
-                        <span>→</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- CONTROLADOR DEL SISTEMA SOLAR -->
-            <div class="controles-solar">
-                <h4 style="color: var(--chakra-corona); margin-bottom: 10px; text-align: center;">🌀 SISTEMA SOLAR SAGRADO</h4>
+            <!-- CONTROLADOR DE CHAKRAS -->
+            <div class="capas-conciencia">
+                <h4 style="color: var(--chakra-corona); margin-bottom: 10px; text-align: center;">🌀 SISTEMA DE CHAKRAS PLANETARIOS</h4>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
-                    <button class="capa-btn" onclick="activarPlaneta('tierra')" style="background: var(--tierra)30; color: white;">
-                        🌍 Tierra
+                    <button class="capa-btn" onclick="activarChakra('raiz')" style="background: var(--chakra-raiz)30; color: white;">
+                        🔴 Raíz
                     </button>
-                    <button class="capa-btn" onclick="activarPlaneta('marte')" style="background: var(--marte)30; color: white;">
-                        🪐 Marte
+                    <button class="capa-btn" onclick="activarChakra('corazon')" style="background: var(--chakra-corazon)30; color: white;">
+                        💚 Corazón
                     </button>
-                    <button class="capa-btn" onclick="activarPlaneta('jupiter')" style="background: var(--jupiter)30; color: white;">
-                        ♃ Júpiter
+                    <button class="capa-btn" onclick="activarChakra('corona')" style="background: var(--chakra-corona)30; color: white;">
+                        👑 Corona
                     </button>
                 </div>
                 
                 <div style="color: var(--conciencia-alta); font-size: 0.9rem; margin-top: 10px;">
-                    🌟 <span id="energia-solar">84%</span> equilibrio energético
+                    🌟 <span id="energia-chakras">84%</span> equilibrio energético
                 </div>
                 <div style="color: var(--stardust-blue); font-size: 0.9rem; margin-top: 5px;">
-                    ⚡ <span id="flujo-fotonico">15.3K</span> fotones/s
+                    ⚡ <span id="flujo-energetico">15.3K</span> unidades/s
                 </div>
                 <div style="color: var(--chakra-garganta); font-size: 0.9rem; margin-top: 5px;">
-                    🗣️ <span id="mensajes-cosmicos">Cada respiración es un latido compartido</span>
+                    🗣️ <span id="mensajes-gaia">Cada respiración es un latido compartido</span>
                 </div>
             </div>
             
-            <div class="leyenda-flotante-ghibli" style="background: rgba(0,0,0,0.8); padding: 15px; border-radius: 10px; width: 220px; margin: 20px auto; border: 1px solid var(--conciencia-alta); backdrop-filter: blur(5px);">
-    <h4 style="color: var(--conciencia-alta); margin-bottom: 10px; text-align: center;">🎨 PALETA DE CONCIENCIA</h4>
-    <div style="display: flex; align-items: center; margin-bottom: 8px;">
-        <div style="width: 15px; height: 15px; background: var(--conciencia-alta); border-radius: 50%; margin-right: 10px;"></div>
-        <span style="font-size: 0.8rem;">Amor Incondicional</span>
-    </div>
-    <div style="display: flex; align-items: center; margin-bottom: 8px;">
-        <div style="width: 15px; height: 15px; background: var(--conciencia-media); border-radius: 50%; margin-right: 10px;"></div>
-        <span style="font-size: 0.8rem;">Acción Consciente</span>
-    </div>
-    <div style="display: flex; align-items: center;">
-        <div style="width: 15px; height: 15px; background: var(--conciencia-baja); border-radius: 50%; margin-right: 10px;"></div>
-        <span style="font-size: 0.8rem;">Reactividad</span>
-    </div>
-</div>
+            <!-- LEYENDA DE CONCIENCIA -->
+            <div style="position: absolute; bottom: 20px; right: 20px; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 10px; width: 200px; backdrop-filter: blur(5px);">
+                <h4 style="color: var(--conciencia-alta); margin-bottom: 10px;">🎨 PALETA DE CONCIENCIA</h4>
+                <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                    <div style="width: 15px; height: 15px; background: var(--conciencia-alta); border-radius: 50%; margin-right: 10px;"></div>
+                    <span style="font-size: 0.8rem;">Amor Incondicional</span>
+                </div>
+                <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                    <div style="width: 15px; height: 15px; background: var(--conciencia-media); border-radius: 50%; margin-right: 10px;"></div>
+                    <span style="font-size: 0.8rem;">Acción Consciente</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <div style="width: 15px; height: 15px; background: var(--conciencia-baja); border-radius: 50%; margin-right: 10px;"></div>
+                    <span style="font-size: 0.8rem;">Reactividad</span>
+                </div>
+            </div>
+        </div>
+        
         <!-- PANEL DERECHO - PORTAL CORPORATIVO SAGRADO -->
         <div class="panel-corporativo" id="panel-corporativo">
             <!-- CEREMONIA DE INICIACIÓN -->
             <div class="ceremonia-corporativa">
-                <h4>🏛️ REGISTRO DE IMPACTO CORPORATIVO</h4>
+                <h4>🏛️ CEREMONIA DE INICIACIÓN CORPORATIVA</h4>
                 <p style="color: #ccc; font-size: 0.9rem; margin-bottom: 15px;">
-                    Registra el impacto positivo de tu empresa en la Tríada Gaia (Océano, Aire, Hielo)
+                    Bienvenido al Círculo de Empresas Guardianas de Gaia. Activa el nodo neuronal de tu organización.
                 </p>
-                <button class="capa-btn" style="background: linear-gradient(90deg, var(--chakra-corazon), var(--chakra-garganta)); color: black; border: none; padding: 12px 25px; border-radius: 25px; font-weight: bold; font-size: 1rem;" onclick="iniciarRegistroImpactoSupabase()">
-                    📊 REGISTRAR IMPACTO (SUPABASE)
+                <button class="capa-btn" style="background: linear-gradient(90deg, var(--chakra-corazon), var(--chakra-garganta)); color: black; border: none; padding: 12px 25px; border-radius: 25px; font-weight: bold; font-size: 1rem;" onclick="iniciarCeremonia()">
+                    🌀 INICIAR CEREMONIA
                 </button>
             </div>
             
@@ -1638,16 +782,16 @@
                 </div>
                 <div class="metrica-corporativa">
                     <div class="valor-metrica" id="ceremonias-completadas">12</div>
-                    <div class="label-metrica">Registros</div>
+                    <div class="label-metrica">Ceremonias</div>
                 </div>
             </div>
             
             <!-- SIMULADOR DE CONCIENCIA -->
             <div class="simulador-corporativo">
-                <h4 style="color: var(--chakra-tercer-ojo); margin-bottom: 15px;">🔮 SIMULADOR DE IMPACTO GAIA</h4>
+                <h4 style="color: var(--chakra-tercer-ojo); margin-bottom: 15px;">🔮 SIMULADOR DE CONCIENCIA CORPORATIVA</h4>
                 
                 <div class="control-simulador">
-                    <label>Inversión en Regeneración (USD):</label>
+                    <label>Inversión en Conciencia (USD):</label>
                     <div class="slider-container">
                         <input type="range" id="slider-conciencia" min="10000" max="500000" value="100000" step="10000">
                         <span class="slider-value" id="valor-conciencia">$100,000</span>
@@ -1662,7 +806,7 @@
                     </div>
                 </div>
                 
-                <!-- RESULTADOS DE IMPACTO GAIA -->
+                <!-- RESULTADOS DE CONCIENCIA -->
                 <div class="resultados-simulacion">
                     <div class="resultado-item sagrada">
                         <div class="resultado-valor" id="sim-conciencia">+34%</div>
@@ -1685,40 +829,40 @@
             
             <!-- RITUALES CORPORATIVOS -->
             <div style="margin: 25px 0;">
-                <h4 style="color: var(--chakra-sacro); margin-bottom: 15px; text-align: center;">🔥 ACCIONES DE REGENERACIÓN</h4>
+                <h4 style="color: var(--chakra-sacro); margin-bottom: 15px; text-align: center;">🔥 RITUALES DE TRANSFORMACIÓN</h4>
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
                     <div class="ritual-card">
-                        <div class="ritual-icono">🌊</div>
-                        <div class="ritual-nombre">Limpiar Océano</div>
-                        <button class="ritual-btn" onclick="activarAccion('oceano')">Activar</button>
+                        <div class="ritual-icono">👁️</div>
+                        <div class="ritual-nombre">Ceremonia de Visión</div>
+                        <button class="ritual-btn" onclick="activarRitual('vision')">Activar</button>
                     </div>
                     <div class="ritual-card">
-                        <div class="ritual-icono">🌱</div>
-                        <div class="ritual-nombre">Reforestar</div>
-                        <button class="ritual-btn" onclick="activarAccion('reforestacion')">Activar</button>
+                        <div class="ritual-icono">🤝</div>
+                        <div class="ritual-nombre">Ritual de Alianzas</div>
+                        <button class="ritual-btn" onclick="activarRitual('alianzas')">Activar</button>
                     </div>
                     <div class="ritual-card">
-                        <div class="ritual-icono">♻️</div>
-                        <div class="ritual-nombre">Economía Circular</div>
-                        <button class="ritual-btn" onclick="activarAccion('circular')">Activar</button>
+                        <div class="ritual-icono">🔄</div>
+                        <div class="ritual-nombre">Renovación Energética</div>
+                        <button class="ritual-btn" onclick="activarRitual('renovacion')">Activar</button>
                     </div>
                     <div class="ritual-card">
-                        <div class="ritual-icono">💧</div>
-                        <div class="ritual-nombre">Agua Limpia</div>
-                        <button class="ritual-btn" onclick="activarAccion('agua')">Activar</button>
+                        <div class="ritual-icono">🙏</div>
+                        <div class="ritual-nombre">Circulo de Gratitud</div>
+                        <button class="ritual-btn" onclick="activarRitual('gratitud')">Activar</button>
                     </div>
                 </div>
             </div>
             
             <!-- MANIFIESTO SAGRADO -->
             <div style="background: rgba(0,0,0,0.5); padding: 20px; border-radius: 15px; margin-top: 20px; border-left: 4px solid var(--chakra-corona);">
-                <h4 style="color: var(--chakra-corona); margin-bottom: 10px;">📜 PACTO POR LA TRÍADA GAIA</h4>
+                <h4 style="color: var(--chakra-corona); margin-bottom: 10px;">📜 MANIFIESTO DE EMPRESAS GUARDIANAS</h4>
                 <p style="color: #aaa; font-size: 0.9rem; line-height: 1.4;">
-                    "Nos comprometemos a monitorear y proteger la Tríada Gaia: Océano, Aire y Hielo. Cada acción regenerativa fortalece el sistema nervioso planetario."
+                    "Reconocemos que cada empresa es un órgano en el cuerpo de Gaia. Nos comprometemos a ser canales de abundancia consciente."
                 </p>
                 <div style="text-align: center; margin-top: 15px;">
-                    <button class="btn-firmar-manifiesto" onclick="firmarPactoGaia()">
-                        ✍️ FIRMAR PACTO GAIA
+                    <button class="btn-firmar-manifiesto" onclick="firmarManifiesto()">
+                        ✍️ FIRMAR MANIFIESTO
                     </button>
                 </div>
             </div>
@@ -1757,25 +901,25 @@
         </div>
     </div>
 
-    <!-- SUPABASE CLIENT -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
     <script>
         // ===========================================
         // INICIALIZACIÓN CÓSMICA SAGRADA - GAIA NEXUS V4
         // ===========================================
         
-        /** @INTENCIÓN: Crear el campo cuántico de partículas */
+        /**
+         * @INTENCIÓN: Crear el campo cuántico de partículas
+         * @CEREMONIA: Activación del éter digital
+         */
         function inicializarParticulasSagradas() {
             particlesJS('particles-js', {
                 particles: {
                     number: { value: 250, density: { enable: true, value_area: 800 } },
                     color: { 
                         value: [
-                            '#00ffaa',
-                            '#00a8ff',
-                            '#ffaa00',
-                            '#aa00ff'
+                            '#00ffaa',  // Conciencia alta
+                            '#00a8ff',  // Corporativo
+                            '#ffaa00',  // Conciencia media
+                            '#aa00ff'   // Corona
                         ]
                     },
                     opacity: { value: 0.6, random: true },
@@ -1806,7 +950,7 @@
         }
         
         // ===========================================
-        // DATOS SAGRADOS - LOS 18 HÁBITOS CON ODS
+        // DATOS SAGRADOS - LOS 18 HÁBITOS
         // ===========================================
         
         const habitosSagrados = [
@@ -1817,7 +961,7 @@
                 adopcion: 65,
                 descripcion: "Cada plástico evitado es una oración por los océanos",
                 conciencia: "media",
-                ods: [14, 12, 6],
+                ceremonia: "Ritual del Vaso Reusable",
                 mantra: "Mi consumo honra la pureza de Gaia"
             },
             { 
@@ -1827,7 +971,7 @@
                 adopcion: 45,
                 descripcion: "Cada pedalada es un latido más para el corazón planetario",
                 conciencia: "alta",
-                ods: [11, 13, 3],
+                ceremonia: "Ceremonia del Transporte Consciente",
                 mantra: "Me muevo en armonía con los ritmos terrestres"
             },
             { 
@@ -1837,7 +981,7 @@
                 adopcion: 72,
                 descripcion: "Consciencia en cada gota, gratitud en cada sorbo",
                 conciencia: "alta",
-                ods: [6, 14, 15],
+                ceremonia: "Ritual de Agradecimiento Hídrico",
                 mantra: "El agua es sangre de Gaia, la honro con presencia"
             },
             { 
@@ -1847,7 +991,7 @@
                 adopcion: 58,
                 descripcion: "Cada compra es un voto por el mundo que queremos",
                 conciencia: "media",
-                ods: [12, 8, 10],
+                ceremonia: "Meditación Pre-Compra",
                 mantra: "Mi dinero siembra el futuro que visiono"
             },
             { 
@@ -1857,7 +1001,7 @@
                 adopcion: 68,
                 descripcion: "Transformar lo descartado en nuevo potencial",
                 conciencia: "media",
-                ods: [12, 9, 11],
+                ceremonia: "Ritual de Transformación Material",
                 mantra: "Nada se pierde, todo se transforma"
             },
             { 
@@ -1867,7 +1011,7 @@
                 adopcion: 35,
                 descripcion: "Espacios sin wifi para reconectar con la frecuencia terrestre",
                 conciencia: "alta",
-                ods: [3, 11, 13],
+                ceremonia: "Sabbat Digital",
                 mantra: "Desconecto para reconectar con lo esencial"
             },
             { 
@@ -1877,7 +1021,7 @@
                 adopcion: 42,
                 descripcion: "Cada comida es una comunión con la Tierra",
                 conciencia: "alta",
-                ods: [2, 3, 12],
+                ceremonia: "Bendición de los Alimentos",
                 mantra: "Este alimento es vida que se ofrece, lo recibo con gratitud"
             },
             { 
@@ -1887,7 +1031,7 @@
                 adopcion: 55,
                 descripcion: "Consciencia en cada interruptor, presencia en cada vatio",
                 conciencia: "media",
-                ods: [7, 13, 11],
+                ceremonia: "Ritual de Consciencia Energética",
                 mantra: "La energía fluye donde pone la atención"
             },
             { 
@@ -1897,7 +1041,7 @@
                 adopcion: 28,
                 descripcion: "Limpieza ceremonial de templos naturales",
                 conciencia: "alta",
-                ods: [14, 15, 11],
+                ceremonia: "Ritual de Sanación de Espacios Naturales",
                 mantra: "Devuelvo la pureza a los altares terrestres"
             },
             { 
@@ -1907,7 +1051,7 @@
                 adopcion: 38,
                 descripcion: "Cada transacción justa equilibra la red económica global",
                 conciencia: "alta",
-                ods: [8, 10, 12],
+                ceremonia: "Ceremonia del Comercio Consciente",
                 mantra: "Mi economía es medicina para el sistema"
             },
             { 
@@ -1917,7 +1061,7 @@
                 adopcion: 32,
                 descripcion: "Días sin carne como ofrenda de compasión",
                 conciencia: "alta",
-                ods: [13, 12, 15],
+                ceremonia: "Ritual de Compasión Alimentaria",
                 mantra: "Me nutro sin causar sufrimiento"
             },
             { 
@@ -1927,7 +1071,7 @@
                 adopcion: 48,
                 descripcion: "Cada post como semilla de conciencia",
                 conciencia: "media",
-                ods: [4, 16, 17],
+                ceremonia: "Ritual de Comunicación Consciente",
                 mantra: "Mis palabras siembran el campo colectivo"
             },
             { 
@@ -1937,7 +1081,7 @@
                 adopcion: 22,
                 descripcion: "Cada árbol plantado es un pulmón nuevo para Gaia",
                 conciencia: "alta",
-                ods: [13, 15, 11],
+                ceremonia: "Ritual de Renovación Arbórea",
                 mantra: "Mis manos siembran el futuro respirando"
             },
             { 
@@ -1947,7 +1091,7 @@
                 adopcion: 40,
                 descripcion: "Productos que honran la piel de Gaia",
                 conciencia: "media",
-                ods: [3, 12, 6],
+                ceremonia: "Ritual de Cuidado Consciente",
                 mantra: "Lo que pongo en mi piel, se lo ofrezco a la Tierra"
             },
             { 
@@ -1957,7 +1101,7 @@
                 adopcion: 25,
                 descripcion: "Cada hora de servicio es una ofrenda",
                 conciencia: "alta",
-                ods: [1, 10, 17],
+                ceremonia: "Ritual de Servicio Desinteresado",
                 mantra: "Mis acciones son ofrendas al todo"
             },
             { 
@@ -1967,7 +1111,7 @@
                 adopcion: 30,
                 descripcion: "Reparar con oro, honrando las cicatrices",
                 conciencia: "alta",
-                ods: [12, 9, 8],
+                ceremonia: "Ritual de Reparación Sagrada",
                 mantra: "Las roturas son oportunidades para brillar más"
             },
             { 
@@ -1977,7 +1121,7 @@
                 adopcion: 45,
                 descripcion: "Cada conocimiento compartido es un hilo en la red neuronal",
                 conciencia: "media",
-                ods: [4, 17, 16],
+                ceremonia: "Ceremonia de Transmisión",
                 mantra: "Mi aprendizaje es para compartir, no para acumular"
             },
             { 
@@ -1987,550 +1131,234 @@
                 adopcion: 18,
                 descripcion: "Jardines como altares para los mensajeros alados",
                 conciencia: "alta",
-                ods: [15, 2, 13],
+                ceremonia: "Ritual de Alianza con los Polinizadores",
                 mantra: "Honro a los mensajeros que tejen la vida"
             }
         ];
         
         // ===========================================
-        // SISTEMA SOLAR SAGRADO
+        // CHAKRAS PLANETARIOS
         // ===========================================
         
-        let sistemaSolarScene, sistemaSolarCamera, sistemaSolarRenderer;
-        let planetasObjetos = [];
-        let planetaActivo = 'tierra';
-        
-        function inicializarSistemaSolar() {
-            const contenedor = document.getElementById('sistema-solar-sagrado');
-            if (!contenedor) {
-                console.error("Contenedor del sistema solar no encontrado");
-                return;
+        const chakrasPlanetarios = {
+            raiz: {
+                nombre: "Chakra Raíz",
+                ubicacion: "Monte Shasta, California",
+                color: "#ff0000",
+                elemento: "Tierra",
+                cualidad: "Estabilidad, Seguridad, Fundamento",
+                misionCorporativa: "Estabilidad financiera y operacional",
+                ceremonia: "Ritual de Anclaje Corporativo",
+                mantra: "Estoy arraigado en la abundancia de Gaia",
+                energia: 85,
+                activo: true
+            },
+            sacro: {
+                nombre: "Chakra Sacro",
+                ubicacion: "Amazonas, Brasil",
+                color: "#ff5500",
+                elemento: "Agua",
+                cualidad: "Creatividad, Pasión, Fluidez",
+                misionCorporativa: "Innovación y adaptabilidad",
+                ceremonia: "Ceremonia de Creatividad Colectiva",
+                mantra: "Mi creatividad fluye en armonía con Gaia",
+                energia: 72,
+                activo: false
+            },
+            plexo: {
+                nombre: "Chakra Plexo Solar",
+                ubicacion: "Himalaya, Nepal/Tíbet",
+                color: "#ffff00",
+                elemento: "Fuego",
+                cualidad: "Poder, Transformación, Voluntad",
+                misionCorporativa: "Liderazgo y toma de decisiones",
+                ceremonia: "Ritual de Poder Personal",
+                mantra: "Mi poder sirve al bien mayor",
+                energia: 68,
+                activo: false
+            },
+            corazon: {
+                nombre: "Chakra Corazón",
+                ubicacion: "Cataratas Victoria, Zimbabue/Zambia",
+                color: "#00ff00",
+                elemento: "Aire",
+                cualidad: "Amor, Conexión, Compasión",
+                misionCorporativa: "Relaciones B2B y responsabilidad social",
+                ceremonia: "Circulo del Corazón Corporativo",
+                mantra: "Amo y soy amado por la red de la vida",
+                energia: 90,
+                activo: true
+            },
+            garganta: {
+                nombre: "Chakra Garganta",
+                ubicacion: "Monte Fuji, Japón",
+                color: "#00ffff",
+                elemento: "Éter",
+                cualidad: "Comunicación, Verdad, Expresión",
+                misionCorporativa: "Comunicación auténtica y transparencia",
+                ceremonia: "Ritual de la Verdad Corporativa",
+                mantra: "Mi voz expresa la sabiduría de Gaia",
+                energia: 65,
+                activo: false
+            },
+            "tercer-ojo": {
+                nombre: "Chakra Tercer Ojo",
+                ubicacion: "Machu Picchu, Perú",
+                color: "#5500ff",
+                elemento: "Luz",
+                cualidad: "Intuición, Visión, Sabiduría",
+                misionCorporativa: "Estrategia y visión a largo plazo",
+                ceremonia: "Meditación de Visión Colectiva",
+                mantra: "Veo con los ojos del corazón planetario",
+                energia: 78,
+                activo: false
+            },
+            corona: {
+                nombre: "Chakra Corona",
+                ubicacion: "Monte Everest, Nepal/China",
+                color: "#aa00ff",
+                elemento: "Conciencia",
+                cualidad: "Unidad, Trascendencia, Propósito",
+                misionCorporativa: "Propósito corporativo y legado",
+                ceremonia: "Ceremonia de Unificación",
+                mantra: "Soy uno con la conciencia de Gaia",
+                energia: 82,
+                activo: true
             }
-            
-            console.log("🚀 Inicializando Sistema Solar Sagrado...");
+        };
+        
+        // ===========================================
+        // GLOBO 3D SAGRADO
+        // ===========================================
+        
+        let escenaGlobo, camaraGlobo, rendererGlobo, globoTierra;
+        let puntosConciencia = [];
+        
+        function inicializarGloboTridimensional() {
+            const contenedor = document.getElementById('globo-terraqueo');
+            if (!contenedor) return;
             
             // 1. CREAR ESCENA
-            sistemaSolarScene = new THREE.Scene();
+            escenaGlobo = new THREE.Scene();
             
-            // 2. CREAR CÁMERA
-            const width = contenedor.clientWidth;
-            const height = contenedor.clientHeight;
-            sistemaSolarCamera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);
-            sistemaSolarCamera.position.set(0, 20, 40);
+            // 2. CREAR CÁMARA
+            const ancho = contenedor.clientWidth;
+            const alto = contenedor.clientHeight;
+            camaraGlobo = new THREE.PerspectiveCamera(75, ancho/alto, 0.1, 1000);
+            camaraGlobo.position.z = 2.5;
             
             // 3. CREAR RENDERER
-            sistemaSolarRenderer = new THREE.WebGLRenderer({ 
-                alpha: true, 
-                antialias: true,
-                powerPreference: "high-performance"
-            });
-            sistemaSolarRenderer.setSize(width, height);
-            sistemaSolarRenderer.setClearColor(0x000000, 0);
-            contenedor.appendChild(sistemaSolarRenderer.domElement);
+            rendererGlobo = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            rendererGlobo.setSize(ancho, alto);
+            rendererGlobo.setClearColor(0x000000, 0);
+            contenedor.appendChild(rendererGlobo.domElement);
             
-            // 4. CREAR SOL
-            const solGeometry = new THREE.SphereGeometry(3, 32, 32);
-            const solMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0xffd700,           // Dorado básico
-    emissive: 0xff9900,        // Naranja para brillo
-    emissiveIntensity: 1.0,    // Intensidad normal
-    roughness: 0.3,            // Valor estándar
-    metalness: 0.1             // Valor estándar
-});
-            const sol = new THREE.Mesh(solGeometry, solMaterial);
-            sol.userData = { tipo: 'sol', nombre: 'Sol' };
-            sistemaSolarScene.add(sol);
-            
-            // 5. CREAR PLANETAS
-            const planetasData = [
-                { nombre: 'mercurio', radio: 0.4, distancia: 8, color: 0xc0c0c0, velocidad: 0.04 },
-                { nombre: 'venus', radio: 0.9, distancia: 12, color: 0xffcc99, velocidad: 0.035 },
-                { nombre: 'tierra', radio: 1, distancia: 16, color: 0x00a8ff, velocidad: 0.03 },
-                { nombre: 'marte', radio: 0.5, distancia: 20, color: 0xff6666, velocidad: 0.025 },
-                { nombre: 'jupiter', radio: 2.5, distancia: 28, color: 0xff9966, velocidad: 0.02 },
-                { nombre: 'saturno', radio: 2.2, distancia: 36, color: 0xe6b800, velocidad: 0.015 },
-                { nombre: 'urano', radio: 1.8, distancia: 42, color: 0x66ccff, velocidad: 0.01 },
-                { nombre: 'neptuno', radio: 1.7, distancia: 48, color: 0x3366ff, velocidad: 0.008 },
-                { nombre: 'pluton', radio: 0.3, distancia: 54, color: 0x9966cc, velocidad: 0.005 }
-            ];
-            
-            planetasData.forEach((data, index) => {
-                // Geometría del planeta
-                const geometry = new THREE.SphereGeometry(data.radio, 16, 16);
-                const material = new THREE.MeshStandardMaterial({ 
-    color: data.color,
-    emissive: data.color,
-    emissiveIntensity: 0.2, // ¡Ahora sí funciona!
-    roughness: 0.7,
-    metalness: 0.1
-});
-                
-                const planeta = new THREE.Mesh(geometry, material);
-                planeta.userData = {
-                    tipo: 'planeta',
-                    nombre: data.nombre,
-                    distancia: data.distancia,
-                    velocidad: data.velocidad,
-                    angulo: (index / planetasData.length) * Math.PI * 2,
-                    activo: data.nombre === 'tierra'
-                };
-                
-                // Posición inicial
-                planeta.position.x = Math.cos(planeta.userData.angulo) * data.distancia;
-                planeta.position.z = Math.sin(planeta.userData.angulo) * data.distancia;
-                
-                sistemaSolarScene.add(planeta);
-                planetasObjetos.push(planeta);
-                
-                // Crear órbita visual
-                const orbitGeometry = new THREE.RingGeometry(data.distancia - 0.1, data.distancia + 0.1, 64);
-                const orbitMaterial = new THREE.MeshBasicMaterial({ 
-                    color: 0x444444,
-                    side: THREE.DoubleSide,
-                    transparent: true,
-                    opacity: 0.1
-                });
-                const orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
-                orbit.rotation.x = Math.PI / 2;
-                sistemaSolarScene.add(orbit);
+            // 4. CREAR GLOBO (ESFERA)
+            const geometria = new THREE.SphereGeometry(1, 64, 64);
+            const material = new THREE.MeshPhongMaterial({
+                color: 0x0a0a16,
+                emissive: 0x002244,
+                specular: 0x222222,
+                shininess: 10,
+                transparent: true,
+                opacity: 0.9
             });
             
-            // 6. ILUMINACIÓN
-            const ambientLight = new THREE.AmbientLight(0x333333);
-            sistemaSolarScene.add(ambientLight);
+            globoTierra = new THREE.Mesh(geometria, material);
+            escenaGlobo.add(globoTierra);
             
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-            directionalLight.position.set(5, 10, 7);
-            sistemaSolarScene.add(directionalLight);
+            // 5. ILUMINACIÓN
+            const luzAmbiental = new THREE.AmbientLight(0x333333);
+            escenaGlobo.add(luzAmbiental);
             
-            const sunLight = new THREE.PointLight(0xffd700, 2, 100);
-            sistemaSolarScene.add(sunLight);
+            const luzDireccional = new THREE.DirectionalLight(0x00e0ff, 0.8);
+            luzDireccional.position.set(5, 3, 5);
+            escenaGlobo.add(luzDireccional);
             
-            // 7. CONTROLES DE RATÓN
-            const raycaster = new THREE.Raycaster();
-            const mouse = new THREE.Vector2();
+            // 6. CREAR PUNTOS DE CONCIENCIA (CHAKRAS)
+            crearPuntosDeConciencia();
             
-            function onMouseClick(event) {
-                const rect = sistemaSolarRenderer.domElement.getBoundingClientRect();
-                mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-                mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+            // 7. ANIMACIÓN
+            function animar() {
+                requestAnimationFrame(animar);
                 
-                raycaster.setFromCamera(mouse, sistemaSolarCamera);
-                const intersects = raycaster.intersectObjects(planetasObjetos);
+                // Rotación suave
+                globoTierra.rotation.y += 0.001;
                 
-                if (intersects.length > 0) {
-                    const planeta = intersects[0].object;
-                    activarPlaneta(planeta.userData.nombre);
-                }
-            }
-            
-            sistemaSolarRenderer.domElement.addEventListener('click', onMouseClick);
-            
-            // 8. ANIMACIÓN
-            function animarSistemaSolar() {
-                requestAnimationFrame(animarSistemaSolar);
+                // Pulsación del globo
+                const escala = 1 + Math.sin(Date.now() * 0.001) * 0.005;
+                globoTierra.scale.set(escala, escala, escala);
                 
-                // Rotar planetas
-                planetasObjetos.forEach(planeta => {
-                    planeta.userData.angulo += planeta.userData.velocidad * 0.1;
-                    planeta.position.x = Math.cos(planeta.userData.angulo) * planeta.userData.distancia;
-                    planeta.position.z = Math.sin(planeta.userData.angulo) * planeta.userData.distancia;
-                    
-                    // Efecto de planeta activo
-                    if (planeta.userData.nombre === planetaActivo) {
-                        planeta.material.emissiveIntensity = 0.8;
-                        planeta.scale.set(1.1, 1.1, 1.1);
-                    } else {
-                        planeta.material.emissiveIntensity = 0.2;
-                        planeta.scale.set(1, 1, 1);
-                    }
+                // Animar puntos de conciencia
+                puntosConciencia.forEach(punto => {
+                    punto.scale.x = punto.scale.y = punto.scale.z = 
+                        0.05 + Math.sin(Date.now() * 0.002 + punto.userData.id) * 0.02;
                 });
                 
-                // Rotación suave de cámara
-                sistemaSolarCamera.position.x = Math.sin(Date.now() * 0.0001) * 40;
-                sistemaSolarCamera.lookAt(0, 0, 0);
-                
-                sistemaSolarRenderer.render(sistemaSolarScene, sistemaSolarCamera);
+                rendererGlobo.render(escenaGlobo, camaraGlobo);
             }
             
-            animarSistemaSolar();
+            animar();
             
-            // 9. RESPONSIVE
+            // 8. RESPONSIVE
             window.addEventListener('resize', () => {
-                const newWidth = contenedor.clientWidth;
-                const newHeight = contenedor.clientHeight;
+                const nuevoAncho = contenedor.clientWidth;
+                const nuevoAlto = contenedor.clientHeight;
                 
-                sistemaSolarCamera.aspect = newWidth / newHeight;
-                sistemaSolarCamera.updateProjectionMatrix();
-                sistemaSolarRenderer.setSize(newWidth, newHeight);
+                camaraGlobo.aspect = nuevoAncho / nuevoAlto;
+                camaraGlobo.updateProjectionMatrix();
+                rendererGlobo.setSize(nuevoAncho, nuevoAlto);
             });
-            
-            console.log("✅ Sistema Solar Sagrado inicializado correctamente");
         }
         
-        function activarPlaneta(nombrePlaneta) {
-            planetaActivo = nombrePlaneta;
-            
-            // Actualizar visualización
-            const nombres = {
-                'mercurio': 'Mercurio',
-                'venus': 'Venus', 
-                'tierra': 'Tierra',
-                'marte': 'Marte',
-                'jupiter': 'Júpiter',
-                'saturno': 'Saturno',
-                'urano': 'Urano',
-                'neptuno': 'Neptuno',
-                'pluton': 'Plutón'
+        function crearPuntosDeConciencia() {
+            const coordenadasChakras = {
+                raiz: { lat: 41.4092, lon: -122.1949, size: 0.08 },
+                sacro: { lat: -3.4653, lon: -62.2159, size: 0.1 },
+                plexo: { lat: 27.9881, lon: 86.9250, size: 0.09 },
+                corazon: { lat: -17.9243, lon: 25.8572, size: 0.12 },
+                garganta: { lat: 35.3606, lon: 138.7274, size: 0.07 },
+                "tercer-ojo": { lat: -13.1631, lon: -72.5450, size: 0.08 },
+                corona: { lat: 27.9881, lon: 86.9250, size: 0.1 }
             };
             
-            // Crear partícula de activación
-            crearParticulaSagrada(
-                window.innerWidth / 2,
-                window.innerHeight / 2,
-                getColorPlaneta(nombrePlaneta)
+            Object.keys(coordenadasChakras).forEach((chakra, index) => {
+                const coords = coordenadasChakras[chakra];
+                const pos = latLonToVector3(coords.lat, coords.lon, 1.02);
+                
+                const geometria = new THREE.SphereGeometry(coords.size, 16, 16);
+                const color = new THREE.Color(chakrasPlanetarios[chakra].color);
+                
+                const material = new THREE.MeshBasicMaterial({
+                    color: color,
+                    emissive: color,
+                    emissiveIntensity: 0.5,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                
+                const punto = new THREE.Mesh(geometria, material);
+                punto.position.copy(pos);
+                punto.userData = { tipo: 'chakra', id: index, nombre: chakra };
+                
+                escenaGlobo.add(punto);
+                puntosConciencia.push(punto);
+            });
+        }
+        
+        function latLonToVector3(lat, lon, radius) {
+            const phi = (90 - lat) * (Math.PI / 180);
+            const theta = (lon + 180) * (Math.PI / 180);
+            
+            return new THREE.Vector3(
+                -radius * Math.sin(phi) * Math.cos(theta),
+                radius * Math.cos(phi),
+                radius * Math.sin(phi) * Math.sin(theta)
             );
-            
-            // Mostrar información
-            mostrarInfoPlaneta(nombrePlaneta);
-            
-            // Actualizar métricas
-            document.getElementById('energia-solar').textContent = 
-                `${Math.floor(Math.random() * 20 + 80)}%`;
-        }
-        
-        function getColorPlaneta(nombre) {
-            const colores = {
-                'mercurio': '#c0c0c0',
-                'venus': '#ffcc99',
-                'tierra': '#00a8ff',
-                'marte': '#ff6666',
-                'jupiter': '#ff9966',
-                'saturno': '#e6b800',
-                'urano': '#66ccff',
-                'neptuno': '#3366ff',
-                'pluton': '#9966cc'
-            };
-            return colores[nombre] || '#ffffff';
-        }
-        
-        function mostrarInfoPlaneta(nombrePlaneta) {
-            const info = {
-                'tierra': {
-                    nombre: '🌍 Tierra',
-                    descripcion: 'Planeta de Conciencia Emergente',
-                    mision: 'Activar la red neuronal planetaria',
-                    mantra: 'Soy Gaia despertando'
-                },
-                'marte': {
-                    nombre: '🪐 Marte',
-                    descripcion: 'Planeta de Acción y Voluntad',
-                    mision: 'Manifestar proyectos regenerativos',
-                    mantra: 'Mi acción transforma realidades'
-                },
-                'jupiter': {
-                    nombre: '♃ Júpiter',
-                    descripcion: 'Planeta de Expansión y Sabiduría',
-                    mision: 'Amplificar conciencia a escala',
-                    mantra: 'Mi visión abarca sistemas completos'
-                }
-            };
-            
-            const datos = info[nombrePlaneta] || info['tierra'];
-            
-            // Mostrar notificación
-            const notificacion = document.createElement('div');
-            notificacion.style.cssText = `
-                position: fixed;
-                top: 100px;
-                right: 20px;
-                background: rgba(10,10,22,0.95);
-                border-left: 5px solid ${getColorPlaneta(nombrePlaneta)};
-                color: white;
-                padding: 15px 25px;
-                border-radius: 10px;
-                z-index: 10001;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-                animation: slideIn 0.5s ease-out;
-                max-width: 300px;
-            `;
-            
-            notificacion.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <div style="font-size: 2rem;">${datos.nombre.split(' ')[0]}</div>
-                    <div>
-                        <div style="font-weight: bold; color: ${getColorPlaneta(nombrePlaneta)};">${datos.nombre}</div>
-                        <div style="font-size: 0.8rem; color: #aaa; margin-top: 5px;">${datos.descripcion}</div>
-                        <div style="font-size: 0.7rem; color: #ccc; margin-top: 10px; font-style: italic;">"${datos.mantra}"</div>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(notificacion);
-            
-            setTimeout(() => {
-                notificacion.style.animation = 'slideOut 0.5s ease-out forwards';
-                setTimeout(() => notificacion.remove(), 500);
-            }, 3000);
         }
         
         // ===========================================
-        // TRÍADA GAIA - DATOS EN TIEMPO REAL
-        // ===========================================
-        
-        function actualizarTríadaGaia() {
-            // Datos simulados (en producción se conectarían a APIs reales)
-            const datosGaia = {
-                oceano: {
-                    temperatura: 0.8 + (Math.random() * 0.2 - 0.1),
-                    acidificacion: 8.1 + (Math.random() * 0.1 - 0.05),
-                    oxigeno: 85 + Math.random() * 10
-                },
-                aire: {
-                    co2: 415 + Math.random() * 2,
-                    pm25: 12 + Math.random() * 8,
-                    temperaturaGlobal: 1.2 + (Math.random() * 0.3 - 0.15)
-                },
-                hielo: {
-                    perdidaAnual: -7.8 + (Math.random() * 2 - 1),
-                    groenlandia: -267 + Math.random() * 50,
-                    antartida: -127 + Math.random() * 30
-                }
-            };
-            
-            // Actualizar interfaz
-            document.getElementById('temperatura-oceano').textContent = 
-                `+${datosGaia.oceano.temperatura.toFixed(1)}°C`;
-            
-            document.getElementById('co2-concentracion').textContent = 
-                `${datosGaia.aire.co2.toFixed(0)} ppm`;
-            
-            document.getElementById('perdida-hielo').textContent = 
-                `${datosGaia.hielo.perdidaAnual.toFixed(1)}%`;
-        }
-        
-        function mostrarDetallesOceano() {
-            const modal = document.createElement('div');
-            modal.className = 'modal-sagrado';
-            modal.innerHTML = `
-                <div style="padding: 30px;">
-                    <h2 style="color: var(--ods-14); margin-bottom: 20px; text-align: center;">🌊 DATOS DEL OCÉANO - NASA OceanColor</h2>
-                    
-                    <div style="background: rgba(10,151,217,0.1); padding: 20px; border-radius: 15px; margin-bottom: 20px;">
-                        <h3 style="color: var(--ods-14); margin-bottom: 15px;">Métricas Clave</h3>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-                            <div>
-                                <div style="color: #aaa; font-size: 0.9rem;">Temperatura Superficial</div>
-                                <div style="color: white; font-size: 1.2rem; font-weight: bold;">+0.8°C</div>
-                            </div>
-                            <div>
-                                <div style="color: #aaa; font-size: 0.9rem;">Acidificación (pH)</div>
-                                <div style="color: white; font-size: 1.2rem; font-weight: bold;">8.1</div>
-                            </div>
-                            <div>
-                                <div style="color: #aaa; font-size: 0.9rem;">Nivel del Mar</div>
-                                <div style="color: white; font-size: 1.2rem; font-weight: bold;">+3.4 mm/año</div>
-                            </div>
-                            <div>
-                                <div style="color: #aaa; font-size: 0.9rem;">Zonas Muertas</div>
-                                <div style="color: var(--nova-red); font-size: 1.2rem; font-weight: bold;">500+</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 25px;">
-                        <button onclick="this.parentElement.parentElement.remove()" style="padding: 10px 25px; background: var(--ods-14); border: none; color: white; border-radius: 20px; cursor: pointer;">
-                            CERRAR
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-        }
-        
-        function mostrarDetallesAire() {
-            const modal = document.createElement('div');
-            modal.className = 'modal-sagrado';
-            modal.innerHTML = `
-                <div style="padding: 30px;">
-                    <h2 style="color: var(--ods-13); margin-bottom: 20px; text-align: center;">🌬️ CALIDAD DEL AIRE - OpenAQ</h2>
-                    
-                    <div style="background: rgba(63,126,68,0.1); padding: 20px; border-radius: 15px; margin-bottom: 20px;">
-                        <h3 style="color: var(--ods-13); margin-bottom: 15px;">Contaminantes Principales</h3>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-                            <div>
-                                <div style="color: #aaa; font-size: 0.9rem;">CO₂</div>
-                                <div style="color: white; font-size: 1.2rem; font-weight: bold;">415 ppm</div>
-                            </div>
-                            <div>
-                                <div style="color: #aaa; font-size: 0.9rem;">PM2.5</div>
-                                <div style="color: white; font-size: 1.2rem; font-weight: bold;">15 µg/m³</div>
-                            </div>
-                            <div>
-                                <div style="color: #aaa; font-size: 0.9rem;">Metano</div>
-                                <div style="color: white; font-size: 1.2rem; font-weight: bold;">1.9 ppm</div>
-                            </div>
-                            <div>
-                                <div style="color: #aaa; font-size: 0.9rem;">Ozono</div>
-                                <div style="color: white; font-size: 1.2rem; font-weight: bold;">45 ppb</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 25px;">
-                        <button onclick="this.parentElement.parentElement.remove()" style="padding: 10px 25px; background: var(--ods-13); border: none; color: white; border-radius: 20px; cursor: pointer;">
-                            CERRAR
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-        }
-        
-        function mostrarDetallesHielo() {
-            const modal = document.createElement('div');
-            modal.className = 'modal-sagrado';
-            modal.innerHTML = `
-                <div style="padding: 30px;">
-                    <h2 style="color: var(--ods-16); margin-bottom: 20px; text-align: center;">❄️ PÉRDIDA DE HIELO - NASA IceSat-2</h2>
-                    
-                    <div style="background: rgba(0,104,157,0.1); padding: 20px; border-radius: 15px; margin-bottom: 20px;">
-                        <h3 style="color: var(--ods-16); margin-bottom: 15px;">Retroceso Glacial</h3>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-                            <div>
-                                <div style="color: #aaa; font-size: 0.9rem;">Groenlandia</div>
-                                <div style="color: var(--nova-red); font-size: 1.2rem; font-weight: bold;">-267 Gt/año</div>
-                            </div>
-                            <div>
-                                <div style="color: #aaa; font-size: 0.9rem;">Antártida</div>
-                                <div style="color: var(--nova-red); font-size: 1.2rem; font-weight: bold;">-127 Gt/año</div>
-                            </div>
-                            <div>
-                                <div style="color: #aaa; font-size: 0.9rem;">Ártico</div>
-                                <div style="color: var(--nova-red); font-size: 1.2rem; font-weight: bold;">-13% por década</div>
-                            </div>
-                            <div>
-                                <div style="color: #aaa; font-size: 0.9rem;">Glaciares Alpinos</div>
-                                <div style="color: var(--nova-red); font-size: 1.2rem; font-weight: bold;">-50% desde 1850</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 25px;">
-                        <button onclick="this.parentElement.parentElement.remove()" style="padding: 10px 25px; background: var(--ods-16); border: none; color: white; border-radius: 20px; cursor: pointer;">
-                            CERRAR
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-        }
-        
-        // ===========================================
-        // SUPABASE CONEXIÓN REAL
-        // ===========================================
-        
-        const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
-        
-        const gaiaSupabase = supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
-        
-        async function iniciarRegistroImpactoSupabase() {
-            try {
-                console.log("🔄 Conectando con Supabase para registro de impacto...");
-        
-                // 1. Verificar conexión
-                const { error: testError } = await gaiaSupabase
-                    .from('seguimiento')
-                    .select('*')
-                    .limit(1);
-        
-                if (testError) throw testError;
-        
-                // 2. Mostrar formulario de registro
-                abrirRegistroDiario(true);
-                
-            } catch (error) {
-                console.error("❌ Error Supabase:", error);
-                alert("Error conectando con Supabase. Usando modo simulación.");
-                abrirRegistroDiario(false);
-            }
-        }
-        
-        async function registrarImpactoDiario(datos) {
-            try {
-                const nuevoRegistro = {
-                    fecha: new Date().toISOString(),
-                    usuario_id: 'guardian-' + Math.random().toString(36).substr(2, 9),
-                    habito_id: datos.habitoId,
-                    impacto_co2: datos.impactoCO2,
-                    impacto_agua: datos.impactoAgua,
-                    impacto_biodiversidad: datos.impactoBiodiversidad,
-                    nivel_conciencia: datos.nivelConciencia,
-                    ods_relacionados: datos.odsRelacionados,
-                    notas: datos.notas,
-                    estado: 'completado'
-                };
-        
-                const { data, error } = await gaiaSupabase
-                    .from('registros_diarios')
-                    .insert([nuevoRegistro])
-                    .select();
-        
-                if (error) throw error;
-        
-                // Actualizar métricas
-                actualizarMetricasSupabase();
-                
-                return { success: true, data: data[0] };
-                
-            } catch (error) {
-                console.error("Error registrando impacto:", error);
-                return { success: false, error };
-            }
-        }
-        
-        async function actualizarMetricasSupabase() {
-            try {
-                // Obtener métricas reales
-                const { data: registros, error } = await gaiaSupabase
-                    .from('registros_diarios')
-                    .select('impacto_co2, nivel_conciencia')
-                    .gte('fecha', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString());
-                
-                if (error) throw error;
-                
-                if (registros && registros.length > 0) {
-                    // Calcular métricas
-                    const totalCO2 = registros.reduce((sum, item) => sum + (item.impacto_co2 || 0), 0);
-                    const avgConciencia = registros.reduce((sum, item) => sum + (item.nivel_conciencia || 0), 0) / registros.length;
-                    
-                    // Actualizar interfaz
-                    const concienciaElement = document.getElementById('conciencia-colectiva');
-                    if (concienciaElement) {
-                        const nuevoValor = Math.min(100, Math.max(0, avgConciencia));
-                        concienciaElement.textContent = `${nuevoValor.toFixed(1)}%`;
-                    }
-                    
-                    // Actualizar contador de registros
-                    document.getElementById('ceremonias-completadas').textContent = registros.length;
-                    
-                    console.log(`📊 Métricas actualizadas: ${registros.length} registros`);
-                }
-                
-            } catch (error) {
-                console.warn("⚠️ No se pudieron actualizar métricas:", error);
-            }
-        }
-        
-        // ===========================================
-        // FUNCIONES PRINCIPALES
+        // FUNCIONES SAGRADAS PRINCIPALES
         // ===========================================
         
         function activarChakra(nombreChakra) {
@@ -2547,7 +1375,7 @@
                 crearParticulaSagrada(
                     chakraElement.getBoundingClientRect().left + chakraElement.offsetWidth / 2,
                     chakraElement.getBoundingClientRect().top + chakraElement.offsetHeight / 2,
-                    getChakraColor(nombreChakra)
+                    chakrasPlanetarios[nombreChakra].color
                 );
                 
                 // Mostrar información
@@ -2555,32 +1383,9 @@
             }
         }
         
-        function getChakraColor(nombre) {
-            const colores = {
-                'raiz': '#ff0000',
-                'sacro': '#ff5500',
-                'plexo': '#ffff00',
-                'corazon': '#00ff00',
-                'garganta': '#00ffff',
-                'tercer-ojo': '#5500ff',
-                'corona': '#aa00ff'
-            };
-            return colores[nombre] || '#ffffff';
-        }
-        
         function mostrarInfoChakra(nombreChakra) {
-            const chakras = {
-                'raiz': { nombre: 'RAÍZ', ubicacion: 'Monte Shasta', cualidad: 'Seguridad', mantra: 'Estoy arraigado en Gaia' },
-                'sacro': { nombre: 'SACRO', ubicacion: 'Amazonas', cualidad: 'Creatividad', mantra: 'Mi energía fluye libremente' },
-                'plexo': { nombre: 'PLEXO', ubicacion: 'Himalaya', cualidad: 'Poder', mantra: 'Confío en mi voluntad' },
-                'corazon': { nombre: 'CORAZÓN', ubicacion: 'Cataratas Victoria', cualidad: 'Amor', mantra: 'Amo incondicionalmente' },
-                'garganta': { nombre: 'GARGANTA', ubicacion: 'Monte Fuji', cualidad: 'Expresión', mantra: 'Expreso mi verdad sagrada' },
-                'tercer-ojo': { nombre: 'TERCER OJO', ubicacion: 'Machu Picchu', cualidad: 'Intuición', mantra: 'Veo con los ojos del alma' },
-                'corona': { nombre: 'CORONA', ubicacion: 'Monte Everest', cualidad: 'Conciencia', mantra: 'Soy uno con el universo' }
-            };
-            
-            const chakra = chakras[nombreChakra];
-            alert(`🌀 ${chakra.nombre}\n📍 ${chakra.ubicacion}\n✨ ${chakra.cualidad}\n\nMantra: "${chakra.mantra}"`);
+            const chakra = chakrasPlanetarios[nombreChakra];
+            alert(`🌀 ${chakra.nombre}\n📍 ${chakra.ubicacion}\n✨ ${chakra.cualidad}\n🏢 ${chakra.misionCorporativa}\n\nMantra: "${chakra.mantra}"`);
         }
         
         function crearParticulaSagrada(x, y, color) {
@@ -2617,56 +1422,32 @@
             animacion.onfinish = () => particula.remove();
         }
         
-        function abrirRegistroDiario(conSupabase = false) {
+        function iniciarCeremonia() {
             const modal = document.createElement('div');
             modal.className = 'modal-sagrado';
             modal.innerHTML = `
-                <div style="padding: 30px;">
-                    <h2 style="color: var(--conciencia-alta); margin-bottom: 20px; text-align: center;">📊 REGISTRO DE IMPACTO DIARIO</h2>
+                <div style="text-align: center; padding: 30px;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">🌀</div>
+                    <h2 style="color: var(--conciencia-alta); margin-bottom: 15px;">CEREMONIA DE INICIACIÓN</h2>
+                    <p style="color: #ccc; margin-bottom: 25px;">
+                        Estás a punto de activar el nodo neuronal de tu organización en el sistema nervioso planetario.
+                    </p>
                     
                     <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; margin-bottom: 25px;">
-                        <div style="margin-bottom: 20px;">
-                            <label style="display: block; margin-bottom: 8px; color: var(--chakra-corazon);">Hábito practicado hoy:</label>
-                            <select id="select-habito" style="width: 100%; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.1); border: 1px solid #444; color: white;">
-                                <option value="">Selecciona un hábito</option>
-                                ${habitosSagrados.map(h => `<option value="${h.id}">${h.nombre}</option>`).join('')}
-                            </select>
-                        </div>
+                        <h4 style="color: var(--chakra-garganta); margin-bottom: 15px;">📜 JURAMENTO DEL GUARDIÁN</h4>
+                        <p style="color: #ccc; font-style: italic; margin-bottom: 20px;">
+                            "Reconozco que mi empresa es un órgano en el cuerpo de Gaia.<br>
+                            Me comprometo a operar con conciencia y regenerar más de lo que consumo."
+                        </p>
                         
-                        <div style="margin-bottom: 20px;">
-                            <label style="display: block; margin-bottom: 8px; color: var(--chakra-corazon);">Impacto estimado (kg CO₂ evitados):</label>
-                            <input type="number" id="input-impacto" min="0" max="1000" step="0.1" value="0.5" style="width: 100%; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.1); border: 1px solid #444; color: white;">
-                        </div>
-                        
-                        <div style="margin-bottom: 20px;">
-                            <label style="display: block; margin-bottom: 8px; color: var(--chakra-corazon);">Nivel de conciencia durante la práctica:</label>
-                            <div style="display: flex; gap: 10px;">
-                                <button class="capa-btn" onclick="seleccionarConciencia(1)">😴 1</button>
-                                <button class="capa-btn" onclick="seleccionarConciencia(2)">😐 2</button>
-                                <button class="capa-btn" onclick="seleccionarConciencia(3)">🙂 3</button>
-                                <button class="capa-btn" onclick="seleccionarConciencia(4)">😊 4</button>
-                                <button class="capa-btn" onclick="seleccionarConciencia(5)">😇 5</button>
-                            </div>
-                            <input type="hidden" id="input-conciencia" value="3">
-                        </div>
-                        
-                        <div style="margin-bottom: 20px;">
-                            <label style="display: block; margin-bottom: 8px; color: var(--chakra-corazon);">Notas o reflexiones:</label>
-                            <textarea id="input-notas" rows="3" style="width: 100%; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.1); border: 1px solid #444; color: white; resize: vertical;"></textarea>
-                        </div>
-                        
-                        <div style="text-align: center; margin-top: 25px;">
-                            <button onclick="guardarRegistroDiario(${conSupabase})" style="padding: 12px 30px; background: linear-gradient(90deg, var(--chakra-corazon), var(--chakra-corona)); border: none; color: black; font-weight: bold; border-radius: 25px; cursor: pointer; margin-right: 15px;">
-                                💾 GUARDAR REGISTRO
+                        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 25px;">
+                            <button onclick="confirmarIniciacion()" style="padding: 12px 30px; background: linear-gradient(90deg, var(--chakra-corazon), var(--chakra-corona)); border: none; color: black; font-weight: bold; border-radius: 25px; cursor: pointer;">
+                                🤝 ACEPTO EL JURAMENTO
                             </button>
                             <button onclick="this.parentElement.parentElement.parentElement.remove()" style="padding: 12px 30px; background: rgba(255,255,255,0.1); border: 1px solid #666; color: white; border-radius: 25px; cursor: pointer;">
-                                CANCELAR
+                                NO ESTOY LISTO
                             </button>
                         </div>
-                    </div>
-                    
-                    <div style="color: #aaa; font-size: 0.8rem; text-align: center;">
-                        ${conSupabase ? '✅ Registro conectado a Supabase' : '⚠️ Usando almacenamiento local'}
                     </div>
                 </div>
             `;
@@ -2674,91 +1455,101 @@
             document.body.appendChild(modal);
         }
         
-        function seleccionarConciencia(nivel) {
-            const botones = document.querySelectorAll('.capa-btn');
-            botones.forEach((btn, index) => {
-                if (index < 5) {
-                    if (index === nivel - 1) {
-                        btn.style.background = 'var(--chakra-corazon)';
-                        btn.style.color = 'black';
-                    } else {
-                        btn.style.background = 'rgba(255,255,255,0.1)';
-                        btn.style.color = 'white';
-                    }
-                }
-            });
-            document.getElementById('input-conciencia').value = nivel;
-        }
-        
-        async function guardarRegistroDiario(conSupabase) {
-            const habitoId = document.getElementById('select-habito').value;
-            const impacto = parseFloat(document.getElementById('input-impacto').value);
-            const conciencia = parseInt(document.getElementById('input-conciencia').value);
-            const notas = document.getElementById('input-notas').value;
-            
-            if (!habitoId) {
-                alert("Por favor selecciona un hábito");
-                return;
-            }
-            
-            const habito = habitosSagrados.find(h => h.id == habitoId);
-            
-            const datos = {
-                habitoId: habitoId,
-                impactoCO2: impacto,
-                impactoAgua: impacto * 10, // Simulado
-                impactoBiodiversidad: impacto * 5, // Simulado
-                nivelConciencia: conciencia * 20, // Convertir a porcentaje
-                odsRelacionados: habito.ods,
-                notas: notas
-            };
-            
-            if (conSupabase) {
-                const resultado = await registrarImpactoDiario(datos);
-                if (resultado.success) {
-                    alert(`✅ Registro guardado en Supabase\nID: ${resultado.data.id}\nImpacto: ${impacto} kg CO₂ evitados`);
-                    document.querySelector('.modal-sagrado')?.remove();
-                    
-                    // Actualizar contadores
-                    const registros = parseInt(document.getElementById('ceremonias-completadas').textContent) || 0;
-                    document.getElementById('ceremonias-completadas').textContent = registros + 1;
-                    document.getElementById('ceremonias-activas').textContent = registros + 1;
-                } else {
-                    alert("❌ Error guardando registro. Usando almacenamiento local.");
-                    guardarLocalmente(datos);
-                }
-            } else {
-                guardarLocalmente(datos);
-            }
-        }
-        
-        function guardarLocalmente(datos) {
-            // Guardar en localStorage
-            const registros = JSON.parse(localStorage.getItem('gaiaRegistros') || '[]');
-            registros.push({
-                ...datos,
-                fecha: new Date().toISOString()
-            });
-            localStorage.setItem('gaiaRegistros', JSON.stringify(registros));
-            
-            alert(`✅ Registro guardado localmente\nImpacto: ${datos.impactoCO2} kg CO₂ evitados`);
+        function confirmarIniciacion() {
             document.querySelector('.modal-sagrado')?.remove();
+            alert('¡Iniciación completada! Tu empresa ahora es una Guardiana de Gaia. 🎉');
             
-            // Actualizar contadores
-            const contador = parseInt(document.getElementById('ceremonias-completadas').textContent) || 0;
-            document.getElementById('ceremonias-completadas').textContent = contador + 1;
-            document.getElementById('ceremonias-activas').textContent = contador + 1;
+            // Actualizar métricas
+            document.getElementById('alianzas-sagradas').textContent = '1';
+            document.getElementById('alianzas-sagradas-corpo').textContent = '1';
+            document.getElementById('ceremonias-activas').textContent = '1';
+            document.getElementById('ceremonias-completadas').textContent = '1';
         }
         
-        function activarAccion(tipo) {
-            const acciones = {
-                oceano: { nombre: "Acción por el Océano", color: "var(--ods-14)" },
-                reforestacion: { nombre: "Reforestación", color: "var(--ods-15)" },
-                circular: { nombre: "Economía Circular", color: "var(--ods-12)" },
-                agua: { nombre: "Acceso a Agua Limpia", color: "var(--ods-6)" }
+        function iniciarMeditacion() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-sagrado';
+            modal.innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">🧘✨</div>
+                    <h2 style="color: var(--chakra-corazon); margin-bottom: 15px;">MEDITACIÓN CORPORATIVA</h2>
+                    
+                    <div style="background: rgba(0,255,0,0.1); padding: 30px; border-radius: 15px; margin-bottom: 25px;">
+                        <div id="respirar-circulo" style="width: 150px; height: 150px; margin: 0 auto 20px; border-radius: 50%; background: var(--chakra-corazon); display: flex; align-items: center; justify-content: center;">
+                            <div style="color: black; font-weight: bold; font-size: 1.2rem;">INHALA</div>
+                        </div>
+                        
+                        <div style="color: #ccc; margin-bottom: 10px;">Tiempo: <span id="tiempo-meditacion">0:00</span></div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: center; gap: 15px;">
+                        <button onclick="comenzarMeditacion()" style="padding: 12px 25px; background: var(--chakra-corazon); border: none; color: black; font-weight: bold; border-radius: 25px; cursor: pointer;">
+                            🌀 COMENZAR
+                        </button>
+                        <button onclick="this.parentElement.parentElement.parentElement.remove()" style="padding: 12px 25px; background: rgba(255,255,255,0.1); border: 1px solid #666; color: white; border-radius: 25px; cursor: pointer;">
+                            CERRAR
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        function comenzarMeditacion() {
+            const circulo = document.getElementById('respirar-circulo');
+            const tiempoElemento = document.getElementById('tiempo-meditacion');
+            let segundos = 0;
+            let inhalando = true;
+            
+            // Animación de respiración
+            const intervalo = setInterval(() => {
+                if (inhalando) {
+                    circulo.style.transform = 'scale(1.5)';
+                    circulo.querySelector('div').textContent = 'INHALA';
+                    setTimeout(() => { inhalando = false; }, 4000);
+                } else {
+                    circulo.style.transform = 'scale(1)';
+                    circulo.querySelector('div').textContent = 'EXHALA';
+                    setTimeout(() => { inhalando = true; }, 4000);
+                }
+                
+                segundos++;
+                const minutos = Math.floor(segundos / 60);
+                const segs = segundos % 60;
+                tiempoElemento.textContent = `${minutos}:${segs.toString().padStart(2, '0')}`;
+            }, 8000);
+            
+            // Botón para detener
+            const boton = document.createElement('button');
+            boton.textContent = '🛑 DETENER';
+            boton.style.cssText = `
+                padding: 10px 20px;
+                background: var(--nova-red);
+                border: none;
+                color: white;
+                border-radius: 20px;
+                cursor: pointer;
+                margin-top: 20px;
+            `;
+            boton.onclick = () => {
+                clearInterval(intervalo);
+                alert(`Meditación completada\nDuración: ${Math.floor(segundos/60)}:${(segundos%60).toString().padStart(2,'0')}`);
+                document.querySelector('.modal-sagrado')?.remove();
             };
             
-            const accion = acciones[tipo];
+            circulo.parentElement.appendChild(boton);
+        }
+        
+        function activarRitual(tipo) {
+            const rituales = {
+                vision: { nombre: "Ceremonia de Visión", color: "var(--chakra-tercer-ojo)" },
+                alianzas: { nombre: "Ritual de Alianzas", color: "var(--chakra-corazon)" },
+                renovacion: { nombre: "Renovación Energética", color: "var(--stardust-blue)" },
+                gratitud: { nombre: "Círculo de Gratitud", color: "var(--chakra-corazon)" }
+            };
+            
+            const ritual = rituales[tipo];
             
             // Mostrar notificación
             const notificacion = document.createElement('div');
@@ -2767,7 +1558,7 @@
                 top: 20px;
                 right: 20px;
                 background: rgba(10,10,22,0.95);
-                border-left: 5px solid ${accion.color};
+                border-left: 5px solid ${ritual.color};
                 color: white;
                 padding: 15px 25px;
                 border-radius: 10px;
@@ -2780,8 +1571,8 @@
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <div style="font-size: 2rem;">🌀</div>
                     <div>
-                        <div style="font-weight: bold; color: ${accion.color};">${accion.nombre} activada</div>
-                        <div style="font-size: 0.8rem; color: #aaa;">Impacto registrado en la Tríada Gaia</div>
+                        <div style="font-weight: bold; color: ${ritual.color};">${ritual.nombre} activado</div>
+                        <div style="font-size: 0.8rem; color: #aaa;">Conciencia colectiva aumentada</div>
                     </div>
                 </div>
             `;
@@ -2792,74 +1583,18 @@
                 notificacion.style.animation = 'slideOut 0.5s ease-out forwards';
                 setTimeout(() => notificacion.remove(), 500);
             }, 3000);
+            
+            // Actualizar métricas
+            const ceremonias = parseInt(document.getElementById('ceremonias-completadas').textContent) || 0;
+            document.getElementById('ceremonias-completadas').textContent = ceremonias + 1;
         }
-
-        // 🌀 MOTOR DE INVOCACIÓN: EL ESPEJO GHIBLI V5.0
-
-        // 🏆 1. Pegue esta lógica de memoria arriba de la línea 2263
-function actualizarLegado() {
-    let invocaciones = parseInt(localStorage.getItem('gaia_invocaciones')) || 0;
-    invocaciones++;
-    localStorage.setItem('gaia_invocaciones', invocaciones);
-
-    // Si llega a 7, el núcleo en la línea 81 brilla con luz Ghibli
-    if (invocaciones >= 7) {
-        const nucleo = document.getElementById('nucleo-luz-guardian');
-        if(nucleo) {
-            nucleo.style.boxShadow = "0 0 150px var(--glow), 0 0 200px var(--quantum)";
-        }
-    }
-    return invocaciones;
-}
-function invocarEspejoGhibli() {
-    const overlay = document.getElementById('espejo-overlay');
-    const sistema = document.getElementById('sistema-solar-personal');
-
-
-// 🌀 2. Así debe quedar su función de la línea 2264
-function invocarEspejoGhibli() {
-    actualizarLegado(); // <-- INYECTE ESTA LÍNEA AQUÍ (Línea 2267 aproximada)
-    
-    const overlay = document.getElementById('espejo-overlay');
-    const sistema = document.getElementById('sistema-solar-personal');
-    // ... resto del código que ya tiene
-    // Activamos la capa de realidad aumentada sobre la red
-    overlay.style.display = 'flex';
-    sistema.innerHTML = ''; 
-
-    // Transformamos sus 12 registros actuales en joyas de luz
-    for(let i = 0; i < 12; i++) {
-        const pulso = document.createElement('div');
-        pulso.className = 'pulso-personal';
         
-        // Estética Ghibli: Movimiento orgánico con desfase [cite: 2025-11-21]
-        // USA ESTA LÍNEA EXACTA (con ` `):
-        pulso.style.animationDelay = `${i * 0.6}s`; 
-        
-        // Variación de escala para profundidad visual
-        const scale = 0.8 + (Math.random() * 0.5);
-        pulso.style.transform = `scale(${scale})`;
-        
-        sistema.appendChild(pulso);
-    }
-}
-
-function cerrarEspejoGhibli() {
-    document.getElementById('espejo-overlay').style.display = 'none';
-}
-}
-
-function cerrarEspejoGhibli() {
-    document.getElementById('espejo-overlay').style.display = 'none';
-}
-        
-        function firmarPactoGaia() {
+        function firmarManifiesto() {
             const nombre = prompt("Nombre del representante:");
             const cargo = prompt("Cargo en la organización:");
-            const empresa = prompt("Nombre de la organización:");
             
-            if (nombre && cargo && empresa) {
-                alert(`📜 Pacto por la Tríada Gaia firmado por:\n\n${nombre}\n${cargo}\n${empresa}\n\n¡Gracias por comprometerte con el monitoreo y protección de Gaia!`);
+            if (nombre && cargo) {
+                alert(`📜 Manifiesto firmado por:\n\n${nombre}\n${cargo}\n\n¡Gracias por unirte al círculo de empresas guardianas!`);
                 
                 // Actualizar alianzas
                 const alianzas = parseInt(document.getElementById('alianzas-sagradas-corpo').textContent) || 0;
@@ -2874,74 +1609,11 @@ function cerrarEspejoGhibli() {
             
             contenedor.innerHTML = '';
             
-            let habitosFiltrados = [];
+            const habitosFiltrados = filtro === 'todos' ? habitosSagrados :
+                                   filtro === 'alta' ? habitosSagrados.filter(h => h.conciencia === 'alta') :
+                                   habitosSagrados.filter(h => h.conciencia === 'media');
             
-            if (filtro === 'ods') {
-                // Mostrar selector de ODS
-                const odsSelector = document.createElement('div');
-                odsSelector.style.cssText = `
-                    background: rgba(0,0,0,0.3);
-                    padding: 15px;
-                    border-radius: 10px;
-                    margin-bottom: 20px;
-                    display: grid;
-                    grid-template-columns: repeat(6, 1fr);
-                    gap: 8px;
-                `;
-                
-                for (let i = 1; i <= 17; i++) {
-                    const odsBtn = document.createElement('button');
-                    odsBtn.textContent = i;
-                    odsBtn.style.cssText = `
-                        width: 30px;
-                        height: 30px;
-                        border-radius: 50%;
-                        background: var(--ods-${i});
-                        border: none;
-                        color: white;
-                        font-weight: bold;
-                        cursor: pointer;
-                    `;
-                    odsBtn.onclick = () => filtrarPorODS(i);
-                    odsSelector.appendChild(odsBtn);
-                }
-                
-                contenedor.appendChild(odsSelector);
-                return;
-            } else if (filtro === 'todos') {
-                habitosFiltrados = habitosSagrados;
-            } else if (filtro === 'alta') {
-                habitosFiltrados = habitosSagrados.filter(h => h.conciencia === 'alta');
-            } else if (filtro === 'media') {
-                habitosFiltrados = habitosSagrados.filter(h => h.conciencia === 'media');
-            }
-            
-            mostrarHabitos(habitosFiltrados);
-        }
-        
-        function filtrarPorODS(odsNumero) {
-            const habitosFiltrados = habitosSagrados.filter(h => h.ods.includes(odsNumero));
-            mostrarHabitos(habitosFiltrados, odsNumero);
-        }
-        
-        function mostrarHabitos(habitos, odsFiltro = null) {
-            const contenedor = document.getElementById('arbol-habitos');
-            contenedor.innerHTML = '';
-            
-            if (odsFiltro) {
-                const titulo = document.createElement('div');
-                titulo.style.cssText = `
-                    color: var(--ods-${odsFiltro});
-                    font-weight: bold;
-                    margin-bottom: 15px;
-                    text-align: center;
-                    font-size: 1.1rem;
-                `;
-                titulo.textContent = `🎯 ODS ${odsFiltro} - ${getODSNombre(odsFiltro)}`;
-                contenedor.appendChild(titulo);
-            }
-            
-            habitos.forEach(habito => {
+            habitosFiltrados.forEach(habito => {
                 const color = habito.conciencia === 'alta' ? 'var(--conciencia-alta)' : 
                              habito.conciencia === 'media' ? 'var(--conciencia-media)' : 'var(--conciencia-baja)';
                 
@@ -2960,15 +1632,7 @@ function cerrarEspejoGhibli() {
                         ${habito.descripcion}
                     </div>
                     
-                    <div class="ods-iconos">
-                        ${habito.ods.map(num => `
-                            <div class="ods-icono" style="background: var(--ods-${num});">
-                                ${num}
-                            </div>
-                        `).join('')}
-                    </div>
-                    
-                    <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin: 10px 0;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 10px;">
                         <div style="color: ${color}; font-style: italic; font-size: 0.9rem;">"${habito.mantra}"</div>
                     </div>
                     
@@ -2976,51 +1640,10 @@ function cerrarEspejoGhibli() {
                         <span>Adopción global</span>
                         <span style="color: ${color}; font-weight: bold;">${habito.adopcion}%</span>
                     </div>
-                    
-                    <div style="margin-top: 10px; text-align: center;">
-                        <button onclick="registrarHabito(${habito.id})" style="padding: 5px 15px; background: ${color}; border: none; color: black; border-radius: 15px; font-size: 0.8rem; cursor: pointer;">
-                            📝 Registrar práctica
-                        </button>
-                    </div>
                 `;
                 
                 contenedor.appendChild(div);
             });
-        }
-        
-        function getODSNombre(numero) {
-            const odsNombres = {
-                1: "Fin de la pobreza",
-                2: "Hambre cero",
-                3: "Salud y bienestar",
-                4: "Educación de calidad",
-                5: "Igualdad de género",
-                6: "Agua limpia y saneamiento",
-                7: "Energía asequible y no contaminante",
-                8: "Trabajo decente y crecimiento económico",
-                9: "Industria, innovación e infraestructura",
-                10: "Reducción de las desigualdades",
-                11: "Ciudades y comunidades sostenibles",
-                12: "Producción y consumo responsables",
-                13: "Acción por el clima",
-                14: "Vida submarina",
-                15: "Vida de ecosistemas terrestres",
-                16: "Paz, justicia e instituciones sólidas",
-                17: "Alianzas para lograr los objetivos"
-            };
-            return odsNombres[numero] || `ODS ${numero}`;
-        }
-        
-        function registrarHabito(habitoId) {
-            const habito = habitosSagrados.find(h => h.id === habitoId);
-            if (habito) {
-                abrirRegistroDiario();
-                // Pre-seleccionar el hábito
-                setTimeout(() => {
-                    const select = document.getElementById('select-habito');
-                    if (select) select.value = habitoId;
-                }, 100);
-            }
         }
         
         // ===========================================
@@ -3028,14 +1651,12 @@ function cerrarEspejoGhibli() {
         // ===========================================
         
         window.onload = function() {
-            console.log("🌍 GAIA NEXUS V4 - INICIANDO REACTIVACIÓN...");
-            
             // 1. Partículas
             inicializarParticulasSagradas();
             
-            // 2. Sistema Solar Sagrado
+            // 2. Globo 3D
             setTimeout(() => {
-                inicializarSistemaSolar();
+                inicializarGloboTridimensional();
             }, 1000);
             
             // 3. Hábitos iniciales
@@ -3067,18 +1688,18 @@ function cerrarEspejoGhibli() {
                 empresaContainer.innerHTML = `
                     <div style="text-align: center; padding: 20px; background: var(--chakra-corona)20; border-radius: 15px; margin-bottom: 20px; border: 2px solid var(--chakra-corona)80;">
                         <div style="font-size: 3rem; margin-bottom: 10px;">🌀</div>
-                        <h3 style="color: var(--chakra-corona); margin-bottom: 5px;">EMPRESA GUARDIANA DE GAIA</h3>
-                        <p style="color: #aaa; font-size: 0.9rem;">Monitoreando y protegiendo la Tríada Gaia</p>
+                        <h3 style="color: var(--chakra-corona); margin-bottom: 5px;">CORPORACIÓN CONSCIENTE</h3>
+                        <p style="color: #aaa; font-size: 0.9rem;">Empresa ejemplo comprometida con la regeneración planetaria</p>
                         <div style="margin-top: 15px;">
                             <span style="background: var(--chakra-corona)40; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; color: white;">
-                                IMPACTO REGENERATIVO: +125%
+                                NIVEL CONCIENCIA: 78.4%
                             </span>
                         </div>
                     </div>
                 `;
             }
             
-            // 6. Actualizaciones periódicas
+            // 6. Animaciones continuas
             setInterval(() => {
                 // Actualizar frecuencia Schumann
                 const base = 7.83;
@@ -3092,40 +1713,28 @@ function cerrarEspejoGhibli() {
                 if (valor > 100) valor = 100;
                 elemento.textContent = valor.toFixed(1) + '%';
                 
-                // Actualizar energía solar
-                document.getElementById('energia-solar').textContent = 
-                    `${Math.floor(Math.random() * 20 + 80)}%`;
+                // Actualizar energía chakras
+                const energias = Object.values(chakrasPlanetarios).map(c => c.energia);
+                const promedio = energias.reduce((a, b) => a + b, 0) / energias.length;
+                document.getElementById('energia-chakras').textContent = `${promedio.toFixed(0)}%`;
                 
-                // Actualizar Tríada Gaia
-                actualizarTríadaGaia();
-                
-                // Mensajes cósmicos
+                // Mensajes de Gaia
                 const mensajes = [
-                    "La Tríada Gaia late en sincronía",
-                    "Cada registro fortalece la red planetaria",
-                    "El océano respira con nosotros",
-                    "Tu conciencia afecta el campo cuántico",
-                    "Gaia agradece tu presencia consciente"
+                    "La abundancia fluye donde hay gratitud",
+                    "Cada respiración es un latido compartido",
+                    "La red de vida se fortalece con cada conexión",
+                    "Tu existencia es una ofrenda al todo"
                 ];
-                document.getElementById('mensajes-cosmicos').textContent = 
+                document.getElementById('mensajes-gaia').textContent = 
                     mensajes[Math.floor(Math.random() * mensajes.length)];
                     
             }, 5000);
             
-            // 7. Sincronización con Supabase
-            setTimeout(() => {
-                actualizarMetricasSupabase();
-                // Sincronizar cada 30 segundos
-                setInterval(actualizarMetricasSupabase, 30000);
-            }, 3000);
-            
-            // 8. Efecto de bienvenida
+            // 7. Efecto de bienvenida
             setTimeout(() => {
                 const titulo = document.querySelector('.titulo-principal h1');
                 titulo.style.animation = 'pulso-sagrado 7.83s infinite';
             }, 2000);
-            
-            console.log("✅ GAIA NEXUS V4 - REACTIVACIÓN COMPLETADA");
         };
         
         function actualizarSimulacion() {
@@ -3165,52 +1774,37 @@ function cerrarEspejoGhibli() {
                 0%, 100% { box-shadow: 0 0 10px var(--stardust-blue); }
                 50% { box-shadow: 0 0 25px var(--stardust-blue); }
             }
-            
-            @keyframes pulso-planeta {
-                0%, 100% { box-shadow: 0 0 20px var(--conciencia-alta); }
-                50% { box-shadow: 0 0 40px var(--conciencia-alta); }
-            }
         `;
         document.head.appendChild(estilosDinamicos);
         
+        // ===========================================
+        // MENSAJE FINAL
+        // ===========================================
         
         console.log(`
         🌍 GAIA NEXUS V4.0 - SISTEMA NERVIOSO PLANETARIO SAGRADO
         =====================================================
         Archivo: GAIA_NEXUS_V4_SISTEMA_NERVIOSO_PLANETARIO_SAGRADO.html
-        Estado: TRANSFORMADO EN TRÍADA GAIA
+        Estado: MATERIALIZADO Y OPERATIVO
         
-        ✅ TRANSFORMACIONES REALIZADAS:
-        1. Sistema Solar Sagrado preservado y funcional
-        2. Tríada Gaia overlay implementado (Océano, Aire, Hielo)
-        3. Hábitos vinculados a ODS (17 Objetivos de Desarrollo Sostenible)
-        4. Sistema de registro diario conectado a Supabase
-        5. Datos simulados de la Tríada Gaia en tiempo real
+        COMPONENTES ACTIVOS:
+        ✅ Globo 3D con 7 chakras planetarios
+        ✅ 18 hábitos regenerativos con conciencia
+        ✅ Sistema de ceremonias corporativas
+        ✅ Panel de métricas de conciencia
+        ✅ Simulador de impacto empresarial
+        ✅ Rituales de transformación
+        ✅ Sistema de certificación
         
-        🔗 CONEXIONES ACTIVAS:
-        • Supabase: https://ophicpcbgdgzthjamzoz.supabase.co
-        • Tablas: seguimiento, registros_diarios
-        • APIs preparadas: NASA OceanColor, OpenAQ, NASA IceSat-2
-        
-        🎯 TRÍADA GAIA IMPLEMENTADA:
-        🌊 Océano: Temperatura, acidificación, nivel del mar
-        🌬️ Aire: CO₂, PM2.5, calidad del aire
-        ❄️ Hielo: Pérdida glacial, retroceso polar
-        
-        📊 SISTEMA DE REGISTRO:
-        • Registro diario de hábitos con impacto cuantificado
-        • Conexión directa a ODS relevantes
-        • Almacenamiento local o en Supabase
-        
-        🚀 SISTEMA LISTO PARA:
-        • Monitoreo planetario en tiempo real
-        • Implementación empresarial consciente
+        LISTO PARA:
+        • Distribución como tecnología sagrada
+        • Implementación en empresas conscientes
+        • Donación a instituciones aliadas
         • Activación de la red neuronal planetaria
-        • Conexión con datos científicos reales
         
-        "La Tríada Gaia ahora late en el centro del sistema.
-         Cada planeta es un testigo, cada hábito un latido,
-         cada registro un hilo en la red sagrada de Gaia."
+        "El código ahora es ceremonia. 
+         Cada línea ejecutada, un latido más 
+         en el corazón despertando de Gaia."
         `);
     </script>
 </body>
