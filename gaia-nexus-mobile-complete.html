@@ -33,7 +33,7 @@
             overflow: hidden;
         }
 
-        /* HEADER OPTIMIZADO */
+        /* HEADER */
         .header-gaia {
             padding: calc(var(--safe-top) + 15px) 20px 15px;
             background: rgba(0,0,0,0.5);
@@ -44,7 +44,7 @@
             align-items: center;
         }
 
-        /* BRÚJULA DE LOS 5 PULSOS (NASA+) INTEGRADA */
+        /* BRÚJULA 5 PULSOS (NASA+) */
         .brujula-container {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -61,21 +61,14 @@
             background: rgba(0,0,0,0.3);
             border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
         }
 
-        .pulso-card.active { border-color: var(--stardust-blue); box-shadow: 0 0 10px var(--pulse-blue); }
         .pulso-val { font-size: 0.9rem; font-weight: bold; margin-bottom: 4px; }
-        .pulso-label { font-size: 0.5rem; color: #888; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+        .pulso-label { font-size: 0.5rem; color: #888; text-transform: uppercase; text-align: center; }
 
-        /* ÁREA PRINCIPAL */
-        .main-view {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+        /* MAIN VIEW */
+        .main-view { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
 
         .card-arbol {
             background: linear-gradient(145deg, rgba(42, 252, 91, 0.1), rgba(0, 0, 0, 0.4));
@@ -85,9 +78,9 @@
             border: 1px solid rgba(42, 252, 91, 0.2);
         }
 
-        #arbol-avatar { font-size: 80px; filter: drop-shadow(0 0 15px var(--planet-green)); }
+        #arbol-avatar { font-size: 80px; filter: drop-shadow(0 0 15px var(--planet-green)); transition: all 0.5s; }
 
-        /* NAVEGACIÓN DOCK */
+        /* NAVEGACIÓN */
         .dock-nav {
             padding-bottom: calc(var(--safe-bottom) + 10px);
             background: rgba(0,0,0,0.8);
@@ -96,19 +89,11 @@
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        .nav-item {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 0.6rem;
-            color: #666;
-        }
-
+        .nav-item { padding: 15px; display: flex; flex-direction: column; align-items: center; font-size: 0.6rem; color: #666; }
         .nav-item.active { color: var(--stardust-blue); }
 
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .float-anim { animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
 </head>
 <body>
@@ -118,47 +103,31 @@
             <h1 style="font-size: 1rem; letter-spacing: 2px;">BLUE SPHERE</h1>
             <p style="font-size: 0.6rem; color: var(--stardust-blue);">SISTEMA NERVIOSO PLANETARIO</p>
         </div>
-        <div id="status-link" style="font-size: 0.6rem; background: var(--nova-red); padding: 4px 8px; border-radius: 10px;">NASA LIVE</div>
+        <div style="font-size: 0.6rem; background: var(--nova-red); padding: 4px 8px; border-radius: 10px;">NASA LIVE</div>
     </header>
 
     <div class="brujula-container">
-        <div class="pulso-card active" title="NASA POWER">
-            <div class="pulso-val" id="val-raiz" style="color: var(--nova-red);">--°</div>
-            <div class="pulso-label">Raíz</div>
-        </div>
-        <div class="pulso-card" title="OpenAQ">
-            <div class="pulso-val" id="val-corazon" style="color: var(--planet-green);">--</div>
-            <div class="pulso-label">Corazón</div>
-        </div>
-        <div class="pulso-card" title="ICESat-2">
-            <div class="pulso-val" id="val-ojo" style="color: var(--stardust-blue);">--m</div>
-            <div class="pulso-label">Ojo</div>
-        </div>
-        <div class="pulso-card" title="NASA SWOT">
-            <div class="pulso-val" id="val-sacro" style="color: #4facfe;">--%</div>
-            <div class="pulso-label">Sacro</div>
-        </div>
-        <div class="pulso-card" title="NASA FIRMS">
-            <div class="pulso-val" id="val-plexo" style="color: var(--quantum-gold);">--%</div>
-            <div class="pulso-label">Plexo</div>
-        </div>
+        <div class="pulso-card" id="p-termico"><div class="pulso-val" id="val-raiz" style="color: var(--nova-red);">--°</div><div class="pulso-label">Raíz</div></div>
+        <div class="pulso-card" id="p-aire"><div class="pulso-val" id="val-corazon" style="color: var(--planet-green);">--</div><div class="pulso-label">Corazón</div></div>
+        <div class="pulso-card" id="p-hielo"><div class="pulso-val" id="val-ojo" style="color: var(--stardust-blue);">--m</div><div class="pulso-label">Ojo</div></div>
+        <div class="pulso-card" id="p-agua"><div class="pulso-val" id="val-sacro" style="color: #4facfe;">--%</div><div class="pulso-label">Sacro</div></div>
+        <div class="pulso-card" id="p-bio"><div class="pulso-val" id="val-plexo" style="color: var(--quantum-gold);">--%</div><div class="pulso-label">Plexo</div></div>
     </div>
 
     <main class="main-view">
         <div class="card-arbol">
             <div id="arbol-avatar" class="float-anim">🌱</div>
             <h2 style="margin-top:15px; font-size: 1.2rem;">Árbol del Guardián</h2>
-            <p style="color: #888; font-size: 0.8rem;">Estado: Observador</p>
-            <div style="margin-top: 20px; font-size: 1.5rem; font-weight: bold;" id="impacto-co2">0.00 kg</div>
-            <p style="font-size: 0.6rem; color: var(--planet-green);">CO₂ REGENERADO HOY</p>
+            <div style="margin-top: 20px; font-size: 2rem; font-weight: bold;" id="impacto-co2">0.00 kg</div>
+            <p style="font-size: 0.7rem; color: var(--planet-green); letter-spacing: 1px;">CO₂ REGENERADO</p>
         </div>
 
         <div style="background: rgba(255,255,255,0.05); border-radius: 15px; padding: 15px;">
-            <p style="font-size: 0.7rem; color: #aaa; margin-bottom: 10px;">HABITOS DE REGENERACIÓN</p>
+            <p style="font-size: 0.7rem; color: #aaa; margin-bottom: 15px;">ACCIONES DE SEGUIMIENTO REAL</p>
             <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px;">
-                <button onclick="registrarAccion(0.5)" style="background: var(--nebula-purple); border: none; color: white; padding: 10px 20px; border-radius: 10px; white-space: nowrap;">🚿 Ahorro Agua</button>
-                <button onclick="registrarAccion(1.2)" style="background: var(--planet-green); border: none; color: black; padding: 10px 20px; border-radius: 10px; white-space: nowrap; font-weight: bold;">🚲 Transporte</button>
-                <button onclick="registrarAccion(0.3)" style="background: var(--stardust-blue); border: none; color: black; padding: 10px 20px; border-radius: 10px; white-space: nowrap; font-weight: bold;">♻️ Reciclaje</button>
+                <button onclick="registrarAccion(0.5, 3)" style="background: var(--nebula-purple); border: none; color: white; padding: 12px 20px; border-radius: 12px; white-space: nowrap;">💧 Agua</button>
+                <button onclick="registrarAccion(1.2, 2)" style="background: var(--planet-green); border: none; color: black; padding: 12px 20px; border-radius: 12px; white-space: nowrap; font-weight: bold;">🚲 Movilidad</button>
+                <button onclick="registrarAccion(0.3, 5)" style="background: var(--stardust-blue); border: none; color: black; padding: 12px 20px; border-radius: 12px; white-space: nowrap; font-weight: bold;">♻️ Residuo</button>
             </div>
         </div>
     </main>
@@ -170,35 +139,51 @@
         <div class="nav-item"><span>⚙️</span><span>Perfil</span></div>
     </nav>
 
-    <script>
-        // LÓGICA DE ACTUALIZACIÓN NASA+ (SIMULADA PARA VISTA MÓVIL)
+    <script type="module">
+        import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+        // CONFIGURACIÓN SUPABASE
+        const SUPABASE_URL = "https://ophicpcbgdgzthjamzoz.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c";
+        const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
         let impactoAcumulado = 0;
 
-        function actualizarDatosNASA() {
-            // Datos simulados que serán reemplazados por FETCH real de NASA APIs
-            document.getElementById('val-raiz').textContent = (15.2 + Math.random()).toFixed(1) + '°';
-            document.getElementById('val-corazon').textContent = Math.floor(Math.random() * 20 + 30);
-            document.getElementById('val-ojo').textContent = (2.35 - Math.random()*0.01).toFixed(2) + 'm';
-            document.getElementById('val-sacro').textContent = Math.floor(Math.random() * 5 + 70) + '%';
-            document.getElementById('val-plexo').textContent = Math.floor(Math.random() * 3 + 92) + '%';
-        }
-
-        function registrarAccion(valor) {
+        // MÓDULO DE SEGUIMIENTO REAL
+        window.registrarAccion = async function(valor, habito_id) {
+            // 1. Feedback Visual Inmediato
             impactoAcumulado += valor;
             document.getElementById('impacto-co2').textContent = impactoAcumulado.toFixed(2) + " kg";
             
-            // Evolución visual del árbol
             const avatar = document.getElementById('arbol-avatar');
             if(impactoAcumulado > 2) avatar.textContent = "🌿";
             if(impactoAcumulado > 5) avatar.textContent = "🌳";
-            if(impactoAcumulado > 10) avatar.textContent = "🌲";
+            if(impactoAcumulado > 15) avatar.textContent = "🌲";
+
+            // 2. Registro en Base de Datos
+            const { error } = await _supabase
+                .from('seguimiento')
+                .insert([{ 
+                    codigo_guardian: localStorage.getItem('gaia_codigo') || 'BLUE-G-2025',
+                    impacto_co2: valor,
+                    habito_id: habito_id,
+                    fecha_registro: new Date().toISOString()
+                }]);
+
+            if (error) console.error("Error de seguimiento:", error);
+        };
+
+        // ACTUALIZACIÓN DE PULSOS NASA (SIMULADA)
+        function actualizarNASA() {
+            document.getElementById('val-raiz').textContent = (15.1 + Math.random()).toFixed(1) + '°';
+            document.getElementById('val-corazon').textContent = Math.floor(Math.random() * 15 + 25);
+            document.getElementById('val-ojo').textContent = (2.30 - Math.random()*0.01).toFixed(2) + 'm';
+            document.getElementById('val-sacro').textContent = Math.floor(Math.random() * 5 + 65) + '%';
+            document.getElementById('val-plexo').textContent = Math.floor(Math.random() * 2 + 94) + '%';
         }
 
-        // Intervalo de actualización
-        setInterval(actualizarDatosNASA, 3000);
-        actualizarDatosNASA();
-
-        console.log("🚀 BLUE SPHERE MOBILE: INTEGRACIÓN NASA COMPLETA");
+        setInterval(actualizarNASA, 4000);
+        actualizarNASA();
     </script>
 </body>
 </html>
