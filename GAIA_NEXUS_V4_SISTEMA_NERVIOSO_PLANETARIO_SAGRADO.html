@@ -266,7 +266,7 @@
             text-align: center;
         }
         
-       .ceremonia-corporativa h4 {
+      .ceremonia-corporativa h4 {
     color: var(--chakra-garganta);
     margin-bottom: 10px;
     text-shadow: 0 0 10px rgba(0, 168, 255, 0.5);
@@ -302,6 +302,31 @@
     display: none;
   }
 }
+
+/* MÓVIL VERTICAL – PRIORIDAD NÚCLEO */
+@media (max-width: 768px) and (orientation: portrait) {
+  .header-cosmico {
+    display: none;
+  }
+
+  .panel-planetario,
+  #globo-terraqueo {
+    height: 100vh;
+  }
+}
+
+/* MÓVIL HORIZONTAL – EXPERIENCIA COMPLETA */
+@media (max-width: 768px) and (orientation: landscape) {
+  .panel-planetario,
+  #globo-terraqueo {
+    height: 70vh;
+  }
+
+  .chakras-planetarios {
+    display: flex;
+  }
+}
+
 
 
         
