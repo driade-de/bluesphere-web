@@ -266,67 +266,94 @@
             text-align: center;
         }
         
-      .ceremonia-corporativa h4 {
+      /* ============================= */
+/* ESTILO BASE (DESKTOP + ALL)   */
+/* ============================= */
+
+.ceremonia-corporativa h4 {
     color: var(--chakra-garganta);
     margin-bottom: 10px;
     text-shadow: 0 0 10px rgba(0, 168, 255, 0.5);
 }
 
-/* AJUSTE MÓVIL – GLOBO */
+
+/* ============================= */
+/* RESPONSIVE MÓVIL – BLOQUE ÚNICO */
+/* ============================= */
+
 @media (max-width: 768px) {
-  .panel-planetario {
-    min-height: 50vh;
+
+  /* CABECERA */
+  .header-cosmico {
+    padding: 10px;
   }
 
-  #globo-terraqueo {
-    height: 50vh;
-    max-height: 50vh;
-    position: relative;
+  .titulo-principal h1 {
+    font-size: 1.4rem;
+    line-height: 1.2;
+    text-align: center;
+    word-break: break-word;
   }
-}
 
-/* AJUSTE MÓVIL – LAYOUT GENERAL (UNA SOLA PANTALLA) */
-@media (max-width: 768px) {
+  .subtitulo {
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  /* BRÚJULA */
+  .brujula-cosmica {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .instrumento-navegacion {
+    min-width: 120px;
+    padding: 6px;
+  }
+
+  .instrumento-navegacion .valor {
+    font-size: 0.95rem;
+  }
+
+  .instrumento-navegacion .label {
+    font-size: 0.65rem;
+    line-height: 1.2;
+  }
+
+  /* CONTENEDOR GENERAL */
   .cosmos-container {
     display: block;
     height: auto;
   }
 
+  /* NÚCLEO PLANETARIO */
   .panel-planetario {
-    height: 100vh;
-    min-height: 100vh;
+    height: 60vh;
+    min-height: 60vh;
   }
 
-  .panel-corporativo,
-  .chakras-planetarios {
-    display: none;
-  }
-}
-
-/* MÓVIL VERTICAL – PRIORIDAD NÚCLEO */
-@media (max-width: 768px) and (orientation: portrait) {
-  .header-cosmico {
-    display: none;
-  }
-
-  .panel-planetario,
   #globo-terraqueo {
-    height: 100vh;
-  }
-}
-
-/* MÓVIL HORIZONTAL – EXPERIENCIA COMPLETA */
-@media (max-width: 768px) and (orientation: landscape) {
-  .panel-planetario,
-  #globo-terraqueo {
-    height: 70vh;
+    height: 100%;
+    position: relative;
   }
 
+  /* CHAKRAS */
   .chakras-planetarios {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    height: auto;
+  }
+
+  .chakra-nombre {
+    font-size: 0.6rem;
+    line-height: 1.1;
+    text-align: center;
   }
 }
-
 
 
         
