@@ -323,12 +323,14 @@
   .cosmos-container {
     display: block;
     height: auto;
+    width: 100%;
   }
 
-  /* NÚCLEO PLANETARIO – MÓVIL CORRECTO */
+  /* NÚCLEO PLANETARIO */
   .panel-planetario {
     height: auto;
     min-height: unset;
+    width: 100%;
   }
 
   #globo-terraqueo {
@@ -362,25 +364,33 @@
   /* CONTENEDOR PRINCIPAL */
   .cosmos-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* apila verticalmente */
+    width: 100%;
   }
 
   /* NÚCLEO PLANETARIO primero */
   .panel-planetario {
     order: 1;
-    height: 100vh; /* ocupa toda la pantalla */
+    height: 100vh;   /* ocupa toda la pantalla visible */
+    width: 100%;     /* evita que se quede pegado a la izquierda */
   }
 
   /* ÁRBOL DE HÁBITOS después */
   .panel-arbol {
     order: 2;
     height: auto;
+    width: 100%;
   }
 
   /* Ocultar elementos no prioritarios */
   .panel-corporativo,
   .chakras-planetarios {
     display: none;
+  }
+
+  /* Asegurar que el Árbol no tenga scroll propio que bloquee el globo */
+  .panel-arbol {
+    overflow: visible;
   }
 }
 
