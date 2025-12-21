@@ -220,10 +220,8 @@
         }
         
         #globo-terraqueo {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-        }
+            height: 100%; 
+            position: relative; }
         
         /* CAPAS DE CONCIENCIA SAGRADA */
         .capas-conciencia {
@@ -328,16 +326,19 @@
     height: auto;
   }
 
-  /* NÚCLEO PLANETARIO */
-  .panel-planetario {
-    height: 60vh;
-    min-height: 60vh;
-  }
+  /* NÚCLEO PLANETARIO – MÓVIL CORRECTO */
+.panel-planetario {
+  height: auto;
+  min-height: unset;
+}
 
-  #globo-terraqueo {
-    height: 100%;
-    position: relative;
-  }
+#globo-terraqueo {
+  position: relative;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  max-height: 70vw;
+}
+
 
   /* CHAKRAS */
   .chakras-planetarios {
