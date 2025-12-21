@@ -278,7 +278,6 @@
 /* ============================= */
 /* RESPONSIVE MÓVIL – BLOQUE ÚNICO */
 /* ============================= */
-
 @media (max-width: 768px) {
 
   /* CABECERA */
@@ -327,18 +326,17 @@
   }
 
   /* NÚCLEO PLANETARIO – MÓVIL CORRECTO */
-.panel-planetario {
-  height: auto;
-  min-height: unset;
-}
+  .panel-planetario {
+    height: auto;
+    min-height: unset;
+  }
 
-#globo-terraqueo {
-  position: relative;
-  height: auto;
-  aspect-ratio: 1 / 1;
-  max-height: 70vw;
-}
-
+  #globo-terraqueo {
+    position: relative;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    max-height: 70vw;
+  }
 
   /* CHAKRAS */
   .chakras-planetarios {
@@ -356,6 +354,35 @@
   }
 }
 
+/* ============================= */
+/* MÓVIL VERTICAL – REORDENAR LAYOUT */
+/* ============================= */
+@media (max-width: 768px) and (orientation: portrait) {
+
+  /* CONTENEDOR PRINCIPAL */
+  .cosmos-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* NÚCLEO PLANETARIO primero */
+  .panel-planetario {
+    order: 1;
+    height: 100vh; /* ocupa toda la pantalla */
+  }
+
+  /* ÁRBOL DE HÁBITOS después */
+  .panel-arbol {
+    order: 2;
+    height: auto;
+  }
+
+  /* Ocultar elementos no prioritarios */
+  .panel-corporativo,
+  .chakras-planetarios {
+    display: none;
+  }
+}
 
         
         /* =========================================== */
