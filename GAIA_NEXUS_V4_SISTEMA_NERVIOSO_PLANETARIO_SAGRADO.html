@@ -1268,8 +1268,8 @@
             escenaGlobo.add(globoTierra);
             
             // 5. ILUMINACIÓN
-            const luzAmbiental = new THREE.AmbientLight(0x333333);
-            escenaGlobo.add(luzAmbiental);
+            const luzAmbiental = new THREE.AmbientLight(0xffffff, 0.8);
+escenaGlobo.add(luzAmbiental);
             
             const luzDireccional = new THREE.DirectionalLight(0x00e0ff, 0.8);
             luzDireccional.position.set(5, 3, 5);
@@ -1329,13 +1329,16 @@
                 const geometria = new THREE.SphereGeometry(coords.size, 16, 16);
                 const color = new THREE.Color(chakrasPlanetarios[chakra].color);
                 
-                const material = new THREE.MeshBasicMaterial({
-                    color: color,
-                    emissive: color,
-                    emissiveIntensity: 0.5,
-                    transparent: true,
-                    opacity: 0.8
-                });
+               const material = new THREE.MeshStandardMaterial({
+  color: color,
+  emissive: new THREE.Color(color),
+  emissiveIntensity: 0.5,
+  transparent: true,
+  opacity: 0.8,
+  roughness: 0.6,
+  metalness: 0.1
+});
+
                 
                 const punto = new THREE.Mesh(geometria, material);
                 punto.position.copy(pos);
