@@ -266,12 +266,13 @@
             text-align: center;
         }
         
-        .ceremonia-corporativa h4 {
+       .ceremonia-corporativa h4 {
     color: var(--chakra-garganta);
     margin-bottom: 10px;
     text-shadow: 0 0 10px rgba(0, 168, 255, 0.5);
 }
 
+/* AJUSTE MÓVIL – GLOBO */
 @media (max-width: 768px) {
   .panel-planetario {
     min-height: 50vh;
@@ -283,6 +284,25 @@
     position: relative;
   }
 }
+
+/* AJUSTE MÓVIL – LAYOUT GENERAL (UNA SOLA PANTALLA) */
+@media (max-width: 768px) {
+  .cosmos-container {
+    display: block;
+    height: auto;
+  }
+
+  .panel-planetario {
+    height: 100vh;
+    min-height: 100vh;
+  }
+
+  .panel-corporativo,
+  .chakras-planetarios {
+    display: none;
+  }
+}
+
 
         
         /* =========================================== */
