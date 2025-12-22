@@ -1828,7 +1828,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function obtenerCodigoGuardian() {
         // MÉTODO 1: localStorage (lo guardará modulo-seguimiento.html)
-        const lsCode = localStorage.getItem('codigoGuardianActual');
+        const lsCode = localStorage.getItem('firmaGuardian');
         if (lsCode && lsCode !== 'GPR-AQUA-ZIRIUX-000051') return lsCode;
         
         // MÉTODO 2: Buscar en elementos de la página
