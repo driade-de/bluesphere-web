@@ -1344,22 +1344,26 @@
                 elemento.textContent = valor.toFixed(1) + '%';
             }, 10000);
             
-     // 4. Actualización inmediata y validación de identidad
+     // 4. Actualización inmediata y validación de identidad (V4 - PENTAGRAMA)
         setTimeout(() => {
             const idG = "GPR-AQUA-ZIRIUX-000051";
-            const titulo = document.querySelector('h1') || document.querySelector('.header-container h1');
+            // Buscamos el contenedor superior para no tocar el área de tarjetas
+            const banner = document.querySelector('.header-container');
             
-            if (titulo && !document.getElementById('guardian-id-tag')) {
-                titulo.insertAdjacentHTML('afterend', `
-                    <div id="guardian-id-tag" style="color:#00e0ff; font-family:monospace; font-size:0.7rem; letter-spacing:2px; margin:10px 0; text-shadow:0 0 8px #00e0ff; text-align:center; font-weight:bold;">
-                        🛡️ AUTENTICADO: ${idG}
-                    </div>
-                `);
+            if (banner && !document.getElementById('guardian-id-tag')) {
+                const badge = document.createElement('div');
+                badge.id = 'guardian-id-tag';
+                badge.style = "color:#00e0ff; font-family:monospace; font-size:0.7rem; letter-spacing:2px; margin-bottom:15px; text-shadow:0 0 8px #00e0ff; text-align:center; font-weight:bold;";
+                badge.innerHTML = `🛡️ AUTENTICADO: ${idG}`;
+                banner.appendChild(badge);
             }
-            // Ejecución de telemetría real (NASA/Supabase)
-            actualizarPentagramaReal();
-            console.log("✅ SISTEMA GAIA: CONEXIÓN ESTABLECIDA PARA " + idG);
-        }, 800);
+            
+            // Esta función es la que dibuja las 5 TARJETAS (CO2, Temp, etc.)
+            if (typeof actualizarPentagramaReal === 'function') {
+                actualizarPentagramaReal();
+            }
+            console.log("✅ SISTEMA RESTAURADO: IDENTIDAD Y PENTAGRAMA");
+        }, 1000);
         // ===========================================
         // SUPABASE (OPCIONAL - MANTENIDO)
         // ===========================================
