@@ -1794,6 +1794,298 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("✅ Botón de registro configurado para red neuronal");
     }
 });
+        // ===========================================
+// 🪞 CÓDIGO-ESPEJO PARA GUARDIAN GAIA
+// ===========================================
+(function() {
+    console.log('🪞 Inicializando módulo de código-espejo...');
+    
+    // Esperar a que DOM esté listo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initEspejo);
+    } else {
+        setTimeout(initEspejo, 100); // Pequeño delay para seguridad
+    }
+    
+    function initEspejo() {
+        // Obtener código del Guardián
+        const codigo = obtenerCodigoGuardian();
+        
+        if (!codigo || codigo === 'GPR-AQUA-ZIRIUX-000051') {
+            console.log('🪞 Código no disponible o es de prueba');
+            return; // No mostrar si no hay código real
+        }
+        
+        // Verificar si ya existe un espejo
+        if (document.getElementById('espejo-codigo-guardian')) {
+            console.log('🪞 Espejo ya existe, no duplicar');
+            return;
+        }
+        
+        // Crear y mostrar espejo
+        mostrarEspejoEnGaia(codigo);
+    }
+    
+    function obtenerCodigoGuardian() {
+        // MÉTODO 1: localStorage (lo guardará modulo-seguimiento.html)
+        const lsCode = localStorage.getItem('codigoGuardianActual');
+        if (lsCode && lsCode !== 'GPR-AQUA-ZIRIUX-000051') return lsCode;
+        
+        // MÉTODO 2: Buscar en elementos de la página
+        const posiblesElementos = [
+            document.querySelector('[class*="codigo"]'),
+            document.querySelector('[id*="codigo"]'),
+            document.querySelector('[class*="frecuencia"]'),
+            document.querySelector('[class*="guardian"]')
+        ];
+        
+        for (let el of posiblesElementos) {
+            if (el && el.textContent) {
+                const match = el.textContent.match(/[A-Z]{3}-[A-Z]{4,6}-[A-Z]{5,7}-\d{5,7}/);
+                if (match) return match[0];
+            }
+        }
+        
+        // MÉTODO 3: URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlCode = urlParams.get('codigo') || urlParams.get('cod');
+        if (urlCode) return urlCode;
+        
+        return null; // No hay código real
+    }
+    
+    function mostrarEspejoEnGaia(codigo) {
+        // Crear contenedor principal
+        const espejoDiv = document.createElement('div');
+        espejoDiv.id = 'espejo-codigo-guardian';
+        espejoDiv.className = 'espejo-codigo-gaia';
+        
+        // HTML del espejo
+        espejoDiv.innerHTML = `
+            <div class="espejo-contenido">
+                <div class="espejo-header">
+                    <span class="espejo-icono">🪞</span>
+                    <span class="espejo-titulo">HUELLA ENERGÉTICA REGISTRADA</span>
+                </div>
+                <div class="espejo-codigo-contenedor">
+                    <div class="espejo-codigo">${codigo}</div>
+                    <div class="espejo-subtitulo">CÓDIGO DE GUARDIÁN</div>
+                </div>
+                <div class="espejo-mensaje">
+                    Tus 18+3 hábitos validados hoy fueron inscritos con esta frecuencia única en el sistema nervioso planetario.
+                </div>
+                <div class="espejo-info">
+                    <span class="espejo-info-item">📅 ${new Date().toLocaleDateString('es-ES')}</span>
+                    <span class="espejo-info-item">🕒 ${new Date().toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'})}</span>
+                </div>
+            </div>
+        `;
+        
+        // Añadir estilos (si no existen)
+        if (!document.querySelector('#estilos-espejo-gaia')) {
+            const estilos = document.createElement('style');
+            estilos.id = 'estilos-espejo-gaia';
+            estilos.textContent = `
+                .espejo-codigo-gaia {
+                    margin: 20px 15px 30px 15px;
+                    animation: aparecerEspejoGaia 0.8s ease;
+                    position: relative;
+                    z-index: 10;
+                }
+                
+                .espejo-contenido {
+                    background: linear-gradient(145deg, 
+                        rgba(10, 10, 22, 0.95) 0%,
+                        rgba(20, 20, 40, 0.9) 100%);
+                    border-radius: 18px;
+                    border: 2px solid transparent;
+                    background-clip: padding-box;
+                    position: relative;
+                    padding: 25px 20px;
+                    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4),
+                                0 0 0 1px rgba(0, 224, 255, 0.1),
+                                inset 0 0 30px rgba(0, 224, 255, 0.05);
+                    overflow: hidden;
+                }
+                
+                .espejo-contenido::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 4px;
+                    background: linear-gradient(90deg, 
+                        #00eeff 0%, 
+                        #5d2fdf 50%, 
+                        #00eeff 100%);
+                    animation: brilloBordeEspejo 4s infinite linear;
+                }
+                
+                .espejo-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 12px;
+                    margin-bottom: 20px;
+                    color: #88eeff;
+                    font-size: 0.95rem;
+                    text-transform: uppercase;
+                    letter-spacing: 1.2px;
+                    font-weight: 600;
+                }
+                
+                .espejo-icono {
+                    font-size: 1.6rem;
+                    animation: latidoEspejoIcono 3s infinite ease-in-out;
+                }
+                
+                .espejo-codigo-contenedor {
+                    background: rgba(0, 0, 0, 0.6);
+                    border-radius: 15px;
+                    padding: 20px;
+                    margin: 15px 0;
+                    border: 2px solid rgba(0, 224, 255, 0.2);
+                    position: relative;
+                    overflow: hidden;
+                }
+                
+                .espejo-codigo {
+                    font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    color: #ffff00;
+                    text-align: center;
+                    letter-spacing: 2.5px;
+                    margin-bottom: 8px;
+                    text-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+                    padding: 5px;
+                    position: relative;
+                    z-index: 2;
+                }
+                
+                .espejo-subtitulo {
+                    color: #00eeff;
+                    font-size: 0.85rem;
+                    text-align: center;
+                    text-transform: uppercase;
+                    letter-spacing: 1.5px;
+                    opacity: 0.9;
+                }
+                
+                .espejo-mensaje {
+                    color: #aaddff;
+                    font-size: 0.9rem;
+                    text-align: center;
+                    line-height: 1.5;
+                    margin: 20px 0 15px 0;
+                    padding: 0 10px;
+                    font-style: italic;
+                }
+                
+                .espejo-info {
+                    display: flex;
+                    justify-content: center;
+                    gap: 25px;
+                    margin-top: 20px;
+                    padding-top: 15px;
+                    border-top: 1px solid rgba(0, 224, 255, 0.2);
+                }
+                
+                .espejo-info-item {
+                    color: #66aaff;
+                    font-size: 0.8rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                }
+                
+                /* ANIMACIONES */
+                @keyframes aparecerEspejoGaia {
+                    from { 
+                        opacity: 0; 
+                        transform: translateY(-25px) scale(0.97); 
+                    }
+                    to { 
+                        opacity: 1; 
+                        transform: translateY(0) scale(1); 
+                    }
+                }
+                
+                @keyframes brilloBordeEspejo {
+                    0% { background-position: -200px 0; }
+                    100% { background-position: 200px 0; }
+                }
+                
+                @keyframes latidoEspejoIcono {
+                    0%, 100% { 
+                        transform: scale(1) rotate(0deg); 
+                        opacity: 1; 
+                    }
+                    25% { 
+                        transform: scale(1.1) rotate(5deg); 
+                        opacity: 0.9; 
+                    }
+                    75% { 
+                        transform: scale(0.95) rotate(-5deg); 
+                        opacity: 0.9; 
+                    }
+                }
+                
+                /* Efecto de partículas sutiles en el fondo del código */
+                .espejo-codigo-contenedor::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: 
+                        radial-gradient(circle at 20% 30%, rgba(0, 238, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(93, 47, 223, 0.05) 0%, transparent 50%);
+                    animation: moverParticulasEspejo 20s infinite linear;
+                    z-index: 1;
+                }
+                
+                @keyframes moverParticulasEspejo {
+                    0% { transform: translate(0, 0) rotate(0deg); }
+                    100% { transform: translate(50px, 50px) rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(estilos);
+        }
+        
+        // Buscar el mejor lugar para insertar
+        const puntosInsercion = [
+            {selector: '.contenedor-movil', posicion: 'afterbegin'},
+            {selector: '.header-movil', posicion: 'afterend'},
+            {selector: '.registro-diario', posicion: 'beforebegin'},
+            {selector: 'body', posicion: 'afterbegin'}
+        ];
+        
+        for (let punto of puntosInsercion) {
+            const elemento = document.querySelector(punto.selector);
+            if (elemento) {
+                if (punto.posicion === 'afterbegin') {
+                    elemento.insertBefore(espejoDiv, elemento.firstChild);
+                } else if (punto.posicion === 'afterend') {
+                    elemento.parentNode.insertBefore(espejoDiv, elemento.nextSibling);
+                } else if (punto.posicion === 'beforebegin') {
+                    elemento.parentNode.insertBefore(espejoDiv, elemento);
+                }
+                console.log(`✅ Espejo insertado en: ${punto.selector}`);
+                return;
+            }
+        }
+        
+        // Fallback: al inicio del body
+        document.body.insertBefore(espejoDiv, document.body.firstChild);
+        console.log('✅ Espejo insertado al inicio del body');
+    }
+    
+    console.log('🪞 Módulo de código-espejo cargado');
+})();
+// ===========================================
     </script>
 </body>
 </html>
