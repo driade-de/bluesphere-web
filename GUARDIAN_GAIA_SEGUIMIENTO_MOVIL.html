@@ -1345,9 +1345,7 @@
             }, 10000);
             
             // Actualizar inmediatamente
-            const idGuardian = localStorage.getItem('guardian_code') || "ID-VALIDADO"; 
-const titulo = document.querySelector('.header-container h1');
-if(titulo) titulo.innerHTML += `<div style="font-size:0.65rem; color:#00e0ff; letter-spacing:2px; margin-top:4px; opacity:0.8;">🛡️ CODIGO: ${idGuardian}</div>`;
+           const idGuardian = "GPR-AQUA-ZIRIUX-000052"; const titulo = document.querySelector('.header-container h1'); if(titulo) { titulo.style.marginBottom = "5px"; titulo.insertAdjacentHTML('afterend', `<div id="guardian-tag" style="font-size:0.65rem; color:#00e0ff; letter-spacing:2px; margin-bottom:15px; text-shadow: 0 0 8px #00e0ff; font-family:monospace; font-weight:bold; text-align:center;">🛡️ AUTENTICADO: ${idGuardian}</div>`); } actualizarPentagramaReal();
             actualizarPentagramaReal();
             console.log("✅ GUARDIÁN GAIA - LISTO");
         };
