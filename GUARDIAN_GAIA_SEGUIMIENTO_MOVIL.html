@@ -1344,23 +1344,11 @@
                 elemento.textContent = valor.toFixed(1) + '%';
             }, 10000);
             
-     // 4. Actualización inmediata y validación de identidad
-        setTimeout(() => {
-            const idG = "GPR-AQUA-ZIRIUX-000051";
-            const titulo = document.querySelector('h1');
-            
-            if (titulo && !document.getElementById('guardian-id-tag')) {
-                titulo.insertAdjacentHTML('afterend', `
-                    <div id="guardian-id-tag" style="color:#00e0ff; font-family:monospace; font-size:0.7rem; letter-spacing:2px; margin:10px 0; text-shadow:0 0 8px #00e0ff; text-align:center; font-weight:bold;">
-                        🛡️ AUTENTICADO: ${idG}
-                    </div>
-                `);
-            }
-            // Restaurar el Pentagrama de 5 tarjetas
-            if (typeof actualizarPentagramaReal === 'function') {
-                actualizarPentagramaReal();
-            }
-        }, 800);
+     // Actualizar inmediatamente
+            actualizarPentagramaReal(); 
+    console.log("✅ GUARDIÁN GAIA - SISTEMA PENTAGRAMA LISTO");
+};
+        
         // ===========================================
         // SUPABASE (OPCIONAL - MANTENIDO)
         // ===========================================
