@@ -1347,8 +1347,7 @@
             }, 10000);
             
             // Actualizar inmediatamente
-            actualizarTriadaGaia();
-            
+            actualizarPentagramaReal();
             console.log("✅ GUARDIÁN GAIA - LISTO");
         };
         
@@ -1359,7 +1358,63 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
         
         const gaiaSupabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
+     // --- SISTEMA PENTAGRAMA GAIA (NASA REAL-TIME) ---
+  async function actualizarPentagramaReal() {
+    try {
+        const { data: metricas, error } = await gaiaSupabase
+            .from('gaia_pentagram_metrics')
+            .select('*')
+            .order('id', { ascending: true });
+
+        if (error) throw error;
+
+        const contenedor = document.querySelector('.triada-contenedor');
+        contenedor.innerHTML = '<div class="triada-titulo">🌍 PENTAGRAMA GAIA (ESTADO GLOBAL REAL)</div>';
+
+        metricas.forEach(m => {
+            const item = document.createElement('div');
+            item.className = `triada-item triada-${m.slug}`; 
+            item.innerHTML = `
+                <div class="triada-titulo-item">${m.label.toUpperCase()}</div>
+                <div class="triada-valor">${m.valor_actual} <span style="font-size: 0.7rem">${m.unidad}</span></div>
+                <div class="triada-tendencia ${m.tendencia === 'ascendente' ? 'tendencia-negativa' : 'tendencia-positiva'}">
+                    <span>${m.tendencia === 'ascendente' ? '▲' : '▼'}</span> ${m.tendencia}
+                </div>
+            `;
+            contenedor.appendChild(item);
+        });
+    } catch (err) {
+        console.warn("⚠️ Telemetría de Gaia no disponible:", err.message);
+    }
+}
+async function actualizarPentagramaReal() {
+    try {
+        const { data: metricas, error } = await gaiaSupabase
+            .from('gaia_pentagram_metrics')
+            .select('*')
+            .order('id', { ascending: true });
+
+        if (error) throw error;
+
+        const contenedor = document.querySelector('.triada-contenedor');
+        contenedor.innerHTML = '<div class="triada-titulo">🌍 PENTAGRAMA GAIA (ESTADO GLOBAL)</div>';
+
+        metricas.forEach(m => {
+            const item = document.createElement('div');
+            item.className = `triada-item triada-${m.slug}`; 
+            item.innerHTML = `
+                <div class="triada-titulo-item">${m.label.toUpperCase()}</div>
+                <div class="triada-valor">${m.valor_actual} <span style="font-size: 0.7rem">${m.unidad}</span></div>
+                <div class="triada-tendencia ${m.tendencia === 'ascendente' ? 'tendencia-negativa' : 'tendencia-positiva'}">
+                    <span>${m.tendencia === 'ascendente' ? '▲' : '▼'}</span> ${m.tendencia}
+                </div>
+            `;
+            contenedor.appendChild(item);
+        });
+    } catch (err) {
+        console.warn("⚠️ Telemetría de Gaia no disponible:", err.message);
+    }
+}
         // Función opcional para sincronizar con Supabase
         async function sincronizarConSupabase() {
             try {
