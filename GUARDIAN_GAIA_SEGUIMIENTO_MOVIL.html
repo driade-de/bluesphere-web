@@ -1345,6 +1345,9 @@
             }, 10000);
             
             // Actualizar inmediatamente
+            const idGuardian = localStorage.getItem('guardian_code') || "ID-VALIDADO"; 
+const titulo = document.querySelector('.header-container h1');
+if(titulo) titulo.innerHTML += `<div style="font-size:0.65rem; color:#00e0ff; letter-spacing:2px; margin-top:4px; opacity:0.8;">🛡️ CODIGO: ${idGuardian}</div>`;
             actualizarPentagramaReal();
             console.log("✅ GUARDIÁN GAIA - LISTO");
         };
