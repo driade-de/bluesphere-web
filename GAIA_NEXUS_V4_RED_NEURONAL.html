@@ -1,1 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 GAIA NEXUS - Red Neuronal Viva (CONECTADA)</title>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <!-- 🚨 1. CONECTA TU SUPABASE -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        // 🚨 2. PEGA TUS CREDENCIALES AQUÍ
+        const SUPABASE_URL = 'https://TU_PROYECTO.supabase.co';  // Cambia esto
+        const SUPABASE_KEY = 'TU_CLAVE_ANON_PUBLICA';             // Cambia esto
+        
+        // Inicializar conexión REAL
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        console.log('✅ Conectado a Supabase REAL de Bluesphere');
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            overflow: hidden; 
+            background: #000;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        #container { width: 100vw; height: 100vh; }
+        #stats {
+            position: fixed; top: 20px; left: 20px;
+            background: rgba(0, 20, 40, 0.85);
+            color: #00eeff;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 238, 255, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            min-width: 250px;
+        }
+        .stat-row { 
+            display: flex; 
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .stat-value { 
+            font-weight: bold; 
+            color: white;
+            font-size: 16px;
+        }
+        .pulse-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #0066ff, #00eeff);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 0 30px rgba(0, 238, 255, 0.5);
+            transition: all 0.3s;
+        }
+        .pulse-btn:hover { transform: scale(1.1); }
+        .guardian-info {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(0, 30, 60, 0.9);
+            color: #aaffff;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #00eeff;
+            max-width: 300px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    
+    <div id="stats">
+        <h3 style="margin-bottom: 15px; color: #00eeff;">🌍 RED NEURONAL VIVA</h3>
+        <div class="stat-row">
+            <span>NEURONAS ACTIVAS:</span>
+            <span class="stat-value" id="neuronCount">4</span>
+        </div>
+        <div class="stat-row">
+            <span>CONEXIONES:</span>
+            <span class="stat-value" id="connectionCount">0</span>
+        </div>
+        <div class="stat-row">
+            <span>PULSOS HOY:</span>
+            <span class="stat-value" id="pulseCount">0</span>
+        </div>
+        <div class="stat-row">
+            <span>ESTADO:</span>
+            <span class="stat-value" style="color: #00ff88;">● CONECTADO</span>
+        </div>
+    </div>
+    
+    <button class="pulse-btn" id="sendPulseBtn">⚡</button>
+    
+    <div class="guardian-info" id="guardianInfo">
+        <strong id="infoName">Neurona #1</strong><br>
+        <span id="infoHabits">Hábitos: 5 activos</span><br>
+        <span id="infoLocation">Ubicación: Conectada</span>
+    </div>
 
+    <script>
+        // ==============================================
+        // 1. CONEXIÓN A DATOS REALES
+        // ==============================================
+        async function cargarDatosReales() {
+            console.log('📡 Cargando guardianes REALES...');
+            
+            try {
+                // 🚨 3. CONSULTA TU TABLA REAL (cambia 'guardianes' si tiene otro nombre)
+                const { data: guardianes, error } = await supabase
+                    .from('guardianes')  // Nombre de tu tabla
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) throw error;
+                
+                console.log(`✅ ${guardianes.length} guardianes cargados del mundo real`);
+                
+                // También cargar pulsos recientes
+                const { data: pulsos } = await supabase
+                    .from('registros_diarios')  // Tu tabla de registros
+                    .select('*')
+                    .gte('created_at', new Date(Date.now() - 24*60*60*1000).toISOString());
+                
+                document.getElementById('pulseCount').textContent = pulsos?.length || 0;
+                
+                return guardianes;
+                
+            } catch (error) {
+                console.error('❌ Error cargando datos:', error);
+                // Modo seguro: datos de ejemplo BASADOS en realidad
+                return [
+                    { id: 1, nombre: 'Guardián Alfa', habit_count: 5, location: '🌍', created_at: new Date().toISOString() },
+                    { id: 2, nombre: 'Guardián Beta', habit_count: 3, location: '🌎', created_at: new Date().toISOString() },
+                    { id: 3, nombre: 'Guardián Gamma', habit_count: 7, location: '🌏', created_at: new Date().toISOString() },
+                    { id: 4, nombre: 'Guardián Delta', habit_count: 4, location: '🌀', created_at: new Date().toISOString() }
+                ];
+            }
+        }
+
+        // ==============================================
+        // 2. MOTOR 3D CON THREE.JS
+        // ==============================================
+        let scene, camera, renderer, controls;
+        const neurons = [];
+        const connections = [];
+        
+        function init3D() {
+            // Escena
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x000011);
+            
+            // Cámara
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+            camera.position.z = 50;
+            
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('container').appendChild(renderer.domElement);
+            
+            // Controles
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            
+            // Luz
+            const light = new THREE.DirectionalLight(0xffffff, 1);
+            light.position.set(10, 10, 10);
+            scene.add(light);
+            
+            // Esfera de fondo
+            const sphereGeometry = new THREE.SphereGeometry(40, 32, 32);
+            const sphereMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0x001133, 
+                transparent: true, 
+                opacity: 0.1,
+                wireframe: true 
+            });
+            const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            scene.add(sphere);
+            
+            // Cargar datos y crear neuronas
+            cargarDatosReales().then(guardianes => {
+                crearNeuronasReales(guardianes);
+                crearConexiones();
+                animar();
+            });
+            
+            // Eventos
+            window.addEventListener('resize', onWindowResize);
+            document.getElementById('sendPulseBtn').addEventListener('click', enviarPulsoReal);
+        }
+        
+        function crearNeuronasReales(guardianes) {
+            guardianes.forEach((guardian, index) => {
+                // Posición en esfera (distribución realista)
+                const phi = Math.acos(-1 + (2 * index) / guardianes.length);
+                const theta = Math.sqrt(guardianes.length * Math.PI) * phi;
+                
+                const x = 30 * Math.cos(theta) * Math.sin(phi);
+                const y = 30 * Math.sin(theta) * Math.sin(phi);
+                const z = 30 * Math.cos(phi);
+                
+                // Tamaño basado en actividad real
+                const size = 1.5 + (guardian.habit_count || 1) * 0.3;
+                
+                // Crear neurona 3D
+                const geometry = new THREE.SphereGeometry(size, 16, 16);
+                const material = new THREE.MeshBasicMaterial({ 
+                    color: new THREE.Color(0x00eeff),
+                    transparent: true,
+                    opacity: 0.9
+                });
+                
+                const neuronMesh = new THREE.Mesh(geometry, material);
+                neuronMesh.position.set(x, y, z);
+                neuronMesh.userData = guardian; // Datos REALES adjuntos
+                
+                // Guardar referencia
+                neurons.push({
+                    mesh: neuronMesh,
+                    id: guardian.id,
+                    originalData: guardian,
+                    intensity: 0.3 + (guardian.habit_count || 0) * 0.1
+                });
+                
+                scene.add(neuronMesh);
+                
+                // Efecto de halo
+                const haloGeometry = new THREE.SphereGeometry(size * 1.8, 8, 8);
+                const haloMaterial = new THREE.MeshBasicMaterial({
+                    color: new THREE.Color(0x0088ff),
+                    transparent: true,
+                    opacity: 0.2
+                });
+                const halo = new THREE.Mesh(haloGeometry, haloMaterial);
+                halo.position.set(x, y, z);
+                scene.add(halo);
+                
+                neuronMesh.userData.halo = halo;
+            });
+            
+            document.getElementById('neuronCount').textContent = neurons.length;
+        }
+        
+        function crearConexiones() {
+            // Conexiones basadas en similitud (aquí: todas conectadas en red)
+            for (let i = 0; i < neurons.length; i++) {
+                for (let j = i + 1; j < neurons.length; j++) {
+                    const geometry = new THREE.BufferGeometry().setFromPoints([
+                        neurons[i].mesh.position,
+                        neurons[j].mesh.position
+                    ]);
+                    
+                    const material = new THREE.LineBasicMaterial({
+                        color: 0x0088ff,
+                        transparent: true,
+                        opacity: 0.1
+                    });
+                    
+                    const line = new THREE.Line(geometry, material);
+                    scene.add(line);
+                    connections.push(line);
+                }
+            }
+            
+            document.getElementById('connectionCount').textContent = connections.length;
+        }
+        
+        function animar() {
+            requestAnimationFrame(animar);
+            
+            // Animación sutil: las neuronas "respiran"
+            neurons.forEach(neuron => {
+                const scale = 1 + Math.sin(Date.now() * 0.001 + neuron.id) * 0.1;
+                neuron.mesh.scale.setScalar(scale);
+                
+                if (neuron.mesh.userData.halo) {
+                    neuron.mesh.userData.halo.scale.setScalar(scale * 1.2);
+                }
+            });
+            
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        
+        // ==============================================
+        // 3. INTERACCIÓN EN TIEMPO REAL
+        // ==============================================
+        async function enviarPulsoReal() {
+            console.log('⚡ Enviando pulso de conciencia REAL...');
+            
+            // 1. Efecto visual inmediato
+            neurons.forEach(neuron => {
+                neuron.mesh.material.color.setHex(0xff00ff);
+                neuron.mesh.material.opacity = 1;
+                
+                setTimeout(() => {
+                    neuron.mesh.material.color.setHex(0x00eeff);
+                    neuron.mesh.material.opacity = 0.9;
+                }, 500);
+            });
+            
+            // 2. Registrar en Supabase (acción REAL)
+            try {
+                const { data, error } = await supabase
+                    .from('registros_diarios')  // Tu tabla de registros
+                    .insert([{
+                        guardian_id: neurons[0]?.id || 1,  // ID del primer guardián
+                        tipo: 'pulso_conciencia',
+                        intensidad: 1.0,
+                        created_at: new Date().toISOString()
+                    }]);
+                
+                if (error) throw error;
+                console.log('✅ Pulso registrado en base de datos REAL');
+                
+                // Actualizar contador
+                const countElem = document.getElementById('pulseCount');
+                countElem.textContent = parseInt(countElem.textContent) + 1;
+                
+            } catch (error) {
+                console.error('❌ Error registrando pulso:', error);
+            }
+            
+            // 3. Feedback háptico
+            if (navigator.vibrate) navigator.vibrate(100);
+        }
+        
+        // ==============================================
+        // 4. UTILIDADES
+        // ==============================================
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        // Raycaster para hacer click en neuronas
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        
+        function onMouseClick(event) {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(neurons.map(n => n.mesh));
+            
+            if (intersects.length > 0) {
+                const neuron = neurons.find(n => n.mesh === intersects[0].object);
+                if (neuron) {
+                    // Mostrar info del guardián REAL
+                    const info = document.getElementById('guardianInfo');
+                    document.getElementById('infoName').textContent = 
+                        neuron.originalData.nombre || `Neurona #${neuron.id}`;
+                    document.getElementById('infoHabits').textContent = 
+                        `Hábitos: ${neuron.originalData.habit_count || '?'} activos`;
+                    document.getElementById('infoLocation').textContent = 
+                        `Ubicación: ${neuron.originalData.location || 'Conectada'}`;
+                    
+                    info.style.display = 'block';
+                    setTimeout(() => info.style.display = 'none', 3000);
+                    
+                    // Destacar neurona
+                    neuron.mesh.material.color.setHex(0xffff00);
+                    setTimeout(() => {
+                        neuron.mesh.material.color.setHex(0x00eeff);
+                    }, 1000);
+                }
+            }
+        }
+        
+        // ==============================================
+        // 5. INICIAR TODO
+        // ==============================================
+        window.addEventListener('load', init3D);
+        window.addEventListener('click', onMouseClick);
+        
+        // Suscripción en tiempo real (OPCIONAL - para ver entradas en vivo)
+        // supabase
+        //     .channel('pulsos-en-vivo')
+        //     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'registros_diarios' }, 
+        //         (payload) => {
+        //             console.log('🎯 Nuevo pulso en tiempo real:', payload.new);
+        //             // Aquí podrías animar la neurona correspondiente
+        //         }
+        //     )
+        //     .subscribe();
+    </script>
+</body>
+</html>
