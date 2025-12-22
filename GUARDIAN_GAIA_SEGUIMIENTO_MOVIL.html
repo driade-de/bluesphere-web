@@ -1344,26 +1344,23 @@
                 elemento.textContent = valor.toFixed(1) + '%';
             }, 10000);
             
-     // 4. Actualización inmediata y validación de identidad (V4 - PENTAGRAMA)
+     // 4. Actualización inmediata y validación de identidad
         setTimeout(() => {
             const idG = "GPR-AQUA-ZIRIUX-000051";
-            // Buscamos el contenedor superior para no tocar el área de tarjetas
-            const banner = document.querySelector('.header-container');
+            const titulo = document.querySelector('h1');
             
-            if (banner && !document.getElementById('guardian-id-tag')) {
-                const badge = document.createElement('div');
-                badge.id = 'guardian-id-tag';
-                badge.style = "color:#00e0ff; font-family:monospace; font-size:0.7rem; letter-spacing:2px; margin-bottom:15px; text-shadow:0 0 8px #00e0ff; text-align:center; font-weight:bold;";
-                badge.innerHTML = `🛡️ AUTENTICADO: ${idG}`;
-                banner.appendChild(badge);
+            if (titulo && !document.getElementById('guardian-id-tag')) {
+                titulo.insertAdjacentHTML('afterend', `
+                    <div id="guardian-id-tag" style="color:#00e0ff; font-family:monospace; font-size:0.7rem; letter-spacing:2px; margin:10px 0; text-shadow:0 0 8px #00e0ff; text-align:center; font-weight:bold;">
+                        🛡️ AUTENTICADO: ${idG}
+                    </div>
+                `);
             }
-            
-            // Esta función es la que dibuja las 5 TARJETAS (CO2, Temp, etc.)
+            // Restaurar el Pentagrama de 5 tarjetas
             if (typeof actualizarPentagramaReal === 'function') {
                 actualizarPentagramaReal();
             }
-            console.log("✅ SISTEMA RESTAURADO: IDENTIDAD Y PENTAGRAMA");
-        }, 1000);
+        }, 800);
         // ===========================================
         // SUPABASE (OPCIONAL - MANTENIDO)
         // ===========================================
