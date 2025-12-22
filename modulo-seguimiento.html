@@ -384,7 +384,34 @@
             <h3 style="color: var(--light); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 20px;">
                 🌿 OFRENDAS DEL DÍA • CICLO COMPLETO DE REGENERACIÓN
             </h3>
+            </h3>
 
+            <!-- 🆕 CONTADOR SIMPLE DE PROGRESO (SOLO VISUAL) -->
+            <div id="contador-gaia-simple" style="
+                background: rgba(26, 60, 64, 0.4);
+                border: 1px solid rgba(76, 175, 80, 0.2);
+                border-radius: 10px;
+                padding: 12px;
+                margin: 10px 0 20px 0;
+                text-align: center;
+                font-size: 0.9rem;
+                color: var(--muted);
+            ">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.2rem; color: var(--light);" id="contador-simple-numero">0</span>
+                    <span>/21 hábitos hoy</span>
+                </div>
+                <div style="height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 8px;">
+                    <div id="barra-simple-progreso" style="height: 100%; background: var(--quantum); width: 0%;"></div>
+                </div>
+                <div style="font-size: 0.75rem; margin-top: 5px; color: var(--muted);">
+                    🌿 <span id="contador-simple-basicos">0</span>/18 • 
+                    🔥 <span id="contador-simple-avanzados">0</span>/3 • 
+                    💫 <span id="contador-simple-estados">0</span>/3
+                </div>
+            </div>
+
+            <!-- CATEGORÍA: 18 HÁBITOS BÁSICOS -->
             <!-- CATEGORÍA: 18 HÁBITOS BÁSICOS -->
             <div id="categoriaBasico" class="categoria-contenido">
                 <div class="acciones-grid">
@@ -813,6 +840,11 @@ function bloquearHabitosRegistrados() {
         }
     });
     console.log("🛡️ Bloqueo de integridad activado.");
+    setTimeout(() => {
+        actualizarContadorSimple();
+        console.log('📊 Contador simple actualizado');
+    }, 200);
+} // ← FIN DE LA FUNCIÓN
 }
         // ==================== SISTEMA DE IMPACTOS AVANZADO ====================
         const IMPACTOS_AVANZADOS = {
@@ -1092,6 +1124,8 @@ setInterval(actualizarRelojSistema, 1000);
             // Actualizar contador de sincronía
             document.getElementById('syncCount').textContent = 
                 Math.floor(1247 * (sincroniaColectiva / 100)).toLocaleString();
+             // 🆕 AGREGAR ESTA LÍNEA JUSTO AQUÍ:
+            actualizarContadorSimple();
         }
 
         function inicializarIntencionSemanal() {
@@ -1419,7 +1453,63 @@ function sincronizarGuardian() {
         console.log("🌲 El espíritu del bosque reconoce al Guardián:", codigo);
     }
 }
-
+// ==================== CONTADOR SIMPLE DE PROGRESO ====================
+// 🆕 FUNCIÓN QUE SOLO LEE Y MUESTRA, NO MODIFICA NADA
+function actualizarContadorSimple() {
+    const checkboxes = document.querySelectorAll('.accion-chk');
+    let total = 0;
+    let basicos = 0;
+    let avanzados = 0;
+    let estados = 0;
+    
+    checkboxes.forEach(checkbox => {
+        // Si está marcado O bloqueado (ya registrado hoy)
+        if (checkbox.checked || checkbox.disabled) {
+            total++;
+            
+            const valor = checkbox.value;
+            // Clasificar
+            if (valor.includes('sanacion') || valor.includes('legado') || valor.includes('pacto')) {
+                avanzados++;
+            } else if (valor.includes('observacion') || valor.includes('empatia') || valor.includes('gratitud')) {
+                estados++;
+            } else {
+                basicos++;
+            }
+        }
+    });
+    
+    // Actualizar solo los elementos del contador
+    const numElement = document.getElementById('contador-simple-numero');
+    const barraElement = document.getElementById('barra-simple-progreso');
+    
+    if (numElement) numElement.textContent = total;
+    if (barraElement) barraElement.style.width = ((total / 21) * 100) + '%';
+    
+    // Actualizar contadores por categoría
+    const basicoElement = document.getElementById('contador-simple-basicos');
+    const avanzadoElement = document.getElementById('contador-simple-avanzados');
+    const estadoElement = document.getElementById('contador-simple-estados');
+    
+    if (basicoElement) basicoElement.textContent = basicos;
+    if (avanzadoElement) avanzadoElement.textContent = avanzados;
+    if (estadoElement) estadoElement.textContent = estados;
+    
+    // Cambiar color cuando esté completo
+    const contadorContainer = document.getElementById('contador-gaia-simple');
+    if (contadorContainer) {
+        if (total === 21) {
+            contadorContainer.style.borderColor = 'var(--success)';
+            contadorContainer.style.background = 'rgba(61, 220, 132, 0.1)';
+        } else if (total >= 18) {
+            contadorContainer.style.borderColor = 'var(--warning)';
+        } else {
+            contadorContainer.style.borderColor = 'rgba(76, 175, 80, 0.2)';
+        }
+    }
+    
+    return total;
+}
 // Reconocimiento automático al entrar al puente de mando
 window.addEventListener('DOMContentLoaded', () => {
     const firmaGuardada = localStorage.getItem('firmaGuardian');
