@@ -1344,23 +1344,22 @@
                 elemento.textContent = valor.toFixed(1) + '%';
             }, 10000);
             
-            // Actualizar inmediatamente
-            // --- SISTEMA DE IDENTIDAD VALIDADA (LÍNEA 1348) ---
-const idGuardian = "GPR-AQUA-ZIRIUX-000052"; // Usamos tu código real para forzar la visibilidad
-const headerElement = document.querySelector('.header-container');
-
-if (headerElement) {
-    const badge = document.createElement('div');
-    badge.innerHTML = `🛡️ MÓDULO ACTIVADO: <span style="color:#00e0ff; text-shadow: 0 0 8px #00e0ff;">${idGuardian}</span>`;
-    badge.style = "font-size: 0.7rem; font-family: monospace; letter-spacing: 2px; margin-top: 10px; color: rgba(255,255,255,0.7); text-align: center;";
-    headerElement.appendChild(badge);
-}
-
-actualizarPentagramaReal(); // Esta línea debe seguir para traer el CO2
-           actualizarPentagramaReal();
-            console.log("✅ GUARDIÁN GAIA - LISTO");
-        };
-        
+     // 4. Actualización inmediata y validación de identidad
+        setTimeout(() => {
+            const idG = "GPR-AQUA-ZIRIUX-000051";
+            const titulo = document.querySelector('h1') || document.querySelector('.header-container h1');
+            
+            if (titulo && !document.getElementById('guardian-id-tag')) {
+                titulo.insertAdjacentHTML('afterend', `
+                    <div id="guardian-id-tag" style="color:#00e0ff; font-family:monospace; font-size:0.7rem; letter-spacing:2px; margin:10px 0; text-shadow:0 0 8px #00e0ff; text-align:center; font-weight:bold;">
+                        🛡️ AUTENTICADO: ${idG}
+                    </div>
+                `);
+            }
+            // Ejecución de telemetría real (NASA/Supabase)
+            actualizarPentagramaReal();
+            console.log("✅ SISTEMA GAIA: CONEXIÓN ESTABLECIDA PARA " + idG);
+        }, 800);
         // ===========================================
         // SUPABASE (OPCIONAL - MANTENIDO)
         // ===========================================
