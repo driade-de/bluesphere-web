@@ -699,9 +699,9 @@
                 <div class="registro-texto">
                     "Cada hábito registrado es un latido en la red planetaria."
                 </div>
-                <button class="btn-registro-principal" onclick="abrirRegistroDiario()">
-                    📝 REGISTRAR MI IMPACTO HOY
-                </button>
+                <button class="btn-registro-principal" onclick="abrirRegistroCompleto()">
+    📝 REGISTRAR MI IMPACTO HOY
+</button>
             </div>
         </div>
         
@@ -1464,6 +1464,141 @@ async function actualizarPentagramaReal() {
                 }
                 
                 console.log("✅ Sincronización completada");
+                // ===========================================
+// 🧠 RED NEURONAL INTEGRADA (AÑADIR AQUÍ)
+// ===========================================
+
+function abrirRedNeuronal() {
+    console.log("🧠 Abriendo red neuronal integrada...");
+    
+    // Ocultar interfaz principal suavemente
+    document.querySelector('.contenedor-movil').style.opacity = '0';
+    document.querySelector('.contenedor-movil').style.transition = 'opacity 0.5s';
+    
+    setTimeout(() => {
+        document.querySelector('.contenedor-movil').style.display = 'none';
+        
+        // Crear contenedor de red neuronal si no existe
+        let container = document.getElementById('redNeuronalContainer');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'redNeuronalContainer';
+            container.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: #000;
+                z-index: 99999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                color: #00eeff;
+                font-family: monospace;
+            `;
+            
+            container.innerHTML = `
+                <h1 style="margin-bottom: 20px;">🧠 RED NEURONAL GAIA</h1>
+                <div style="font-size: 14px; margin-bottom: 30px; color: #88eeff;">
+                    Visualizando conexiones de conciencia...
+                </div>
+                <div id="neuronaVisual" style="
+                    width: 200px;
+                    height: 200px;
+                    border-radius: 50%;
+                    background: radial-gradient(circle, #00eeff 0%, transparent 70%);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 3rem;
+                    animation: pulsoNeuronal 2s infinite;
+                    box-shadow: 0 0 50px #00eeff;
+                    margin-bottom: 30px;
+                ">
+                    🌍
+                </div>
+                <div id="conexionesInfo" style="margin-bottom: 30px; text-align: center;">
+                    <div>Neuronas activas: <span id="neuronCount">4</span></div>
+                    <div>Conexiones: <span id="connectionCount">6</span></div>
+                </div>
+                <button onclick="cerrarRedNeuronal()" style="
+                    padding: 12px 30px;
+                    background: #00eeff;
+                    color: black;
+                    border: none;
+                    border-radius: 25px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    font-size: 1rem;
+                ">
+                    ← Volver al seguimiento
+                </button>
+            `;
+            
+            // Añadir estilo de animación
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes pulsoNeuronal {
+                    0% { transform: scale(1); opacity: 0.8; }
+                    50% { transform: scale(1.1); opacity: 1; }
+                    100% { transform: scale(1); opacity: 0.8; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(container);
+        } else {
+            container.style.display = 'flex';
+        }
+        
+        // Animar neuronas
+        const neuronaElement = document.getElementById('neuronaVisual');
+        let scale = 1;
+        setInterval(() => {
+            scale = scale === 1 ? 1.05 : 1;
+            neuronaElement.style.transform = `scale(${scale})`;
+        }, 1000);
+        
+    }, 500);
+}
+
+function cerrarRedNeuronal() {
+    const container = document.getElementById('redNeuronalContainer');
+    if (container) {
+        container.style.display = 'none';
+    }
+    
+    document.querySelector('.contenedor-movil').style.display = 'flex';
+    setTimeout(() => {
+        document.querySelector('.contenedor-movil').style.opacity = '1';
+    }, 50);
+}
+
+// ===========================================
+// MODIFICAR guardarRegistro PARA ACTIVAR RED
+// ===========================================
+
+// BUSCA esta función (línea ~620) y AÑADE al final:
+function guardarRegistro() {
+    // ... TODO TU CÓDIGO ACTUAL ...
+    
+    // DESPUÉS DE guardar en localStorage:
+    setTimeout(() => {
+        abrirRedNeuronal();
+        
+        // Actualizar contadores
+        document.getElementById('neuronCount').textContent = 
+            Math.floor(4 + Math.random() * 3);
+        document.getElementById('connectionCount').textContent = 
+            Math.floor(6 + Math.random() * 4);
+            
+        console.log("✨ Red neuronal activada después del registro");
+    }, 800);
+    
+    cerrarModal();
+}
             } catch (error) {
                 console.warn("⚠️ Error conectando con Supabase");
             }
@@ -1473,6 +1608,192 @@ async function actualizarPentagramaReal() {
         if (navigator.onLine) {
             setInterval(sincronizarConSupabase, 300000);
         }
+        // ===========================================
+// 🧠 REGISTRO COMPLETO CON RED NEURONAL
+// ===========================================
+function abrirRegistroCompleto() {
+    console.log("🧠 Iniciando registro completo con red neuronal...");
+    
+    // 1. Abrir el modal de registro normal (ASUMIENDO que existe)
+    if (typeof abrirRegistroDiario === 'function') {
+        abrirRegistroDiario();
+    } else {
+        console.error("❌ Función abrirRegistroDiario() no encontrada");
+        alert("Error: Modal de registro no disponible");
+        return;
+    }
+    
+    // 2. MODIFICAR el botón del modal para que active la red neuronal
+    setTimeout(() => {
+        const modal = document.querySelector('.modal-movil, [class*="modal"], .modal');
+        if (modal) {
+            const btnGuardar = modal.querySelector('button[onclick*="guardar"], button:contains("GUARDAR")');
+            if (btnGuardar) {
+                // Cambiar el botón para que active la red neuronal
+                btnGuardar.setAttribute('onclick', 'guardarRegistroConNeuronal()');
+                // Cambiar el texto
+                btnGuardar.innerHTML = '🧠 GUARDAR CON RED NEURONAL';
+                btnGuardar.style.background = 'linear-gradient(45deg, #00eeff, #0088ff)';
+                console.log("✅ Botón modificado para red neuronal");
+            } else {
+                console.warn("⚠️ Botón de guardar no encontrado en modal");
+            }
+        } else {
+            console.warn("⚠️ Modal no encontrado");
+        }
+    }, 200);
+}
+
+function guardarRegistroConNeuronal() {
+    console.log("💫 Guardando registro con red neuronal...");
+    
+    // 1. Ejecutar tu registro NORMAL (si existe)
+    if (typeof guardarRegistro === 'function') {
+        guardarRegistro();
+    } else {
+        console.warn("⚠️ Función guardarRegistro() no encontrada, simulando...");
+        // Simular guardado si no existe
+        setTimeout(() => {
+            console.log("✅ Registro simulado guardado");
+        }, 500);
+    }
+    
+    // 2. Cerrar modal después de guardar
+    setTimeout(() => {
+        const modals = document.querySelectorAll('.modal-movil, [class*="modal"], .modal');
+        modals.forEach(modal => {
+            modal.style.display = 'none';
+            modal.style.opacity = '0';
+        });
+    }, 800);
+    
+    // 3. Después de 1.5 segundos, abrir red neuronal
+    setTimeout(() => {
+        abrirRedNeuronalSimple();
+    }, 1500);
+}
+
+function abrirRedNeuronalSimple() {
+    console.log("🧠 Abriendo red neuronal...");
+    
+    // Crear overlay
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.97);
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        animation: aparecerRed 0.7s ease;
+        font-family: Arial, sans-serif;
+    `;
+    
+    overlay.innerHTML = `
+        <div style="text-align: center; max-width: 320px; padding: 20px; background: rgba(10,20,30,0.9); border-radius: 20px; border: 2px solid #00eeff; box-shadow: 0 0 40px rgba(0,238,255,0.3);">
+            <div style="font-size: 4rem; margin-bottom: 20px; animation: latidoRed 2s infinite;">
+                🧠
+            </div>
+            <h2 style="color: #00eeff; margin-bottom: 15px; font-size: 1.8rem; text-shadow: 0 0 10px #00eeff;">
+                RED NEURONAL ACTIVADA
+            </h2>
+            <p style="color: #88eeff; margin-bottom: 25px; line-height: 1.5;">
+                <strong>¡Tu impacto ahora forma parte de la red viva de Gaia!</strong><br>
+                Cada hábito registrado conecta una neurona en la conciencia planetaria.
+            </p>
+            <div style="background: rgba(0,238,255,0.15); padding: 15px; border-radius: 12px; margin-bottom: 25px; border: 1px solid rgba(0,238,255,0.3);">
+                <div style="color: #00eeff; margin-bottom: 8px; font-size: 1.1rem;">
+                    <span style="opacity: 0.8;">Neuronas conectadas:</span> 
+                    <strong style="color: #ffff00; font-size: 1.3rem;"> 4,281</strong>
+                </div>
+                <div style="color: #00eeff; font-size: 1.1rem;">
+                    <span style="opacity: 0.8;">Tu neurona:</span> 
+                    <strong style="color: #ffff00; animation: brillo 1s infinite;"> ● BRILLANDO</strong>
+                </div>
+            </div>
+            <button onclick="cerrarRedNeuronalSimple()" style="
+                padding: 14px 35px;
+                background: linear-gradient(45deg, #00eeff, #0088ff);
+                color: #001133;
+                border: none;
+                border-radius: 30px;
+                font-weight: bold;
+                cursor: pointer;
+                font-size: 1.1rem;
+                transition: all 0.3s;
+                box-shadow: 0 0 20px rgba(0,238,255,0.5);
+                margin-top: 10px;
+            " onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 25px rgba(0,238,255,0.7)';" 
+               onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 20px rgba(0,238,255,0.5)';">
+                ← Volver al seguimiento
+            </button>
+        </div>
+    `;
+    
+    // Añadir estilos si no existen
+    if (!document.querySelector('#estilos-red-neuronal')) {
+        const style = document.createElement('style');
+        style.id = 'estilos-red-neuronal';
+        style.textContent = `
+            @keyframes aparecerRed {
+                from { opacity: 0; transform: scale(0.9); }
+                to { opacity: 1; transform: scale(1); }
+            }
+            @keyframes latidoRed {
+                0%, 100% { transform: scale(1); opacity: 1; }
+                50% { transform: scale(1.15); opacity: 0.9; }
+            }
+            @keyframes brillo {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.6; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    overlay.id = 'redNeuronalOverlay';
+    document.body.appendChild(overlay);
+    
+    // Añadir sonido opcional (comentado por ahora)
+    // try {
+    //     const audio = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQ');
+    //     audio.volume = 0.3;
+    //     audio.play();
+    // } catch(e) {}
+}
+
+function cerrarRedNeuronalSimple() {
+    console.log("🧠 Cerrando red neuronal...");
+    const overlay = document.getElementById('redNeuronalOverlay');
+    if (overlay) {
+        overlay.style.animation = 'aparecerRed 0.5s ease reverse';
+        overlay.style.opacity = '0';
+        setTimeout(() => {
+            if (overlay.parentNode) {
+                overlay.parentNode.removeChild(overlay);
+            }
+        }, 500);
+    }
+}
+
+// ===========================================
+// 🎯 INICIALIZACIÓN SEGURA
+// ===========================================
+console.log("✅ Módulo de Red Neuronal cargado correctamente");
+
+// Asegurar que el botón en el HTML tenga el onclick correcto
+document.addEventListener('DOMContentLoaded', function() {
+    const botonRegistro = document.querySelector('.btn-registro-principal');
+    if (botonRegistro && !botonRegistro.getAttribute('onclick')) {
+        botonRegistro.setAttribute('onclick', 'abrirRegistroCompleto()');
+        console.log("✅ Botón de registro configurado para red neuronal");
+    }
+});
     </script>
 </body>
 </html>
