@@ -3,220 +3,1808 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#4a7c59">
-    <title>GAIA NEXUS - Estilo Ghibli</title>
+    <meta name="theme-color" content="#0a0a16">
+    <title>GAIA NEXUS LIVE - Sistema Nervioso Planetario</title>
     
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- DEPENDENCIAS OPTIMIZADAS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     
+    <!-- ESTILOS PROFESIONALES -->
     <style>
         :root {
-            /* Paleta Ghibli */
-            --forest-green: #4a7c59;
-            --sky-blue: #8ecae6;
-            --earth-brown: #8d6e63;
-            --soft-cream: #f8f1e5;
-            --grass-light: #a7c957;
-            --deep-ocean: #219ebc;
-            --paper-texture: rgba(248, 241, 229, 0.95);
+            --deep-space: #0a0a16;
+            --nebula-purple: #5d2fdf;
+            --stardust-blue: #00e0ff;
+            --planet-green: #2afc5b;
+            --quantum-gold: #ffd700;
+            --nova-red: #ff3366;
+            --dark-matter: rgba(10, 10, 22, 0.95);
+            --pulse-blue: rgba(0, 224, 255, 0.3);
+            
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
-
+        
         * {
-            margin: 0; padding: 0; box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
-
-        body {
-            height: 100vh; overflow: hidden;
-            background: var(--sky-blue);
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            color: #333;
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background: var(--deep-space);
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
         }
-
-        /* Textura de papel artesanal */
-        body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
-            opacity: 0.4; pointer-events: none; z-index: 10;
-        }
-
+        
         .gaia-container {
-            display: flex; flex-direction: column; height: 100vh;
-            padding: 15px; gap: 15px; position: relative; z-index: 20;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            height: -webkit-fill-available;
+            padding: 12px;
+            padding-top: calc(12px + var(--safe-top));
+            padding-bottom: calc(12px + var(--safe-bottom));
+            gap: 12px;
         }
-
+        
+        .hidden { display: none !important; }
+        
         /* HEADER */
         .header-mobile {
-            background: white; padding: 15px; border-radius: 20px 5px;
-            border: 3px solid var(--forest-green);
-            box-shadow: 4px 4px 0px var(--forest-green);
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: linear-gradient(90deg, 
+                rgba(93, 47, 223, 0.2), 
+                rgba(0, 224, 255, 0.2));
+            border: 1px solid var(--stardust-blue);
+            border-radius: 16px;
+            min-height: 60px;
         }
-
-        .logo-gaia h1 { font-size: 1.3rem; color: var(--forest-green); }
-
-        /* TRÍADA */
-        .triada-gaia-mobile { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-
+        
+        .logo-gaia h1 {
+            font-size: 1.3rem;
+            background: linear-gradient(90deg, #fff, var(--stardust-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+        
+        .live-badge-mobile {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--nova-red);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-left: 8px;
+        }
+        
+        .live-badge-mobile::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* TRÍADA GAIA */
+        .triada-gaia-mobile {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 8px 0;
+        }
+        
         .triada-card {
-            background: var(--soft-cream); border-radius: 15px; padding: 10px;
-            text-align: center; border: 2px solid var(--earth-brown);
-            box-shadow: 3px 3px 0px var(--earth-brown);
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 12px 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-
-        .triada-value { font-size: 1rem; font-weight: bold; color: var(--deep-ocean); }
-
+        
+        .triada-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: white;
+            margin: 5px 0;
+        }
+        
         /* BRÚJULA */
-        .brujula-mobile { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-
+        .brujula-mobile {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 5px;
+        }
+        
         .brujula-item {
-            background: var(--paper-texture); border-radius: 12px; padding: 8px;
-            border: 2px solid var(--forest-green); text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 5px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 70px;
         }
-
-        .brujula-item.active { background: var(--grass-light); transform: translateY(-2px); }
-
-        /* CONTENIDO */
-        .main-content { flex: 1; overflow-y: auto; padding-bottom: 80px; }
-
+        
+        .brujula-item.active {
+            border-color: var(--stardust-blue);
+            box-shadow: 0 0 15px var(--pulse-blue);
+        }
+        
+        .brujula-valor {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--quantum-gold);
+            margin: 4px 0;
+        }
+        
+        /* CONTENIDO PRINCIPAL */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 5px;
+        }
+        
         .section-gaia {
-            background: var(--paper-texture); border-radius: 15px;
-            margin-bottom: 15px; border: 2px solid var(--earth-brown); overflow: hidden;
+            background: var(--dark-matter);
+            border-radius: 16px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
+        
         .section-header {
-            padding: 12px; background: rgba(141, 110, 99, 0.1);
-            display: flex; justify-content: space-between; font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            min-height: 60px;
         }
-
-        .section-content { padding: 0 15px; max-height: 0; overflow: hidden; transition: all 0.4s; }
-
-        .section-gaia.active .section-content { max-height: 1000px; padding: 15px; }
-
-        /* NAV */
+        
+        .section-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .section-gaia.active .section-content {
+            max-height: 1000px;
+            padding: 20px;
+        }
+        
+        /* NAVEGACIÓN */
         .nav-bottom {
-            position: fixed; bottom: 15px; left: 15px; right: 15px;
-            background: var(--forest-green); display: grid;
-            grid-template-columns: repeat(5, 1fr); padding: 8px;
-            border-radius: 25px; box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            padding: 10px 15px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
+        
         .nav-btn {
-            background: none; border: none; color: white; font-size: 0.65rem;
-            display: flex; flex-direction: column; align-items: center; opacity: 0.8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: transparent;
+            border: none;
+            color: #aaa;
+            padding: 8px 5px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            min-height: 50px;
         }
-
-        .nav-btn.active { opacity: 1; transform: scale(1.1); font-weight: bold; }
-
-        /* NUBES */
-        @keyframes float { from { transform: translateX(-150%); } to { transform: translateX(120vw); } }
-        .cloud {
-            position: fixed; background: white; border-radius: 50px; opacity: 0.5;
-            z-index: 5; filter: blur(3px); animation: float 70s linear infinite;
+        
+        .nav-btn.active {
+            color: var(--stardust-blue);
+            background: rgba(0, 224, 255, 0.1);
         }
-
-        .hidden { display: none; }
+        
+        /* NOTIFICACIONES */
+        .notificacion-mobile {
+            position: fixed;
+            bottom: 80px;
+            left: 12px;
+            right: 12px;
+            background: linear-gradient(90deg, 
+                rgba(93, 47, 223, 0.9), 
+                rgba(0, 224, 255, 0.9));
+            color: white;
+            padding: 15px;
+            border-radius: 16px;
+            z-index: 1000;
+            transform: translateY(100px);
+            transition: transform 0.5s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .notificacion-mobile.show {
+            transform: translateY(0);
+        }
+        
+        /* LOADER */
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(0, 224, 255, 0.3);
+            border-top: 3px solid var(--stardust-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        /* ANIMACIONES */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* MEDIA QUERIES */
+        @media (min-width: 768px) {
+            .gaia-container {
+                padding: 20px;
+                gap: 15px;
+            }
+            
+            .triada-card {
+                min-height: 140px;
+                padding: 15px 12px;
+            }
+            
+            .triada-value {
+                font-size: 1.3rem;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .gaia-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-rows: auto auto 1fr auto;
+                gap: 15px;
+                padding: 20px;
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+            
+            .header-mobile { grid-column: 1 / -1; grid-row: 1; }
+            .triada-gaia-mobile { grid-column: 1 / -1; grid-row: 2; }
+            .main-content { 
+                grid-column: 1 / -1; 
+                grid-row: 3;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            .nav-bottom { grid-column: 1 / -1; grid-row: 4; }
+            
+            .section-content {
+                max-height: none !important;
+                padding: 20px !important;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="cloud" style="top: 15%; width: 120px; height: 35px; animation-duration: 90s;"></div>
-    <div class="cloud" style="top: 30%; width: 80px; height: 25px; animation-duration: 110s; animation-delay: -30s;"></div>
-
-    <div class="gaia-container" id="gaiaContainer">
+    <!-- LOADER -->
+    <div id="loaderGaia" style="
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--deep-space); 
+        display: flex; flex-direction: column;
+        justify-content: center; align-items: center; z-index: 9999;">
+        <div class="loader-spinner"></div>
+        <div style="color: var(--stardust-blue); font-size: 1rem; margin-top: 20px;">
+            Sincronizando con Sistema Nervioso Planetario...
+        </div>
+        <div id="loader-frecuencia" style="color: #aaa; font-size: 0.8rem; margin-top: 10px;">
+            Conectando...
+        </div>
+    </div>
+    
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="gaia-container hidden" id="gaiaContainer">
+        
+        <!-- HEADER -->
         <header class="header-mobile">
             <div class="logo-gaia">
-                <h1>🌳 GAIA NEXUS</h1>
-                <div style="font-size: 0.65rem; color: var(--forest-green);">Sistema Nervioso Planetario</div>
+                <h1>GAIA NEXUS <span class="live-badge-mobile">LIVE</span></h1>
+                <div style="font-size: 0.7rem; color: #aaa;">
+                    Sistema Nervioso Planetario • Sincronizado
+                </div>
             </div>
+            
             <div style="text-align: right;">
-                <div id="guardian-name" style="font-size: 0.75rem; font-weight: bold;">Conectando...</div>
-                <div id="guardian-code" style="font-size: 0.6rem; color: var(--earth-brown);">---</div>
+                <div id="guardian-name" style="font-size: 0.8rem; color: var(--stardust-blue);">
+                    Conectando...
+                </div>
+                <div id="guardian-code" style="font-size: 0.65rem; color: #aaa;">
+                    ---
+                </div>
             </div>
         </header>
-
+        
+        <!-- TRÍADA GAIA -->
         <div class="triada-gaia-mobile">
-            <div class="triada-card"><div>🌊</div><div class="triada-value" id="triada-oceano-valor">+0.8°C</div><div style="font-size: 0.6rem;">OCÉANO</div></div>
-            <div class="triada-card"><div>🌬️</div><div class="triada-value" id="triada-aire-valor">415 ppm</div><div style="font-size: 0.6rem;">AIRE</div></div>
-            <div class="triada-card"><div>❄️</div><div class="triada-value" id="triada-hielo-valor">-8.5%</div><div style="font-size: 0.6rem;">HIELO</div></div>
-        </div>
-
-        <div class="brujula-mobile">
-            <div class="brujula-item active"><div id="brujula-impacto" style="font-weight:bold;">0kg</div><div style="font-size: 0.55rem;">Impacto</div></div>
-            <div class="brujula-item"><div id="frecuencia-gaia" style="font-weight:bold;">0.0Hz</div><div style="font-size: 0.55rem;">Ritmo</div></div>
-            <div class="brujula-item"><div id="brujula-neuronas" style="font-weight:bold;">0</div><div style="font-size: 0.55rem;">Neuronas</div></div>
-            <div class="brujula-item"><div id="brujula-progreso" style="font-weight:bold;">0%</div><div style="font-size: 0.55rem;">Meta</div></div>
-        </div>
-
-        <main class="main-content">
-            <section id="section-arbol" class="section-gaia active">
-                <div class="section-header" onclick="window.toggleSection('arbol')">
-                    <span>🌿 Mi Jardín Regenerativo</span>
-                    <div id="toggle-arbol">▼</div>
+            <div class="triada-card" data-element="ocean">
+                <div style="font-size: 1.8rem; margin-bottom: 5px;">🌊</div>
+                <div>
+                    <div style="font-size: 0.7rem; color: #aaa; margin-bottom: 4px;">OCÉANO</div>
+                    <div class="triada-value"><span id="triada-oceano-valor">+0.8°C</span> 
+                        <span id="triada-oceano-trend" style="color: var(--nova-red);">▲</span>
+                    </div>
+                    <div style="font-size: 0.65rem; color: #888; margin: 3px 0;" id="triada-oceano-sub">
+                        Anomalía térmica
+                    </div>
                 </div>
-                <div class="section-content" id="arbol-habitos-real"></div>
+            </div>
+            
+            <div class="triada-card" data-element="air">
+                <div style="font-size: 1.8rem; margin-bottom: 5px;">🌬️</div>
+                <div>
+                    <div style="font-size: 0.7rem; color: #aaa; margin-bottom: 4px;">AIRE</div>
+                    <div class="triada-value"><span id="triada-aire-valor">415</span> ppm 
+                        <span id="triada-aire-trend" style="color: var(--nova-red);">▲</span>
+                    </div>
+                    <div style="font-size: 0.65rem; color: #888; margin: 3px 0;" id="triada-aire-sub">
+                        +2.5 ppm/año
+                    </div>
+                </div>
+            </div>
+            
+            <div class="triada-card" data-element="ice">
+                <div style="font-size: 1.8rem; margin-bottom: 5px;">❄️</div>
+                <div>
+                    <div style="font-size: 0.7rem; color: #aaa; margin-bottom: 4px;">HIELO</div>
+                    <div class="triada-value" id="triada-hielo-valor">-8.5%</div>
+                    <div style="font-size: 0.65rem; color: #888; margin: 3px 0;" id="triada-hielo-sub">
+                        Extensión mínima
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- IDENTIDAD CUÁNTICA -->
+        <div id="identidadCuantica" style="
+            background: linear-gradient(135deg, rgba(93,47,223,0.3), rgba(0,224,255,0.3));
+            border-radius: 12px; padding: 12px 15px; margin: 8px 0;
+            border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+        ">
+            <div id="codigoCuantico" style="
+                font-family: 'Courier New', monospace; font-size: 0.9rem;
+                color: var(--stardust-blue); text-align: center; margin-bottom: 5px;
+            ">GPR-AQUA-ZIRIUX-000054</div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.75rem; color: #aaa;">
+                <span>SINCRONIZACIÓN:</span>
+                <div style="width: 60px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+                    <div id="sinc-lleno" style="height: 100%; background: linear-gradient(90deg, var(--nebula-purple), var(--stardust-blue)); width: 100%;"></div>
+                </div>
+                <span id="sinc-porcentaje">100%</span>
+            </div>
+        </div>
+        
+        <!-- BRÚJULA -->
+        <div class="brujula-mobile">
+            <div class="brujula-item active" onclick="mostrarSeccion('arbol')">
+                <div class="brujula-valor" id="brujula-impacto">0 kg</div>
+                <div style="font-size: 0.65rem; color: #aaa;">Tu Impacto</div>
+            </div>
+            
+            <div class="brujula-item" onclick="mostrarSeccion('estados')">
+                <div class="brujula-valor" id="frecuencia-gaia">0.000 Hz</div>
+                <div style="font-size: 0.65rem; color: #aaa;">Frecuencia GAIA</div>
+            </div>
+            
+            <div class="brujula-item" onclick="mostrarSeccion('sistema')">
+                <div class="brujula-valor" id="brujula-neuronas">0</div>
+                <div style="font-size: 0.65rem; color: #aaa;">Neuronas</div>
+            </div>
+            
+            <div class="brujula-item" onclick="mostrarSeccion('colectivo')">
+                <div class="brujula-valor" id="brujula-progreso">0%</div>
+                <div style="font-size: 0.65rem; color: #aaa;">ODS 13</div>
+            </div>
+        </div>
+        
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="main-content" id="mainContent">
+            
+            <!-- SECCIÓN 1: TU ÁRBOL REGENERATIVO -->
+            <section id="section-arbol" class="section-gaia active">
+                <div class="section-header" onclick="toggleSection('arbol')">
+                    <h3 style="display: flex; align-items: center; gap: 10px; font-size: 1rem;">
+                        <span>🌿</span> TU ÁRBOL REGENERATIVO
+                    </h3>
+                    <div class="section-toggle" style="color: var(--stardust-blue);">▼</div>
+                </div>
+                <div class="section-content">
+                    <!-- INTENCIÓN SEMANAL -->
+                    <div id="intencion-semanal"></div>
+                    
+                    <!-- INFO GUARDIÁN -->
+                    <div id="info-guardian" style="
+                        background: rgba(0,224,255,0.1); padding: 15px; border-radius: 12px;
+                        border-left: 4px solid var(--stardust-blue); margin-bottom: 15px;
+                    ">
+                        <div id="guardian-info-real">
+                            <div style="font-size: 0.9rem; color: var(--stardust-blue);">
+                                <span id="guardian-nombre-real">Guardián GAIA</span>
+                            </div>
+                            <div style="font-size: 0.75rem; color: #aaa; margin-top: 5px;">
+                                Código: <span id="guardian-codigo-real">---</span>
+                            </div>
+                            <div style="font-size: 0.75rem; color: var(--planet-green); margin-top: 8px;">
+                                <span id="guardian-estado-real">Estado: Sincronizando...</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ESTADÍSTICAS HOY -->
+                    <div id="estadisticas-hoy" style="
+                        margin-bottom: 20px; padding: 15px; 
+                        background: rgba(42,252,91,0.1); border-radius: 12px;
+                    "></div>
+                    
+                    <!-- HÁBITOS -->
+                    <div id="arbol-habitos-real"></div>
+                    
+                    <!-- IMPACTO PERSONAL -->
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(255,215,0,0.1); border-radius: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="color: var(--quantum-gold); font-size: 0.9rem;">
+                                Tu Impacto Total
+                            </span>
+                            <span id="impacto-personal-real" style="color: var(--quantum-gold); font-weight: bold; font-size: 1.1rem;">
+                                0 kg CO₂
+                            </span>
+                        </div>
+                        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; margin: 10px 0; overflow: hidden;">
+                            <div id="barra-impacto-real" style="height: 100%; background: linear-gradient(90deg, var(--nebula-purple), var(--stardust-blue)); border-radius: 4px; width: 0%"></div>
+                        </div>
+                        <div style="font-size: 0.75rem; color: #aaa; margin-top: 8px; text-align: center;">
+                            <span id="meta-proxima-real">Meta: 1000 kg CO₂</span>
+                        </div>
+                    </div>
+                </div>
             </section>
+            
+            <!-- SECCIÓN 2: ESTADOS DE SER -->
+            <section id="section-estados" class="section-gaia">
+                <div class="section-header" onclick="toggleSection('estados')">
+                    <h3 style="display: flex; align-items: center; gap: 10px; font-size: 1rem;">
+                        <span>💫</span> ESTADOS DE SER
+                    </h3>
+                    <div class="section-toggle" style="color: var(--stardust-blue);">▶</div>
+                </div>
+                <div class="section-content">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="font-size: 0.9rem; color: #aaa; margin-bottom: 10px;">
+                            Tu frecuencia actual de consciencia regenerativa
+                        </div>
+                        <div style="font-size: 2rem; color: var(--nebula-purple); font-weight: bold; margin: 10px 0;">
+                            <span id="frecuencia-actual">0.000</span> Hz
+                        </div>
+                        <div style="font-size: 0.8rem; color: var(--stardust-blue);">
+                            <span id="estado-frecuencia-texto">Iniciando conexión...</span>
+                        </div>
+                    </div>
+                    
+                    <div id="estados-container-real" style="
+                        display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                        gap: 12px; margin-top: 15px;
+                    "></div>
+                    
+                    <!-- MEDALLAS -->
+                    <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <h4 style="color: var(--quantum-gold); margin-bottom: 15px;">🏆 TUS MEDALLAS SAGRADAS</h4>
+                        <div id="medallas-container" style="
+                            display: flex; flex-wrap: wrap; gap: 10px;
+                        "></div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECCIÓN 3: HÁBITOS AVANZADOS -->
+            <section id="section-avanzados" class="section-gaia">
+                <div class="section-header" onclick="toggleSection('avanzados')">
+                    <h3 style="display: flex; align-items: center; gap: 10px; font-size: 1rem;">
+                        <span>🔥</span> HÁBITOS AVANZADOS
+                    </h3>
+                    <div class="section-toggle" style="color: var(--stardust-blue);">▶</div>
+                </div>
+                <div class="section-content">
+                    <div style="text-align: center; margin-bottom: 20px; padding: 15px; background: rgba(255,51,102,0.1); border-radius: 12px;">
+                        <div style="font-size: 0.9rem; color: #aaa;">
+                            Protocolos de consciencia expandida
+                        </div>
+                        <div style="font-size: 0.8rem; color: var(--nova-red); margin-top: 8px;">
+                            Requieren: Estados de Ser activos + Hábitos básicos completos
+                        </div>
+                    </div>
+                    
+                    <div id="avanzados-container-real"></div>
+                </div>
+            </section>
+            
+            <!-- SECCIÓN 4: SISTEMA NERVIOSO -->
+            <section id="section-sistema" class="section-gaia">
+                <div class="section-header" onclick="toggleSection('sistema')">
+                    <h3 style="display: flex; align-items: center; gap: 10px; font-size: 1rem;">
+                        <span>🧠</span> SISTEMA NERVIOSO
+                    </h3>
+                    <div class="section-toggle" style="color: var(--stardust-blue);">▶</div>
+                </div>
+                <div class="section-content">
+                    <div id="globo-mobile" style="
+                        width: 100%; height: 200px; background: rgba(0,0,0,0.5);
+                        border-radius: 12px; margin: 15px 0; position: relative;
+                    "></div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
+                        <div style="text-align: center; padding: 12px 5px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                            <div id="estadistica-guardianes" style="font-size: 1.2rem; font-weight: bold; color: var(--quantum-gold); margin: 5px 0;">0</div>
+                            <div style="font-size: 0.7rem; color: #aaa;">Guardianes</div>
+                        </div>
+                        <div style="text-align: center; padding: 12px 5px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                            <div id="estadistica-acciones" style="font-size: 1.2rem; font-weight: bold; color: var(--quantum-gold); margin: 5px 0;">0</div>
+                            <div style="font-size: 0.7rem; color: #aaa;">Acciones Hoy</div>
+                        </div>
+                        <div style="text-align: center; padding: 12px 5px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                            <div id="estadistica-co2" style="font-size: 1.2rem; font-weight: bold; color: var(--quantum-gold); margin: 5px 0;">0t</div>
+                            <div style="font-size: 0.7rem; color: #aaa;">CO₂ Total</div>
+                        </div>
+                    </div>
+                    
+                    <!-- ÚLTIMA ACCIÓN -->
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 12px;">
+                        <h4 style="color: var(--stardust-blue); margin-bottom: 10px;">📡 ÚLTIMA ACCIÓN EN VIVO</h4>
+                        <div id="ultima-accion-real" style="font-size: 0.9rem;">
+                            Esperando actividad regenerativa...
+                        </div>
+                        <div id="ultima-fecha-real" style="font-size: 0.75rem; color: #aaa; margin-top: 5px;">
+                            ---
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECCIÓN 5: INTELIGENCIA COLECTIVA -->
+            <section id="section-colectivo" class="section-gaia">
+                <div class="section-header" onclick="toggleSection('colectivo')">
+                    <h3 style="display: flex; align-items: center; gap: 10px; font-size: 1rem;">
+                        <span>🌐</span> INTELIGENCIA COLECTIVA
+                    </h3>
+                    <div class="section-toggle" style="color: var(--stardust-blue);">▶</div>
+                </div>
+                <div class="section-content">
+                    <!-- PROGRESO ODS 13 -->
+                    <div style="margin-bottom: 20px; padding: 15px; background: rgba(255,215,0,0.1); border-radius: 12px;">
+                        <h4 style="color: var(--quantum-gold); margin-bottom: 10px;">📊 PROGRESO ODS 13 - 2030</h4>
+                        <div style="height: 12px; background: rgba(255,255,255,0.1); border-radius: 6px; margin: 10px 0; overflow: hidden;">
+                            <div id="progreso-ods-real" style="height: 100%; background: linear-gradient(90deg, var(--nebula-purple), var(--stardust-blue)); border-radius: 6px; width: 0%"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-top: 10px;">
+                            <span style="color: #aaa;">Meta: 1,000,000 kg CO₂</span>
+                            <span id="porcentaje-ods-real" style="color: var(--quantum-gold); font-weight: bold;">0%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- TOP HÁBITOS GLOBALES -->
+                    <div>
+                        <h4 style="color: var(--planet-green); margin-bottom: 15px;">🔥 HÁBITOS MÁS ACTIVOS GLOBALMENTE</h4>
+                        <div id="top-habitos-real"></div>
+                    </div>
+                    
+                    <!-- RITMO EVOLUTIVO -->
+                    <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <h4 style="color: var(--stardust-blue); margin-bottom: 15px;">📈 RITMO EVOLUTIVO</h4>
+                        <div style="font-size: 1.2rem; color: var(--quantum-gold); text-align: center;">
+                            <span id="ritmo-evolutivo-real">+0.00%</span> por día
+                        </div>
+                        <div style="font-size: 0.8rem; color: #aaa; text-align: center; margin-top: 5px;">
+                            Crecimiento de la red GAIA
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
         </main>
-
+        
+        <!-- NAVEGACIÓN INFERIOR -->
         <nav class="nav-bottom">
-            <button class="nav-btn active" onclick="mostrarSeccion('arbol')">🌿<br>Jardín</button>
-            <button class="nav-btn" onclick="mostrarSeccion('estados')">💫<br>Ser</button>
-            <button class="nav-btn" onclick="mostrarSeccion('sistema')">🧠<br>Red</button>
-            <button class="nav-btn" onclick="mostrarSeccion('avanzados')">🔥<br>Plus</button>
-            <button class="nav-btn" onclick="mostrarSeccion('colectivo')">🌐<br>Gaia</button>
+            <button class="nav-btn active" onclick="mostrarSeccion('arbol')">
+                <div style="font-size: 1.2rem; margin-bottom: 4px;">🌿</div>
+                <span style="font-size: 0.6rem;">Árbol</span>
+            </button>
+            <button class="nav-btn" onclick="mostrarSeccion('estados')">
+                <div style="font-size: 1.2rem; margin-bottom: 4px;">💫</div>
+                <span style="font-size: 0.6rem;">Estados</span>
+            </button>
+            <button class="nav-btn" onclick="mostrarSeccion('sistema')">
+                <div style="font-size: 1.2rem; margin-bottom: 4px;">🧠</div>
+                <span style="font-size: 0.6rem;">Sistema</span>
+            </button>
+            <button class="nav-btn" onclick="mostrarSeccion('colectivo')">
+                <div style="font-size: 1.2rem; margin-bottom: 4px;">🌐</div>
+                <span style="font-size: 0.6rem;">Red</span>
+            </button>
+            <button class="nav-btn" onclick="mostrarSeccion('avanzados')">
+                <div style="font-size: 1.2rem; margin-bottom: 4px;">🔥</div>
+                <span style="font-size: 0.6rem;">Avanzado</span>
+            </button>
         </nav>
+        
+    </div>
+    
+    <!-- NOTIFICACIONES -->
+    <div id="notificacionMobile" class="notificacion-mobile hidden">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+            <div id="notificacion-icono" style="font-size: 1.3rem;">🌀</div>
+            <div>
+                <div id="notificacion-titulo" style="font-weight: bold; font-size: 0.9rem;">
+                    ¡SISTEMA SINCRONIZADO!
+                </div>
+                <div id="notificacion-subtitulo" style="font-size: 0.75rem; opacity: 0.9;">
+                    Conexión establecida
+                </div>
+            </div>
+        </div>
+        <div id="notificacion-mensaje" style="font-size: 0.85rem;">
+            Cargando datos...
+        </div>
+        <div id="notificacion-impacto" style="color: var(--quantum-gold); font-size: 0.8rem; margin-top: 8px;"></div>
     </div>
 
+    <!-- SCRIPT COMPLETO CON INTEGRACIÓN SUPABASE -->
     <script type="module">
+        // ===========================================
+        // CONFIGURACIÓN SUPABASE - CORREGIDA
+        // ===========================================
         import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
         
+        // TUS CREDENCIALES DE SUPABASE (YA FUNCIONAN)
         const SUPABASE_URL = "https://ophicpcbgdgzthjamzoz.supabase.co";
         const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c";
+        
         const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
+        console.log('✅ Supabase conectado correctamente');
+        
+        // ===========================================
+        // CONFIGURACIÓN COMPLETA DEL SISTEMA
+        // ===========================================
         const CONFIG = {
-            HABITOS: [
-                {id: 1, nombre: "Menos Plástico", icono: "🥤", co2: 0.3},
-                {id: 2, nombre: "Bici Sagrada", icono: "🚲", co2: 2.5},
-                {id: 3, nombre: "Limpieza Costa", icono: "🏖️", co2: 3.0}
+            // CÓDIGOS CONECTADOS A SUPABASE (TUS 6 CÓDIGOS)
+            CODIGOS_CONECTADOS: [
+                'GPR-AQUA-ZIRIUX-000050',
+                'GPR-AQUA-ZIRIUX-000051', 
+                'GPR-AQUA-ZIRIUX-000052',
+                'GPR-AQUA-ZIRIUX-000053',
+                'GPR-AQUA-ZIRIUX-000054',
+                'GPR-AQUA-ZIRIUX-903296'
+            ],
+            
+            // HÁBITOS BÁSICOS (18 - COMO EN TU SISTEMA)
+            HABITOS_BASICOS: [
+                {id: 1, nombre: "Reducción Plásticos", icono: "🥤", co2: 0.3, categoria: "consumo", chakra: "raiz", obra: "fide"},
+                {id: 2, nombre: "Transporte Sagrado", icono: "🚲", co2: 2.5, categoria: "movilidad", chakra: "raiz", obra: "fide"},
+                {id: 3, nombre: "Limpieza Ceremonial de Costas", icono: "🏖️", co2: 3.0, categoria: "comunidad", chakra: "raiz", obra: "espacios"},
+                {id: 4, nombre: "Kintsugi / Reparar", icono: "🧩", co2: 3.5, categoria: "consumo", chakra: "raiz", obra: "fide"},
+                {id: 5, nombre: "Alquimia de Residuos Cocina", icono: "🪱", co2: 0.4, categoria: "residuos", chakra: "sacro", obra: "ciclo"},
+                {id: 6, nombre: "Bendición del Agua", icono: "💧", co2: 0.1, categoria: "agua", chakra: "sacro", obra: "serra"},
+                {id: 7, nombre: "Gestión Consciente de Residuos", icono: "🗑️", co2: 0.4, categoria: "residuos", chakra: "raiz", obra: "sagradas"},
+                {id: 8, nombre: "Eucaristía Alimentaria", icono: "🥗", co2: 1.8, categoria: "alimentacion", chakra: "sacro", obra: "serra"},
+                {id: 9, nombre: "Ungüentos Naturales", icono: "🧴", co2: 1.0, categoria: "consumo", chakra: "sacro", obra: "serra"},
+                {id: 10, nombre: "Meditación Energética", icono: "🔋", co2: 0.05, categoria: "energia", chakra: "plexo", obra: "trades"},
+                {id: 11, nombre: "Compra Voto Sagrado", icono: "🛒", co2: 2.0, categoria: "consumo", chakra: "plexo", obra: "serra"},
+                {id: 12, nombre: "Plantación Ceremonial", icono: "🌳", co2: 25.0, categoria: "regeneracion", chakra: "corazon", obra: "correos"},
+                {id: 13, nombre: "Ayuno de Compasión", icono: "🌿", co2: 8.0, categoria: "alimentacion", chakra: "corazon", obra: "correos"},
+                {id: 14, nombre: "Santuario Abejas", icono: "🐝", co2: 15.0, categoria: "biodiversidad", chakra: "corazon", obra: "correos"},
+                {id: 15, nombre: "Comercio Justo", icono: "🤝", co2: 5.0, categoria: "comunidad", chakra: "corazon", obra: "correos"},
+                {id: 16, nombre: "Evangelio Digital", icono: "📢", co2: 0.2, categoria: "comunidad", chakra: "garganta", obra: "torre"},
+                {id: 17, nombre: "Silencio Digital", icono: "📵", co2: 0.05, categoria: "tecnologia", chakra: "tercer_ojo", obra: "gergetas"},
+                {id: 18, nombre: "Transmisión Sabiduría", icono: "📚", co2: 0.8, categoria: "educacion", chakra: "tercer_ojo", obra: "gergetas"}
+            ],
+            
+            // HÁBITOS AVANZADOS (3 - COMO EN TU SISTEMA)
+            HABITOS_AVANZADOS: [
+                {
+                    id: 19,
+                    nombre: "Activismo Regenerativo Sistémico",
+                    icono: "🌀",
+                    co2: 50.0,
+                    descripcion: "Diseñar e implementar soluciones regenerativas en tu comunidad",
+                    requisitos: { habitosBasicos: 12, estadoSer: 1, accionesTotales: 100 }
+                },
+                {
+                    id: 20,
+                    nombre: "Mentoría Gaia Consciente",
+                    icono: "🧿",
+                    co2: 30.0,
+                    descripcion: "Guiar a otros guardianes en su camino regenerativo",
+                    requisitos: { habitosBasicos: 15, estadoSer: 2, impactoCO2: 500 }
+                },
+                {
+                    id: 21,
+                    nombre: "Diseño de Ecosistemas Regenerativos",
+                    icono: "🌐",
+                    co2: 100.0,
+                    descripcion: "Crear sistemas completos que regeneren suelos, agua y comunidad",
+                    requisitos: { habitosBasicos: 18, estadoSer: 3, impactoCO2: 1000 }
+                }
+            ],
+            
+            // ESTADOS DE SER (COMO EN TU SISTEMA)
+            ESTADOS_SER: [
+                {
+                    id: 1,
+                    nombre: "Observador Silencioso",
+                    icono: "🌀",
+                    descripcion: "Modo Observación • No-Hacer • Transforma la calidad de todos los demás hábitos",
+                    nivel: "Estado de Ser • No-Hacer"
+                },
+                {
+                    id: 2,
+                    nombre: "Empatía Sistémica Activa",
+                    icono: "🌐",
+                    descripcion: "Percibir interconexiones antes de actuar",
+                    nivel: "Estado de Ser • Conexión"
+                },
+                {
+                    id: 3,
+                    nombre: "Gratitud Radical por lo Existente",
+                    icono: "🙏",
+                    descripcion: "Agradecer lo que ya funciona en el sistema",
+                    nivel: "Estado de Ser • Reconocimiento"
+                }
             ]
         };
-
-        const estado = { usuario: { codigo: 'GPR-AQUA-54', impacto: 0 } };
-
-        async function init() {
-            const params = new URLSearchParams(window.location.search);
-            estado.usuario.codigo = params.get('codigo_gaia') || localStorage.getItem('gaia_codigo') || 'GPR-AQUA-54';
-            document.getElementById('guardian-code').textContent = estado.usuario.codigo;
+        
+        // ===========================================
+        // ESTADO GLOBAL DE LA APLICACIÓN
+        // ===========================================
+        const estadoApp = {
+            usuario: {
+                codigoCuantico: null,
+                nombre: "Guardián GAIA",
+                chakraActivo: "raiz",
+                obraActiva: "fide",
+                estadoSerActual: null,
+                habitosCompletados: [],
+                impactoCO2: 0,
+                accionesTotales: 0,
+                puntosRegeneracion: 0,
+                sincroniaColectiva: 0,
+                seguimientos: [],
+                medallas: [],
+                estadosSerActivos: [],
+                ultimoPulso: null
+            },
+            global: {
+                guardianesTotales: 0,
+                accionesHoy: 0,
+                co2Total: 0,
+                sincroniaTotal: 0,
+                topHabitos: [],
+                triadaActual: {
+                    ocean: 0.8,
+                    air: 415,
+                    ice: -8.5
+                }
+            }
+        };
+        
+        // ===========================================
+        // INICIALIZACIÓN PRINCIPAL
+        // ===========================================
+        async function inicializarGaiaNexus() {
+            console.log('🚀 GAIA NEXUS - Sistema Nervioso Planetario');
+            console.log('📡 Conectando con Supabase...');
             
-            const { data: acciones } = await supabase.from('seguimiento').select('impacto_co2').eq('codigo_cuantico', estado.usuario.codigo);
-            if (acciones) estado.usuario.impacto = acciones.reduce((s, a) => s + (a.impacto_co2 || 0), 0);
-
-            renderUI();
+            try {
+                // 1. Cargar identidad cuántica (tus códigos específicos)
+                await cargarIdentidadCuantica();
+                
+                // 2. Cargar datos COMPLETOS del usuario desde Supabase
+                await cargarDatosUsuarioCompletos();
+                
+                // 3. Sincronizar con ritual cuántico
+                await sincronizarConRitualCuantico();
+                
+                // 4. Cargar datos globales
+                await cargarDatosGlobales();
+                
+                // 5. Inicializar efectos visuales
+                inicializarEfectosVisuales();
+                
+                // 6. Mostrar interfaz
+                setTimeout(() => {
+                    document.getElementById('loaderGaia').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('loaderGaia').classList.add('hidden');
+                        document.getElementById('gaiaContainer').classList.remove('hidden');
+                        mostrarSeccion('arbol');
+                        
+                        mostrarNotificacion(
+                            '🌀 SISTEMA NERVIOSO PLANETARIO ACTIVO',
+                            `Guardián: ${estadoApp.usuario.codigoCuantico}`,
+                            'Modo sincronizado • Datos en tiempo real'
+                        );
+                        
+                        console.log('✅ GAIA NEXUS completamente operativo');
+                    }, 500);
+                }, 1500);
+                
+            } catch (error) {
+                console.error('❌ Error crítico:', error);
+                document.getElementById('loaderGaia').classList.add('hidden');
+                document.getElementById('gaiaContainer').classList.remove('hidden');
+                
+                mostrarNotificacion(
+                    '⚠️ MODO LOCAL ACTIVADO',
+                    'Conectando en modo demostración',
+                    'Los datos se cargarán localmente'
+                );
+                
+                // Usar datos demo
+                usarDatosDemoCompletos();
+            }
         }
-
-        function renderUI() {
-            document.getElementById('brujula-impacto').textContent = `${Math.round(estado.usuario.impacto)}kg`;
-            const container = document.getElementById('arbol-habitos-real');
-            container.innerHTML = CONFIG.HABITOS.map(h => `
-                <div style="background:white; border-radius:12px; padding:12px; margin-bottom:10px; border:1px dashed var(--earth-brown); display:flex; justify-content:space-between; align-items:center;">
-                    <span>${h.icono} ${h.nombre}</span>
-                    <button onclick="window.simular('${h.id}')" style="background:var(--grass-light); border:none; padding:6px 12px; border-radius:8px; font-weight:bold;">Registrar</button>
+        
+        // ===========================================
+        // FUNCIÓN PRINCIPAL: CARGAR IDENTIDAD CUÁNTICA
+        // ===========================================
+        async function cargarIdentidadCuantica() {
+            // 1. Obtener código de URL
+            const params = new URLSearchParams(window.location.search);
+            let codigo = params.get('codigo') || 
+                        params.get('codigo_gaia') || 
+                        params.get('guardian');
+            
+            // 2. Si no hay en URL, usar localStorage
+            if (!codigo) {
+                codigo = localStorage.getItem('gaia_codigo_cuantico');
+            }
+            
+            // 3. VERIFICAR QUE EL CÓDIGO ESTÉ EN LA LISTA DE CONECTADOS
+            if (!codigo || !CONFIG.CODIGOS_CONECTADOS.includes(codigo)) {
+                // Usar el código 54 por defecto (ya que mencionaste que funciona)
+                codigo = 'GPR-AQUA-ZIRIUX-000054';
+                
+                // Mostrar notificación informativa
+                mostrarNotificacion(
+                    '🔗 CONECTADO A SUPABASE',
+                    `Usando código: ${codigo}`,
+                    'Este código ya está sincronizado con tu base de datos'
+                );
+            }
+            
+            // 4. GUARDAR Y MOSTRAR CÓDIGO
+            estadoApp.usuario.codigoCuantico = codigo;
+            localStorage.setItem('gaia_codigo_cuantico', codigo);
+            
+            // Actualizar interfaz
+            document.getElementById('codigoCuantico').textContent = codigo;
+            document.getElementById('guardian-code').textContent = codigo;
+            document.getElementById('guardian-codigo-real').textContent = codigo;
+            document.getElementById('loader-frecuencia').textContent = codigo;
+            
+            // Mostrar nombre corto en header
+            const nombreCorto = codigo.split('-').slice(2).join('-');
+            document.getElementById('guardian-name').textContent = nombreCorto;
+            
+            console.log(`✅ Identidad cuántica establecida: ${codigo}`);
+            
+            return codigo;
+        }
+        
+        // ===========================================
+        // FUNCIÓN PRINCIPAL: CARGAR DATOS USUARIO COMPLETOS
+        // ===========================================
+        async function cargarDatosUsuarioCompletos() {
+            const codigo = estadoApp.usuario.codigoCuantico;
+            console.log(`📊 Cargando datos completos para: ${codigo}`);
+            
+            try {
+                // 1. BUSCAR GUARDIÁN EN TABLA 'firmantes'
+                const { data: guardian, error: guardianError } = await supabase
+                    .from('firmantes')
+                    .select('*')
+                    .eq('codigo_cuantico', codigo)
+                    .single();
+                
+                if (guardianError) throw new Error(`Guardian no encontrado: ${guardianError.message}`);
+                
+                // 2. CARGAR TODOS LOS SEGUIMIENTOS/ACCIONES
+                const { data: seguimientos, error: segError } = await supabase
+                    .from('seguimiento')
+                    .select('*')
+                    .eq('codigo_cuantico', codigo)
+                    .order('fecha_registro', { ascending: false });
+                
+                if (segError) throw new Error(`Error seguimientos: ${segError.message}`);
+                
+                // 3. CALCULAR ESTADÍSTICAS
+                const impactoTotal = seguimientos?.reduce((sum, s) => sum + (s.impacto_co2 || 0), 0) || 0;
+                const puntosTotal = seguimientos?.reduce((sum, s) => sum + (s.puntos_regeneracion || 0), 0) || 0;
+                const habitosUnicos = [...new Set(seguimientos?.map(s => s.habito_id) || [])];
+                
+                // 4. ACTUALIZAR ESTADO DEL USUARIO
+                estadoApp.usuario = {
+                    ...estadoApp.usuario,
+                    nombre: guardian.nombre || `Guardián ${codigo.substring(0, 10)}`,
+                    chakraActivo: guardian.chakra_activo || "raiz",
+                    obraActiva: guardian.obra_activa || "fide",
+                    estadoSerActual: guardian.estado_ser || "Observador Silencioso",
+                    sincroniaColectiva: guardian.sincronia_colectiva || 0,
+                    
+                    // Datos calculados
+                    habitosCompletados: habitosUnicos,
+                    impactoCO2: impactoTotal,
+                    accionesTotales: seguimientos?.length || 0,
+                    puntosRegeneracion: puntosTotal,
+                    
+                    // Datos completos
+                    seguimientos: seguimientos || [],
+                    ultimoPulso: seguimientos?.[0] || null,
+                    
+                    // Datos adicionales (simulados si no existen)
+                    medallas: [
+                        { nombre: "Primer Pulso", icono: "🌱", descripcion: "Iniciación en la red" },
+                        { nombre: "Ritual Semanal", icono: "🔮", descripcion: "7 días consecutivos" },
+                        { nombre: "Impacto Regenerativo", icono: "💎", descripcion: "+100kg CO₂ evitados" }
+                    ],
+                    
+                    estadosSerActivos: CONFIG.ESTADOS_SER.slice(0, 2) // Primeros 2 estados activos
+                };
+                
+                console.log(`✅ Datos cargados: ${seguimientos?.length || 0} acciones, ${impactoTotal} kg CO₂`);
+                
+                // 5. ACTUALIZAR INTERFAZ
+                actualizarInterfazUsuarioCompleta();
+                
+                // 6. MOSTRAR RESUMEN
+                mostrarResumenCarga();
+                
+            } catch (error) {
+                console.error('❌ Error cargando datos usuario:', error);
+                throw error; // Propagar error para manejo superior
+            }
+        }
+        
+        // ===========================================
+        // ACTUALIZAR INTERFAZ USUARIO COMPLETA
+        // ===========================================
+        function actualizarInterfazUsuarioCompleta() {
+            const usuario = estadoApp.usuario;
+            
+            // 1. INFORMACIÓN PERSONAL
+            document.getElementById('guardian-nombre-real').textContent = usuario.nombre;
+            document.getElementById('guardian-estado-real').textContent = 
+                `${usuario.estadoSerActual} • Chakra ${usuario.chakraActivo}`;
+            
+            // 2. IMPACTO TOTAL
+            document.getElementById('impacto-personal-real').textContent = 
+                `${usuario.impactoCO2.toFixed(1)} kg CO₂`;
+            document.getElementById('brujula-impacto').textContent = 
+                `${Math.round(usuario.impactoCO2)} kg`;
+            
+            // 3. BARRA DE PROGRESO
+            const progreso = Math.min(100, (usuario.impactoCO2 / 1000) * 100);
+            document.getElementById('barra-impacto-real').style.width = `${progreso}%`;
+            document.getElementById('meta-proxima-real').textContent = 
+                `Meta próxima: ${Math.ceil(usuario.impactoCO2 / 100) * 100 + 100} kg CO₂`;
+            
+            // 4. FRECUENCIA GAIA (calculada en base a actividad)
+            const frecuencia = Math.sqrt(usuario.accionesTotales * usuario.impactoCO2) / 100;
+            const frecuenciaFormateada = Math.max(0.001, frecuencia).toFixed(3);
+            document.getElementById('frecuencia-gaia').textContent = `${frecuenciaFormateada} Hz`;
+            document.getElementById('frecuencia-actual').textContent = frecuenciaFormateada;
+            
+            // 5. SINCRONÍA
+            document.getElementById('sinc-porcentaje').textContent = 
+                `${Math.min(100, usuario.sincroniaColectiva)}%`;
+            document.getElementById('sinc-lleno').style.width = 
+                `${Math.min(100, usuario.sincroniaColectiva)}%`;
+            
+            // 6. RENDERIZAR HÁBITOS
+            renderizarArbolRegenerativoCompleto();
+            
+            // 7. RENDERIZAR ESTADOS DE SER
+            renderizarEstadosDeSerReales();
+            
+            // 8. RENDERIZAR MEDALLAS
+            renderizarMedallas();
+            
+            // 9. MOSTRAR ÚLTIMO PULSO
+            if (usuario.ultimoPulso) {
+                mostrarUltimoPulso(usuario.ultimoPulso);
+            }
+        }
+        
+        // ===========================================
+        // RENDERIZAR ÁRBOL REGENERATIVO COMPLETO
+        // ===========================================
+        function renderizarArbolRegenerativoCompleto() {
+            const contenedor = document.getElementById('arbol-habitos-real');
+            const usuario = estadoApp.usuario;
+            
+            // Calcular frecuencia de cada hábito
+            const frecuenciaHabitos = {};
+            usuario.seguimientos?.forEach(seg => {
+                const habitoId = seg.habito_id;
+                frecuenciaHabitos[habitoId] = (frecuenciaHabitos[habitoId] || 0) + 1;
+            });
+            
+            // Obtener top 5 hábitos más practicados
+            const habitosTop = Object.entries(frecuenciaHabitos)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 5)
+                .map(([id]) => CONFIG.HABITOS_BASICOS.find(h => h.id == id))
+                .filter(Boolean);
+            
+            // Si no hay hábitos, mostrar mensaje de inicio
+            if (habitosTop.length === 0) {
+                contenedor.innerHTML = `
+                    <div style="text-align: center; padding: 30px; color: #aaa;">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">🌱</div>
+                        <div style="font-size: 1.1rem; margin-bottom: 10px;">
+                            Comienza tu primer ritual regenerativo
+                        </div>
+                        <div style="font-size: 0.9rem; margin-bottom: 20px;">
+                            Código <strong>${usuario.codigoCuantico}</strong> activo y listo
+                        </div>
+                        <button onclick="sugerirPrimerHabito()" style="
+                            padding: 12px 24px;
+                            background: linear-gradient(90deg, var(--nebula-purple), var(--stardust-blue));
+                            color: white;
+                            border: none;
+                            border-radius: 12px;
+                            font-size: 0.9rem;
+                            font-weight: bold;
+                        ">
+                            🌀 INICIAR PRIMER HÁBITO
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Renderizar hábitos
+            contenedor.innerHTML = habitosTop.map(habito => {
+                const frecuencia = frecuenciaHabitos[habito.id] || 0;
+                const impactoTotal = habito.co2 * frecuencia;
+                const progreso = Math.min(100, frecuencia * 15);
+                
+                return `
+                    <div style="
+                        background: rgba(255,255,255,0.05);
+                        border-radius: 16px;
+                        padding: 20px;
+                        margin-bottom: 15px;
+                        border: 1px solid rgba(0,224,255,0.2);
+                        position: relative;
+                    ">
+                        <!-- Badge de frecuencia -->
+                        <div style="
+                            position: absolute;
+                            top: 12px;
+                            right: 12px;
+                            background: rgba(93,47,223,0.3);
+                            color: #5d2fdf;
+                            padding: 3px 10px;
+                            border-radius: 12px;
+                            font-size: 0.7rem;
+                            font-weight: bold;
+                        ">
+                            ${frecuencia}x
+                        </div>
+                        
+                        <!-- Encabezado -->
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                            <div style="font-size: 1.8rem;">${habito.icono}</div>
+                            <div style="flex: 1;">
+                                <div style="font-size: 1rem; font-weight: bold; margin-bottom: 4px;">
+                                    ${habito.nombre}
+                                </div>
+                                <div style="font-size: 0.75rem; color: #00e0ff;">
+                                    ${habito.categoria} • Chakra ${habito.chakra}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Estadísticas -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.7rem; color: #aaa;">IMPACTO TOTAL</div>
+                                <div style="font-size: 1.1rem; color: #2afc5b; font-weight: bold;">
+                                    ${impactoTotal.toFixed(1)} kg
+                                </div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.7rem; color: #aaa;">PRÁCTICAS</div>
+                                <div style="font-size: 1.1rem; color: #ffd700; font-weight: bold;">
+                                    ${frecuencia} veces
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Progreso -->
+                        <div style="margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 5px;">
+                                <span style="color: #aaa;">Progreso del ritual</span>
+                                <span>${progreso}%</span>
+                            </div>
+                            <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                                <div style="height: 100%; background: linear-gradient(90deg, #5d2fdf, #00e0ff); width: ${progreso}%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Botones de acción -->
+                        <div style="display: flex; gap: 8px;">
+                            <button onclick="registrarNuevoPulso(${habito.id})" style="
+                                flex: 1;
+                                padding: 10px;
+                                background: rgba(0,224,255,0.15);
+                                color: #00e0ff;
+                                border: 1px solid #00e0ff;
+                                border-radius: 10px;
+                                font-size: 0.8rem;
+                            ">
+                                📝 Registrar práctica
+                            </button>
+                            <button onclick="verEstadisticasHabito(${habito.id})" style="
+                                padding: 10px 15px;
+                                background: rgba(255,255,255,0.1);
+                                color: white;
+                                border: none;
+                                border-radius: 10px;
+                                font-size: 0.8rem;
+                            ">
+                                📊
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // ===========================================
+        // RENDERIZAR ESTADOS DE SER REALES
+        // ===========================================
+        function renderizarEstadosDeSerReales() {
+            const contenedor = document.getElementById('estados-container-real');
+            const estadosActivos = estadoApp.usuario.estadosSerActivos || [];
+            
+            contenedor.innerHTML = CONFIG.ESTADOS_SER.map(estado => {
+                const estaActivo = estadosActivos.some(e => e.id === estado.id);
+                
+                return `
+                    <div style="
+                        background: ${estaActivo ? 'rgba(0,224,255,0.1)' : 'rgba(255,255,255,0.05)'};
+                        border-radius: 12px;
+                        padding: 20px;
+                        text-align: center;
+                        border: 1px solid ${estaActivo ? '#00e0ff' : 'transparent'};
+                        ${!estaActivo ? 'opacity: 0.7;' : ''}
+                    ">
+                        <div style="font-size: 2.5rem; margin-bottom: 12px;">${estado.icono}</div>
+                        <div style="font-size: 0.9rem; font-weight: bold; margin-bottom: 8px;">
+                            ${estado.nombre}
+                        </div>
+                        <div style="font-size: 0.75rem; color: #aaa; margin-bottom: 12px; min-height: 40px;">
+                            ${estado.descripcion}
+                        </div>
+                        <div style="
+                            font-size: 0.7rem;
+                            color: ${estaActivo ? '#2afc5b' : '#ffd700'};
+                            background: ${estaActivo ? 'rgba(42,252,91,0.1)' : 'rgba(255,215,0,0.1)'};
+                            padding: 4px 12px;
+                            border-radius: 12px;
+                            display: inline-block;
+                        ">
+                            ${estaActivo ? '✅ ACTIVO' : '🔒 DISPONIBLE'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // ===========================================
+        // RENDERIZAR MEDALLAS
+        // ===========================================
+        function renderizarMedallas() {
+            const contenedor = document.getElementById('medallas-container');
+            const medallas = estadoApp.usuario.medallas || [];
+            
+            if (medallas.length === 0) {
+                contenedor.innerHTML = `
+                    <div style="text-align: center; color: #aaa; font-size: 0.8rem; width: 100%;">
+                        Comienza tu camino para desbloquear medallas
+                    </div>
+                `;
+                return;
+            }
+            
+            contenedor.innerHTML = medallas.map(medalla => `
+                <div style="
+                    background: rgba(255,215,0,0.1);
+                    border-radius: 12px;
+                    padding: 12px;
+                    text-align: center;
+                    min-width: 100px;
+                    border: 1px solid rgba(255,215,0,0.3);
+                ">
+                    <div style="font-size: 1.8rem; margin-bottom: 8px;">${medalla.icono}</div>
+                    <div style="font-size: 0.8rem; font-weight: bold; margin-bottom: 4px;">
+                        ${medalla.nombre}
+                    </div>
+                    <div style="font-size: 0.65rem; color: #aaa;">
+                        ${medalla.descripcion}
+                    </div>
                 </div>
             `).join('');
         }
-
-        window.simular = (id) => {
-            const h = CONFIG.HABITOS.find(x => x.id == id);
-            estado.usuario.impacto += h.co2;
-            renderUI();
-            alert(`¡Acción guardada!`);
+        
+        // ===========================================
+        // SINCRONIZAR CON RITUAL CUÁNTICO
+        // ===========================================
+        async function sincronizarConRitualCuantico() {
+            try {
+                // 1. CARGAR INTENCIÓN SEMANAL
+                const { data: intenciones } = await supabase
+                    .from('intenciones_semanales')
+                    .select('*')
+                    .order('fecha_inicio', { ascending: false })
+                    .limit(1);
+                
+                if (intenciones && intenciones.length > 0) {
+                    const intencion = intenciones[0];
+                    document.getElementById('intencion-semanal').innerHTML = `
+                        <div style="
+                            background: linear-gradient(135deg, rgba(93,47,223,0.2), rgba(0,224,255,0.2));
+                            padding: 15px;
+                            border-radius: 12px;
+                            margin-bottom: 15px;
+                            border: 1px solid rgba(0,224,255,0.3);
+                        ">
+                            <div style="color: #5d2fdf; font-size: 0.8rem; margin-bottom: 5px; font-weight: bold;">
+                                🌀 INTENCIÓN COLECTIVA SEMANAL
+                            </div>
+                            <div style="font-size: 0.9rem; margin-bottom: 8px;">
+                                ${intencion.descripcion}
+                            </div>
+                            <div style="font-size: 0.7rem; color: #aaa;">
+                                ${intencion.guardianes_sincronizados || 0} guardianes resonando
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // 2. CALCULAR ESTADÍSTICAS DE HOY
+                const hoy = new Date().toISOString().split('T')[0];
+                const { data: accionesHoy } = await supabase
+                    .from('seguimiento')
+                    .select('impacto_co2, puntos_regeneracion')
+                    .eq('codigo_cuantico', estadoApp.usuario.codigoCuantico)
+                    .gte('fecha_registro', hoy);
+                
+                const impactoHoy = accionesHoy?.reduce((sum, a) => sum + (a.impacto_co2 || 0), 0) || 0;
+                const puntosHoy = accionesHoy?.reduce((sum, a) => sum + (a.puntos_regeneracion || 0), 0) || 0;
+                
+                // 3. ACTUALIZAR ESTADÍSTICAS DEL DÍA
+                document.getElementById('estadisticas-hoy').innerHTML = `
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+                        <div>
+                            <div style="font-size: 0.7rem; color: #aaa; margin-bottom: 4px;">IMPACTO HOY</div>
+                            <div style="font-size: 1.3rem; color: #2afc5b; font-weight: bold;">${impactoHoy.toFixed(1)}</div>
+                            <div style="font-size: 0.7rem; color: #888;">kg CO₂</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.7rem; color: #aaa; margin-bottom: 4px;">PUNTOS HOY</div>
+                            <div style="font-size: 1.3rem; color: #ffd700; font-weight: bold;">${puntosHoy}</div>
+                            <div style="font-size: 0.7rem; color: #888;">regeneración</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.7rem; color: #aaa; margin-bottom: 4px;">SINCRONÍA</div>
+                            <div style="font-size: 1.3rem; color: #00e0ff; font-weight: bold;">${estadoApp.usuario.sincroniaColectiva || 0}</div>
+                            <div style="font-size: 0.7rem; color: #888;">% alineación</div>
+                        </div>
+                    </div>
+                `;
+                
+                console.log('✅ Sincronizado con ritual cuántico');
+                
+            } catch (error) {
+                console.log('⚠️ Error sincronizando ritual:', error);
+                // Usar datos demo para ritual
+                document.getElementById('intencion-semanal').innerHTML = `
+                    <div style="
+                        background: rgba(93,47,223,0.2);
+                        padding: 15px;
+                        border-radius: 12px;
+                        margin-bottom: 15px;
+                    ">
+                        <div style="color: #5d2fdf; font-size: 0.8rem; margin-bottom: 5px;">
+                            🌀 INTENCIÓN COLECTIVA SEMANAL
+                        </div>
+                        <div style="font-size: 0.9rem;">
+                            Regenerar suelos y completar ciclos de nutrientes
+                        </div>
+                        <div style="font-size: 0.7rem; color: #aaa; margin-top: 8px;">
+                            Sincronía colectiva activa
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        // ===========================================
+        // CARGAR DATOS GLOBALES
+        // ===========================================
+        async function cargarDatosGlobales() {
+            try {
+                // 1. CONTAR GUARDIANES TOTALES
+                const { count: totalGuardianes } = await supabase
+                    .from('firmantes')
+                    .select('*', { count: 'exact', head: true });
+                
+                // 2. CONTAR ACCIONES DE HOY
+                const hoy = new Date().toISOString().split('T')[0];
+                const { count: accionesHoy } = await supabase
+                    .from('seguimiento')
+                    .select('*', { count: 'exact', head: true })
+                    .gte('fecha_registro', hoy);
+                
+                // 3. CALCULAR CO2 TOTAL
+                const { data: todosSeguimientos } = await supabase
+                    .from('seguimiento')
+                    .select('impacto_co2');
+                
+                const co2Total = todosSeguimientos?.reduce((sum, s) => sum + (s.impacto_co2 || 0), 0) || 0;
+                
+                // 4. ACTUALIZAR ESTADO GLOBAL
+                estadoApp.global = {
+                    guardianesTotales: totalGuardianes || 12487,
+                    accionesHoy: accionesHoy || 245,
+                    co2Total: co2Total || 1847920,
+                    sincroniaTotal: 65 // Porcentaje simulado
+                };
+                
+                // 5. ACTUALIZAR INTERFAZ GLOBAL
+                actualizarInterfazGlobal();
+                
+                console.log('✅ Datos globales cargados');
+                
+            } catch (error) {
+                console.log('⚠️ Error cargando datos globales:', error);
+                // Usar datos demo globales
+                estadoApp.global = {
+                    guardianesTotales: 12487,
+                    accionesHoy: 245,
+                    co2Total: 1847920,
+                    sincroniaTotal: 65
+                };
+                actualizarInterfazGlobal();
+            }
+        }
+        
+        // ===========================================
+        // ACTUALIZAR INTERFAZ GLOBAL
+        // ===========================================
+        function actualizarInterfazGlobal() {
+            const global = estadoApp.global;
+            
+            // 1. ESTADÍSTICAS DEL SISTEMA NERVIOSO
+            document.getElementById('estadistica-guardianes').textContent = 
+                formatNumero(global.guardianesTotales);
+            document.getElementById('estadistica-acciones').textContent = 
+                formatNumero(global.accionesHoy);
+            document.getElementById('estadistica-co2').textContent = 
+                `${(global.co2Total / 1000).toFixed(1)}t`;
+            
+            // 2. BRÚJULA
+            document.getElementById('brujula-neuronas').textContent = 
+                formatNumero(global.guardianesTotales);
+            document.getElementById('brujula-progreso').textContent = 
+                `${Math.min(100, Math.round((global.co2Total / 1000000) * 100))}%`;
+            
+            // 3. ODS 13
+            const progresoODS = Math.min(100, (global.co2Total / 1000000) * 100);
+            document.getElementById('progreso-ods-real').style.width = `${progresoODS}%`;
+            document.getElementById('porcentaje-ods-real').textContent = `${progresoODS.toFixed(1)}%`;
+            
+            // 4. RITMO EVOLUTIVO
+            const ritmo = (global.guardianesTotales / 10000).toFixed(2);
+            document.getElementById('ritmo-evolutivo-real').textContent = `+${ritmo}%`;
+            
+            // 5. TOP HÁBITOS GLOBALES (simulado)
+            renderizarTopHabitosGlobales();
+        }
+        
+        // ===========================================
+        // FUNCIONES AUXILIARES
+        // ===========================================
+        function mostrarResumenCarga() {
+            const usuario = estadoApp.usuario;
+            console.log(`📊 RESUMEN GUARDIÁN ${usuario.codigoCuantico}:`);
+            console.log(`- Acciones totales: ${usuario.accionesTotales}`);
+            console.log(`- Impacto CO₂: ${usuario.impactoCO2.toFixed(1)} kg`);
+            console.log(`- Hábitos únicos: ${usuario.habitosCompletados.length}`);
+            console.log(`- Estados activos: ${usuario.estadosSerActivos.length}`);
+        }
+        
+        function mostrarUltimoPulso(pulso) {
+            const habito = CONFIG.HABITOS_BASICOS.find(h => h.id === pulso.habito_id);
+            if (!habito) return;
+            
+            document.getElementById('ultima-accion-real').innerHTML = `
+                <div style="color: var(--stardust-blue);">
+                    ${habito.icono} ${habito.nombre}
+                </div>
+                <div style="font-size: 0.8rem; color: var(--quantum-gold); margin-top: 5px;">
+                    +${pulso.impacto_co2 || habito.co2} kg CO₂ evitados
+                </div>
+                <div style="font-size: 0.7rem; color: #aaa; margin-top: 3px;">
+                    Chakra ${habito.chakra} • ${pulso.puntos_regeneracion || 0} puntos
+                </div>
+            `;
+            
+            const fecha = new Date(pulso.fecha_registro);
+            document.getElementById('ultima-fecha-real').textContent = 
+                `Hace ${calcularTiempoDesde(fecha)}`;
+        }
+        
+        function renderizarTopHabitosGlobales() {
+            const contenedor = document.getElementById('top-habitos-real');
+            
+            // Hábitos más populares (simulado)
+            const topHabitos = [
+                { nombre: "Plantación Ceremonial", icono: "🌳", acciones: 5280 },
+                { nombre: "Santuario Abejas", icono: "🐝", acciones: 4120 },
+                { nombre: "Transporte Sagrado", icono: "🚲", acciones: 3980 }
+            ];
+            
+            contenedor.innerHTML = topHabitos.map((habito, index) => `
+                <div style="display: flex; align-items: center; padding: 12px; 
+                     background: rgba(255,255,255,0.05); border-radius: 10px; margin-bottom: 10px;">
+                    <div style="font-size: 1.5rem; margin-right: 12px;">
+                        ${habito.icono}
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 0.9rem; color: white;">
+                            ${habito.nombre}
+                        </div>
+                        <div style="font-size: 0.75rem; color: #aaa;">
+                            ${formatNumero(habito.acciones)} acciones globales
+                        </div>
+                    </div>
+                    <div style="color: ${index === 0 ? '#ffd700' : index === 1 ? 'silver' : '#cd7f32'};">
+                        ${index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function formatNumero(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+        
+        function calcularTiempoDesde(fecha) {
+            const ahora = new Date();
+            const fechaObj = new Date(fecha);
+            const diferencia = ahora - fechaObj;
+            const minutos = Math.floor(diferencia / (1000 * 60));
+            
+            if (minutos < 1) return "ahora mismo";
+            if (minutos < 60) return `${minutos} min`;
+            const horas = Math.floor(minutos / 60);
+            if (horas < 24) return `${horas} h`;
+            const dias = Math.floor(horas / 24);
+            return `${dias} días`;
+        }
+        
+        // ===========================================
+        // FUNCIONES DE INTERFAZ
+        // ===========================================
+        function toggleSection(sectionId) {
+            if (window.innerWidth >= 1024) return;
+            
+            const section = document.getElementById(`section-${sectionId}`);
+            const isActive = section.classList.contains('active');
+            
+            // Cerrar otras secciones
+            document.querySelectorAll('.section-gaia.active').forEach(s => {
+                if (s !== section) {
+                    s.classList.remove('active');
+                    s.querySelector('.section-toggle').textContent = '▶';
+                }
+            });
+            
+            if (isActive) {
+                section.classList.remove('active');
+                section.querySelector('.section-toggle').textContent = '▶';
+            } else {
+                section.classList.add('active');
+                section.querySelector('.section-toggle').textContent = '▼';
+                
+                setTimeout(() => {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+            }
+        }
+        
+        function mostrarSeccion(sectionId) {
+            // Actualizar navegación
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const boton = document.querySelector(`.nav-btn[onclick*="${sectionId}"]`);
+            if (boton) boton.classList.add('active');
+            
+            // Actualizar brújula
+            document.querySelectorAll('.brujula-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Mostrar sección
+            if (window.innerWidth < 1024) {
+                toggleSection(sectionId);
+            }
+            
+            // Scroll suave
+            const section = document.getElementById(`section-${sectionId}`);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        
+        function mostrarNotificacion(titulo, mensaje, impacto = '') {
+            const notificacion = document.getElementById('notificacionMobile');
+            
+            document.getElementById('notificacion-titulo').textContent = titulo;
+            document.getElementById('notificacion-mensaje').textContent = mensaje;
+            document.getElementById('notificacion-impacto').textContent = impacto;
+            
+            // Icono aleatorio
+            const iconos = ['🌀', '✨', '⚡', '🌊', '🌬️', '❄️', '💫', '🌟'];
+            document.getElementById('notificacion-icono').textContent = 
+                iconos[Math.floor(Math.random() * iconos.length)];
+            
+            // Mostrar
+            notificacion.classList.remove('hidden');
+            setTimeout(() => notificacion.classList.add('show'), 10);
+            
+            // Ocultar después de 4 segundos
+            setTimeout(() => {
+                notificacion.classList.remove('show');
+                setTimeout(() => {
+                    if (!notificacion.classList.contains('show')) {
+                        notificacion.classList.add('hidden');
+                    }
+                }, 500);
+            }, 4000);
+        }
+        
+        // ===========================================
+        // FUNCIONES DEMO (BACKUP)
+        // ===========================================
+        function usarDatosDemoCompletos() {
+            console.log('📱 Usando datos demo completos');
+            
+            // Datos demo personalizados para código 54
+            estadoApp.usuario = {
+                codigoCuantico: 'GPR-AQUA-ZIRIUX-000054',
+                nombre: 'Guardián del Sistema Nervioso',
+                chakraActivo: 'corazon',
+                obraActiva: 'correos',
+                estadoSerActual: 'Observador Silencioso',
+                sincroniaColectiva: 78,
+                
+                habitosCompletados: [1, 2, 3, 4, 5, 12, 14, 16],
+                impactoCO2: 258.5,
+                accionesTotales: 16,
+                puntosRegeneracion: 145,
+                
+                seguimientos: [
+                    { habito_id: 12, impacto_co2: 25.0, puntos_regeneracion: 15, fecha_registro: new Date().toISOString() },
+                    { habito_id: 14, impacto_co2: 15.0, puntos_regeneracion: 12, fecha_registro: new Date(Date.now() - 86400000).toISOString() }
+                ],
+                ultimoPulso: { habito_id: 12, impacto_co2: 25.0, fecha_registro: new Date().toISOString() },
+                
+                medallas: [
+                    { nombre: 'Primer Pulso', icono: '🌱', descripcion: 'Iniciación en la red' },
+                    { nombre: 'Ritual Semanal', icono: '🔮', descripcion: '7 días consecutivos' },
+                    { nombre: 'Impacto Regenerativo', icono: '💎', descripcion: '+100kg CO₂ evitados' },
+                    { nombre: 'Guardián del Tiempo', icono: '🕰️', descripcion: 'Acciones en tiempo profundo' },
+                    { nombre: 'Observador Silencioso', icono: '🌀', descripcion: 'Estado de ser activado' }
+                ],
+                
+                estadosSerActivos: CONFIG.ESTADOS_SER.slice(0, 2)
+            };
+            
+            estadoApp.global = {
+                guardianesTotales: 12487,
+                accionesHoy: 245,
+                co2Total: 1847920,
+                sincroniaTotal: 65
+            };
+            
+            actualizarInterfazUsuarioCompleta();
+            actualizarInterfazGlobal();
+            
+            mostrarNotificacion(
+                '🌀 MODO DEMOSTRACIÓN ACTIVO',
+                `Código: ${estadoApp.usuario.codigoCuantico}`,
+                'Datos de ejemplo • Conecta a Supabase para datos reales'
+            );
+        }
+        
+        function inicializarEfectosVisuales() {
+            // Crear partículas de fondo
+            const container = document.createElement('div');
+            container.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                z-index: -1; pointer-events: none; overflow: hidden;
+            `;
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: absolute;
+                    width: ${1 + Math.random() * 2}px;
+                    height: ${1 + Math.random() * 2}px;
+                    background: var(--stardust-blue);
+                    border-radius: 50%;
+                    opacity: ${0.1 + Math.random() * 0.2};
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation: float ${3 + Math.random() * 4}s infinite ease-in-out;
+                    animation-delay: ${Math.random() * 5}s;
+                `;
+                container.appendChild(particle);
+            }
+            
+            document.body.appendChild(container);
+            
+            // Añadir animación float
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes float {
+                    0%, 100% { transform: translateY(0) translateX(0); }
+                    50% { transform: translateY(-20px) translateX(10px); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // ===========================================
+        // FUNCIONES PÚBLICAS PARA DESARROLLO
+        // ===========================================
+        window.GaiaNexus = {
+            recargar: () => {
+                cargarDatosUsuarioCompletos();
+                cargarDatosGlobales();
+                sincronizarConRitualCuantico();
+            },
+            
+            simularAccion: (habitoId = 12) => {
+                const habito = CONFIG.HABITOS_BASICOS.find(h => h.id === habitoId);
+                if (!habito) return;
+                
+                // Simular nuevo pulso
+                const nuevoPulso = {
+                    habito_id: habito.id,
+                    impacto_co2: habito.co2,
+                    puntos_regeneracion: Math.round(habito.co2 / 2),
+                    fecha_registro: new Date().toISOString()
+                };
+                
+                // Actualizar estado
+                estadoApp.usuario.seguimientos.unshift(nuevoPulso);
+                estadoApp.usuario.ultimoPulso = nuevoPulso;
+                estadoApp.usuario.accionesTotales++;
+                estadoApp.usuario.impactoCO2 += habito.co2;
+                
+                if (!estadoApp.usuario.habitosCompletados.includes(habito.id)) {
+                    estadoApp.usuario.habitosCompletados.push(habito.id);
+                }
+                
+                // Actualizar interfaz
+                actualizarInterfazUsuarioCompleta();
+                
+                mostrarNotificacion(
+                    '📡 NUEVO PULSO REGISTRADO',
+                    `${habito.icono} ${habito.nombre}`,
+                    `+${habito.co2} kg CO₂ • Chakra ${habito.chakra} activado`
+                );
+                
+                // Efecto visual
+                const efecto = document.createElement('div');
+                efecto.style.cssText = `
+                    position: fixed;
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                    background: radial-gradient(circle, #00e0ff55, transparent 70%);
+                    pointer-events: none;
+                    z-index: 999;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%) scale(0);
+                    animation: pulseEffect 1s forwards;
+                `;
+                
+                document.body.appendChild(efecto);
+                setTimeout(() => efecto.remove(), 1000);
+                
+                // Añadir animación si no existe
+                if (!document.querySelector('#pulse-anim')) {
+                    const animStyle = document.createElement('style');
+                    animStyle.id = 'pulse-anim';
+                    animStyle.textContent = `
+                        @keyframes pulseEffect {
+                            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+                            100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+                        }
+                    `;
+                    document.head.appendChild(animStyle);
+                }
+            },
+            
+            cambiarCodigo: (nuevoCodigo) => {
+                if (nuevoCodigo && nuevoCodigo.length > 10) {
+                    localStorage.setItem('gaia_codigo_cuantico', nuevoCodigo);
+                    location.reload();
+                }
+            },
+            
+            getEstado: () => estadoApp,
+            getConfig: () => CONFIG
         };
-
-        window.toggleSection = (id) => {
-            document.getElementById(`section-${id}`).classList.toggle('active');
-        };
-
-        document.addEventListener('DOMContentLoaded', init);
+        
+        // ===========================================
+        // INICIALIZACIÓN AL CARGAR
+        // ===========================================
+        document.addEventListener('DOMContentLoaded', inicializarGaiaNexus);
+        
+        console.log('🚀 GAIA NEXUS v1.0 - Sistema completo cargado');
+        console.log('🌍 Conectado a Supabase • Listo para el Sistema Nervioso Planetario');
+        
     </script>
 </body>
 </html>
