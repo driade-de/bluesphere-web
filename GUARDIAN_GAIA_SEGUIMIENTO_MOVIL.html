@@ -1345,8 +1345,19 @@
             }, 10000);
             
             // Actualizar inmediatamente
-           const idGuardian = "GPR-AQUA-ZIRIUX-000052"; const titulo = document.querySelector('.header-container h1'); if(titulo) { titulo.style.marginBottom = "5px"; titulo.insertAdjacentHTML('afterend', `<div id="guardian-tag" style="font-size:0.65rem; color:#00e0ff; letter-spacing:2px; margin-bottom:15px; text-shadow: 0 0 8px #00e0ff; font-family:monospace; font-weight:bold; text-align:center;">🛡️ AUTENTICADO: ${idGuardian}</div>`); } actualizarPentagramaReal();
-            actualizarPentagramaReal();
+            // --- SISTEMA DE IDENTIDAD VALIDADA (LÍNEA 1348) ---
+const idGuardian = "GPR-AQUA-ZIRIUX-000052"; // Usamos tu código real para forzar la visibilidad
+const headerElement = document.querySelector('.header-container');
+
+if (headerElement) {
+    const badge = document.createElement('div');
+    badge.innerHTML = `🛡️ MÓDULO ACTIVADO: <span style="color:#00e0ff; text-shadow: 0 0 8px #00e0ff;">${idGuardian}</span>`;
+    badge.style = "font-size: 0.7rem; font-family: monospace; letter-spacing: 2px; margin-top: 10px; color: rgba(255,255,255,0.7); text-align: center;";
+    headerElement.appendChild(badge);
+}
+
+actualizarPentagramaReal(); // Esta línea debe seguir para traer el CO2
+           actualizarPentagramaReal();
             console.log("✅ GUARDIÁN GAIA - LISTO");
         };
         
