@@ -1,1 +1,1614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUARDIÁN GAIA - Pentagrama Planetario</title>
+    
+    <!-- Partículas -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    
+    <!-- Supabase -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    
+    <style>
+        /* =========================================== */
+        /* ESTILOS BASE - NUEVOS Y LIMPIOS */
+        /* =========================================== */
+        :root {
+            --espacio-profundo: #0a0a16;
+            --azul-brillante: #00e0ff;
+            --verde-gaia: #2afc5b;
+            --dorado-cuantico: #ffd700;
+            --rojo-alerta: #ff3366;
+            --purpura-nebulosa: #5d2fdf;
+            --conciencia-alta: #00ffaa;
+            --conciencia-media: #ffaa00;
+            --conciencia-baja: #ff5555;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--espacio-profundo);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 15px;
+        }
+        
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            top: 0;
+            left: 0;
+        }
+        
+        /* =========================================== */
+        /* CONTENEDOR PRINCIPAL */
+        /* =========================================== */
+        .contenedor-principal {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        /* =========================================== */
+        /* CABECERA */
+        /* =========================================== */
+        .cabecera-gaia {
+            background: rgba(10, 10, 22, 0.85);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(0, 224, 255, 0.3);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            animation: pulso-gaia 8s infinite alternate;
+        }
+        
+        @keyframes pulso-gaia {
+            0% { border-color: rgba(0, 224, 255, 0.3); }
+            50% { border-color: rgba(42, 252, 91, 0.4); }
+            100% { border-color: rgba(0, 224, 255, 0.3); }
+        }
+        
+        .titulo-principal {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #fff, var(--azul-brillante));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .subtitulo {
+            color: #88eeff;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .indicadores {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .indicadores {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .indicador {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .indicador-valor {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--dorado-cuantico);
+            margin-bottom: 5px;
+        }
+        
+        .indicador-label {
+            font-size: 0.75rem;
+            color: #aaa;
+        }
+        
+        /* =========================================== */
+        /* PENTAGRAMA GAIA - ESTILOS */
+        /* =========================================== */
+        .pentagrama-seccion {
+            background: rgba(10, 10, 22, 0.9);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(0, 224, 255, 0.3);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .pentagrama-titulo {
+            color: var(--verde-gaia);
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .pentagrama-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .pentagrama-item {
+            padding: 18px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .pentagrama-item:active {
+            transform: translateY(-2px);
+        }
+        
+        .pentagrama-icono {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .pentagrama-nombre {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #e0e0e0;
+        }
+        
+        .pentagrama-valor {
+            font-size: 1.5rem;
+            text-align: center;
+            margin: 12px 0;
+            font-weight: bold;
+            color: var(--dorado-cuantico);
+        }
+        
+        .pentagrama-unidad {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-left: 3px;
+        }
+        
+        .pentagrama-tendencia {
+            font-size: 0.85rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .tendencia-positiva { color: #4caf50; }
+        .tendencia-negativa { color: #ff6b6b; }
+        
+        /* Colores por métrica */
+        .co2-item { border-color: rgba(255, 87, 34, 0.4); }
+        .temperatura-item { border-color: rgba(255, 193, 7, 0.4); }
+        .hielo-item { border-color: rgba(33, 150, 243, 0.4); }
+        .nivel-mar-item { border-color: rgba(3, 169, 244, 0.4); }
+        .biodiversidad-item { border-color: rgba(76, 175, 80, 0.4); }
+        
+        /* =========================================== */
+        /* HÁBITOS REGENERATIVOS - 18 HÁBITOS */
+        /* =========================================== */
+        .habitos-seccion {
+            background: rgba(10, 10, 22, 0.9);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(42, 252, 91, 0.3);
+        }
+        
+        .habitos-titulo {
+            color: var(--verde-gaia);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .filtros-habitos {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .filtro-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .filtro-btn.activo {
+            background: var(--azul-brillante);
+            color: black;
+            font-weight: bold;
+        }
+        
+        .lista-habitos {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .habito-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 18px;
+            border-left: 4px solid var(--verde-gaia);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .habito-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(42, 252, 91, 0.05) 50%, transparent 70%);
+            transform: translateX(-100%);
+        }
+        
+        .habito-card:active::before {
+            animation: brillo-habito 1.5s ease;
+        }
+        
+        @keyframes brillo-habito {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .habito-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .habito-nombre {
+            font-weight: bold;
+            font-size: 1rem;
+            color: white;
+        }
+        
+        .habito-conciencia {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .punto-conciencia {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .habito-impacto {
+            color: var(--verde-gaia);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .habito-descripcion {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        
+        .ods-mini {
+            display: flex;
+            gap: 5px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        
+        .ods-mini-item {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .habito-mantra {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: var(--conciencia-alta);
+            text-align: center;
+        }
+        
+        .habito-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .habito-adopcion {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        
+        .btn-registrar {
+            padding: 6px 14px;
+            background: var(--verde-gaia);
+            border: none;
+            border-radius: 15px;
+            color: black;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+        
+        /* =========================================== */
+        /* REGISTRO DIARIO */
+        /* =========================================== */
+        .registro-seccion {
+            background: linear-gradient(135deg, 
+                rgba(0, 224, 255, 0.1), 
+                rgba(93, 47, 223, 0.1));
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(0, 224, 255, 0.3);
+            text-align: center;
+        }
+        
+        .registro-titulo {
+            color: var(--azul-brillante);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .registro-texto {
+            color: #ccc;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .btn-registro-principal {
+            background: var(--verde-gaia);
+            border: none;
+            padding: 14px 30px;
+            border-radius: 25px;
+            color: black;
+            font-weight: bold;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        /* =========================================== */
+        /* MODAL */
+        /* =========================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: aparecer-modal 0.3s ease;
+        }
+        
+        @keyframes aparecer-modal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-contenido {
+            background: var(--espacio-profundo);
+            border-radius: 20px;
+            padding: 25px;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid var(--azul-brillante);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-titulo {
+            color: var(--verde-gaia);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+        
+        .modal-input-group {
+            margin-bottom: 20px;
+        }
+        
+        .modal-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--azul-brillante);
+            font-size: 0.9rem;
+        }
+        
+        .modal-select, .modal-input, .modal-textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 0.95rem;
+        }
+        
+        .modal-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .botones-modal {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        
+        .btn-guardar {
+            flex: 1;
+            padding: 12px;
+            background: var(--verde-gaia);
+            border: none;
+            border-radius: 15px;
+            color: black;
+            font-weight: bold;
+        }
+        
+        .btn-cerrar {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 15px;
+            color: white;
+        }
+        
+        /* =========================================== */
+        /* RESPONSIVE */
+        /* =========================================== */
+        @media (min-width: 768px) {
+            .pentagrama-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .lista-habitos {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .pentagrama-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .lista-habitos {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* =========================================== */
+        /* ANIMACIONES Y ESTADOS */
+        /* =========================================== */
+        .cargando {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--azul-brillante);
+            font-style: italic;
+        }
+        
+        .mensaje-exito {
+            text-align: center;
+            padding: 15px;
+            background: rgba(76, 175, 80, 0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(76, 175, 80, 0.4);
+            margin: 10px 0;
+            color: #a5d6a7;
+        }
+        
+        /* Selector ODS */
+        .selector-ods {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+        
+        .ods-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Fondo de partículas -->
+    <div id="particles-js"></div>
+    
+    <!-- Contenedor principal -->
+    <div class="contenedor-principal">
+        
+        <!-- CABECERA -->
+        <header class="cabecera-gaia">
+            <h1 class="titulo-principal">🌍 GUARDIÁN GAIA</h1>
+            <p class="subtitulo">Pentagrama Planetario - Sistema de Seguimiento</p>
+            
+            <div class="indicadores">
+                <div class="indicador">
+                    <div class="indicador-valor" id="indicador-conciencia">78.4%</div>
+                    <div class="indicador-label">Conciencia</div>
+                </div>
+                <div class="indicador">
+                    <div class="indicador-valor" id="indicador-habitos">18</div>
+                    <div class="indicador-label">Hábitos Activos</div>
+                </div>
+                <div class="indicador">
+                    <div class="indicador-valor" id="indicador-impacto">0.0</div>
+                    <div class="indicador-label">kg CO₂ Evitados</div>
+                </div>
+                <div class="indicador">
+                    <div class="indicador-valor" id="indicador-racha">0</div>
+                    <div class="indicador-label">Días de Racha</div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- PENTAGRAMA GAIA -->
+        <section class="pentagrama-seccion">
+            <h2 class="pentagrama-titulo">🌍 PENTAGRAMA GAIA - ESTADO PLANETARIO</h2>
+            <div class="pentagrama-grid" id="pentagrama-contenido">
+                <div class="cargando">Conectando con telemetría planetaria...</div>
+            </div>
+        </section>
+        
+        <!-- HÁBITOS REGENERATIVOS - LOS 18 HÁBITOS -->
+        <section class="habitos-seccion">
+            <h2 class="habitos-titulo">🌿 MIS 18 HÁBITOS REGENERATIVOS</h2>
+            
+            <div class="filtros-habitos">
+                <button class="filtro-btn activo" onclick="filtrarHabitos('todos')">🌍 Todos</button>
+                <button class="filtro-btn" onclick="filtrarHabitos('alta')">💎 Alta Conciencia</button>
+                <button class="filtro-btn" onclick="filtrarHabitos('media')">⚡ Media Conciencia</button>
+                <button class="filtro-btn" onclick="mostrarSelectorODS()">🎯 Por ODS</button>
+            </div>
+            
+            <div class="lista-habitos" id="lista-habitos">
+                <!-- Los 18 hábitos se cargarán dinámicamente -->
+            </div>
+        </section>
+        
+        <!-- REGISTRO DIARIO -->
+        <section class="registro-seccion">
+            <h2 class="registro-titulo">📊 REGISTRO DE IMPACTO DIARIO</h2>
+            <p class="registro-texto">
+                "Cada hábito registrado es un latido en la red planetaria. Tu acción cuenta."
+            </p>
+            <button class="btn-registro-principal" onclick="abrirRegistroDiario()">
+                📝 REGISTRAR MI IMPACTO HOY
+            </button>
+        </section>
+        
+    </div>
 
+    <!-- MODAL DE REGISTRO (oculto inicialmente) -->
+    <div id="modal-registro" class="modal-overlay" style="display: none;">
+        <div class="modal-contenido">
+            <h2 class="modal-titulo">📝 REGISTRAR HÁBITO</h2>
+            
+            <div class="modal-input-group">
+                <label class="modal-label">Hábito:</label>
+                <select class="modal-select" id="select-habito">
+                    <option value="">Selecciona un hábito</option>
+                    <!-- Opciones cargadas dinámicamente -->
+                </select>
+            </div>
+            
+            <div class="modal-input-group">
+                <label class="modal-label">Impacto (kg CO₂ evitados):</label>
+                <input type="number" class="modal-input" id="input-impacto" min="0.1" max="10" step="0.1" value="0.5">
+            </div>
+            
+            <div class="modal-input-group">
+                <label class="modal-label">Nivel de conciencia:</label>
+                <select class="modal-select" id="input-conciencia">
+                    <option value="1">😴 1 - Automático</option>
+                    <option value="2">😐 2 - Consciente</option>
+                    <option value="3" selected>🙂 3 - Intencional</option>
+                    <option value="4">😊 4 - Comprometido</option>
+                    <option value="5">😇 5 - Integral</option>
+                </select>
+            </div>
+            
+            <div class="modal-input-group">
+                <label class="modal-label">Notas (opcional):</label>
+                <textarea class="modal-textarea" id="input-notas" placeholder="¿Cómo te sentiste? ¿Qué aprendiste?"></textarea>
+            </div>
+            
+            <div class="botones-modal">
+                <button class="btn-guardar" onclick="guardarRegistro()">💾 GUARDAR REGISTRO</button>
+                <button class="btn-cerrar" onclick="cerrarModal()">CANCELAR</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===========================================
+        // CONFIGURACIÓN INICIAL
+        // ===========================================
+        console.log("🌍 GUARDIÁN GAIA - INICIANDO SISTEMA...");
+        
+        // Configuración de Supabase
+        const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+        
+        let gaiaSupabase = null;
+        
+        // ===========================================
+        // LOS 18 HÁBITOS REGENERATIVOS
+        // ===========================================
+        const habitosSagrados = [
+            { 
+                id: 1, 
+                nombre: "🥤 Reducir plásticos", 
+                impacto: 0.3, 
+                adopcion: 65,
+                descripcion: "Cada plástico evitado ayuda a los océanos",
+                conciencia: "media",
+                ods: [14, 12, 6],
+                mantra: "Mi consumo honra la pureza de Gaia"
+            },
+            { 
+                id: 2, 
+                nombre: "🚲 Transporte activo", 
+                impacto: 2.5, 
+                adopcion: 45,
+                descripcion: "Moverse sin contaminar: caminar, bicicleta, transporte público",
+                conciencia: "alta",
+                ods: [11, 13, 3],
+                mantra: "Me muevo en armonía con la Tierra"
+            },
+            { 
+                id: 3, 
+                nombre: "💧 Consumo consciente de agua", 
+                impacto: 0.1, 
+                adopcion: 72,
+                descripcion: "Consciencia en cada gota, duchas cortas, cero fugas",
+                conciencia: "alta",
+                ods: [6, 14, 15],
+                mantra: "Honro el agua con presencia"
+            },
+            { 
+                id: 4, 
+                nombre: "🌱 Compras conscientes", 
+                impacto: 1.2, 
+                adopcion: 58,
+                descripcion: "Cada compra es un voto por el futuro que queremos",
+                conciencia: "media",
+                ods: [12, 8, 10],
+                mantra: "Mi dinero siembra el futuro"
+            },
+            { 
+                id: 5, 
+                nombre: "♻️ Reciclaje avanzado", 
+                impacto: 0.4, 
+                adopcion: 68,
+                descripcion: "Separar y procesar correctamente cada material",
+                conciencia: "media",
+                ods: [12, 9, 11],
+                mantra: "Nada se pierde, todo se transforma"
+            },
+            { 
+                id: 6, 
+                nombre: "📵 Silencio digital", 
+                impacto: 0.05, 
+                adopcion: 35,
+                descripcion: "Espacios sin conexión para reconectar con lo esencial",
+                conciencia: "alta",
+                ods: [3, 11, 13],
+                mantra: "Desconecto para reconectar"
+            },
+            { 
+                id: 7, 
+                nombre: "🍃 Alimentación regenerativa", 
+                impacto: 1.8, 
+                adopcion: 42,
+                descripcion: "Comer con conciencia, local, de temporada, sin procesar",
+                conciencia: "alta",
+                ods: [2, 3, 12],
+                mantra: "Este alimento es vida"
+            },
+            { 
+                id: 8, 
+                nombre: "🔋 Ahorro energía consciente", 
+                impacto: 1.5, 
+                adopcion: 55,
+                descripcion: "Consciencia en cada vatio, electrodomésticos eficientes",
+                conciencia: "media",
+                ods: [7, 13, 11],
+                mantra: "La energía fluye con propósito"
+            },
+            { 
+                id: 9, 
+                nombre: "🏖️ Limpieza natural", 
+                impacto: 3.0, 
+                adopcion: 28,
+                descripcion: "Cuidar espacios naturales, recoger residuos en playas/bosques",
+                conciencia: "alta",
+                ods: [14, 15, 11],
+                mantra: "Devuelvo la pureza a la Tierra"
+            },
+            { 
+                id: 10, 
+                nombre: "📚 Educación ambiental", 
+                impacto: 0.2, 
+                adopcion: 40,
+                descripcion: "Compartir conocimiento sobre sostenibilidad",
+                conciencia: "alta",
+                ods: [4, 13, 17],
+                mantra: "El conocimiento es semilla"
+            },
+            { 
+                id: 11, 
+                nombre: "🌳 Reforestación simbólica", 
+                impacto: 5.0, 
+                adopcion: 25,
+                descripcion: "Apoyar o participar en proyectos de reforestación",
+                conciencia: "alta",
+                ods: [13, 15, 17],
+                mantra: "Planto futuro con mis manos"
+            },
+            { 
+                id: 12, 
+                nombre: "🔄 Economía circular", 
+                impacto: 0.8, 
+                adopcion: 38,
+                descripcion: "Reparar, reutilizar, compartir en lugar de comprar nuevo",
+                conciencia: "media",
+                ods: [12, 8, 9],
+                mantra: "Cada ciclo es sagrado"
+            },
+            { 
+                id: 13, 
+                nombre: "🧘‍♂️ Meditación ecológica", 
+                impacto: 0.1, 
+                adopcion: 30,
+                descripcion: "Conectar con la Tierra a través de la quietud",
+                conciencia: "alta",
+                ods: [3, 11, 16],
+                mantra: "Soy Tierra que siente"
+            },
+            { 
+                id: 14, 
+                nombre: "👕 Moda sostenible", 
+                impacto: 0.6, 
+                adopcion: 48,
+                descripcion: "Ropa de segunda mano, materiales naturales, producción ética",
+                conciencia: "media",
+                ods: [12, 8, 10],
+                mantra: "Me visto con conciencia"
+            },
+            { 
+                id: 15, 
+                nombre: "🏠 Hogar ecológico", 
+                impacto: 1.3, 
+                adopcion: 52,
+                descripcion: "Productos de limpieza naturales, eficiencia energética",
+                conciencia: "media",
+                ods: [11, 12, 13],
+                mantra: "Mi hogar es un santuario"
+            },
+            { 
+                id: 16, 
+                nombre: "🗳️ Activismo consciente", 
+                impacto: 0.3, 
+                adopcion: 33,
+                descripcion: "Participar en causas ambientales de manera constructiva",
+                conciencia: "alta",
+                ods: [16, 17, 13],
+                mantra: "Mi voz siembra cambio"
+            },
+            { 
+                id: 17, 
+                nombre: "🎨 Creatividad regenerativa", 
+                impacto: 0.15, 
+                adopcion: 27,
+                descripcion: "Expresar la conexión con la Tierra a través del arte",
+                conciencia: "alta",
+                ods: [4, 11, 12],
+                mantra: "Creo desde la Tierra"
+            },
+            { 
+                id: 18, 
+                nombre: "🌙 Descanso planetario", 
+                impacto: 0.05, 
+                adopcion: 22,
+                descripcion: "Permitir a la Tierra descansar de nuestra huella",
+                conciencia: "alta",
+                ods: [3, 11, 13],
+                mantra: "Descanso para que la Tierra respire"
+            }
+        ];
+        
+        // Colores ODS
+        const coloresODS = {
+            1: '#e5243b', 2: '#dda63a', 3: '#4c9f38', 4: '#c5192d', 5: '#ff3a21',
+            6: '#26bde2', 7: '#fcc30b', 8: '#a21942', 9: '#fd6925', 10: '#dd1367',
+            11: '#fd9d24', 12: '#bf8b2e', 13: '#3f7e44', 14: '#0a97d9', 15: '#56c02b',
+            16: '#00689d', 17: '#19486a'
+        };
+        
+        // ===========================================
+        // INICIALIZACIÓN
+        // ===========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("✅ DOM cargado, inicializando sistema...");
+            
+            // 1. Inicializar partículas
+            inicializarParticulas();
+            
+            // 2. Conectar a Supabase
+            inicializarSupabase();
+            
+            // 3. Cargar Pentagrama Gaia
+            setTimeout(() => {
+                actualizarPentagramaReal();
+            }, 1000);
+            
+            // 4. Cargar los 18 hábitos
+            cargarHabitos();
+            
+            // 5. Cargar estadísticas
+            cargarEstadisticas();
+            
+            console.log("🚀 Sistema Guardián Gaia inicializado correctamente");
+        });
+        
+        // ===========================================
+        // FUNCIONES PRINCIPALES
+        // ===========================================
+        
+        function inicializarParticulas() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: '#00e0ff' },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: '#00e0ff',
+                        opacity: 0.2,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1,
+                        direction: "none",
+                        random: true,
+                        straight: false
+                    }
+                }
+            });
+        }
+        
+        function inicializarSupabase() {
+            try {
+                gaiaSupabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                console.log("✅ Supabase conectado correctamente");
+            } catch (error) {
+                console.warn("⚠️ No se pudo conectar a Supabase, usando datos locales");
+                gaiaSupabase = null;
+            }
+        }
+        
+        // ===========================================
+        // PENTAGRAMA GAIA
+        // ===========================================
+        
+        async function actualizarPentagramaReal() {
+            const contenedor = document.getElementById('pentagrama-contenido');
+            if (!contenedor) return;
+            
+            // Mostrar estado de carga
+            contenedor.innerHTML = '<div class="cargando">📡 Conectando con telemetría planetaria...</div>';
+            
+            try {
+                // Si tenemos Supabase, intentar cargar datos reales
+                if (gaiaSupabase) {
+                    const { data: metricas, error } = await gaiaSupabase
+                        .from('gaia_pentagram_metrics')
+                        .select('*')
+                        .order('id', { ascending: true });
+                    
+                    if (!error && metricas && metricas.length > 0) {
+                        mostrarPentagrama(metricas);
+                        return;
+                    }
+                }
+                
+                // Si falla Supabase o no hay conexión, mostrar datos de respaldo
+                mostrarPentagramaRespaldo();
+                
+            } catch (error) {
+                console.warn("⚠️ Error en telemetría, usando datos de respaldo:", error.message);
+                mostrarPentagramaRespaldo();
+            }
+        }
+        
+        function mostrarPentagrama(metricas) {
+            const contenedor = document.getElementById('pentagrama-contenido');
+            if (!contenedor) return;
+            
+            let html = '';
+            
+            metricas.forEach(metrica => {
+                const clase = metrica.slug ? `pentagrama-item ${metrica.slug}-item` : 'pentagrama-item';
+                const icono = obtenerIcono(metrica.slug);
+                const tendenciaClase = metrica.tendencia === 'ascendente' ? 'tendencia-negativa' : 'tendencia-positiva';
+                const simbolo = metrica.tendencia === 'ascendente' ? '▲' : '▼';
+                
+                html += `
+                    <div class="${clase}">
+                        <div class="pentagrama-icono">${icono}</div>
+                        <div class="pentagrama-nombre">${metrica.label || 'Métrica'}</div>
+                        <div class="pentagrama-valor">${metrica.valor_actual || '0'} 
+                            <span class="pentagrama-unidad">${metrica.unidad || ''}</span>
+                        </div>
+                        <div class="pentagrama-tendencia ${tendenciaClase}">
+                            <span>${simbolo}</span> ${metrica.tendencia || 'estable'}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            contenedor.innerHTML = html;
+            console.log(`✅ Pentagrama mostrado: ${metricas.length} métricas`);
+        }
+        
+        function mostrarPentagramaRespaldo() {
+            const contenedor = document.getElementById('pentagrama-contenido');
+            if (!contenedor) return;
+            
+            const metricasRespaldo = [
+                { slug: 'co2', label: 'CO₂ ATMOSFÉRICO', valor_actual: '427', unidad: 'ppm', tendencia: 'ascendente' },
+                { slug: 'temperatura', label: 'TEMPERATURA GLOBAL', valor_actual: '+1.2', unidad: '°C', tendencia: 'ascendente' },
+                { slug: 'hielo', label: 'MASA DE HIELO', valor_actual: '-152', unidad: 'Gt/año', tendencia: 'descendente' },
+                { slug: 'nivel-mar', label: 'NIVEL DEL MAR', valor_actual: '+3.7', unidad: 'mm/año', tendencia: 'ascendente' },
+                { slug: 'biodiversidad', label: 'BIODIVERSIDAD', valor_actual: '-68', unidad: '%', tendencia: 'descendente' }
+            ];
+            
+            mostrarPentagrama(metricasRespaldo);
+            console.log("ℹ️ Mostrando datos de respaldo del Pentagrama");
+        }
+        
+        function obtenerIcono(slug) {
+            const iconos = {
+                'co2': '🏭',
+                'temperatura': '🌡️',
+                'hielo': '❄️',
+                'nivel-mar': '🌊',
+                'biodiversidad': '🌿'
+            };
+            return iconos[slug] || '📊';
+        }
+        
+        // ===========================================
+        // SISTEMA DE 18 HÁBITOS REGENERATIVOS
+        // ===========================================
+        
+        function cargarHabitos(filtro = 'todos') {
+            const contenedor = document.getElementById('lista-habitos');
+            const select = document.getElementById('select-habito');
+            
+            if (!contenedor) return;
+            
+            // Filtrar hábitos según el filtro seleccionado
+            let habitosFiltrados = [];
+            
+            if (filtro === 'todos') {
+                habitosFiltrados = habitosSagrados;
+            } else if (filtro === 'alta') {
+                habitosFiltrados = habitosSagrados.filter(h => h.conciencia === 'alta');
+            } else if (filtro === 'media') {
+                habitosFiltrados = habitosSagrados.filter(h => h.conciencia === 'media');
+            }
+            
+            // Limpiar contenedores
+            contenedor.innerHTML = '';
+            
+            // Si estamos en filtro ODS, mostrar selector especial
+            if (filtro === 'ods') {
+                mostrarSelectorODS();
+                return;
+            }
+            
+            if (select) {
+                select.innerHTML = '<option value="">Selecciona un hábito</option>';
+            }
+            
+            // Mostrar hábitos en la lista
+            habitosFiltrados.forEach(habito => {
+                // Color según conciencia
+                const colorConciencia = habito.conciencia === 'alta' ? 
+                    'var(--conciencia-alta)' : 'var(--conciencia-media)';
+                
+                // Tarjeta en lista principal
+                const card = document.createElement('div');
+                card.className = 'habito-card';
+                card.innerHTML = `
+                    <div class="habito-header">
+                        <div class="habito-conciencia">
+                            <div class="punto-conciencia" style="background: ${colorConciencia};"></div>
+                            <div class="habito-nombre">${habito.nombre}</div>
+                        </div>
+                        <div class="habito-impacto">${habito.impacto} kg</div>
+                    </div>
+                    <div class="habito-descripcion">${habito.descripcion}</div>
+                    
+                    <div class="ods-mini">
+                        ${habito.ods.map(num => `
+                            <div class="ods-mini-item" style="background: ${coloresODS[num] || '#666'}">
+                                ${num}
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="habito-mantra">"${habito.mantra}"</div>
+                    
+                    <div class="habito-footer">
+                        <div class="habito-adopcion">Adopción: ${habito.adopcion}%</div>
+                        <button class="btn-registrar" onclick="seleccionarHabito(${habito.id})">
+                            📝 Registrar
+                        </button>
+                    </div>
+                `;
+                contenedor.appendChild(card);
+                
+                // Opción en el select del modal
+                if (select) {
+                    const option = document.createElement('option');
+                    option.value = habito.id;
+                    option.textContent = `${habito.nombre} (${habito.impacto} kg CO₂)`;
+                    select.appendChild(option);
+                }
+            });
+            
+            console.log(`✅ Hábitos cargados: ${habitosFiltrados.length} (filtro: ${filtro})`);
+        }
+        
+        function filtrarHabitos(filtro) {
+            // Activar botón seleccionado
+            const botones = document.querySelectorAll('.filtro-btn');
+            botones.forEach(btn => btn.classList.remove('activo'));
+            event.target.classList.add('activo');
+            
+            // Cargar hábitos con filtro
+            cargarHabitos(filtro);
+        }
+        
+        function mostrarSelectorODS() {
+            const contenedor = document.getElementById('lista-habitos');
+            if (!contenedor) return;
+            
+            contenedor.innerHTML = '';
+            
+            const selector = document.createElement('div');
+            selector.className = 'selector-ods';
+            selector.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; margin-bottom: 10px; color: var(--azul-brillante);">Selecciona un ODS para filtrar:</div>';
+            
+            // Crear botones para los 17 ODS
+            for (let i = 1; i <= 17; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'ods-btn';
+                btn.textContent = i;
+                btn.style.background = coloresODS[i] || '#666';
+                btn.onclick = () => filtrarPorODS(i);
+                selector.appendChild(btn);
+            }
+            
+            contenedor.appendChild(selector);
+        }
+        
+        function filtrarPorODS(odsNumero) {
+            const habitosFiltrados = habitosSagrados.filter(h => h.ods.includes(odsNumero));
+            const contenedor = document.getElementById('lista-habitos');
+            
+            if (!contenedor) return;
+            
+            // Limpiar contenedor
+            contenedor.innerHTML = '';
+            
+            // Título del ODS seleccionado
+            const titulo = document.createElement('div');
+            titulo.style.cssText = `
+                color: ${coloresODS[odsNumero] || '#666'};
+                font-weight: bold;
+                margin-bottom: 15px;
+                text-align: center;
+                font-size: 1.1rem;
+                padding: 10px;
+                background: rgba(0,0,0,0.3);
+                border-radius: 10px;
+            `;
+            titulo.textContent = `🎯 ODS ${odsNumero}`;
+            contenedor.appendChild(titulo);
+            
+            // Mostrar hábitos filtrados
+            habitosFiltrados.forEach(habito => {
+                const colorConciencia = habito.conciencia === 'alta' ? 
+                    'var(--conciencia-alta)' : 'var(--conciencia-media)';
+                
+                const card = document.createElement('div');
+                card.className = 'habito-card';
+                card.innerHTML = `
+                    <div class="habito-header">
+                        <div class="habito-conciencia">
+                            <div class="punto-conciencia" style="background: ${colorConciencia};"></div>
+                            <div class="habito-nombre">${habito.nombre}</div>
+                        </div>
+                        <div class="habito-impacto">${habito.impacto} kg</div>
+                    </div>
+                    <div class="habito-descripcion">${habito.descripcion}</div>
+                    
+                    <div class="habito-mantra">"${habito.mantra}"</div>
+                    
+                    <div class="habito-footer">
+                        <div class="habito-adopcion">Adopción: ${habito.adopcion}%</div>
+                        <button class="btn-registrar" onclick="seleccionarHabito(${habito.id})">
+                            📝 Registrar
+                        </button>
+                    </div>
+                `;
+                contenedor.appendChild(card);
+            });
+            
+            // Botón para volver a todos los hábitos
+            const btnVolver = document.createElement('button');
+            btnVolver.className = 'filtro-btn';
+            btnVolver.style.margin = '20px auto';
+            btnVolver.style.display = 'block';
+            btnVolver.textContent = '← Volver a todos los hábitos';
+            btnVolver.onclick = () => {
+                cargarHabitos('todos');
+                const botones = document.querySelectorAll('.filtro-btn');
+                botones.forEach(btn => btn.classList.remove('activo'));
+                document.querySelector('.filtro-btn').classList.add('activo');
+            };
+            contenedor.appendChild(btnVolver);
+            
+            console.log(`✅ Hábitos filtrados por ODS ${odsNumero}: ${habitosFiltrados.length}`);
+        }
+        
+        // ===========================================
+        // REGISTRO DIARIO
+        // ===========================================
+        
+        function abrirRegistroDiario() {
+            const modal = document.getElementById('modal-registro');
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        }
+        
+        function cerrarModal() {
+            const modal = document.getElementById('modal-registro');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        function seleccionarHabito(id) {
+            abrirRegistroDiario();
+            setTimeout(() => {
+                const select = document.getElementById('select-habito');
+                if (select) {
+                    select.value = id;
+                    
+                    // Auto-seleccionar el impacto del hábito
+                    const habito = habitosSagrados.find(h => h.id == id);
+                    if (habito) {
+                        document.getElementById('input-impacto').value = habito.impacto;
+                    }
+                }
+            }, 100);
+        }
+        
+        function guardarRegistro() {
+            const habitoId = document.getElementById('select-habito').value;
+            const impacto = parseFloat(document.getElementById('input-impacto').value);
+            const conciencia = document.getElementById('input-conciencia').value;
+            const notas = document.getElementById('input-notas').value;
+            
+            if (!habitoId) {
+                alert("Por favor, selecciona un hábito");
+                return;
+            }
+            
+            if (!impacto || impacto <= 0) {
+                alert("Por favor, ingresa un impacto válido");
+                return;
+            }
+            
+            // Obtener el hábito seleccionado
+            const habito = habitosSagrados.find(h => h.id == habitoId);
+            
+            // Guardar en localStorage
+            const registros = JSON.parse(localStorage.getItem('gaiaRegistros') || '[]');
+            const nuevoRegistro = {
+                id: Date.now(),
+                habitoId: habitoId,
+                habitoNombre: habito ? habito.nombre : 'Hábito desconocido',
+                impacto: impacto,
+                conciencia: conciencia,
+                notas: notas,
+                fecha: new Date().toISOString()
+            };
+            
+            registros.push(nuevoRegistro);
+            localStorage.setItem('gaiaRegistros', JSON.stringify(registros));
+            
+            // Actualizar estadísticas
+            cargarEstadisticas();
+            
+            // Mostrar mensaje de éxito
+            const modal = document.getElementById('modal-registro');
+            if (modal) {
+                const contenido = modal.querySelector('.modal-contenido');
+                contenido.innerHTML = `
+                    <h2 class="modal-titulo">✅ REGISTRO GUARDADO</h2>
+                    <div class="mensaje-exito">
+                        <p>¡Hábito registrado exitosamente!</p>
+                        <p><strong>${habito ? habito.nombre : 'Hábito'}</strong></p>
+                        <p>Impacto: <strong>${impacto} kg CO₂ evitados</strong></p>
+                        <p style="margin-top: 10px; font-size: 0.9rem;">"${habito ? habito.mantra : 'Tu acción cuenta'}"</p>
+                    </div>
+                    <div style="text-align: center; margin-top: 25px;">
+                        <button class="btn-guardar" onclick="cerrarModal()">CONTINUAR</button>
+                    </div>
+                `;
+            }
+            
+            console.log("📝 Registro guardado:", nuevoRegistro);
+        }
+        
+        // ===========================================
+        // ESTADÍSTICAS Y SEGUIMIENTO
+        // ===========================================
+        
+        function cargarEstadisticas() {
+            const registros = JSON.parse(localStorage.getItem('gaiaRegistros') || '[]');
+            
+            // Calcular impacto total
+            const impactoTotal = registros.reduce((sum, r) => sum + (r.impacto || 0), 0);
+            document.getElementById('indicador-impacto').textContent = impactoTotal.toFixed(1);
+            
+            // Calcular hábitos activos (últimos 7 días)
+            const sieteDiasAtras = new Date();
+            sieteDiasAtras.setDate(sieteDiasAtras.getDate() - 7);
+            const habitosRecientes = registros.filter(r => 
+                new Date(r.fecha) >= sieteDiasAtras
+            );
+            const habitosUnicos = new Set(habitosRecientes.map(r => r.habitoId)).size;
+            document.getElementById('indicador-habitos').textContent = habitosUnicos;
+            
+            // Calcular racha actual
+            const racha = calcularRacha(registros);
+            document.getElementById('indicador-racha').textContent = racha;
+            
+            // Incrementar conciencia gradualmente
+            const elementoConciencia = document.getElementById('indicador-conciencia');
+            let conciencia = parseFloat(elementoConciencia.textContent);
+            conciencia += Math.min(registros.length * 0.1, 0.5);
+            if (conciencia > 100) conciencia = 100;
+            elementoConciencia.textContent = conciencia.toFixed(1) + '%';
+        }
+        
+        function calcularRacha(registros) {
+            if (registros.length === 0) return 0;
+            
+            // Ordenar por fecha descendente
+            registros.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+            
+            let racha = 0;
+            const hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+            
+            let fechaActual = new Date(registros[0].fecha);
+            fechaActual.setHours(0, 0, 0, 0);
+            
+            // Si el último registro no es de hoy, no hay racha
+            if (fechaActual.getTime() !== hoy.getTime()) {
+                return 0;
+            }
+            
+            racha = 1; // Hoy sí hay registro
+            
+            for (let i = 1; i < registros.length; i++) {
+                const fechaRegistro = new Date(registros[i].fecha);
+                fechaRegistro.setHours(0, 0, 0, 0);
+                
+                const fechaAnterior = new Date(registros[i-1].fecha);
+                fechaAnterior.setHours(0, 0, 0, 0);
+                
+                const diferenciaDias = (fechaAnterior - fechaRegistro) / (1000 * 60 * 60 * 24);
+                
+                if (diferenciaDias === 1) {
+                    racha++;
+                } else {
+                    break;
+                }
+            }
+            
+            return racha;
+        }
+        
+        // ===========================================
+        // ACTUALIZACIONES AUTOMÁTICAS
+        // ===========================================
+        
+        // Actualizar Pentagrama cada 5 minutos
+        setInterval(() => {
+            actualizarPentagramaReal();
+        }, 5 * 60 * 1000);
+        
+        // Actualizar conciencia gradualmente
+        setInterval(() => {
+            const elemento = document.getElementById('indicador-conciencia');
+            let valor = parseFloat(elemento.textContent);
+            valor += Math.random() * 0.05;
+            if (valor > 100) valor = 100;
+            elemento.textContent = valor.toFixed(1) + '%';
+        }, 30000);
+        
+        // ===========================================
+        // INICIALIZACIÓN COMPLETA
+        // ===========================================
+// ===========================================
+// 🪞 CÓDIGO-ESPEJO DEL GUARDIÁN
+// ===========================================
+(function() {
+    console.log('🪞 Inicializando módulo de código-espejo...');
+    
+    // Esperar a que el DOM esté completamente cargado
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initEspejo);
+    } else {
+        setTimeout(initEspejo, 500);
+    }
+    
+    function initEspejo() {
+        // Generar o recuperar código del guardián
+        const codigoGuardian = generarCodigoGuardian();
+        
+        // Crear y mostrar el espejo
+        mostrarEspejoEnGaia(codigoGuardian);
+    }
+    
+    function generarCodigoGuardian() {
+        // Intentar recuperar código existente de localStorage
+        let codigo = localStorage.getItem('codigoGuardianGaia');
+        
+        // Si no existe, generar uno nuevo
+        if (!codigo) {
+            const elementos = ['AQUA', 'TERRA', 'AER', 'IGNIS', 'SPIRITUS'];
+            const nombres = ['ZIRIUX', 'NOVUS', 'PRIMUS', 'SOLARIS', 'LUNAE'];
+            const elemento = elementos[Math.floor(Math.random() * elementos.length)];
+            const nombre = nombres[Math.floor(Math.random() * nombres.length)];
+            const numero = Math.floor(Math.random() * 90000) + 10000;
+            
+            codigo = `GPR-${elemento}-${nombre}-${numero}`;
+            localStorage.setItem('codigoGuardianGaia', codigo);
+            
+            console.log('🪞 Nuevo código de guardián generado:', codigo);
+        } else {
+            console.log('🪞 Código de guardián recuperado:', codigo);
+        }
+        
+        return codigo;
+    }
+    
+    function mostrarEspejoEnGaia(codigo) {
+        // Crear el elemento del espejo
+        const espejoDiv = document.createElement('div');
+        espejoDiv.className = 'espejo-guardian';
+        espejoDiv.style.cssText = `
+            margin: 20px 15px;
+            padding: 20px;
+            background: linear-gradient(145deg, 
+                rgba(10, 10, 22, 0.95) 0%,
+                rgba(20, 20, 40, 0.9) 100%);
+            border-radius: 18px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            border: 1px solid rgba(0, 224, 255, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            overflow: hidden;
+            animation: aparecerEspejo 0.8s ease;
+        `;
+        
+        espejoDiv.innerHTML = `
+            <div style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+                margin-bottom: 15px;
+                color: #88eeff;
+                font-size: 0.95rem;
+                text-transform: uppercase;
+                letter-spacing: 1.2px;
+                font-weight: 600;
+            ">
+                <span style="font-size: 1.6rem;">🪞</span>
+                <span>HUELLA ENERGÉTICA REGISTRADA</span>
+            </div>
+            
+            <div style="
+                background: rgba(0, 0, 0, 0.6);
+                border-radius: 15px;
+                padding: 20px;
+                margin: 15px 0;
+                border: 2px solid rgba(0, 224, 255, 0.2);
+                position: relative;
+                overflow: hidden;
+            ">
+                <div style="
+                    font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    color: #ffff00;
+                    text-align: center;
+                    letter-spacing: 2.5px;
+                    margin-bottom: 8px;
+                    text-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+                    padding: 5px;
+                ">
+                    ${codigo}
+                </div>
+                <div style="
+                    color: #00eeff;
+                    font-size: 0.85rem;
+                    text-align: center;
+                    text-transform: uppercase;
+                    letter-spacing: 1.5px;
+                    opacity: 0.9;
+                ">
+                    CÓDIGO DE GUARDIÁN
+                </div>
+            </div>
+            
+            <div style="
+                color: #aaddff;
+                font-size: 0.9rem;
+                text-align: center;
+                line-height: 1.5;
+                margin: 20px 0 15px 0;
+                padding: 0 10px;
+                font-style: italic;
+            ">
+                Tus 18 hábitos regenerativos validados hoy fueron inscritos con esta frecuencia única en el sistema nervioso planetario.
+            </div>
+            
+            <div style="
+                display: flex;
+                justify-content: center;
+                gap: 25px;
+                margin-top: 20px;
+                padding-top: 15px;
+                border-top: 1px solid rgba(0, 224, 255, 0.2);
+                font-size: 0.8rem;
+                color: #66aaff;
+            ">
+                <span>📅 ${new Date().toLocaleDateString('es-ES')}</span>
+                <span>🕒 ${new Date().toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'})}</span>
+            </div>
+        `;
+        
+        // Agregar animación CSS
+        if (!document.querySelector('#estilos-espejo')) {
+            const style = document.createElement('style');
+            style.id = 'estilos-espejo';
+            style.textContent = `
+                @keyframes aparecerEspejo {
+                    from { 
+                        opacity: 0; 
+                        transform: translateY(-25px) scale(0.97); 
+                    }
+                    to { 
+                        opacity: 1; 
+                        transform: translateY(0) scale(1); 
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Insertar después de la cabecera
+        const cabecera = document.querySelector('.cabecera-gaia');
+        if (cabecera) {
+            cabecera.parentNode.insertBefore(espejoDiv, cabecera.nextSibling);
+            console.log('✅ Espejo del guardián insertado');
+        } else {
+            // Fallback: al inicio del contenedor principal
+            const contenedor = document.querySelector('.contenedor-principal');
+            if (contenedor) {
+                contenedor.insertBefore(espejoDiv, contenedor.firstChild);
+            }
+        }
+    }
+    
+    console.log('🪞 Módulo de código-espejo cargado');
+})();
+        console.log("✨ Sistema Guardián Gaia con 18 hábitos cargado y listo");
+    </script>
+</body>
+</html>
