@@ -143,96 +143,123 @@
         }
         
         /* =========================================== */
-        /* TRÍADA GAIA - CENTRO DEL DISEÑO */
-        /* =========================================== */
-        .triada-contenedor {
-            background: rgba(10, 10, 22, 0.9);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid rgba(0, 224, 255, 0.3);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        .triada-titulo {
-            color: var(--conciencia-alta);
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-        
-        .triada-item {
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 12px;
-            transition: transform 0.3s;
-        }
-        
-        .triada-item:active {
-            transform: translateY(-3px);
-        }
-        
-        .triada-oceano {
-            background: linear-gradient(135deg, 
-                rgba(10, 151, 217, 0.2), 
-                rgba(10, 151, 217, 0.3));
-            border: 1px solid var(--ods-14);
-        }
-        
-        .triada-aire {
-            background: linear-gradient(135deg, 
-                rgba(63, 126, 68, 0.2), 
-                rgba(63, 126, 68, 0.3));
-            border: 1px solid var(--ods-13);
-        }
-        
-        .triada-hielo {
-            background: linear-gradient(135deg, 
-                rgba(0, 104, 157, 0.2), 
-                rgba(0, 104, 157, 0.3));
-            border: 1px solid var(--ods-16);
-        }
-        
-        .triada-icono {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        .triada-titulo-item {
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 1rem;
-            text-align: center;
-        }
-        
-        .triada-valor {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin: 10px 0;
-            text-align: center;
-        }
-        
-        .triada-tendencia {
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-        
-        .tendencia-positiva { color: var(--planet-green); }
-        .tendencia-negativa { color: var(--nova-red); }
-        
-        .triada-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: var(--stardust-blue);
-        }
+/* PENTAGRAMA GAIA - CENTRO DEL DISEÑO */
+/* =========================================== */
+.pentagrama-contenedor {
+    background: rgba(10, 10, 22, 0.9);
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid rgba(0, 224, 255, 0.3);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.pentagrama-titulo {
+    color: var(--conciencia-alta);
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.pentagrama-item {
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    transition: transform 0.3s;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(79, 195, 247, 0.2);
+}
+
+.pentagrama-item:active {
+    transform: translateY(-2px);
+}
+
+.pentagrama-icono {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.pentagrama-nombre {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pentagrama-valor {
+    font-size: 1.4rem;
+    text-align: center;
+    margin: 10px 0;
+    font-weight: bold;
+    color: var(--quantum-gold);
+}
+
+.pentagrama-unidad {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-left: 2px;
+}
+
+.pentagrama-tendencia {
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.tendencia-negativa { color: #ff6b6b; }
+.tendencia-positiva { color: #4caf50; }
+
+.pentagrama-cargando {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--stardust-blue);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+/* Colores específicos para cada métrica del pentagrama */
+.pentagrama-co2 { 
+    border-color: rgba(255, 87, 34, 0.3); 
+    background: linear-gradient(135deg, 
+        rgba(255, 87, 34, 0.1), 
+        rgba(255, 87, 34, 0.05));
+}
+
+.pentagrama-temperatura { 
+    border-color: rgba(255, 193, 7, 0.3); 
+    background: linear-gradient(135deg, 
+        rgba(255, 193, 7, 0.1), 
+        rgba(255, 193, 7, 0.05));
+}
+
+.pentagrama-hielo { 
+    border-color: rgba(33, 150, 243, 0.3); 
+    background: linear-gradient(135deg, 
+        rgba(33, 150, 243, 0.1), 
+        rgba(33, 150, 243, 0.05));
+}
+
+.pentagrama-nivel-mar { 
+    border-color: rgba(3, 169, 244, 0.3); 
+    background: linear-gradient(135deg, 
+        rgba(3, 169, 244, 0.1), 
+        rgba(3, 169, 244, 0.05));
+}
+
+.pentagrama-biodiversidad { 
+    border-color: rgba(76, 175, 80, 0.3); 
+    background: linear-gradient(135deg, 
+        rgba(76, 175, 80, 0.1), 
+        rgba(76, 175, 80, 0.05));
+}
         
         /* =========================================== */
         /* ÁRBOL DE HÁBITOS - EXPANDIDO */
@@ -632,49 +659,17 @@
             </div>
         </header>
         
-        <!-- TRÍADA GAIA - CENTRO DEL DISEÑO -->
-        <div class="triada-contenedor">
-            <div class="triada-titulo">🌊❄️🌬️ TRÍADA GAIA</div>
-            
-            <div class="triada-item triada-oceano">
-                <div class="triada-icono">🌊</div>
-                <div class="triada-titulo-item">OCÉANO</div>
-                <div class="triada-valor" id="temperatura-oceano">+0.8°C</div>
-                <div class="triada-tendencia tendencia-negativa">
-                    <span>▲</span> Anomalía térmica
-                </div>
-                <div class="triada-link" onclick="mostrarDetallesOceano()">
-                    <span>Ver datos</span>
-                    <span>→</span>
-                </div>
-            </div>
-            
-            <div class="triada-item triada-aire">
-                <div class="triada-icono">🌬️</div>
-                <div class="triada-titulo-item">AIRE</div>
-                <div class="triada-valor" id="co2-concentracion">415 ppm</div>
-                <div class="triada-tendencia tendencia-negativa">
-                    <span>▲</span> +2.5 ppm/año
-                </div>
-                <div class="triada-link" onclick="mostrarDetallesAire()">
-                    <span>Ver datos</span>
-                    <span>→</span>
-                </div>
-            </div>
-            
-            <div class="triada-item triada-hielo">
-                <div class="triada-icono">❄️</div>
-                <div class="triada-titulo-item">HIELO</div>
-                <div class="triada-valor" id="perdida-hielo">-7.8%</div>
-                <div class="triada-tendencia tendencia-negativa">
-                    <span>▼</span> Pérdida anual
-                </div>
-                <div class="triada-link" onclick="mostrarDetallesHielo()">
-                    <span>Ver datos</span>
-                    <span>→</span>
-                </div>
-            </div>
+       <!-- PENTAGRAMA GAIA - CENTRO DEL DISEÑO -->
+<div class="pentagrama-contenedor">
+    <div class="pentagrama-titulo">🌍 PENTAGRAMA GAIA - ESTADO PLANETARIO</div>
+    <div id="pentagrama-contenido">
+        <!-- Los 5 elementos se cargarán dinámicamente desde Supabase -->
+        <div class="pentagrama-cargando">
+            <div style="margin-bottom: 10px;">🔗 Conectando con telemetría planetaria...</div>
+            <div style="font-size: 0.8rem; opacity: 0.6;">Cargando datos en tiempo real de NASA/Supabase</div>
         </div>
+    </div>
+</div>
         
         <!-- ÁRBOL DE HÁBITOS -->
         <div class="panel-habitos">
@@ -1290,12 +1285,11 @@ async function actualizarPentagramaReal() {
 
         if (error) throw error;
 
-        const contenedor = document.querySelector('.triada-contenedor');
+        const contenedor = document.getElementById('pentagrama-contenido'); // ← CAMBIADO A getElementById
         if (!contenedor) {
-            console.error('❌ Error: No se encontró .triada-contenedor');
+            console.error('❌ Error: No se encontró #pentagrama-contenido'); // ← CAMBIADO EL MENSAJE
             return;
         }
-
         // Mostrar estado de carga
         contenedor.innerHTML = `
             <div class="pentagrama-titulo">🌍 PENTAGRAMA GAIA</div>
@@ -1351,7 +1345,7 @@ function obtenerIcono(slug) {
 
 // Función de respaldo si hay error
 function mostrarPentagramaRespaldo() {
-    const contenedor = document.querySelector('.triada-contenedor');
+    const contenedor = document.getElementById('pentagrama-contenido');
     if (!contenedor) return;
     
     contenedor.innerHTML = `
