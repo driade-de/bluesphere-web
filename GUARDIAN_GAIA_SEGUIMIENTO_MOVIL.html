@@ -1074,85 +1074,6 @@
         // TRÍADA GAIA
         // ===========================================
         
-        function actualizarTriadaGaia() {
-            document.getElementById('temperatura-oceano').textContent = 
-                `+${(0.8 + (Math.random() * 0.2 - 0.1)).toFixed(1)}°C`;
-            
-            document.getElementById('co2-concentracion').textContent = 
-                `${(415 + Math.random() * 2).toFixed(0)} ppm`;
-            
-            document.getElementById('perdida-hielo').textContent = 
-                `${(-7.8 + (Math.random() * 2 - 1)).toFixed(1)}%`;
-        }
-        
-        function mostrarDetallesOceano() {
-            abrirModal(`
-                <h2 style="color: var(--ods-14); margin-bottom: 15px;">🌊 DATOS DEL OCÉANO</h2>
-                <div style="background: rgba(10,151,217,0.1); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
-                    <div style="margin-bottom: 10px;">
-                        <div style="color: #aaa; font-size: 0.9rem;">Temperatura</div>
-                        <div style="color: white; font-size: 1.2rem;">+0.8°C</div>
-                    </div>
-                    <div style="margin-bottom: 10px;">
-                        <div style="color: #aaa; font-size: 0.9rem;">Acidificación</div>
-                        <div style="color: white; font-size: 1.2rem;">pH 8.1</div>
-                    </div>
-                    <div>
-                        <div style="color: #aaa; font-size: 0.9rem;">Nivel del Mar</div>
-                        <div style="color: white; font-size: 1.2rem;">+3.4 mm/año</div>
-                    </div>
-                </div>
-                <p style="color: #aaa; font-size: 0.9rem;">
-                    Datos simulados de NASA OceanColor. En producción se conectaría a API real.
-                </p>
-            `);
-        }
-        
-        function mostrarDetallesAire() {
-            abrirModal(`
-                <h2 style="color: var(--ods-13); margin-bottom: 15px;">🌬️ CALIDAD DEL AIRE</h2>
-                <div style="background: rgba(63,126,68,0.1); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
-                    <div style="margin-bottom: 10px;">
-                        <div style="color: #aaa; font-size: 0.9rem;">CO₂</div>
-                        <div style="color: white; font-size: 1.2rem;">415 ppm</div>
-                    </div>
-                    <div style="margin-bottom: 10px;">
-                        <div style="color: #aaa; font-size: 0.9rem;">PM2.5</div>
-                        <div style="color: white; font-size: 1.2rem;">15 µg/m³</div>
-                    </div>
-                    <div>
-                        <div style="color: #aaa; font-size: 0.9rem;">Calidad</div>
-                        <div style="color: var(--planet-green); font-size: 1.2rem;">Moderada</div>
-                    </div>
-                </div>
-                <p style="color: #aaa; font-size: 0.9rem;">
-                    Datos simulados de OpenAQ. En producción se conectaría a API real.
-                </p>
-            `);
-        }
-        
-        function mostrarDetallesHielo() {
-            abrirModal(`
-                <h2 style="color: var(--ods-16); margin-bottom: 15px;">❄️ PÉRDIDA DE HIELO</h2>
-                <div style="background: rgba(0,104,157,0.1); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
-                    <div style="margin-bottom: 10px;">
-                        <div style="color: #aaa; font-size: 0.9rem;">Groenlandia</div>
-                        <div style="color: var(--nova-red); font-size: 1.2rem;">-267 Gt/año</div>
-                    </div>
-                    <div style="margin-bottom: 10px;">
-                        <div style="color: #aaa; font-size: 0.9rem;">Antártida</div>
-                        <div style="color: var(--nova-red); font-size: 1.2rem;">-127 Gt/año</div>
-                    </div>
-                    <div>
-                        <div style="color: #aaa; font-size: 0.9rem;">Ártico</div>
-                        <div style="color: var(--nova-red); font-size: 1.2rem;">-13% por década</div>
-                    </div>
-                </div>
-                <p style="color: #aaa; font-size: 0.9rem;">
-                    Datos simulados de NASA IceSat-2. En producción se conectaría a API real.
-                </p>
-            `);
-        }
         
         function abrirModal(contenidoHTML) {
             const modal = document.createElement('div');
@@ -1356,9 +1277,12 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
         
         const gaiaSupabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-     // --- SISTEMA PENTAGRAMA GAIA (NASA REAL-TIME) ---
+// --- SISTEMA PENTAGRAMA GAIA (NASA REAL-TIME) ---
+
 async function actualizarPentagramaReal() {
     try {
+        console.log('🔄 Actualizando Pentagrama Gaia desde Supabase...');
+        
         const { data: metricas, error } = await gaiaSupabase
             .from('gaia_pentagram_metrics')
             .select('*')
@@ -1367,104 +1291,145 @@ async function actualizarPentagramaReal() {
         if (error) throw error;
 
         const contenedor = document.querySelector('.triada-contenedor');
-        if (!contenedor) return;
+        if (!contenedor) {
+            console.error('❌ Error: No se encontró .triada-contenedor');
+            return;
+        }
 
-        contenedor.innerHTML = '<div class="triada-titulo">🌍 PENTAGRAMA GAIA (ESTADO GLOBAL REAL)</div>';
+        // Mostrar estado de carga
+        contenedor.innerHTML = `
+            <div class="pentagrama-titulo">🌍 PENTAGRAMA GAIA</div>
+            <div class="pentagrama-cargando">Conectando con telemetría planetaria...</div>
+        `;
+
+        // Pequeña pausa para que se vea el estado de carga
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        // Si no hay datos, mostrar respaldo
+        if (!metricas || metricas.length === 0) {
+            mostrarPentagramaRespaldo();
+            return;
+        }
+
+        // Construir el pentagrama con los datos reales
+        contenedor.innerHTML = '<div class="pentagrama-titulo">🌍 PENTAGRAMA GAIA - ESTADO PLANETARIO</div>';
 
         metricas.forEach(m => {
             const item = document.createElement('div');
-            item.className = 'triada-item triada-' + m.slug; 
+            item.className = `pentagrama-item pentagrama-${m.slug}`;
+            
+            // Icono según el tipo de métrica
+            const icono = obtenerIcono(m.slug);
+            
             item.innerHTML = `
-                <div class="triada-titulo-item">${m.label.toUpperCase()}</div>
-                <div class="triada-valor">${m.valor_actual} <span style="font-size: 0.7rem">${m.unidad}</span></div>
-                <div class="triada-tendencia ${m.tendencia === 'ascendente' ? 'tendencia-negativa' : 'tendencia-positiva'}">
+                <div class="pentagrama-icono">${icono}</div>
+                <div class="pentagrama-nombre">${m.label.toUpperCase()}</div>
+                <div class="pentagrama-valor">${m.valor_actual} <span class="pentagrama-unidad">${m.unidad}</span></div>
+                <div class="pentagrama-tendencia ${m.tendencia === 'ascendente' ? 'tendencia-negativa' : 'tendencia-positiva'}">
                     <span>${m.tendencia === 'ascendente' ? '▲' : '▼'}</span> ${m.tendencia}
                 </div>
             `;
             contenedor.appendChild(item);
         });
+
+        console.log(`✅ Pentagrama actualizado: ${metricas.length} métricas`);
+
     } catch (err) {
         console.warn("⚠️ Telemetría de Gaia no disponible:", err.message);
+        mostrarPentagramaRespaldo();
     }
 }
-  async function actualizarPentagramaReal() {
+
+// Función simple para iconos
+function obtenerIcono(slug) {
+    const iconos = {
+        'co2': '🏭', 'temperatura': '🌡️', 'hielo': '❄️',
+        'nivel-mar': '🌊', 'biodiversidad': '🌿'
+    };
+    return iconos[slug] || '📊';
+}
+
+// Función de respaldo si hay error
+function mostrarPentagramaRespaldo() {
+    const contenedor = document.querySelector('.triada-contenedor');
+    if (!contenedor) return;
+    
+    contenedor.innerHTML = `
+        <div class="pentagrama-titulo">🌍 PENTAGRAMA GAIA</div>
+        
+        <div class="pentagrama-item pentagrama-co2">
+            <div class="pentagrama-icono">🏭</div>
+            <div class="pentagrama-nombre">CO₂</div>
+            <div class="pentagrama-valor">427 <span class="pentagrama-unidad">ppm</span></div>
+            <div class="pentagrama-tendencia tendencia-negativa">
+                <span>▲</span> ascendente
+            </div>
+        </div>
+        
+        <div class="pentagrama-item pentagrama-temperatura">
+            <div class="pentagrama-icono">🌡️</div>
+            <div class="pentagrama-nombre">TEMPERATURA</div>
+            <div class="pentagrama-valor">+1.1 <span class="pentagrama-unidad">°C</span></div>
+            <div class="pentagrama-tendencia tendencia-negativa">
+                <span>▲</span> ascendente
+            </div>
+        </div>
+        
+        <div class="pentagrama-item pentagrama-hielo">
+            <div class="pentagrama-icono">❄️</div>
+            <div class="pentagrama-nombre">HIELO</div>
+            <div class="pentagrama-valor">-150 <span class="pentagrama-unidad">Gt</span></div>
+            <div class="pentagrama-tendencia tendencia-positiva">
+                <span>▼</span> descendente
+            </div>
+        </div>
+        
+        <div class="pentagrama-item pentagrama-nivel-mar">
+            <div class="pentagrama-icono">🌊</div>
+            <div class="pentagrama-nombre">NIVEL MAR</div>
+            <div class="pentagrama-valor">+104.5 <span class="pentagrama-unidad">mm</span></div>
+            <div class="pentagrama-tendencia tendencia-negativa">
+                <span>▲</span> ascendente
+            </div>
+        </div>
+        
+        <div class="pentagrama-item pentagrama-biodiversidad">
+            <div class="pentagrama-icono">🌿</div>
+            <div class="pentagrama-nombre">BIODIVERSIDAD</div>
+            <div class="pentagrama-valor">-68% <span class="pentagrama-unidad"></span></div>
+            <div class="pentagrama-tendencia tendencia-positiva">
+                <span>▼</span> descendente
+            </div>
+        </div>
+    `;
+}
+
+// Función opcional para sincronizar con Supabase
+async function sincronizarConSupabase() {
     try {
-        const { data: metricas, error } = await gaiaSupabase
-            .from('gaia_pentagram_metrics')
-            .select('*')
-            .order('id', { ascending: true });
-
-        if (error) throw error;
-
-        const contenedor = document.querySelector('.triada-contenedor');
-        contenedor.innerHTML = '<div class="triada-titulo">🌍 PENTAGRAMA GAIA (ESTADO GLOBAL REAL)</div>';
-
-        metricas.forEach(m => {
-            const item = document.createElement('div');
-            item.className = `triada-item triada-${m.slug}`; 
-            item.innerHTML = `
-                <div class="triada-titulo-item">${m.label.toUpperCase()}</div>
-                <div class="triada-valor">${m.valor_actual} <span style="font-size: 0.7rem">${m.unidad}</span></div>
-                <div class="triada-tendencia ${m.tendencia === 'ascendente' ? 'tendencia-negativa' : 'tendencia-positiva'}">
-                    <span>${m.tendencia === 'ascendente' ? '▲' : '▼'}</span> ${m.tendencia}
-                </div>
-            `;
-            contenedor.appendChild(item);
-        });
+        const registros = JSON.parse(localStorage.getItem('gaiaRegistros') || '[]');
+        
+        for (const registro of registros) {
+            const { error } = await gaiaSupabase
+                .from('registros_diarios')
+                .insert([{
+                    usuario_id: 'guardian-local',
+                    habito_id: registro.habitoId,
+                    impacto_co2: registro.impacto,
+                    nivel_conciencia: registro.conciencia * 20,
+                    notas: registro.notas,
+                    fecha: registro.fecha
+                }]);
+            
+            if (error) console.warn("Error sincronizando:", error);
+        }
+        
+        console.log("✅ Sincronización completada");
     } catch (err) {
-        console.warn("⚠️ Telemetría de Gaia no disponible:", err.message);
+        console.error("❌ Error en sincronización:", err);
     }
 }
-async function actualizarPentagramaReal() {
-    try {
-        const { data: metricas, error } = await gaiaSupabase
-            .from('gaia_pentagram_metrics')
-            .select('*')
-            .order('id', { ascending: true });
-
-        if (error) throw error;
-
-        const contenedor = document.querySelector('.triada-contenedor');
-        contenedor.innerHTML = '<div class="triada-titulo">🌍 PENTAGRAMA GAIA (ESTADO GLOBAL)</div>';
-
-        metricas.forEach(m => {
-            const item = document.createElement('div');
-            item.className = `triada-item triada-${m.slug}`; 
-            item.innerHTML = `
-                <div class="triada-titulo-item">${m.label.toUpperCase()}</div>
-                <div class="triada-valor">${m.valor_actual} <span style="font-size: 0.7rem">${m.unidad}</span></div>
-                <div class="triada-tendencia ${m.tendencia === 'ascendente' ? 'tendencia-negativa' : 'tendencia-positiva'}">
-                    <span>${m.tendencia === 'ascendente' ? '▲' : '▼'}</span> ${m.tendencia}
-                </div>
-            `;
-            contenedor.appendChild(item);
-        });
-    } catch (err) {
-        console.warn("⚠️ Telemetría de Gaia no disponible:", err.message);
-    }
-}
-        // Función opcional para sincronizar con Supabase
-        async function sincronizarConSupabase() {
-            try {
-                const registros = JSON.parse(localStorage.getItem('gaiaRegistros') || '[]');
-                
-                for (const registro of registros) {
-                    const { error } = await gaiaSupabase
-                        .from('registros_diarios')
-                        .insert([{
-                            usuario_id: 'guardian-local',
-                            habito_id: registro.habitoId,
-                            impacto_co2: registro.impacto,
-                            nivel_conciencia: registro.conciencia * 20,
-                            notas: registro.notas,
-                            fecha: registro.fecha
-                        }]);
-                    
-                    if (error) console.warn("Error sincronizando:", error);
-                }
-                
-                console.log("✅ Sincronización completada");
-                // ===========================================
+// ===========================================
 // 🧠 RED NEURONAL INTEGRADA (AÑADIR AQUÍ)
 // ===========================================
 
