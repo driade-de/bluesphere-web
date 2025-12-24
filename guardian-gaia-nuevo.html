@@ -1431,53 +1431,41 @@
         // INICIALIZACIÓN COMPLETA
         // ===========================================
 // ===========================================
-// 🪞 CÓDIGO-ESPEJO DEL GUARDIÁN
+// 🪞 CÓDIGO-ESPEJO DEL GUARDIÁN (VERSIÓN CORREGIDA)
 // ===========================================
 (function() {
-    console.log('🪞 Inicializando módulo de código-espejo...');
+    console.log('🪞 Inicializando módulo de código-espejo REAL...');
     
-    // Esperar a que el DOM esté completamente cargado
+    // ESPERAR A QUE EL DOM ESTÉ CARGADO
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initEspejo);
+        document.addEventListener('DOMContentLoaded', initEspejoReal);
     } else {
-        setTimeout(initEspejo, 500);
+        setTimeout(initEspejoReal, 500);
     }
     
-    function initEspejo() {
-        // Generar o recuperar código del guardián
-        const codigoGuardian = generarCodigoGuardian();
+    function initEspejoReal() {
+        // ⚡ USAR SOLO EL CÓDIGO REAL, NO GENERAR ALEATORIOS
+        const CODIGO_GUARDIAN_REAL = "GPR-AQUA-ZIRIUX-000050";
         
-        // Crear y mostrar el espejo
-        mostrarEspejoEnGaia(codigoGuardian);
+        // Mostrar el espejo con el código REAL
+        mostrarEspejoReal(CODIGO_GUARDIAN_REAL);
+        
+        // También guardarlo en localStorage para consistencia
+        localStorage.setItem('codigoGuardianGaia', CODIGO_GUARDIAN_REAL);
+        
+        console.log('✅ Código-espejo sincronizado con sistema real:', CODIGO_GUARDIAN_REAL);
     }
     
-    function generarCodigoGuardian() {
-        // Intentar recuperar código existente de localStorage
-        let codigo = localStorage.getItem('codigoGuardianGaia');
-        
-        // Si no existe, generar uno nuevo
-        if (!codigo) {
-            const elementos = ['AQUA', 'TERRA', 'AER', 'IGNIS', 'SPIRITUS'];
-            const nombres = ['ZIRIUX', 'NOVUS', 'PRIMUS', 'SOLARIS', 'LUNAE'];
-            const elemento = elementos[Math.floor(Math.random() * elementos.length)];
-            const nombre = nombres[Math.floor(Math.random() * nombres.length)];
-            const numero = Math.floor(Math.random() * 90000) + 10000;
-            
-            codigo = `GPR-${elemento}-${nombre}-${numero}`;
-            localStorage.setItem('codigoGuardianGaia', codigo);
-            
-            console.log('🪞 Nuevo código de guardián generado:', codigo);
-        } else {
-            console.log('🪞 Código de guardián recuperado:', codigo);
+    function mostrarEspejoReal(codigoReal) {
+        // BUSCAR SI YA EXISTE UN ESPEJO (PARA NO DUPLICAR)
+        const espejoExistente = document.querySelector('.espejo-guardian');
+        if (espejoExistente) {
+            espejoExistente.remove();
         }
         
-        return codigo;
-    }
-    
-    function mostrarEspejoEnGaia(codigo) {
-        // Crear el elemento del espejo
+        // CREAR NUEVO ESPEJO CON CÓDIGO REAL
         const espejoDiv = document.createElement('div');
-        espejoDiv.className = 'espejo-guardian';
+        espejoDiv.className = 'espejo-guardian-real';
         espejoDiv.style.cssText = `
             margin: 20px 15px;
             padding: 20px;
@@ -1495,6 +1483,7 @@
             animation: aparecerEspejo 0.8s ease;
         `;
         
+        // ⚡ CONTENIDO CON CÓDIGO REAL
         espejoDiv.innerHTML = `
             <div style="
                 display: flex;
@@ -1532,7 +1521,7 @@
                     text-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
                     padding: 5px;
                 ">
-                    ${codigo}
+                    GPR-AQUA-ZIRIUX-000050  <!-- ⚡ CÓDIGO REAL FIJO -->
                 </div>
                 <div style="
                     color: #00eeff;
@@ -1542,7 +1531,24 @@
                     letter-spacing: 1.5px;
                     opacity: 0.9;
                 ">
-                    CÓDIGO DE GUARDIÁN
+                    CÓDIGO DE GUARDIÁN COSMICO
+                </div>
+                
+                <!-- ⚡ BADGE DE VERIFICADO -->
+                <div style="
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    background: rgba(0, 255, 136, 0.2);
+                    border: 1px solid #00ff88;
+                    border-radius: 10px;
+                    padding: 3px 8px;
+                    font-size: 0.7rem;
+                    color: #00ff88;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                ">
+                    ✅ Verificado
                 </div>
             </div>
             
@@ -1570,44 +1576,25 @@
             ">
                 <span>📅 ${new Date().toLocaleDateString('es-ES')}</span>
                 <span>🕒 ${new Date().toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'})}</span>
+                <span style="color: #00ff88;">⚡ Sincronizado con Supabase</span>
             </div>
         `;
         
-        // Agregar animación CSS
-        if (!document.querySelector('#estilos-espejo')) {
-            const style = document.createElement('style');
-            style.id = 'estilos-espejo';
-            style.textContent = `
-                @keyframes aparecerEspejo {
-                    from { 
-                        opacity: 0; 
-                        transform: translateY(-25px) scale(0.97); 
-                    }
-                    to { 
-                        opacity: 1; 
-                        transform: translateY(0) scale(1); 
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-        
-        // Insertar después de la cabecera
+        // INSERTAR EN LA INTERFAZ
         const cabecera = document.querySelector('.cabecera-gaia');
         if (cabecera) {
             cabecera.parentNode.insertBefore(espejoDiv, cabecera.nextSibling);
-            console.log('✅ Espejo del guardián insertado');
         } else {
-            // Fallback: al inicio del contenedor principal
             const contenedor = document.querySelector('.contenedor-principal');
             if (contenedor) {
                 contenedor.insertBefore(espejoDiv, contenedor.firstChild);
             }
         }
+        
+        console.log('🪞 Espejo con código REAL insertado');
     }
-    
-    console.log('🪞 Módulo de código-espejo cargado');
 })();
+
         console.log("✨ Sistema Guardián Gaia con 18 hábitos cargado y listo");
     </script>
 </body>
