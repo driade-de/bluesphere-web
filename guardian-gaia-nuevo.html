@@ -841,25 +841,67 @@ function calcularRacha(registros) {
 }
 
 // ===========================================
-// 🆕 ACTUALIZAR INTERFAZ CON DATOS REALES
+// 🆕 ACTUALIZAR INTERFAZ CON DATOS REALES (VERSIÓN CORREGIDA)
 // ===========================================
 function actualizarInterfazConDatosReales(datos) {
-    if (!datos) return;
+    if (!datos) {
+        console.warn("⚠️ No hay datos para actualizar");
+        return;
+    }
     
     console.log("🎨 Actualizando interfaz con datos reales:", datos);
     
-    // Actualizar los 4 cuadros principales
+    // 🎯 ELEMENTOS EXACTOS POR ID (USANDO TUS IDs REALES)
     const elementos = {
-        conciencia: document.querySelector('.conciencia-porcentaje'),
-        habitos: document.querySelector('.habitos-activos'),
-        co2: document.querySelector('.co2-evitado'),
-        racha: document.querySelector('.racha-dias')
+        conciencia: document.getElementById('indicador-conciencia'),
+        habitos: document.getElementById('indicador-habitos'),
+        impacto: document.getElementById('indicador-impacto'),
+        racha: document.getElementById('indicador-racha')
     };
     
-    if (elementos.conciencia) elementos.conciencia.textContent = `${datos.conciencia}%`;
-    if (elementos.habitos) elementos.habitos.textContent = datos.habitosHoy;
-    if (elementos.co2) elementos.co2.textContent = datos.co2Total;
-    if (elementos.racha) elementos.racha.textContent = datos.racha;
+    // VERIFICAR EN CONSOLA
+    console.log("🔍 Buscando elementos por ID:");
+    console.log("- indicador-conciencia:", elementos.conciencia);
+    console.log("- indicador-habitos:", elementos.habitos);
+    console.log("- indicador-impacto:", elementos.impacto);
+    console.log("- indicador-racha:", elementos.racha);
+    
+    // ACTUALIZAR SI SE ENCUENTRAN
+    if (elementos.conciencia) {
+        elementos.conciencia.textContent = `${datos.conciencia}%`;
+        console.log(`✅ Conciencia actualizada: ${datos.conciencia}%`);
+    } else {
+        console.warn("❌ No se encontró: indicador-conciencia");
+    }
+    
+    if (elementos.habitos) {
+        elementos.habitos.textContent = datos.habitosHoy;
+        console.log(`✅ Hábitos actualizados: ${datos.habitosHoy}`);
+    } else {
+        console.warn("❌ No se encontró: indicador-habitos");
+    }
+    
+    if (elementos.impacto) {
+        elementos.impacto.textContent = datos.co2Total;
+        console.log(`✅ CO₂ actualizado: ${datos.co2Total}`);
+    } else {
+        console.warn("❌ No se encontró: indicador-impacto");
+    }
+    
+    if (elementos.racha) {
+        elementos.racha.textContent = datos.racha;
+        console.log(`✅ Racha actualizada: ${datos.racha}`);
+    } else {
+        console.warn("❌ No se encontró: indicador-racha");
+    }
+    
+    // 🆕 ACTUALIZAR TÍTULO DE PÁGINA TAMBIÉN
+    if (datos.codigo && datos.conciencia) {
+        document.title = `🌍 Guardián ${datos.codigo} - ${datos.conciencia}% Conciencia`;
+        console.log(`📝 Título actualizado: ${document.title}`);
+    }
+    
+    console.log("✅ Interfaz actualizada completamente");
 }
 
 // ===========================================
