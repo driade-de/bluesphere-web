@@ -1603,20 +1603,32 @@ document.addEventListener('DOMContentLoaded', function() {
         // INICIALIZACIÓN COMPLETA
         // ===========================================
 // ===========================================
-// 🪞 CÓDIGO-ESPEJO DEL GUARDIÁN (VERSIÓN CORREGIDA)
+// 🪞 CÓDIGO-ESPEJO DEL GUARDIÁN (VERSIÓN DINÁMICA)
 // ===========================================
 (function() {
-    console.log('🪞 Inicializando módulo de código-espejo REAL...');
+    console.log('🪞 Inicializando módulo de código-espejo DINÁMICO...');
     
     // ESPERAR A QUE EL DOM ESTÉ CARGADO
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initEspejoReal);
     } else {
-        setTimeout(initEspejoReal, 500);
+        setTimeout(initEspejoReal, 1000); // Esperar más tiempo
     }
     
     function initEspejoReal() {
-        // ⚡ USAR SOLO EL CÓDIGO REAL, NO GENERAR ALEATORIOS
+        // PRIMERO: Verificar si hay código en la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const codigoDesdeURL = urlParams.get('codigo');
+        
+        // SI hay código en URL, usarlo (prioridad máxima)
+        if (codigoDesdeURL && codigoDesdeURL.trim().length >= 10) {
+            console.log('🎯 Código-espejo detectó parámetro URL:', codigoDesdeURL);
+            mostrarEspejoReal(codigoDesdeURL.trim());
+            localStorage.setItem('codigoGuardianGaia', codigoDesdeURL.trim());
+            return;
+        }
+        
+        // SI NO, usar el código fijo (solo si no hay en URL)
         const CODIGO_GUARDIAN_REAL = "GPR-AQUA-ZIRIUX-000050";
         
         // Mostrar el espejo con el código REAL
@@ -1625,7 +1637,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // También guardarlo en localStorage para consistencia
         localStorage.setItem('codigoGuardianGaia', CODIGO_GUARDIAN_REAL);
         
-        console.log('✅ Código-espejo sincronizado con sistema real:', CODIGO_GUARDIAN_REAL);
+        console.log('✅ Código-espejo sincronizado:', CODIGO_GUARDIAN_REAL);
     }
     
     function mostrarEspejoReal(codigoReal) {
@@ -1655,7 +1667,7 @@ document.addEventListener('DOMContentLoaded', function() {
             animation: aparecerEspejo 0.8s ease;
         `;
         
-        // ⚡ CONTENIDO CON CÓDIGO REAL
+        // CONTENIDO CON CÓDIGO DINÁMICO
         espejoDiv.innerHTML = `
             <div style="
                 display: flex;
@@ -1693,7 +1705,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     text-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
                     padding: 5px;
                 ">
-                    GPR-AQUA-ZIRIUX-000050  <!-- ⚡ CÓDIGO REAL FIJO -->
+                    ${codigoReal}  <!-- ⚡ CÓDIGO DINÁMICO -->
                 </div>
                 <div style="
                     color: #00eeff;
@@ -1706,7 +1718,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     CÓDIGO DE GUARDIÁN COSMICO
                 </div>
                 
-                <!-- ⚡ BADGE DE VERIFICADO -->
+                <!-- BADGE DE VERIFICADO -->
                 <div style="
                     position: absolute;
                     top: 10px;
@@ -1752,7 +1764,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
         
-        // INSERTAR EN LA INTERFAZ
+                // INSERTAR EN LA INTERFAZ
         const cabecera = document.querySelector('.cabecera-gaia');
         if (cabecera) {
             cabecera.parentNode.insertBefore(espejoDiv, cabecera.nextSibling);
@@ -1763,11 +1775,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        console.log('🪞 Espejo con código REAL insertado');
+        console.log('🪞 Espejo con código REAL insertado:', codigoReal);
     }
+    
+    console.log('🪞 Módulo de código-espejo cargado');
 })();
 
-        console.log("✨ Sistema Guardián Gaia con 18 hábitos cargado y listo");
-    </script>
+console.log("✨ Sistema Guardián Gaia con 18 hábitos cargado y listo");
+</script>
 </body>
 </html>
+       
