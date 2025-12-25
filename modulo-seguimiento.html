@@ -1399,8 +1399,23 @@ setInterval(actualizarRelojSistema, 1000);
         }
 
         function mostrarReporteCompleto() {
-    // Redirección directa al corazón de Gaia (Globo 3D)
-window.location.href = "guardian-gaia-nuevo.html";
+    // Redirección al corazón de Gaia CON código del guardián
+    const codigoActual = localStorage.getItem('firmaGuardian') || window.codigoGuardian;
+    
+    console.log("🌀 Generando portal a Gaia...");
+    console.log("🔑 Código detectado:", codigoActual);
+    
+    if (codigoActual && codigoActual.trim().length >= 10) {
+        // Codificación segura para URL
+        const codigoCodificado = encodeURIComponent(codigoActual.trim());
+        const nuevaURL = `guardian-gaia-nuevo.html?codigo=${codigoCodificado}`;
+        
+        console.log(`🌍 Portal generado: ${nuevaURL}`);
+        window.location.href = nuevaURL;
+    } else {
+        console.warn("⚠️ Modo seguro: No se detectó código válido");
+        window.location.href = "guardian-gaia-nuevo.html";
+    }
 }
 
         // ==================== INICIALIZACIÓN FINAL ====================
