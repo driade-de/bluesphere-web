@@ -130,6 +130,55 @@
         }
         
         /* =========================================== */
+        /* CÓDIGO ESPEJO DEL GUARDIÁN */
+        /* =========================================== */
+        .codigo-espejo {
+            background: rgba(10, 10, 22, 0.9);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(0, 224, 255, 0.3);
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            margin: 0 0 25px 0;
+        }
+        
+        .codigo-espejo-titulo {
+            color: #88eeff;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .codigo-guardian {
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #ffff00;
+            text-align: center;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 15px;
+            border: 2px solid rgba(0, 224, 255, 0.2);
+        }
+        
+        .codigo-espejo-subtitulo {
+            color: #00eeff;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .codigo-espejo-desc {
+            color: #aaddff;
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-top: 10px;
+        }
+        
+        /* =========================================== */
         /* PENTAGRAMA GAIA - ESTILOS */
         /* =========================================== */
         .pentagrama-seccion {
@@ -390,44 +439,6 @@
         }
         
         /* =========================================== */
-        /* REGISTRO DIARIO */
-        /* =========================================== */
-        .registro-seccion {
-            background: linear-gradient(135deg, 
-                rgba(0, 224, 255, 0.1), 
-                rgba(93, 47, 223, 0.1));
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid rgba(0, 224, 255, 0.3);
-            text-align: center;
-        }
-        
-        .registro-titulo {
-            color: var(--azul-brillante);
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .registro-texto {
-            color: #ccc;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-        .btn-registro-principal {
-            background: var(--verde-gaia);
-            border: none;
-            padding: 14px 30px;
-            border-radius: 25px;
-            color: black;
-            font-weight: bold;
-            font-size: 1rem;
-            width: 100%;
-            max-width: 300px;
-        }
-        
-        /* =========================================== */
         /* HÁBITOS DE HOY CON METADATA */
         /* =========================================== */
         .habitos-hoy-container {
@@ -555,6 +566,44 @@
         .habito-metadata-esfera {
             background: rgba(0, 224, 255, 0.15);
             color: var(--azul-brillante);
+        }
+        
+        /* =========================================== */
+        /* REGISTRO DIARIO */
+        /* =========================================== */
+        .registro-seccion {
+            background: linear-gradient(135deg, 
+                rgba(0, 224, 255, 0.1), 
+                rgba(93, 47, 223, 0.1));
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(0, 224, 255, 0.3);
+            text-align: center;
+        }
+        
+        .registro-titulo {
+            color: var(--azul-brillante);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .registro-texto {
+            color: #ccc;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .btn-registro-principal {
+            background: var(--verde-gaia);
+            border: none;
+            padding: 14px 30px;
+            border-radius: 25px;
+            color: black;
+            font-weight: bold;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 300px;
         }
         
         /* =========================================== */
@@ -759,6 +808,14 @@
             </div>
         </header>
         
+        <!-- CÓDIGO ESPEJO DEL GUARDIÁN -->
+        <div class="codigo-espejo">
+            <div class="codigo-espejo-titulo">🪞 Huella Energética Registrada</div>
+            <div class="codigo-guardian" id="codigo-guardian">GPR-AQUA-ZIRIUX-000051</div>
+            <div class="codigo-espejo-subtitulo">Código de Guardián Cósmico</div>
+            <div class="codigo-espejo-desc">Tus hábitos regenerativos están sincronizados con esta frecuencia única</div>
+        </div>
+        
         <!-- PENTAGRAMA GAIA -->
         <section class="pentagrama-seccion">
             <h2 class="pentagrama-titulo">🌍 PENTAGRAMA GAIA - ESTADO PLANETARIO</h2>
@@ -784,7 +841,7 @@
         </section>
         
         <!-- HÁBITOS DE HOY CON METADATA -->
-        <div id="habitos-hoy-container" class="habitos-hoy-container" style="display: none;">
+        <div id="habitos-hoy-container" class="habitos-hoy-container">
             <h2 class="habitos-hoy-titulo">
                 🌿 Tus Hábitos de Hoy
                 <span id="contador-habitos-hoy" style="
@@ -947,7 +1004,7 @@
                 nombre: "🔋 Ahorro energía consciente", 
                 impacto: 1.5, 
                 adopcion: 55,
-                descripcion: "Consciencia en cada vatio, electrodomésticos eficientes",
+                descripcion: "Consciencia en cada vato, electrodomésticos eficientes",
                 conciencia: "media",
                 ods: [7, 13, 11],
                 mantra: "La energía fluye con propósito"
@@ -1063,52 +1120,6 @@
         };
         
         // ===========================================
-        // FUNCIONES DEL SISTEMA GAIA V4
-        // ===========================================
-        
-        async function inicializarGaiaReal() {
-            try {
-                const codigoGuardian = "GPR-AQUA-ZIRIUX-000051";
-                console.log("🔭 Sincronizando Guardián:", codigoGuardian);
-
-                // 1. Obtener datos del Pentagrama y Metadata de hoy
-                const { data: datosReales, error } = await gaiaSupabase.rpc('obtener_estado_gaia_completo', {
-                    p_guardian_code: codigoGuardian
-                });
-
-                if (error) throw error;
-
-                if (datosReales) {
-                    // 2. Actualizar las 5 tarjetas del Pentagrama
-                    if (typeof actualizarPentagramaReal === 'function') {
-                        actualizarPentagramaReal(datosReales.metricas);
-                    }
-
-                    // 3. Gestión de la sección de Hábitos con Metadata
-                    if (datosReales.metadataHoy && datosReales.metadataHoy.length > 0) {
-                        console.log(`🎨 Renderizando ${datosReales.metadataHoy.length} hábitos con impacto real`);
-                        mostrarHabitosConMetadata(datosReales.metadataHoy);
-                    } else {
-                        console.log("⚠️ No hay registros hoy: Mostrando estado de espera");
-                        mostrarHabitosConMetadata([]);
-                    }
-
-                    // 4. Actualizar identidad visual
-                    if (typeof actualizarCodigoEspejo === 'function') {
-                        actualizarCodigoEspejo(codigoGuardian);
-                    }
-                    
-                    console.log("✅ Gaia V4 sincronizada: Impacto planetario actualizado");
-                }
-            } catch (error) {
-                console.error("🌀 Error en el flujo Gaia:", error);
-                // Mostrar datos de respaldo
-                mostrarPentagramaRespaldo();
-                cargarHabitos();
-            }
-        }
-        
-        // ===========================================
         // 🎨 FUNCIÓN PARA MOSTRAR HÁBITOS CON METADATA
         // ===========================================
         function mostrarHabitosConMetadata(metadataHoy) {
@@ -1123,12 +1134,14 @@
             }
             
             if (!metadataHoy || metadataHoy.length === 0) {
-                contenedor.style.display = 'none';
+                lista.innerHTML = '<div class="cargando">No has registrado hábitos hoy</div>';
+                
+                // Actualizar contador
+                const badge = document.getElementById('contador-habitos-hoy');
+                if (badge) badge.textContent = '0';
+                
                 return;
             }
-            
-            // Mostrar el contenedor
-            contenedor.style.display = 'block';
             
             // Actualizar contador
             const badge = document.getElementById('contador-habitos-hoy');
@@ -1230,36 +1243,177 @@
         }
         
         // ===========================================
-        // 🆕 ACTUALIZAR INTERFAZ CON DATOS REALES
+        // 🔧 FUNCIÓN PARA CARGAR DATOS DE SUPABASE
         // ===========================================
-        function actualizarInterfazConDatosReales(datos) {
-            if (!datos) {
-                console.warn("⚠️ No hay datos para actualizar");
-                return;
+        async function cargarDatosRealesGuardian() {
+            try {
+                const codigoGuardian = "GPR-AQUA-ZIRIUX-000051";
+                console.log("📊 Cargando datos reales para:", codigoGuardian);
+                
+                if (!gaiaSupabase) {
+                    console.warn("⚠️ Supabase no inicializado, usando datos de prueba");
+                    return crearDatosPrueba();
+                }
+                
+                const hoy = new Date().toISOString().split('T')[0];
+                
+                // Consultar registros de hoy
+                const { data: registrosHoy, error } = await gaiaSupabase
+                    .from('seguimiento')
+                    .select(`
+                        acciones_realizadas, 
+                        impacto_directo,
+                        significado_ods,
+                        impacto_contexto,
+                        categoria_gaia,
+                        icono_gaia,
+                        color_gaia,
+                        nivel_conciencia,
+                        tags_gaia,
+                        esfera_afectada
+                    `)
+                    .eq('codigo_guardian', codigoGuardian)
+                    .gte('fecha_reporte', hoy)
+                    .order('fecha_reporte', { ascending: false });
+                
+                if (error) {
+                    console.error("❌ Error consultando Supabase:", error);
+                    return crearDatosPrueba();
+                }
+                
+                // Procesar metadata
+                const metadataHoy = [];
+                let co2Total = 0;
+                let habitosUnicos = new Set();
+                
+                if (registrosHoy && registrosHoy.length > 0) {
+                    registrosHoy.forEach(registro => {
+                        co2Total += registro.impacto_directo || 0;
+                        
+                        // Contar hábitos únicos
+                        if (registro.acciones_realizadas) {
+                            registro.acciones_realizadas.split(',').forEach(accion => {
+                                habitosUnicos.add(accion.trim());
+                            });
+                        }
+                        
+                        metadataHoy.push({
+                            acciones: registro.acciones_realizadas,
+                            significado: registro.significado_ods,
+                            icono: registro.icono_gaia,
+                            color: registro.color_gaia,
+                            categoria: registro.categoria_gaia,
+                            nivel: registro.nivel_conciencia,
+                            tags: registro.tags_gaia,
+                            impactoContexto: registro.impacto_contexto,
+                            esfera: registro.esfera_afectada
+                        });
+                    });
+                }
+                
+                console.log(`📊 Datos cargados: ${metadataHoy.length} hábitos, ${co2Total}kg CO₂`);
+                
+                return {
+                    codigo: codigoGuardian,
+                    metadataHoy: metadataHoy,
+                    co2Total: co2Total.toFixed(1),
+                    habitosHoy: habitosUnicos.size,
+                    racha: metadataHoy.length > 0 ? 1 : 0,
+                    conciencia: Math.min(100, (habitosUnicos.size * 5.5)).toFixed(1)
+                };
+                
+            } catch (error) {
+                console.error("🌀 Error cargando datos reales:", error);
+                return crearDatosPrueba();
             }
+        }
+        
+        // ===========================================
+        // 🧪 FUNCIÓN PARA CREAR DATOS DE PRUEBA
+        // ===========================================
+        function crearDatosPrueba() {
+            console.log("🧪 Creando datos de prueba...");
             
-            console.log("🎨 Actualizando interfaz con datos reales:", datos);
-            
-            // Actualizar indicadores
-            const elementos = {
-                conciencia: document.getElementById('indicador-conciencia'),
-                habitos: document.getElementById('indicador-habitos'),
-                impacto: document.getElementById('indicador-impacto'),
-                racha: document.getElementById('indicador-racha')
+            const datosPrueba = {
+                codigo: "GPR-AQUA-ZIRIUX-000051",
+                metadataHoy: [
+                    {
+                        acciones: "menos_plasticos,ahorro_agua",
+                        significado: "ODS 14,12,6 | Protege la vida marina y reduce contaminación",
+                        icono: "🥤",
+                        color: "#00ffaa",
+                        categoria: "consumo",
+                        nivel: "Alto Impacto",
+                        tags: ["plastico", "oceano", "consciente"],
+                        impactoContexto: "Cada plástico evitado salva aproximadamente 100 especies marinas",
+                        esfera: "Hidrosfera"
+                    },
+                    {
+                        acciones: "energia_ahorro",
+                        significado: "ODS 7,13 | Energía asequible y acción climática",
+                        icono: "🔋",
+                        color: "#ffaa00",
+                        categoria: "energía",
+                        nivel: "Medio",
+                        tags: ["energia", "renovable", "clima"],
+                        impactoContexto: "Reducción de 5kg CO₂ equivalente por día",
+                        esfera: "Atmósfera"
+                    }
+                ],
+                co2Total: "7.5",
+                habitosHoy: 2,
+                racha: 3,
+                conciencia: "85.2"
             };
             
-            if (elementos.conciencia) elementos.conciencia.textContent = `${datos.conciencia || '0'}%`;
-            if (elementos.habitos) elementos.habitos.textContent = datos.habitosHoy || '0';
-            if (elementos.impacto) elementos.impacto.textContent = datos.co2Total || '0.0';
-            if (elementos.racha) elementos.racha.textContent = datos.racha || '0';
+            return datosPrueba;
+        }
+        
+        // ===========================================
+        // 🎯 FUNCIÓN PARA CARGAR Y MOSTRAR TODO
+        // ===========================================
+        async function cargarSistemaCompleto() {
+            console.log("🎯 Cargando sistema completo...");
             
-            // Mostrar hábitos con metadata si existen
-            if (datos.metadataHoy) {
-                console.log(`🎨 Llamando a mostrarHabitosConMetadata con ${datos.metadataHoy.length} hábitos`);
-                mostrarHabitosConMetadata(datos.metadataHoy);
+            // 1. Cargar datos reales de Supabase (o de prueba)
+            const datosReales = await cargarDatosRealesGuardian();
+            
+            // 2. Actualizar código espejo en la interfaz
+            if (datosReales && datosReales.codigo) {
+                const codigoElement = document.getElementById('codigo-guardian');
+                if (codigoElement) {
+                    codigoElement.textContent = datosReales.codigo;
+                }
             }
             
-            console.log("✅ Interfaz actualizada completamente");
+            // 3. Actualizar indicadores
+            if (datosReales) {
+                // Actualizar indicadores en la cabecera
+                const indicadores = {
+                    conciencia: document.getElementById('indicador-conciencia'),
+                    habitos: document.getElementById('indicador-habitos'),
+                    impacto: document.getElementById('indicador-impacto'),
+                    racha: document.getElementById('indicador-racha')
+                };
+                
+                if (indicadores.conciencia) indicadores.conciencia.textContent = `${datosReales.conciencia}%`;
+                if (indicadores.habitos) indicadores.habitos.textContent = datosReales.habitosHoy;
+                if (indicadores.impacto) indicadores.impacto.textContent = datosReales.co2Total;
+                if (indicadores.racha) indicadores.racha.textContent = datosReales.racha;
+                
+                // 4. Mostrar hábitos de hoy con metadata
+                if (datosReales.metadataHoy && datosReales.metadataHoy.length > 0) {
+                    console.log(`🎨 Mostrando ${datosReales.metadataHoy.length} hábitos de hoy`);
+                    mostrarHabitosConMetadata(datosReales.metadataHoy);
+                } else {
+                    console.log("📭 No hay hábitos registrados hoy");
+                    mostrarHabitosConMetadata([]);
+                }
+            } else {
+                console.log("⚠️ No se pudieron cargar datos reales, mostrando interfaz base");
+            }
+            
+            console.log("✅ Sistema completo cargado");
         }
         
         // ===========================================
@@ -1764,10 +1918,10 @@
             // 4. Cargar los 18 hábitos
             cargarHabitos();
             
-            // 5. Inicializar Gaia con datos reales
+            // 5. Cargar sistema completo (código espejo + hábitos hoy)
             setTimeout(() => {
-                inicializarGaiaReal();
-            }, 1500);
+                cargarSistemaCompleto();
+            }, 2000);
             
             // 6. Cargar estadísticas iniciales
             cargarEstadisticas();
