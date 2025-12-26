@@ -734,6 +734,15 @@ async function inicializarGaiaConCodigo() {
             // 4. Actualizar interfaz con datos reales
             actualizarInterfazConDatosReales(datosReales);
             
+            // ✅ NUEVO: Mostrar hábitos con metadata automática
+            if (datosReales && datosReales.metadataHoy) {
+                console.log(`🎨 Mostrando ${datosReales.metadataHoy.length} hábitos con metadata`);
+                mostrarHabitosConMetadata(datosReales.metadataHoy);
+            } else {
+                console.log("⚠️ No hay metadata para mostrar hoy");
+                crearContenedorHabitos(); // Crear contenedor vacío
+            }
+            
             // 5. Actualizar código en el espejo
             actualizarCodigoEspejo(codigoGuardian);
             
@@ -751,17 +760,31 @@ async function inicializarGaiaConCodigo() {
 }
 
 // ===========================================
-// 🆕 FUNCIÓN PARA CARGAR DATOS REALES
+// 🆕 FUNCIÓN PARA CARGAR DATOS REALES CON METADATA GAIA
 // ===========================================
 async function cargarDatosGuardian(codigo) {
     try {
         const hoy = new Date().toISOString().split('T')[0];
         console.log(`📊 Cargando datos para ${codigo} (hoy: ${hoy})...`);
         
-        // 1. Consultar registros de HOY
+        // 1. Consultar registros de HOY CON METADATA ENRIQUECIDA
         const { data: registrosHoy, error: errorHoy } = await gaiaSupabase
             .from('seguimiento')
-            .select('acciones_realizadas, impacto_directo, fecha_reporte')
+            .select(`
+                acciones_realizadas, 
+                impacto_directo, 
+                fecha_reporte,
+                // NUEVO: METADATA AUTOMÁTICA
+                significado_ods,
+                impacto_contexto,
+                categoria_gaia,
+                icono_gaia,
+                color_gaia,
+                nivel_conciencia,
+                tags_gaia,
+                fuente_impacto,
+                esfera_afectada
+            `)
             .eq('codigo_guardian', codigo)
             .gte('fecha_reporte', hoy)
             .order('fecha_reporte', { ascending: false });
@@ -771,15 +794,23 @@ async function cargarDatosGuardian(codigo) {
         // 2. Consultar TODOS los registros para estadísticas
         const { data: todosRegistros, error: errorTodos } = await gaiaSupabase
             .from('seguimiento')
-            .select('fecha_reporte, impacto_directo')
+            .select(`
+                fecha_reporte, 
+                impacto_directo,
+                // NUEVO: Para estadísticas avanzadas
+                categoria_gaia,
+                nivel_conciencia,
+                esfera_afectada
+            `)
             .eq('codigo_guardian', codigo)
             .order('fecha_reporte', { ascending: false });
         
         if (errorTodos) throw errorTodos;
         
-        // 3. Calcular métricas
+        // 3. Calcular métricas BÁSICAS
         let habitosUnicosHoy = new Set();
         let co2Hoy = 0;
+        let metadataHoy = []; // NUEVO: Almacenar metadata para mostrar
         
         if (registrosHoy && registrosHoy.length > 0) {
             registrosHoy.forEach(registro => {
@@ -789,19 +820,46 @@ async function cargarDatosGuardian(codigo) {
                     });
                 }
                 co2Hoy += registro.impacto_directo || 0;
+                
+                // NUEVO: Recopilar metadata enriquecida
+                metadataHoy.push({
+                    acciones: registro.acciones_realizadas,
+                    significado: registro.significado_ods,
+                    icono: registro.icono_gaia,
+                    color: registro.color_gaia,
+                    categoria: registro.categoria_gaia,
+                    nivel: registro.nivel_conciencia,
+                    tags: registro.tags_gaia,
+                    impactoContexto: registro.impacto_contexto,
+                    esfera: registro.esfera_afectada
+                });
             });
         }
         
         // 4. Calcular racha
         const racha = calcularRacha(todosRegistros);
         
+        // 5. NUEVO: Calcular estadísticas AVANZADAS con metadata
+        const estadisticasAvanzadas = calcularEstadisticasGaia(todosRegistros);
+        
         return {
+            // Datos básicos (ya existían)
             codigo: codigo,
             habitosHoy: habitosUnicosHoy.size,
             co2Total: co2Hoy.toFixed(1),
             racha: racha,
             conciencia: Math.min(100, (habitosUnicosHoy.size / 18) * 100).toFixed(1),
-            totalRegistros: todosRegistros ? todosRegistros.length : 0
+            totalRegistros: todosRegistros ? todosRegistros.length : 0,
+            
+            // NUEVO: Datos enriquecidos con metadata
+            registrosHoy: registrosHoy, // Incluye toda la metadata
+            metadataHoy: metadataHoy, // Metadata procesada
+            estadisticasAvanzadas: estadisticasAvanzadas,
+            
+            // NUEVO: Resumen por categoría
+            resumenCategorias: estadisticasAvanzadas.porCategoria,
+            resumenNiveles: estadisticasAvanzadas.porNivelConciencia,
+            resumenEsferas: estadisticasAvanzadas.porEsfera
         };
         
     } catch (error) {
@@ -811,35 +869,125 @@ async function cargarDatosGuardian(codigo) {
 }
 
 // ===========================================
-// 🆕 FUNCIÓN PARA CALCULAR RACHA
+// 🆕 FUNCIÓN PARA CALCULAR ESTADÍSTICAS GAIA AVANZADAS
 // ===========================================
-function calcularRacha(registros) {
-    if (!registros || registros.length === 0) return 0;
-    
-    let racha = 0;
-    let fechaEsperada = new Date();
-    
-    // Ordenar por fecha (más reciente primero)
-    const fechasUnicas = [...new Set(
-        registros.map(r => new Date(r.fecha_reporte).toISOString().split('T')[0])
-    )].sort((a, b) => new Date(b) - new Date(a));
-    
-    for (let fechaStr of fechasUnicas) {
-        const fechaRegistro = new Date(fechaStr);
-        const diferenciaDias = Math.floor(
-            (fechaEsperada - fechaRegistro) / (1000 * 60 * 60 * 24)
-        );
-        
-        if (diferenciaDias === racha) {
-            racha++;
-        } else {
-            break;
-        }
+function calcularEstadisticasGaia(registros) {
+    if (!registros || registros.length === 0) {
+        return {
+            porCategoria: {},
+            porNivelConciencia: {},
+            porEsfera: {},
+            iconosUtilizados: [],
+            totalCO2PorCategoria: {},
+            diasActivo: 0
+        };
     }
     
-    return racha;
+    const stats = {
+        porCategoria: {},
+        porNivelConciencia: {},
+        porEsfera: {},
+        iconosUtilizados: new Set(),
+        totalCO2PorCategoria: {},
+        diasActivo: new Set()
+    };
+    
+    registros.forEach(registro => {
+        // Por categoría
+        if (registro.categoria_gaia) {
+            stats.porCategoria[registro.categoria_gaia] = 
+                (stats.porCategoria[registro.categoria_gaia] || 0) + 1;
+            
+            // CO2 por categoría
+            stats.totalCO2PorCategoria[registro.categoria_gaia] = 
+                (stats.totalCO2PorCategoria[registro.categoria_gaia] || 0) + 
+                (registro.impacto_directo || 0);
+        }
+        
+        // Por nivel de conciencia
+        if (registro.nivel_conciencia) {
+            stats.porNivelConciencia[registro.nivel_conciencia] = 
+                (stats.porNivelConciencia[registro.nivel_conciencia] || 0) + 1;
+        }
+        
+        // Por esfera afectada
+        if (registro.esfera_afectada) {
+            stats.porEsfera[registro.esfera_afectada] = 
+                (stats.porEsfera[registro.esfera_afectada] || 0) + 1;
+        }
+        
+        // Días activo (por fecha única)
+        if (registro.fecha_reporte) {
+            const fecha = registro.fecha_reporte.split('T')[0];
+            stats.diasActivo.add(fecha);
+        }
+    });
+    
+    // Convertir Set a Array
+    stats.iconosUtilizados = Array.from(stats.iconosUtilizados);
+    stats.diasActivo = stats.diasActivo.size;
+    
+    return stats;
 }
 
+// ===========================================
+// 🆕 FUNCIÓN PARA MOSTRAR HÁBITOS CON METADATA ENRIQUECIDA
+// ===========================================
+function mostrarHabitosConMetadata(metadataHoy) {
+    const contenedor = document.getElementById('habitos-hoy-container');
+    if (!contenedor) return;
+    
+    if (!metadataHoy || metadataHoy.length === 0) {
+        contenedor.innerHTML = '<p class="texto-sutil">Aún no has registrado hábitos hoy.</p>';
+        return;
+    }
+    
+    contenedor.innerHTML = metadataHoy.map(habito => `
+        <div class="habito-card" style="border-left-color: ${habito.color || '#3ddc84'}">
+            <div class="habito-icono">${habito.icono || '🌱'}</div>
+            <div class="habito-contenido">
+                <h4>${traducirAccion(habito.acciones)}</h4>
+                ${habito.significado ? `<p class="significado-ods">${habito.significado}</p>` : ''}
+                ${habito.impactoContexto ? `<p class="impacto-contexto">${habito.impactoContexto}</p>` : ''}
+                ${habito.tags ? `
+                    <div class="habito-tags">
+                        ${habito.tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}
+                    </div>
+                ` : ''}
+                <div class="habito-stats">
+                    ${habito.categoria ? `<span class="categoria">${habito.categoria}</span>` : ''}
+                    ${habito.nivel ? `<span class="nivel">${habito.nivel}</span>` : ''}
+                    ${habito.esfera ? `<span class="esfera">${habito.esfera}</span>` : ''}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ===========================================
+// 🆕 FUNCIÓN AUXILIAR: TRADUCIR ACCIÓN A NOMBRE BONITO
+// ===========================================
+function traducirAccion(accion) {
+    const traducciones = {
+        'menos_plasticos': 'Reducción de Plásticos',
+        'transporte_limpio': 'Transporte Sostenible',
+        'ahorro_agua': 'Ahorro de Agua',
+        'compostaje': 'Compostaje',
+        'reforestacion': 'Reforestación',
+        'activismo_digital': 'Activismo Digital',
+        'consumo_local': 'Consumo Local',
+        'energia_ahorro': 'Ahorro de Energía',
+        'limpieza_natural': 'Limpieza Natural'
+        // Añade más traducciones según tus hábitos
+    };
+    
+    if (accion.includes(',')) {
+        const primeros = accion.split(',')[0].trim();
+        return traducciones[primeros] || primeros;
+    }
+    
+    return traducciones[accion] || accion;
+}
 // ===========================================
 // 🆕 ACTUALIZAR INTERFAZ CON DATOS REALES (VERSIÓN CORREGIDA)
 // ===========================================
@@ -901,9 +1049,17 @@ function actualizarInterfazConDatosReales(datos) {
         console.log(`📝 Título actualizado: ${document.title}`);
     }
     
+    // ✅ AÑADE ESTO: MOSTRAR HÁBITOS CON METADATA
+    if (datos.metadataHoy) {
+        console.log(`🎨 Llamando a mostrarHabitosConMetadata con ${datos.metadataHoy.length} hábitos`);
+        mostrarHabitosConMetadata(datos.metadataHoy);
+    } else {
+        console.log("📭 No hay metadata hoy, creando contenedor vacío");
+        crearContenedorHabitos();
+    }
+    
     console.log("✅ Interfaz actualizada completamente");
 }
-
 // ===========================================
 // 🆕 ACTUALIZAR CÓDIGO EN EL ESPEJO
 // ===========================================
