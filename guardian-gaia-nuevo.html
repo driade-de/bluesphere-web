@@ -1246,88 +1246,96 @@
         // 🔧 FUNCIÓN PARA CARGAR DATOS DE SUPABASE
         // ===========================================
         async function cargarDatosRealesGuardian() {
-            try {
-                const codigoGuardian = "GPR-AQUA-ZIRIUX-000051";
-                console.log("📊 Cargando datos reales para:", codigoGuardian);
+    try {
+        // 1. OBTENER CÓDIGO DE LA URL
+        const urlParams = new URLSearchParams(window.location.search);
+        let codigoGuardian = urlParams.get('codigo');
+        if (!codigoGuardian) {
+            codigoGuardian = "GPR-AQUA-ZIRIUX-000051";
+        }
+        console.log("📊 Cargando datos reales para:", codigoGuardian);
+        
+        if (!gaiaSupabase) {
+            console.warn("⚠️ Supabase no inicializado, usando datos de prueba");
+            return crearDatosPrueba();
+        }
+        
+        const hoy = new Date().toISOString().split('T')[0];
+        
+        // 2. EXTRAER PARTE NUMÉRICA
+        const codigoNumerico = codigoGuardian.split('-').pop();
+        
+        // Consultar registros de hoy
+        const { data: registrosHoy, error } = await gaiaSupabase
+            .from('seguimiento')
+            .select(`
+                acciones_realizadas, 
+                impacto_directo,
+                significado_ods,
+                impacto_contexto,
+                categoria_gaia,
+                icono_gaia,
+                color_gaia,
+                nivel_conciencia,
+                tags_gaia,
+                esfera_afectada
+            `)
+            // 3. USAR PARTE NUMÉRICA EN CONSULTA
+            .eq('codigo_guardian', codigoNumerico)
+            .gte('fecha_reporte', hoy)
+            .order('fecha_reporte', { ascending: false });
+        
+        if (error) {
+            console.error("❌ Error consultando Supabase:", error);
+            return crearDatosPrueba();
+        }
+        
+        // Procesar metadata
+        const metadataHoy = [];
+        let co2Total = 0;
+        let habitosUnicos = new Set();
+        
+        if (registrosHoy && registrosHoy.length > 0) {
+            registrosHoy.forEach(registro => {
+                co2Total += registro.impacto_directo || 0;
                 
-                if (!gaiaSupabase) {
-                    console.warn("⚠️ Supabase no inicializado, usando datos de prueba");
-                    return crearDatosPrueba();
-                }
-                
-                const hoy = new Date().toISOString().split('T')[0];
-                
-                // Consultar registros de hoy
-                const { data: registrosHoy, error } = await gaiaSupabase
-                    .from('seguimiento')
-                    .select(`
-                        acciones_realizadas, 
-                        impacto_directo,
-                        significado_ods,
-                        impacto_contexto,
-                        categoria_gaia,
-                        icono_gaia,
-                        color_gaia,
-                        nivel_conciencia,
-                        tags_gaia,
-                        esfera_afectada
-                    `)
-                    .eq('codigo_guardian', codigoGuardian)
-                    .gte('fecha_reporte', hoy)
-                    .order('fecha_reporte', { ascending: false });
-                
-                if (error) {
-                    console.error("❌ Error consultando Supabase:", error);
-                    return crearDatosPrueba();
-                }
-                
-                // Procesar metadata
-                const metadataHoy = [];
-                let co2Total = 0;
-                let habitosUnicos = new Set();
-                
-                if (registrosHoy && registrosHoy.length > 0) {
-                    registrosHoy.forEach(registro => {
-                        co2Total += registro.impacto_directo || 0;
-                        
-                        // Contar hábitos únicos
-                        if (registro.acciones_realizadas) {
-                            registro.acciones_realizadas.split(',').forEach(accion => {
-                                habitosUnicos.add(accion.trim());
-                            });
-                        }
-                        
-                        metadataHoy.push({
-                            acciones: registro.acciones_realizadas,
-                            significado: registro.significado_ods,
-                            icono: registro.icono_gaia,
-                            color: registro.color_gaia,
-                            categoria: registro.categoria_gaia,
-                            nivel: registro.nivel_conciencia,
-                            tags: registro.tags_gaia,
-                            impactoContexto: registro.impacto_contexto,
-                            esfera: registro.esfera_afectada
-                        });
+                // Contar hábitos únicos
+                if (registro.acciones_realizadas) {
+                    registro.acciones_realizadas.split(',').forEach(accion => {
+                        habitosUnicos.add(accion.trim());
                     });
                 }
                 
-                console.log(`📊 Datos cargados: ${metadataHoy.length} hábitos, ${co2Total}kg CO₂`);
-                
-                return {
-                    codigo: codigoGuardian,
-                    metadataHoy: metadataHoy,
-                    co2Total: co2Total.toFixed(1),
-                    habitosHoy: habitosUnicos.size,
-                    racha: metadataHoy.length > 0 ? 1 : 0,
-                    conciencia: Math.min(100, (habitosUnicos.size * 5.5)).toFixed(1)
-                };
-                
-            } catch (error) {
-                console.error("🌀 Error cargando datos reales:", error);
-                return crearDatosPrueba();
-            }
+                metadataHoy.push({
+                    acciones: registro.acciones_realizadas,
+                    significado: registro.significado_ods,
+                    icono: registro.icono_gaia,
+                    color: registro.color_gaia,
+                    categoria: registro.categoria_gaia,
+                    nivel: registro.nivel_conciencia,
+                    tags: registro.tags_gaia,
+                    impactoContexto: registro.impacto_contexto,
+                    esfera: registro.esfera_afectada
+                });
+            });
         }
         
+        console.log(`📊 Datos cargados: ${metadataHoy.length} hábitos, ${co2Total}kg CO₂`);
+        
+        return {
+            codigo: codigoGuardian,
+            metadataHoy: metadataHoy,
+            co2Total: co2Total.toFixed(1),
+            habitosHoy: habitosUnicos.size,
+            racha: metadataHoy.length > 0 ? 1 : 0,
+            conciencia: Math.min(100, (habitosUnicos.size * 5.5)).toFixed(1)
+        };
+        
+    } catch (error) {
+        console.error("🌀 Error cargando datos reales:", error);
+        return crearDatosPrueba();
+    }
+}
         // ===========================================
         // 🧪 FUNCIÓN PARA CREAR DATOS DE PRUEBA
         // ===========================================
