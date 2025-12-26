@@ -1913,55 +1913,81 @@ async function cargarSistemaCompleto() {
     if (etiqueta) etiqueta.innerText = codigoGuardian;
 
     try {
-        // C. Consulta a Supabase usando el código dinámico
-        // Esto traerá tus rituales reales (como el #171 que vimos en Supabase)
-        const { data: ritualesHoy, error } = await supabase
+        // C. Validación de conexión
+        if (!gaiaSupabase) {
+            console.warn("⚠️ Esperando conexión con Supabase...");
+            return;
+        }
+
+        // D. Consulta a Supabase usando el nombre de variable correcto (gaiaSupabase)
+        // Esto traerá tus rituales reales como el #171
+        const { data: ritualesHoy, error } = await gaiaSupabase
             .from('seguimiento')
             .select('*')
             .eq('codigo_guardian', codigoGuardian)
-            .gte('fecha_reporte', new Date().toISOString().split('T')[0]); // Solo hoy
+            .gte('fecha_reporte', new Date().toISOString().split('T')[0]); 
 
         if (error) throw error;
 
-        // D. Actualizar contadores y mostrar hábitos
+        // E. Actualizar contadores y mostrar hábitos
+        const listaHoy = document.getElementById('habitos-hoy-lista');
+        const contador = document.getElementById('contador-habitos-hoy');
+
         if (ritualesHoy && ritualesHoy.length > 0) {
-            console.log(`✅ Se encontraron ${ritualesHoy.length} rituales para ${codigoGuardian}`);
-            
-            // Actualizar el contador verde en tu HTML
-            const contador = document.getElementById('contador-habitos-hoy');
+            console.log(`✅ Ritual detectado para ${codigoGuardian}`);
             if (contador) contador.innerText = ritualesHoy.length;
-            
-            // Renderizar las tarjetas con metadata (tortugas, ODS, etc.)
             mostrarHabitosConMetadata(ritualesHoy);
         } else {
-            console.log("⚠️ No hay rituales registrados hoy para este código.");
-            document.getElementById('habitos-hoy-lista').innerHTML = 
-                '<p style="text-align:center; opacity:0.6;">Aún no has registrado rituales hoy.</p>';
+            console.log("⚠️ Sin rituales hoy para este código");
+            if (contador) contador.innerText = "0";
+            if (listaHoy) listaHoy.innerHTML = '<p style="text-align:center; opacity:0.6;">Aún no has registrado rituales hoy.</p>';
         }
 
     } catch (err) {
         console.error("🌀 Error al sincronizar con Gaia:", err);
     }
 }
-        // ===========================================
-        // ACTUALIZACIONES AUTOMÁTICAS
-        // ===========================================
-        
-        // Actualizar Pentagrama cada 5 minutos
-        setInterval(() => {
-            actualizarPentagramaReal();
-        }, 5 * 60 * 1000);
-        
-        // Actualizar conciencia gradualmente
-        setInterval(() => {
-            const elemento = document.getElementById('indicador-conciencia');
-            let valor = parseFloat(elemento.textContent);
-            valor += Math.random() * 0.05;
-            if (valor > 100) valor = 100;
-            elemento.textContent = valor.toFixed(1) + '%';
-        }, 30000);
-        
-        console.log("✨ Sistema Guardián Gaia con integración completa cargado y listo");
-    </script>
+
+// ===========================================
+// 🔥 INICIALIZACIÓN AUTOMÁTICA (EL ENCENDIDO)
+// ===========================================
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("🚀 Encendiendo motores del Guardián Gaia...");
+    
+    // 1. Partículas y Conexión
+    inicializarParticulas();
+    inicializarSupabase();
+    
+    // 2. Carga de datos con pequeños retrasos para asegurar conexión
+    setTimeout(() => {
+        actualizarPentagramaReal();
+        cargarHabitos('todos');
+        cargarEstadisticas();
+    }, 500);
+
+    setTimeout(() => {
+        cargarSistemaCompleto(); 
+    }, 1500);
+});
+
+// ===========================================
+// ACTUALIZACIONES AUTOMÁTICAS
+// ===========================================
+setInterval(() => {
+    actualizarPentagramaReal();
+}, 5 * 60 * 1000);
+
+setInterval(() => {
+    const elemento = document.getElementById('indicador-conciencia');
+    if (elemento) {
+        let valor = parseFloat(elemento.textContent);
+        valor += Math.random() * 0.05;
+        if (valor > 100) valor = 100;
+        elemento.textContent = valor.toFixed(1) + '%';
+    }
+}, 30000);
+
+console.log("✨ Sistema Guardián Gaia V4 integrado y operativo");
+</script>
 </body>
 </html>
