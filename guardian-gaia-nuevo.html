@@ -774,7 +774,6 @@ async function cargarDatosGuardian(codigo) {
                 acciones_realizadas, 
                 impacto_directo, 
                 fecha_reporte,
-                // NUEVO: METADATA AUTOMÁTICA
                 significado_ods,
                 impacto_contexto,
                 categoria_gaia,
@@ -797,7 +796,6 @@ async function cargarDatosGuardian(codigo) {
             .select(`
                 fecha_reporte, 
                 impacto_directo,
-                // NUEVO: Para estadísticas avanzadas
                 categoria_gaia,
                 nivel_conciencia,
                 esfera_afectada
@@ -839,9 +837,6 @@ async function cargarDatosGuardian(codigo) {
         // 4. Calcular racha
         const racha = calcularRacha(todosRegistros);
         
-        // 5. NUEVO: Calcular estadísticas AVANZADAS con metadata
-        const estadisticasAvanzadas = calcularEstadisticasGaia(todosRegistros);
-        
         return {
             // Datos básicos (ya existían)
             codigo: codigo,
@@ -852,14 +847,8 @@ async function cargarDatosGuardian(codigo) {
             totalRegistros: todosRegistros ? todosRegistros.length : 0,
             
             // NUEVO: Datos enriquecidos con metadata
-            registrosHoy: registrosHoy, // Incluye toda la metadata
-            metadataHoy: metadataHoy, // Metadata procesada
-            estadisticasAvanzadas: estadisticasAvanzadas,
-            
-            // NUEVO: Resumen por categoría
-            resumenCategorias: estadisticasAvanzadas.porCategoria,
-            resumenNiveles: estadisticasAvanzadas.porNivelConciencia,
-            resumenEsferas: estadisticasAvanzadas.porEsfera
+            metadataHoy: metadataHoy,
+            registrosHoy: registrosHoy
         };
         
     } catch (error) {
