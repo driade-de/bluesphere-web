@@ -811,7 +811,7 @@
         <!-- CÓDIGO ESPEJO DEL GUARDIÁN -->
         <div class="codigo-espejo">
             <div class="codigo-espejo-titulo">🪞 Huella Energética Registrada</div>
-            <div class="codigo-guardian" id="codigo-guardian">GPR-AQUA-ZIRIUX-000051</div>
+            <div class="codigo-guardian" id="codigo-guardian">Sincronizando...</div>
             <div class="codigo-espejo-subtitulo">Código de Guardián Cósmico</div>
             <div class="codigo-espejo-desc">Tus hábitos regenerativos están sincronizados con esta frecuencia única</div>
         </div>
@@ -1246,96 +1246,88 @@
         // 🔧 FUNCIÓN PARA CARGAR DATOS DE SUPABASE
         // ===========================================
         async function cargarDatosRealesGuardian() {
-    try {
-        // 1. OBTENER CÓDIGO DE LA URL
-        const urlParams = new URLSearchParams(window.location.search);
-        let codigoGuardian = urlParams.get('codigo');
-        if (!codigoGuardian) {
-            codigoGuardian = "GPR-AQUA-ZIRIUX-000051";
-        }
-        console.log("📊 Cargando datos reales para:", codigoGuardian);
-        
-        if (!gaiaSupabase) {
-            console.warn("⚠️ Supabase no inicializado, usando datos de prueba");
-            return crearDatosPrueba();
-        }
-        
-        const hoy = new Date().toISOString().split('T')[0];
-        
-        // 2. EXTRAER PARTE NUMÉRICA
-        const codigoNumerico = codigoGuardian.split('-').pop();
-        
-        // Consultar registros de hoy
-        const { data: registrosHoy, error } = await gaiaSupabase
-            .from('seguimiento')
-            .select(`
-                acciones_realizadas, 
-                impacto_directo,
-                significado_ods,
-                impacto_contexto,
-                categoria_gaia,
-                icono_gaia,
-                color_gaia,
-                nivel_conciencia,
-                tags_gaia,
-                esfera_afectada
-            `)
-            // 3. USAR PARTE NUMÉRICA EN CONSULTA
-            .eq('codigo_guardian', codigoNumerico)
-            .gte('fecha_reporte', hoy)
-            .order('fecha_reporte', { ascending: false });
-        
-        if (error) {
-            console.error("❌ Error consultando Supabase:", error);
-            return crearDatosPrueba();
-        }
-        
-        // Procesar metadata
-        const metadataHoy = [];
-        let co2Total = 0;
-        let habitosUnicos = new Set();
-        
-        if (registrosHoy && registrosHoy.length > 0) {
-            registrosHoy.forEach(registro => {
-                co2Total += registro.impacto_directo || 0;
+            try {
+                const codigoGuardian = "GPR-AQUA-ZIRIUX-000051";
+                console.log("📊 Cargando datos reales para:", codigoGuardian);
                 
-                // Contar hábitos únicos
-                if (registro.acciones_realizadas) {
-                    registro.acciones_realizadas.split(',').forEach(accion => {
-                        habitosUnicos.add(accion.trim());
+                if (!gaiaSupabase) {
+                    console.warn("⚠️ Supabase no inicializado, usando datos de prueba");
+                    return crearDatosPrueba();
+                }
+                
+                const hoy = new Date().toISOString().split('T')[0];
+                
+                // Consultar registros de hoy
+                const { data: registrosHoy, error } = await gaiaSupabase
+                    .from('seguimiento')
+                    .select(`
+                        acciones_realizadas, 
+                        impacto_directo,
+                        significado_ods,
+                        impacto_contexto,
+                        categoria_gaia,
+                        icono_gaia,
+                        color_gaia,
+                        nivel_conciencia,
+                        tags_gaia,
+                        esfera_afectada
+                    `)
+                    .eq('codigo_guardian', codigoGuardian)
+                    .gte('fecha_reporte', hoy)
+                    .order('fecha_reporte', { ascending: false });
+                
+                if (error) {
+                    console.error("❌ Error consultando Supabase:", error);
+                    return crearDatosPrueba();
+                }
+                
+                // Procesar metadata
+                const metadataHoy = [];
+                let co2Total = 0;
+                let habitosUnicos = new Set();
+                
+                if (registrosHoy && registrosHoy.length > 0) {
+                    registrosHoy.forEach(registro => {
+                        co2Total += registro.impacto_directo || 0;
+                        
+                        // Contar hábitos únicos
+                        if (registro.acciones_realizadas) {
+                            registro.acciones_realizadas.split(',').forEach(accion => {
+                                habitosUnicos.add(accion.trim());
+                            });
+                        }
+                        
+                        metadataHoy.push({
+                            acciones: registro.acciones_realizadas,
+                            significado: registro.significado_ods,
+                            icono: registro.icono_gaia,
+                            color: registro.color_gaia,
+                            categoria: registro.categoria_gaia,
+                            nivel: registro.nivel_conciencia,
+                            tags: registro.tags_gaia,
+                            impactoContexto: registro.impacto_contexto,
+                            esfera: registro.esfera_afectada
+                        });
                     });
                 }
                 
-                metadataHoy.push({
-                    acciones: registro.acciones_realizadas,
-                    significado: registro.significado_ods,
-                    icono: registro.icono_gaia,
-                    color: registro.color_gaia,
-                    categoria: registro.categoria_gaia,
-                    nivel: registro.nivel_conciencia,
-                    tags: registro.tags_gaia,
-                    impactoContexto: registro.impacto_contexto,
-                    esfera: registro.esfera_afectada
-                });
-            });
+                console.log(`📊 Datos cargados: ${metadataHoy.length} hábitos, ${co2Total}kg CO₂`);
+                
+                return {
+                    codigo: codigoGuardian,
+                    metadataHoy: metadataHoy,
+                    co2Total: co2Total.toFixed(1),
+                    habitosHoy: habitosUnicos.size,
+                    racha: metadataHoy.length > 0 ? 1 : 0,
+                    conciencia: Math.min(100, (habitosUnicos.size * 5.5)).toFixed(1)
+                };
+                
+            } catch (error) {
+                console.error("🌀 Error cargando datos reales:", error);
+                return crearDatosPrueba();
+            }
         }
         
-        console.log(`📊 Datos cargados: ${metadataHoy.length} hábitos, ${co2Total}kg CO₂`);
-        
-        return {
-            codigo: codigoGuardian,
-            metadataHoy: metadataHoy,
-            co2Total: co2Total.toFixed(1),
-            habitosHoy: habitosUnicos.size,
-            racha: metadataHoy.length > 0 ? 1 : 0,
-            conciencia: Math.min(100, (habitosUnicos.size * 5.5)).toFixed(1)
-        };
-        
-    } catch (error) {
-        console.error("🌀 Error cargando datos reales:", error);
-        return crearDatosPrueba();
-    }
-}
         // ===========================================
         // 🧪 FUNCIÓN PARA CREAR DATOS DE PRUEBA
         // ===========================================
@@ -1906,37 +1898,51 @@
             return racha;
         }
         
-        // ===========================================
-        // INICIALIZACIÓN COMPLETA DEL SISTEMA
-        // ===========================================
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("✅ DOM cargado, inicializando sistema Gaia completo...");
+       // ===========================================
+// 5. CARGAR SISTEMA COMPLETO (Sincronizado)
+// ===========================================
+async function cargarSistemaCompleto() {
+    console.log("🔭 Iniciando sincronización de rituales...");
+
+    // A. Razonamiento de Identidad: Leer la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const codigoGuardian = urlParams.get('codigo') || "GPR-AQUA-ZIRIUX-000051";
+    
+    // B. Actualizar el HTML (Borrar "Sincronizando...")
+    const etiqueta = document.getElementById('codigo-guardian');
+    if (etiqueta) etiqueta.innerText = codigoGuardian;
+
+    try {
+        // C. Consulta a Supabase usando el código dinámico
+        // Esto traerá tus rituales reales (como el #171 que vimos en Supabase)
+        const { data: ritualesHoy, error } = await supabase
+            .from('seguimiento')
+            .select('*')
+            .eq('codigo_guardian', codigoGuardian)
+            .gte('fecha_reporte', new Date().toISOString().split('T')[0]); // Solo hoy
+
+        if (error) throw error;
+
+        // D. Actualizar contadores y mostrar hábitos
+        if (ritualesHoy && ritualesHoy.length > 0) {
+            console.log(`✅ Se encontraron ${ritualesHoy.length} rituales para ${codigoGuardian}`);
             
-            // 1. Inicializar partículas
-            inicializarParticulas();
+            // Actualizar el contador verde en tu HTML
+            const contador = document.getElementById('contador-habitos-hoy');
+            if (contador) contador.innerText = ritualesHoy.length;
             
-            // 2. Conectar a Supabase
-            inicializarSupabase();
-            
-            // 3. Cargar Pentagrama Gaia
-            setTimeout(() => {
-                actualizarPentagramaReal();
-            }, 1000);
-            
-            // 4. Cargar los 18 hábitos
-            cargarHabitos();
-            
-            // 5. Cargar sistema completo (código espejo + hábitos hoy)
-            setTimeout(() => {
-                cargarSistemaCompleto();
-            }, 2000);
-            
-            // 6. Cargar estadísticas iniciales
-            cargarEstadisticas();
-            
-            console.log("🚀 Sistema Guardián Gaia inicializado correctamente");
-        });
-        
+            // Renderizar las tarjetas con metadata (tortugas, ODS, etc.)
+            mostrarHabitosConMetadata(ritualesHoy);
+        } else {
+            console.log("⚠️ No hay rituales registrados hoy para este código.");
+            document.getElementById('habitos-hoy-lista').innerHTML = 
+                '<p style="text-align:center; opacity:0.6;">Aún no has registrado rituales hoy.</p>';
+        }
+
+    } catch (err) {
+        console.error("🌀 Error al sincronizar con Gaia:", err);
+    }
+}
         // ===========================================
         // ACTUALIZACIONES AUTOMÁTICAS
         // ===========================================
