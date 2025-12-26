@@ -734,29 +734,63 @@ async function inicializarGaiaConCodigo() {
             // 4. Actualizar interfaz con datos reales
             actualizarInterfazConDatosReales(datosReales);
             
-            // ✅ NUEVO: Mostrar hábitos con metadata automática
-            if (datosReales && datosReales.metadataHoy) {
-                console.log(`🎨 Mostrando ${datosReales.metadataHoy.length} hábitos con metadata`);
-                mostrarHabitosConMetadata(datosReales.metadataHoy);
-            } else {
-                console.log("⚠️ No hay metadata para mostrar hoy");
-                crearContenedorHabitos(); // Crear contenedor vacío
-            }
-            
-            // 5. Actualizar código en el espejo
-            actualizarCodigoEspejo(codigoGuardian);
-            
-            console.log("🌍 Gaia sincronizada con datos reales del guardián");
-            
-        } else {
-            console.log("🌌 Modo estándar: Mostrando datos de ejemplo");
-            // Mantener datos estáticos por defecto
+            // ✅ INTEGRACIÓN GAIA: Metadata y Contenedor de Hábitos
+try {
+    if (datosReales && datosReales.metadataHoy) {
+        console.log(`🎨 Mostrando ${datosReales.metadataHoy.length} hábitos con metadata`);
+        // Esta función debe estar definida en tu archivo para renderizar las tarjetas
+        if (typeof mostrarHabitosConMetadata === 'function') {
+            mostrarHabitosConMetadata(datosReales.metadataHoy);
         }
-        
-    } catch (error) {
-        console.error("🌀 Error en inicialización Gaia:", error);
-        // Fallback a datos estáticos
+    } else {
+        console.log("⚠️ No hay metadata para mostrar hoy");
+        crearContenedorHabitos(); // Llamada a la función integrada abajo
     }
+    
+    // 5. Actualizar código en el espejo y consola
+    if (typeof actualizarCodigoEspejo === 'function') {
+        actualizarCodigoEspejo(codigoGuardian);
+    }
+    console.log("🌍 Gaia sincronizada con datos reales del guardián");
+
+} catch (error) {
+    console.error("🌀 Error en inicialización Gaia:", error);
+}
+
+// 🏗️ FUNCIÓN INTEGRADA: Crear contenedor para hábitos
+function crearContenedorHabitos() {
+    console.log("🏗️ Preparando espacio para hábitos...");
+    
+    if (document.getElementById('habitos-hoy-container')) {
+        console.log("✅ El contenedor ya existe");
+        return;
+    }
+    
+    const contenedor = document.createElement('div');
+    contenedor.id = 'habitos-hoy-container';
+    contenedor.style.cssText = `
+        background: rgba(10, 10, 22, 0.7);
+        border-radius: 12px;
+        padding: 20px;
+        margin: 20px auto;
+        border: 1px solid rgba(42, 252, 91, 0.2);
+        max-width: 90%;
+        box-shadow: 0 0 15px rgba(0, 224, 255, 0.1);
+    `;
+    
+    contenedor.innerHTML = `
+        <h4 style="color: #2afc5b; margin-bottom: 15px; text-align: center; font-family: 'Inter', sans-serif; letter-spacing: 1px;">
+            🌿 Tus Hábitos de Hoy
+        </h4>
+        <p style="color: #88eeff; text-align: center; opacity: 0.7; font-size: 0.9rem;">
+            Aún no has registrado hábitos hoy, Guardián 51
+        </p>
+    `;
+    
+    // Lo insertamos antes del pie de página o al final del contenedor principal
+    const mainPos = document.querySelector('.main-container') || document.body;
+    mainPos.appendChild(contenedor);
+    console.log("✅ Contenedor visual desplegado");
 }
 
 // ===========================================
@@ -922,60 +956,182 @@ function calcularEstadisticasGaia(registros) {
 // ===========================================
 // 🆕 FUNCIÓN PARA MOSTRAR HÁBITOS CON METADATA ENRIQUECIDA
 // ===========================================
+// ===========================================
+// 🎨 FUNCIÓN PARA MOSTRAR HÁBITOS CON METADATA
+// ===========================================
 function mostrarHabitosConMetadata(metadataHoy) {
-    const contenedor = document.getElementById('habitos-hoy-container');
-    if (!contenedor) return;
+    console.log("🎨 Mostrando hábitos con metadata:", metadataHoy);
     
-    if (!metadataHoy || metadataHoy.length === 0) {
-        contenedor.innerHTML = '<p class="texto-sutil">Aún no has registrado hábitos hoy.</p>';
+    const contenedor = document.getElementById('habitos-hoy-container');
+    if (!contenedor) {
+        console.error("❌ No se encontró #habitos-hoy-container");
         return;
     }
     
+    if (!metadataHoy || metadataHoy.length === 0) {
+        contenedor.innerHTML = `
+            <h4 style="color: #3ddc84; margin-bottom: 15px; text-align: center;">
+                🌿 Tus Hábitos de Hoy
+            </h4>
+            <p style="color: #88eeff; text-align: center; opacity: 0.7;">
+                Aún no has registrado hábitos hoy
+            </p>
+        `;
+        return;
+    }
+    
+    // Actualizar contador si existe
+    const badge = document.getElementById('contador-habitos-hoy');
+    if (badge) badge.textContent = metadataHoy.length;
+    
+    // Generar HTML - fusión de ambos estilos
     contenedor.innerHTML = metadataHoy.map(habito => `
-        <div class="habito-card" style="border-left-color: ${habito.color || '#3ddc84'}">
-            <div class="habito-icono">${habito.icono || '🌱'}</div>
-            <div class="habito-contenido">
-                <h4>${traducirAccion(habito.acciones)}</h4>
-                ${habito.significado ? `<p class="significado-ods">${habito.significado}</p>` : ''}
-                ${habito.impactoContexto ? `<p class="impacto-contexto">${habito.impactoContexto}</p>` : ''}
-                ${habito.tags ? `
-                    <div class="habito-tags">
-                        ${habito.tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}
-                    </div>
-                ` : ''}
-                <div class="habito-stats">
-                    ${habito.categoria ? `<span class="categoria">${habito.categoria}</span>` : ''}
-                    ${habito.nivel ? `<span class="nivel">${habito.nivel}</span>` : ''}
-                    ${habito.esfera ? `<span class="esfera">${habito.esfera}</span>` : ''}
+        <div class="habito-card" style="
+            border-left: 4px solid ${habito.color || '#3ddc84'};
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+        ">
+            <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                <div class="habito-icono" style="font-size: 28px; margin-right: 15px;">
+                    ${habito.icono || '🌱'}
                 </div>
+                <div class="habito-contenido" style="flex: 1;">
+                    <h4 style="
+                        font-weight: bold; 
+                        color: white; 
+                        font-size: 1rem;
+                        margin: 0 0 5px 0;
+                    ">
+                        ${traducirAccion(habito.acciones)}
+                    </h4>
+                    <div style="font-size: 0.75rem; color: #ccc;">
+                        ${habito.categoria || ''} ${habito.nivel ? '• ' + habito.nivel : ''}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Significado ODS -->
+            ${habito.significado ? `
+                <p class="significado-ods" style="
+                    font-size: 0.85rem; 
+                    color: #a0e7a0; 
+                    margin: 8px 0; 
+                    line-height: 1.4;
+                ">
+                    🎯 ${habito.significado}
+                </p>
+            ` : ''}
+            
+            <!-- Impacto contextual -->
+            ${habito.impactoContexto ? `
+                <p class="impacto-contexto" style="
+                    font-size: 0.85rem; 
+                    color: #88c9ff; 
+                    margin: 8px 0; 
+                    line-height: 1.4;
+                ">
+                    ✨ ${habito.impactoContexto}
+                </p>
+            ` : ''}
+            
+            <!-- Tags -->
+            ${habito.tags && habito.tags.length > 0 ? `
+                <div class="habito-tags" style="display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0;">
+                    ${habito.tags.map(tag => `
+                        <span class="tag" style="
+                            background: rgba(255, 255, 255, 0.1);
+                            color: #ccc;
+                            padding: 3px 8px;
+                            border-radius: 12px;
+                            font-size: 0.7rem;
+                        ">
+                            #${tag}
+                        </span>
+                    `).join('')}
+                </div>
+            ` : ''}
+            
+            <!-- Stats -->
+            <div class="habito-stats" style="
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 12px;
+                padding-top: 12px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+            ">
+                ${habito.categoria ? `
+                    <span class="categoria" style="
+                        background: rgba(61, 220, 132, 0.1);
+                        color: #3ddc84;
+                        padding: 3px 10px;
+                        border-radius: 10px;
+                        font-size: 0.7rem;
+                    ">
+                        📂 ${habito.categoria}
+                    </span>
+                ` : ''}
+                
+                ${habito.nivel ? `
+                    <span class="nivel" style="
+                        background: rgba(156, 39, 176, 0.1);
+                        color: #9c27b0;
+                        padding: 3px 10px;
+                        border-radius: 10px;
+                        font-size: 0.7rem;
+                    ">
+                        ⭐ ${habito.nivel}
+                    </span>
+                ` : ''}
+                
+                ${habito.esfera ? `
+                    <span class="esfera" style="
+                        background: rgba(0, 224, 255, 0.1);
+                        color: #00e0ff;
+                        padding: 3px 10px;
+                        border-radius: 10px;
+                        font-size: 0.7rem;
+                        margin-left: auto;
+                    ">
+                        🌍 ${habito.esfera}
+                    </span>
+                ` : ''}
             </div>
         </div>
     `).join('');
+    
+    console.log(`✅ Mostrados ${metadataHoy.length} hábitos con metadata`);
 }
 
 // ===========================================
-// 🆕 FUNCIÓN AUXILIAR: TRADUCIR ACCIÓN A NOMBRE BONITO
+// 🔤 FUNCIÓN AUXILIAR PARA TRADUCIR ACCIONES
 // ===========================================
 function traducirAccion(accion) {
+    if (!accion) return 'Acción regenerativa';
+    
     const traducciones = {
-        'menos_plasticos': 'Reducción de Plásticos',
-        'transporte_limpio': 'Transporte Sostenible',
-        'ahorro_agua': 'Ahorro de Agua',
-        'compostaje': 'Compostaje',
-        'reforestacion': 'Reforestación',
-        'activismo_digital': 'Activismo Digital',
-        'consumo_local': 'Consumo Local',
-        'energia_ahorro': 'Ahorro de Energía',
-        'limpieza_natural': 'Limpieza Natural'
-        // Añade más traducciones según tus hábitos
+        'menos_plasticos': '🥤 Reducción de Plásticos',
+        'transporte_limpio': '🚲 Transporte Sostenible',
+        'ahorro_agua': '💧 Ahorro de Agua',
+        'compostaje': '🌱 Compostaje',
+        'reforestacion': '🌳 Reforestación',
+        'activismo_digital': '📱 Activismo Digital',
+        'limpieza_natural': '🏖️ Limpieza Natural',
+        'energia_ahorro': '🔋 Ahorro de Energía',
+        'consumo_local': '🛒 Consumo Local',
+        'sanacion_ancestral': '🌀 Sanación Ancestral',
+        'reparar_objetos': '🔧 Reparar Objetos',
+        'alimentacion_regenerativa': '🍃 Alimentación Regenerativa'
     };
     
     if (accion.includes(',')) {
-        const primeros = accion.split(',')[0].trim();
-        return traducciones[primeros] || primeros;
+        const primeraAccion = accion.split(',')[0].trim();
+        return traducciones[primeraAccion] || primeraAccion.replace('_', ' ');
     }
     
-    return traducciones[accion] || accion;
+    return traducciones[accion] || accion.replace('_', ' ');
 }
 // ===========================================
 // 🆕 ACTUALIZAR INTERFAZ CON DATOS REALES (VERSIÓN CORREGIDA)
