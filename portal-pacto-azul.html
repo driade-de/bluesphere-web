@@ -794,14 +794,17 @@ async function validarCodigo() {
 
     // --- LÓGICA DE ENRUTAMIENTO ZIRIUX ---
     let tablaDestino = "";
-    
+    let columnaDestino = ""; // <-- AGREGA ESTA LÍNEA EXACTA
+
     if (codigo.startsWith("GPR")) {
-        tablaDestino = "codigos_gpr";  // Tabla Personas
+        tablaDestino = "codigos_gpr";
+        columnaDestino = "codigo"; // Para personas
     } else if (codigo.startsWith("CORP") || codigo.startsWith("TITAN")) {
-        tablaDestino = "codigos_corp"; // Tabla Empresas
+        tablaDestino = "codigos_corp";
+        columnaDestino = "codigo_completo"; // <-- CAMBIO CLAVE PARA OXXO
     } else {
-        // Fallback por seguridad
-        tablaDestino = "codigos_gpr"; 
+        tablaDestino = "codigos_gpr";
+        columnaDestino = "codigo";
     }
     // -------------------------------------
 
@@ -812,7 +815,7 @@ async function validarCodigo() {
         const { data, error } = await supabase
             .from(tablaDestino) // Usamos la tabla inteligente
             .select('*')
-            .eq('codigo', codigo)
+            .eq(columnaDestino, codigo) // <-- AHORA USARÁ 'codigo_completo' SI ES CORP
             .single();
 
         mostrarCarga(false);
