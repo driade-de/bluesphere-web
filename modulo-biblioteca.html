@@ -176,7 +176,7 @@ Entrega editorial: marzo de 2026
 
         // Aceptamos códigos que empiecen con BS (viejos) o GPR (nuevos)
         // Y que tengan al menos 5 caracteres
-        if ((codigo.startsWith('BS') || codigo.startsWith('GPR')) && codigo.length > 5) {
+       if ((codigo.startsWith('BS') || codigo.startsWith('GPR') || codigo.startsWith('CORP') || codigo.startsWith('TITAN')) && codigo.length > 5) {
             error.style.display = 'none';
             box.style.display = 'none'; // Ocultar caja de entrada
             grid.classList.remove('hidden'); // Mostrar libros
