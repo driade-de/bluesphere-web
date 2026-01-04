@@ -1,966 +1,118 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BlueSphere Consciousness - EON: La Mochila Invisible</title>
-    <style>
-        /* --- ESTÉTICA BLUESPHERE / GHOSTLY --- */
-        :root {
-            --bg-sky: #e0f7fa;
-            --bg-paper: #f9f5f0;
-            --text-main: #2c3e50;
-            --accent: #4facfe;
-            --gold: #d4af37;
-            --font-heading: 'Georgia', serif;
-            --font-body: 'Verdana', sans-serif;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-paper);
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-            color: var(--text-main);
-            font-family: var(--font-body);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        #game-container {
-            position: relative;
-            background: transparent;
-            padding: 0;
-            border: none;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 800px;
-            aspect-ratio: 2 / 1.1;
-            border-radius: 12px;
-            overflow: hidden;
-            touch-action: none;
-        }
-
-        canvas {
-            background: linear-gradient(to bottom, var(--bg-sky) 0%, #ffffff 80%, #a2d9ff 100%);
-            width: 100%;
-            height: 100%;
-            display: block;
-            border-radius: 12px;
-        }
-
-        @media (max-width: 600px) {
-            #ui-layer h1 { font-size: 1.2rem; margin-bottom: 5px; }
-            #ui-layer h2 { font-size: 0.8rem; margin-bottom: 0.5rem; }
-            .btn { padding: 10px 25px; font-size: 0.9rem; }
-            #qte-btn { padding: 20px 30px; font-size: 1.5rem; }
-            #start-screen { padding: 15px !important; max-height: 90%; overflow-y: auto; }
-            .guide-text li { font-size: 0.8rem !important; }
-        }
-
-        #ui-layer {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 15px;
-            box-sizing: border-box;
-        }
-
-        #start-screen {
-            pointer-events: auto;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px; 
-            border-radius: 15px;
-            text-align: center;
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            max-width: 90%;
-        }
-
-        #stats {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            width: 100%;
-        }
-
-        .stat-box {
-            font-family: var(--font-heading);
-            font-size: 1rem;
-            color: var(--text-main);
-        }
-
-        .backpack-hud {
-            width: 10px;
-            height: 80px;
-            border: 2px solid var(--text-main);
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            overflow: hidden;
-            display: flex;
-            align-items: flex-end;
-        }
-
-        #backpack-fill {
-            width: 100%;
-            background-color: #2c3e50;
-            transition: height 0.3s ease;
-        }
-
-        h1, h2 { display: none; }
-
-        #ui-layer h1, #ui-layer h2 {
-            display: block;
-            text-align: center;
-            margin: 2px 0;
-            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
-        }
-
-        #ui-layer h1 {
-            font-size: 1.8rem;
-            color: var(--accent);
-        }
-
-        #ui-layer h2 {
-            font-size: 0.9rem;
-            color: var(--text-main);
-            font-weight: normal;
-        }
-
-        .act-iii-bg { background: linear-gradient(to bottom, #4b4b4b 0%, #7f8c8d 100%) !important; }
-        .act-iv-bg { background: linear-gradient(to bottom, #001f3f 0%, #0074D9 100%) !important; }
-
-        #qte-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-            text-align: center;
-            width: 100%;
-            pointer-events: auto;
-        }
-
-        #qte-btn {
-            padding: 25px 40px;
-            font-size: 1.5rem;
-            background: #c0392b;
-            color: white;
-            border: 5px solid #fff;
-            border-radius: 50%;
-            animation: pulse 0.8s infinite alternate;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-weight: 800;
-            box-shadow: 0 0 20px rgba(231, 76, 60, 0.6);
-            user-select: none;
-            transition: transform 0.05s;
-        }
-
-        #qte-btn:active { transform: scale(0.95); background: #e74c3c; }
-
-        #qte-progress-bar-container {
-            width: 180px;
-            height: 15px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid white;
-            margin: 15px auto;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        #qte-progress-bar {
-            width: 0%;
-            height: 100%;
-            background: #2ecc71;
-            transition: width 0.1s;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
-        }
-
-        #ending-screen {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(10, 10, 10, 0.95);
-            color: white;
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
-            backdrop-filter: blur(5px);
-            pointer-events: auto;
-        }
-
-        #ending-card {
-            border: 2px solid white;
-            padding: 20px;
-            border-radius: 4px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
-            box-shadow: 0 0 50px rgba(255, 255, 255, 0.1);
-            max-width: 90%;
-            position: relative;
-        }
-
-        #ending-card::before {
-            content: 'REGISTRO AKÁSHICO 0024-EON';
-            position: absolute;
-            top: 10px; left: 0; right: 0;
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 4px;
-            text-transform: uppercase;
-        }
-
-        #ending-title {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            font-family: var(--font-heading);
-            text-transform: uppercase;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding-bottom: 10px;
-        }
-
-        #ending-desc {
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-style: italic;
-            color: #ccc;
-        }
-
-        #ending-stats {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 20px;
-            font-family: 'Courier New', monospace;
-        }
-
-        .stat-box { text-align: center; }
-        .stat-label { font-size: 0.8rem; color: #888; display: block; }
-        .stat-val { font-size: 1.5rem; font-weight: bold; color: white; }
-
-        #restart-btn {
-            margin-top: 10px;
-            padding: 10px 30px;
-            font-size: 0.9rem;
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            color: rgba(255, 255, 255, 0.8);
-            cursor: pointer;
-            font-family: inherit;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.3s;
-        }
-
-        #restart-btn:hover {
-            background: white;
-            color: black;
-            box-shadow: 0 0 20px white;
-        }
-
-        h1 {
-            font-family: var(--font-heading);
-            font-size: 2.5rem;
-            color: var(--accent);
-            margin: 0;
-            text-shadow: 0 2px 5px rgba(79, 172, 254, 0.2);
-        }
-
-        h2 {
-            font-family: var(--font-heading);
-            font-size: 1.2rem;
-            color: var(--text-main);
-            margin-top: 0.5rem;
-            margin-bottom: 1.5rem;
-            font-weight: normal;
-            font-style: italic;
-        }
-
-        button {
-            padding: 10px 30px;
-            font-size: 1rem;
-            cursor: pointer;
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
-            font-family: var(--font-heading);
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        button:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 20px rgba(79, 172, 254, 0.5);
-            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlueSphere Kids - Juego Principal</title>
+    <link rel="stylesheet" href="css/game-style.css">
 </head>
 <body>
-    <div id="game-container">
-        <!-- Canvas para el juego -->
-        <canvas id="gameCanvas" width="800" height="400"></canvas>
-
-        <!-- UI superpuesta -->
-        <div id="ui-layer">
-            <h1>EON</h1>
-            <h2 id="subtitle">Acto I: La Ilusión</h2>
-            <div id="stats">
-                <div class="stat-box" style="display:none;">PESO: <span id="weight-display">0</span>kg</div>
-                <div class="stat-box">AÑOS: <span id="age-display">0</span></div>
+    <div class="game-container">
+        <!-- CABECERA CON DATOS REALES -->
+        <div class="real-data-header">
+            <div class="location-info">
+                🌎 <strong>Playa Real:</strong> <span id="beach-name">Playa del Carmen, México</span>
             </div>
-
-            <!-- Tutorial Breve -->
-            <div id="tutorial-text"
-                style="text-align:center; margin-top: 100px; opacity: 0; transition: opacity 1s; font-size: 1.5rem; color: rgba(0,0,0,0.5); font-weight: bold; pointer-events: none;">
-                [ESPACIO] o [CLICK] para saltar
+            <div class="pollution-data">
+                🗑️ <strong>Contaminación actual:</strong> 
+                <span id="real-trash-count">2,540 kg</span>
+            </div>
+            <div class="impact-counter">
+                🌱 <strong>Tu impacto:</strong>
+                <span id="player-impact">0 objetos limpiados</span>
+            </div>
+        </div>
+        
+        <!-- ÁREA DE JUEGO -->
+        <div class="game-area" id="game-area">
+            <!-- AZULINA (personaje) -->
+            <div id="azulina" class="character">
+                <div class="character-icon">🐢</div>
+                <div class="character-name">Azulina</div>
             </div>
             
-            <div class="backpack-hud">
-                <div id="backpack-fill" style="height: 0%;"></div>
+            <!-- OBJETOS RECICLABLES (se generan dinámicamente) -->
+            <!-- Se llenará con JavaScript -->
+            
+            <!-- CONTENEDORES -->
+            <div class="bin plastic-bin" data-accepts="plastic">
+                <div class="bin-icon">♻️</div>
+                <div class="bin-label">PLÁSTICO</div>
             </div>
-
-            <div id="start-screen">
-                <h1 style="display:block; font-size: 2.5rem; margin: 0 0 10px 0; color: var(--accent);">EON</h1>
-                <p style="font-style: italic; color: #555; margin-bottom: 15px; font-size: 0.9rem;">BlueSphere Consciousness Edition</p>
-                <p style="font-style: italic; color: #333; margin-bottom: 20px; font-weight:bold;">"Tu peso determina tu destino."</p>
-
-                <div
-                    style="background: rgba(255,255,255,0.6); padding: 10px; border-radius: 10px; margin-bottom: 20px; text-align: left; font-size: 0.8rem; line-height: 1.4; border: 1px solid rgba(0,0,0,0.1);">
-                    <strong>GUÍA DE VIAJE:</strong>
-                    <ul style="margin: 5px 0; padding-left: 20px;" class="guide-text">
-                        <li><strong>Saltar:</strong> [ESPACIO], [CLICK] o [TOCA PANTALLA].</li>
-                        <li><strong>Peso:</strong> Recoger todo cuesta. El peso te ralentiza y apaga los colores.</li>
-                        <li><strong>Liberación:</strong> En crisis (Acto III), pulsa repetidamente para soltar.</li>
-                    </ul>
-                    <em style="display:block; margin-top:10px; text-align:center; font-size:0.8rem;">Existen dos finales distintos.</em>
-                </div>
-
-                <button id="start-btn">Iniciar Viaje</button>
+            
+            <div class="bin paper-bin" data-accepts="paper">
+                <div class="bin-icon">📄</div>
+                <div class="bin-label">PAPEL</div>
             </div>
-
-            <!-- QTE Acto III -->
-            <div id="qte-container">
-                <p
-                    style="color:white; font-size: 1.2rem; font-weight:bold; text-shadow:2px 2px 0px black; margin-bottom: 15px;">
-                    ¡LA CARGA ES INSOPORTABLE!</p>
-                <button id="qte-btn">¡SUELTA!</button>
-                <div id="qte-progress-bar-container">
-                    <div id="qte-progress-bar"></div>
-                </div>
-                <p style="color:#ddd; font-size: 0.8rem; margin-top: 10px;">(Click repetido para liberar)</p>
+            
+            <div class="bin glass-bin" data-accepts="glass">
+                <div class="bin-icon">🥛</div>
+                <div class="bin-label">VIDRIO</div>
             </div>
-
-            <!-- Pantalla Final -->
-            <div id="ending-screen">
-                <div id="ending-card">
-                    <h1 id="ending-title">FIN</h1>
-                    <div id="ending-stats">
-                        <div class="stat-box">
-                            <span class="stat-label">PESO FINAL</span>
-                            <span class="stat-val" id="final-weight">0kg</span>
-                        </div>
-                        <div class="stat-box">
-                            <span class="stat-label">EDAD</span>
-                            <span class="stat-val">84</span>
-                        </div>
-                    </div>
-                    <p id="ending-desc">...</p>
-                    <button id="restart-btn">REENCARNAR</button>
+            
+            <div class="bin organic-bin" data-accepts="organic">
+                <div class="bin-icon">🍎</div>
+                <div class="bin-label">ORGÁNICO</div>
+            </div>
+            
+            <!-- TIMER DE DESCOMPOSICIÓN -->
+            <div class="decay-timer">
+                <div class="timer-icon">⏳</div>
+                <div class="timer-text">
+                    <strong>Tiempo de descomposición:</strong>
+                    <span id="decay-clock">450</span> años restantes
                 </div>
             </div>
         </div>
+        
+        <!-- PANEL EDUCATIVO -->
+        <div class="education-panel">
+            <h3>📚 ¿Sabías que?</h3>
+            <p id="fact-text">Cargando dato educativo...</p>
+            <button id="next-fact">Más datos curiosos</button>
+        </div>
+        
+        <!-- PUNTUACIÓN -->
+<div class="score-panel">
+    <div class="score-item">
+        <span class="score-label">Objetos limpiados:</span>
+        <span id="score-count" class="score-value">0</span>
+    </div>
+    <div class="score-item">
+        <span class="score-label">Impacto real:</span>
+        <span id="real-impact" class="score-value">0.00 kg</span>
+    </div>
+    <div class="score-item">
+        <span class="score-label">Árboles ganados:</span>
+        <span id="trees-earned" class="score-value">0</span>
+    </div>
+    <div class="score-item">
+        <span class="score-label">Progreso del nivel:</span>
+        <span id="level-progress" class="score-value">0/20</span>
+    </div>
+</div>
+        
+        <!-- CONTROLES -->
+       <div class="controls">
+    <button id="btn-new-game" class="control-btn">🔄 Nuevo juego</button>
+    <button id="btn-back" class="control-btn">🏠 Volver al inicio</button>
+    <button id="btn-help" class="control-btn">❓ Ayuda</button>
+    <button onclick="showMemoryJournal()" class="control-btn">📖 Diario Oceánico</button>
+</div>
+    
+    <!-- MODAL DE VICTORIA -->
+    <div id="victory-modal" class="modal">
+        <div class="modal-content">
+            <h2>🎉 ¡Nivel Completado!</h2>
+            <p>Has limpiado <span id="final-score">0</span> objetos correctamente.</p>
+            <p><strong>Impacto real generado:</strong> <span id="final-impact">0.00</span> kg menos en el océano.</p>
+            <p>🏆 ¡Ganaste 1 Árbol Virtual!</p>
+            <button id="btn-continue" class="modal-btn">🌊 Continuar al siguiente nivel</button>
+            <button id="btn-certificate" class="modal-btn">📜 Ver mi certificado</button>
+        </div>
     </div>
     
-    <script>
-        /* EON: La Mochila Invisible - Edición BlueSphere */
-
-        // --- Audio Engine ---
-        class AudioController {
-            constructor() {
-                this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-                this.masterGain = this.ctx.createGain();
-                this.masterGain.connect(this.ctx.destination);
-                this.droneOsc = null;
-                this.droneGain = null;
-                this.initialized = false;
-            }
-
-            init() {
-                if (this.initialized) return;
-                this.ctx.resume();
-                this.droneOsc = this.ctx.createOscillator();
-                this.droneGain = this.ctx.createGain();
-                this.droneOsc.type = 'sine';
-                this.droneOsc.frequency.setValueAtTime(110, this.ctx.currentTime);
-                this.droneGain.gain.setValueAtTime(0.1, this.ctx.currentTime);
-                this.droneOsc.connect(this.droneGain);
-                this.droneGain.connect(this.masterGain);
-                this.droneOsc.start();
-                this.initialized = true;
-            }
-
-            updateDrone(weight, act) {
-                if (!this.initialized) return;
-                const weightFactor = weight / 100;
-                if (weight > 60) this.droneOsc.type = 'sawtooth';
-                else if (weight > 30) this.droneOsc.type = 'triangle';
-                else this.droneOsc.type = 'sine';
-                const baseFreq = act === 4 ? 440 : (220 - (weightFactor * 100));
-                this.droneOsc.frequency.setTargetAtTime(baseFreq, this.ctx.currentTime, 0.1);
-                const vol = act === 4 ? 0.05 : (0.1 + (weightFactor * 0.1));
-                this.droneGain.gain.setTargetAtTime(vol, this.ctx.currentTime, 0.1);
-            }
-
-            playJump(weight) {
-                if (!this.initialized) return;
-                const o = this.ctx.createOscillator();
-                const g = this.ctx.createGain();
-                o.connect(g);
-                g.connect(this.masterGain);
-                o.frequency.setValueAtTime(weight > 50 ? 150 : 300, this.ctx.currentTime);
-                o.frequency.exponentialRampToValueAtTime(weight > 50 ? 100 : 500, this.ctx.currentTime + 0.1);
-                g.gain.setValueAtTime(0.1, this.ctx.currentTime);
-                g.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
-                o.start();
-                o.stop(this.ctx.currentTime + 0.1);
-            }
-
-            playCollect(isBad) {
-                if (!this.initialized) return;
-                const o = this.ctx.createOscillator();
-                const g = this.ctx.createGain();
-                o.connect(g);
-                g.connect(this.masterGain);
-                if (isBad) {
-                    o.type = 'sawtooth';
-                    o.frequency.setValueAtTime(100, this.ctx.currentTime);
-                    o.frequency.linearRampToValueAtTime(50, this.ctx.currentTime + 0.1);
-                    g.gain.setValueAtTime(0.15, this.ctx.currentTime);
-                } else {
-                    o.type = 'sine';
-                    o.frequency.setValueAtTime(880, this.ctx.currentTime);
-                    g.gain.setValueAtTime(0.1, this.ctx.currentTime);
-                    g.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.5);
-                }
-                g.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + (isBad ? 0.2 : 0.5));
-                o.start();
-                o.stop(this.ctx.currentTime + (isBad ? 0.2 : 0.5));
-            }
-
-            playHit() {
-                if (!this.initialized) return;
-                const o = this.ctx.createOscillator();
-                const g = this.ctx.createGain();
-                o.type = 'square';
-                o.connect(g);
-                g.connect(this.masterGain);
-                o.frequency.setValueAtTime(50, this.ctx.currentTime);
-                o.frequency.exponentialRampToValueAtTime(10, this.ctx.currentTime + 0.3);
-                g.gain.setValueAtTime(0.3, this.ctx.currentTime);
-                g.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
-                o.start();
-                o.stop(this.ctx.currentTime + 0.3);
-            }
-        }
-
-        const audio = new AudioController();
-
-        // --- Elementos DOM ---
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const uiBackpackFill = document.getElementById('backpack-fill');
-        const uiAge = document.getElementById('age-display');
-        const subtitle = document.getElementById('subtitle');
-        const startScreen = document.getElementById('start-screen');
-        const startBtn = document.getElementById('start-btn');
-        const qteContainer = document.getElementById('qte-container');
-        const qteBtn = document.getElementById('qte-btn');
-        const qteProgressBar = document.getElementById('qte-progress-bar');
-        const endingScreen = document.getElementById('ending-screen');
-        const endingTitle = document.getElementById('ending-title');
-        const endingDesc = document.getElementById('ending-desc');
-        const restartBtn = document.getElementById('restart-btn');
-
-        // --- Config ---
-        const GAME_WIDTH = 800;
-        const GAME_HEIGHT = 400;
-        const GROUND_Y = 350;
-        let gameState = 'START';
-        let currentAct = 1;
-        let age = 0;
-        let frameCount = 0;
-        let qteProgress = 0;
-        let shakeIntensity = 0;
-
-        // --- Jugador ---
-        const player = {
-            x: 50,
-            y: GROUND_Y,
-            width: 30,
-            height: 50,
-            vx: 0,
-            vy: 0,
-            speed: 5,
-            jumpForce: -12,
-            grounded: true,
-            color: '#3498db',
-            weight: 0,
-            isSpirit: false,
-            scaleX: 1,
-            scaleY: 1,
-
-            updateElasticity: function () {
-                this.scaleX = lerp(this.scaleX, 1, 0.2);
-                this.scaleY = lerp(this.scaleY, 1, 0.2);
-            },
-
-            update: function () {
-                this.updateElasticity();
-                if (this.isSpirit) {
-                    this.updateSpiritPhysics();
-                    return;
-                }
-                const weightFactor = this.weight / 100;
-                let actModifier = currentAct === 3 ? 0.5 : 1.0;
-                const currentSpeed = (this.speed * (1 - weightFactor * 0.7)) * actModifier;
-                const currentJump = (this.jumpForce * (1 - weightFactor * 0.5)) * actModifier;
-                const GRAVITY = 0.6 + (weightFactor * 0.2);
-
-                if (keys.ArrowRight) this.vx = currentSpeed;
-                else if (keys.ArrowLeft) this.vx = -currentSpeed;
-                else this.vx = 0;
-
-                if (keys.Space && this.grounded) {
-                    if (currentAct !== 3 || this.weight < 80) {
-                        this.vy = currentJump;
-                        this.grounded = false;
-                        audio.playJump(this.weight);
-                        this.scaleX = 0.7;
-                        this.scaleY = 1.3;
-                    }
-                }
-                this.vy += GRAVITY;
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.y + this.height > GROUND_Y) {
-                    this.y = GROUND_Y - this.height;
-                    if (this.vy > 2) {
-                        this.scaleX = 1.4;
-                        this.scaleY = 0.6;
-                        spawnParticles(this.x + this.width / 2, this.y + this.height, '#aaa', 5);
-                    }
-                    this.vy = 0;
-                    this.grounded = true;
-                }
-                if (this.x < 0) this.x = 0;
-                if (this.x + this.width > GAME_WIDTH) this.x = GAME_WIDTH - this.width;
-            },
-
-            updateSpiritPhysics: function () {
-                const buoyancy = this.weight > 50 ? 0.5 : -0.5;
-                if (keys.ArrowRight) this.vx += 0.1;
-                if (keys.ArrowLeft) this.vx -= 0.1;
-                if (keys.ArrowUp) this.vy -= 0.1;
-                if (keys.ArrowDown) this.vy += 0.1;
-                this.vx *= 0.95;
-                this.vy *= 0.95;
-                this.vx += 0.05;
-                this.vy += buoyancy * 0.05;
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.y < 0) this.vy = 1;
-                if (this.y > GAME_HEIGHT) this.vy = -1;
-            },
-
-            draw: function () {
-                ctx.fillStyle = this.color;
-                if (this.isSpirit) {
-                    ctx.globalAlpha = 0.6;
-                    ctx.beginPath();
-                    ctx.arc(this.x + this.width / 2, this.y + this.height / 2, 20, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.globalAlpha = 1.0;
-                } else {
-                    ctx.fillRect(this.x, this.y, this.width, this.height);
-                }
-                if (!this.isSpirit) {
-                    let r = 44 + (this.weight * 0.5);
-                    let g = 62 - (this.weight * 0.5);
-                    let b = 80 - (this.weight * 0.5);
-                    ctx.fillStyle = `rgb(${r},${g},${b})`;
-                    const bagSize = (this.weight / 100) * 35;
-                    const bagX = this.vx >= 0 ? this.x - bagSize : this.x + this.width;
-                    ctx.beginPath();
-                    ctx.ellipse(bagX + bagSize / 2, this.y + 25, bagSize / 2, 20, 0, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-        };
-
-        let particles = [];
-
-        function spawnParticles(x, y, color, count = 10) {
-            for (let i = 0; i < count; i++) {
-                particles.push({
-                    x: x, y: y,
-                    vx: (Math.random() - 0.5) * 6,
-                    vy: (Math.random() - 0.5) * 6,
-                    life: 1.0,
-                    color: color,
-                    size: Math.random() * 4 + 2
-                });
-            }
-        }
-
-        function lerp(start, end, amt) {
-            return (1 - amt) * start + amt * end;
-        }
-
-        let items = [];
-        let enemies = [];
-
-        const itemTypes = [
-            { name: 'Trampa', color: '#e74c3c', weight: 5, radius: 10 },
-            { name: 'Regalo', color: '#f1c40f', weight: 8, radius: 10 },
-            { name: 'Agua', color: '#3498db', weight: -2, radius: 8 }
-        ];
-
-        function spawnItem() {
-            if (currentAct === 4) return;
-            let rate = 0.02;
-            if (currentAct === 2) rate = 0.035;
-            if (currentAct === 3) rate = 0.015;
-
-            if (Math.random() < rate) {
-                const type = itemTypes[Math.floor(Math.random() * itemTypes.length)];
-                items.push({
-                    x: GAME_WIDTH,
-                    y: GROUND_Y - 20 - (Math.random() * (currentAct === 2 ? 150 : 100)),
-                    type: type,
-                    width: type.radius * 2,
-                    height: type.radius * 2,
-                    collected: false
-                });
-            }
-        }
-
-        function spawnEnemy() {
-            if (currentAct !== 2) return;
-            if (Math.random() < 0.005) {
-                enemies.push({
-                    x: GAME_WIDTH, y: GROUND_Y - 25,
-                    radius: 25, speed: 3 + (Math.random() * 2), active: true
-                });
-            }
-        }
-
-        function updateEntities() {
-            for (let i = 0; i < items.length; i++) {
-                let item = items[i];
-                item.x -= 2;
-                if (!item.collected && rectIntersect(player.x, player.y, player.width, player.height, item.x, item.y, item.width, item.height)) {
-                    item.collected = true;
-                    addWeight(item.type.weight);
-                    audio.playCollect(item.type.weight > 0);
-                    spawnParticles(item.x + item.width / 2, item.y + item.height / 2, item.type.color, 15);
-                }
-            }
-            items = items.filter(i => i.x > -50 && !i.collected);
-
-            for (let e = 0; e < enemies.length; e++) {
-                let en = enemies[e];
-                en.x -= en.speed;
-                let dx = (player.x + player.width / 2) - (en.x);
-                let dy = (player.y + player.height / 2) - (en.y);
-                let distance = Math.sqrt(dx * dx + dy * dy);
-                if (en.active && distance < en.radius + 20) {
-                    en.active = false;
-                    addWeight(15);
-                    audio.playHit();
-                    player.vx = -15;
-                    shakeIntensity = 20;
-                }
-            }
-            enemies = enemies.filter(e => e.x > -50);
-        }
-
-        function addWeight(amount) {
-            player.weight += amount;
-            if (player.weight < 0) player.weight = 0;
-            if (player.weight > 100) player.weight = 100;
-            uiBackpackFill.style.height = `${player.weight}%`;
-            const hue = 200 - (player.weight * 2);
-            uiBackpackFill.style.backgroundColor = `hsl(${hue}, 70%, 50%)`;
-        }
-
-        function triggerQTE() {
-            if (player.weight < 20) return;
-            gameState = 'QTE';
-            qteContainer.style.display = 'block';
-            qteProgress = 0;
-            qteProgressBar.style.width = '0%';
-            audio.playHit();
-        }
-
-        function handleQTEClick(e) {
-            if (gameState !== 'QTE') return;
-            e.preventDefault();
-            qteProgress += 15;
-            if (qteProgress > 100) qteProgress = 100;
-            qteProgressBar.style.width = `${qteProgress}%`;
-            audio.playJump(10);
-            
-            if (qteProgress >= 100) {
-                addWeight(-25);
-                endQTE();
-            }
-        }
-
-        qteBtn.addEventListener('click', handleQTEClick);
-        qteContainer.addEventListener('mousedown', handleQTEClick);
-        qteContainer.addEventListener('touchstart', handleQTEClick, {passive: false});
-
-        function endQTE() {
-            gameState = 'PLAYING';
-            qteContainer.style.display = 'none';
-            audio.playCollect(false);
-            player.vy = -5;
-        }
-
-        function checkActProgress() {
-            audio.updateDrone(player.weight, currentAct);
-
-            if (currentAct === 1 && age >= 13) {
-                currentAct = 2;
-                subtitle.innerText = "Acto II: La Acumulación";
-                document.querySelector('canvas').style.background = "linear-gradient(to bottom, #bdc3c7, #2c3e50)";
-            }
-            else if (currentAct === 2 && age >= 31) {
-                currentAct = 3;
-                subtitle.innerText = "Acto III: El Ahogo";
-                canvas.className = 'act-iii-bg';
-                setTimeout(triggerQTE, 2000);
-                setInterval(() => {
-                    if (gameState === 'PLAYING' && currentAct === 3 && Math.random() < 0.3) triggerQTE();
-                }, 8000);
-            }
-            else if (currentAct === 3 && age >= 60) {
-                startActIV();
-            }
-        }
-
-        function startActIV() {
-            currentAct = 4;
-            subtitle.innerText = "Acto IV: El Futuro (2525)";
-            canvas.className = 'act-iv-bg';
-            player.isSpirit = true;
-
-            if (player.weight > 50) {
-                player.color = '#2c3e50';
-                subtitle.innerText += " - Isla de Basura";
-            } else {
-                player.color = '#00f2fe';
-                subtitle.innerText += " - Memoria Limpia";
-            }
-            setTimeout(showEnding, 10000);
-        }
-
-        function showEnding() {
-            gameState = 'END';
-            endingScreen.style.display = 'flex';
-            document.getElementById('final-weight').innerText = Math.floor(player.weight) + ' kg';
-
-            if (player.weight > 50) {
-                endingTitle.innerText = "ESPÍRITU ANCLADO";
-                endingTitle.style.color = "#7f8c8d";
-                endingTitle.style.borderBottomColor = "#7f8c8d";
-                endingDesc.innerHTML = "Tu paso por la Tierra fue pesado.<br>Como una isla de plástico, permaneces estático, incapaz de fluir con la corriente del universo.<br><br><strong>Causa:</strong> Acumulación excesiva de cargas innecesarias.";
-            } else {
-                endingTitle.innerText = "ESPÍRITU FLUIDO";
-                endingTitle.style.color = "#00f2fe";
-                endingTitle.style.borderBottomColor = "#00f2fe";
-                endingDesc.innerHTML = "Tu paso fue ligero como la brisa.<br>Te has disuelto en el océano de la consciencia, dejando el agua más limpia de lo que la encontraste.<br><br><strong>Estado:</strong> Liberación Absoluta.";
-            }
-        }
-
-        const keys = {};
-        window.addEventListener('keydown', e => keys[e.code] = true);
-        window.addEventListener('keyup', e => keys[e.code] = false);
-
-        function rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
-            return x2 < x1 + w1 && x2 + w2 > x1 && y2 < y1 + h1 && y2 + h2 > y1;
-        }
-
-        function update() {
-            if (gameState !== 'PLAYING' && gameState !== 'START') {
-                if (gameState === 'END') return;
-                if (gameState === 'QTE') return;
-            }
-
-            if (gameState === 'PLAYING' || (currentAct === 4)) {
-                player.update();
-                if (currentAct < 4) {
-                    spawnItem();
-                    spawnEnemy();
-                    updateEntities();
-                }
-
-                frameCount++;
-                if (frameCount % 30 === 0) {
-                    age += 0.5;
-                    uiAge.innerText = Math.floor(age);
-                    checkActProgress();
-                }
-
-                if (shakeIntensity > 0) shakeIntensity *= 0.9;
-                if (shakeIntensity < 1) shakeIntensity = 0;
-            }
-        }
-
-        function draw() {
-            ctx.save();
-            if (shakeIntensity > 0) {
-                const dx = (Math.random() - 0.5) * shakeIntensity;
-                const dy = (Math.random() - 0.5) * shakeIntensity;
-                ctx.translate(dx, dy);
-            }
-
-            const saturation = 100 - (player.weight * 0.9);
-            canvas.style.filter = `saturate(${saturation}%) brightness(${100 - player.weight * 0.2}%)`;
-
-            ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-
-            if (currentAct < 4) {
-                ctx.fillStyle = currentAct === 1 ? '#7dcea0' : (currentAct === 2 ? '#95a5a6' : '#5d4037');
-                ctx.fillRect(0, GROUND_Y, GAME_WIDTH, 50);
-            }
-
-            items.forEach(item => {
-                ctx.fillStyle = item.type.color;
-                ctx.beginPath();
-                ctx.arc(item.x + item.width / 2, item.y + item.height / 2, item.width / 2, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.strokeStyle = '#fff';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-            });
-
-            enemies.forEach(en => {
-                ctx.fillStyle = '#444';
-                ctx.beginPath();
-                ctx.arc(en.x, en.y, en.radius, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.strokeStyle = '#000';
-                ctx.stroke();
-            });
-
-            particles.forEach((p, index) => {
-                p.x += p.vx;
-                p.y += p.vy;
-                p.life -= 0.02;
-                if (p.life <= 0) {
-                    particles.splice(index, 1);
-                    return;
-                }
-                ctx.globalAlpha = p.life;
-                ctx.fillStyle = p.color;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.globalAlpha = 1.0;
-            });
-
-            ctx.save();
-            ctx.translate(player.x + player.width / 2, player.y + player.height);
-            ctx.scale(player.scaleX, player.scaleY);
-            ctx.translate(-(player.x + player.width / 2), -(player.y + player.height));
-            player.draw();
-            ctx.restore();
-
-            ctx.restore();
-        }
-
-        function loop() {
-            update();
-            draw();
-            requestAnimationFrame(loop);
-        }
-
-        const tutorialText = document.getElementById('tutorial-text');
-        const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-
-        function showTutorial() {
-            if (isMobile) {
-                tutorialText.innerText = "TOCA PANTALLA para saltar";
-            } else {
-                tutorialText.innerText = "[ESPACIO] o [CLICK] para saltar";
-            }
-            setTimeout(() => tutorialText.style.opacity = 0.8, 500);
-            setTimeout(() => tutorialText.style.opacity = 0, 4000);
-        }
-
-        function handleJump(e) {
-            if (e.type === 'touchstart') e.preventDefault();
-            if (gameState === 'PLAYING') {
-                if (!keys.Space) {
-                    keys.Space = true;
-                    setTimeout(() => keys.Space = false, 100);
-                }
-            }
-        }
-
-        canvas.addEventListener('mousedown', handleJump);
-        canvas.addEventListener('touchstart', handleJump, { passive: false });
-
-        function startGame() {
-            audio.init();
-            startScreen.style.display = 'none';
-            endingScreen.style.display = 'none';
-            qteContainer.style.display = 'none';
-            gameState = 'PLAYING';
-            currentAct = 1;
-            age = 0;
-            player.weight = 0;
-            player.isSpirit = false;
-            player.color = '#3498db';
-            player.y = GROUND_Y;
-            shakeIntensity = 0;
-            items = [];
-            enemies = [];
-            canvas.className = '';
-            canvas.style.background = "linear-gradient(to bottom, #dcd9d4 0%, #ffffff 100%)";
-            subtitle.innerText = "Acto I: La Ilusión";
-            showTutorial();
-        }
-
-        startBtn.addEventListener('click', startGame);
-        restartBtn.addEventListener('click', startGame);
-        loop();
-    </script>
+        <script src="js/ocean-memories.js"></script>
+    <script src="js/game-core.js"></script>
 </body>
 </html>
