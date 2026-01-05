@@ -25,6 +25,10 @@
             --conciencia-alta: #00ffaa;
             --conciencia-media: #ffaa00;
             --conciencia-baja: #ff5555;
+            --alerta-critica: #ff1744;
+            --alerta-alta: #ff5722;
+            --alerta-media: #ffc107;
+            --alerta-baja: #4caf50;
         }
         
         * {
@@ -179,7 +183,7 @@
         }
         
         /* =========================================== */
-        /* PENTAGRAMA GAIA - ESTILOS */
+        /* PENTAGRAMA GAIA - ESTILOS MEJORADOS CON IMPACTO */
         /* =========================================== */
         .pentagrama-seccion {
             background: rgba(10, 10, 22, 0.9);
@@ -188,6 +192,39 @@
             border: 1px solid rgba(0, 224, 255, 0.3);
             backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Fondo sutil de planeta enfermo */
+        .pentagrama-seccion::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://picsum.photos/seed/earth-distress/1200/600.jpg') center/cover;
+            opacity: 0.08;
+            z-index: -1;
+        }
+        
+        /* Efecto de distorsión para métricas críticas */
+        .pentagrama-seccion.critico::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 30%, rgba(255, 23, 68, 0.1) 100%);
+            animation: distorsion-critica 4s infinite alternate;
+            z-index: -1;
+        }
+        
+        @keyframes distorsion-critica {
+            0% { opacity: 0.1; transform: scale(1); }
+            100% { opacity: 0.2; transform: scale(1.02); }
         }
         
         .pentagrama-titulo {
@@ -196,6 +233,45 @@
             margin-bottom: 25px;
             font-size: 1.3rem;
             font-weight: bold;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        /* Indicador de estado del planeta */
+        .estado-planeta {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: normal;
+            margin-left: 10px;
+            animation: parpadeo-estado 2s infinite;
+        }
+        
+        @keyframes parpadeo-estado {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .estado-critico {
+            background: var(--alerta-critica);
+            color: white;
+            box-shadow: 0 0 15px rgba(255, 23, 68, 0.5);
+        }
+        
+        .estado-alerta {
+            background: var(--alerta-alta);
+            color: white;
+            box-shadow: 0 0 15px rgba(255, 87, 34, 0.5);
+        }
+        
+        .estado-precaucion {
+            background: var(--alerta-media);
+            color: black;
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
         }
         
         .pentagrama-grid {
@@ -209,17 +285,105 @@
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(79, 195, 247, 0.2);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
         
-        .pentagrama-item:active {
-            transform: translateY(-2px);
+        /* Efecto de onda para métricas críticas */
+        .pentagrama-item::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .pentagrama-item:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .pentagrama-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Estados críticos con efectos visuales potentes */
+        .pentagrama-item.critico {
+            border-color: var(--alerta-critica);
+            background: linear-gradient(135deg, rgba(255, 23, 68, 0.15), rgba(255, 87, 34, 0.1));
+            animation: pulso-critico-item 3s infinite;
+            position: relative;
+        }
+        
+        .pentagrama-item.critico::after {
+            content: '⚠️';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.2rem;
+            animation: rotacion-advertencia 2s linear infinite;
+        }
+        
+        @keyframes pulso-critico-item {
+            0% { 
+                box-shadow: 0 0 5px rgba(255, 23, 68, 0.5);
+                border-color: var(--alerta-critica);
+            }
+            50% { 
+                box-shadow: 0 0 20px rgba(255, 23, 68, 0.8);
+                border-color: #ff5252;
+            }
+            100% { 
+                box-shadow: 0 0 5px rgba(255, 23, 68, 0.5);
+                border-color: var(--alerta-critica);
+            }
+        }
+        
+        @keyframes rotacion-advertencia {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .pentagrama-item.alerta {
+            border-color: var(--alerta-alta);
+            background: linear-gradient(135deg, rgba(255, 87, 34, 0.1), rgba(255, 152, 0, 0.05));
+            animation: pulso-alerta-item 4s infinite;
+        }
+        
+        @keyframes pulso-alerta-item {
+            0% { box-shadow: 0 0 5px rgba(255, 87, 34, 0.3); }
+            50% { box-shadow: 0 0 15px rgba(255, 87, 34, 0.5); }
+            100% { box-shadow: 0 0 5px rgba(255, 87, 34, 0.3); }
+        }
+        
+        .pentagrama-item.precaucion {
+            border-color: var(--alerta-media);
+            background: rgba(255, 193, 7, 0.1);
         }
         
         .pentagrama-icono {
             font-size: 2rem;
             text-align: center;
             margin-bottom: 10px;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+        }
+        
+        .pentagrama-item.critico .pentagrama-icono {
+            filter: drop-shadow(0 0 10px rgba(255, 23, 68, 0.7));
+            animation: temblor-icono 0.5s infinite;
+        }
+        
+        @keyframes temblor-icono {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
         }
         
         .pentagrama-nombre {
@@ -232,12 +396,21 @@
             color: #e0e0e0;
         }
         
+        .pentagrama-item.critico .pentagrama-nombre {
+            color: #ffccdd;
+        }
+        
         .pentagrama-valor {
             font-size: 1.5rem;
             text-align: center;
             margin: 12px 0;
             font-weight: bold;
             color: var(--dorado-cuantico);
+        }
+        
+        .pentagrama-item.critico .pentagrama-valor {
+            color: #ff5252;
+            text-shadow: 0 0 10px rgba(255, 23, 68, 0.5);
         }
         
         .pentagrama-unidad {
@@ -258,12 +431,97 @@
         .tendencia-positiva { color: #4caf50; }
         .tendencia-negativa { color: #ff6b6b; }
         
+        /* NUEVO: ESTILOS PARA LA FUENTE DE DATOS */
+        .pentagrama-fuente {
+            font-size: 0.7rem;
+            color: #888;
+            text-align: center;
+            margin-top: 8px;
+            font-style: italic;
+            opacity: 0.7;
+        }
+
+        .pentagrama-item.critico .pentagrama-fuente {
+            color: #ff9999;
+        }
+        
+        /* Mensaje de impacto para métricas críticas */
+        .mensaje-impacto {
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 8px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 10px;
+            line-height: 1.3;
+        }
+        
+        .mensaje-critico {
+            background: rgba(255, 23, 68, 0.2);
+            color: #ffccdd;
+            border: 1px solid rgba(255, 23, 68, 0.3);
+        }
+        
+        .mensaje-alerta {
+            background: rgba(255, 87, 34, 0.2);
+            color: #ffccdd;
+            border: 1px solid rgba(255, 87, 34, 0.3);
+        }
+        
         /* Colores por métrica */
         .co2-item { border-color: rgba(255, 87, 34, 0.4); }
         .temperatura-item { border-color: rgba(255, 193, 7, 0.4); }
         .hielo-item { border-color: rgba(33, 150, 243, 0.4); }
         .nivel-mar-item { border-color: rgba(3, 169, 244, 0.4); }
         .biodiversidad-item { border-color: rgba(76, 175, 80, 0.4); }
+        
+        /* =========================================== */
+        /* NUEVO: SECCIÓN DE FUENTES */
+        /* =========================================== */
+        .fuentes-seccion {
+            background: rgba(10, 10, 22, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: -10px; /* Para acercarlo visualmente al pentagrama */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .fuentes-titulo {
+            color: var(--azul-brillante);
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .fuentes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        .fuente-item {
+            font-size: 0.85rem;
+            color: #ccc;
+            background: rgba(255,255,255,0.03);
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid var(--verde-gaia);
+        }
+
+        .fuente-item strong {
+            color: white;
+        }
+
+        .fuente-item a {
+            color: var(--verde-gaia);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .fuente-item a:hover {
+            color: var(--conciencia-alta);
+            text-decoration: underline;
+        }
         
         /* =========================================== */
         /* HÁBITOS REGENERATIVOS - 18 HÁBITOS */
@@ -730,7 +988,9 @@
             }
             
             .habitos-hoy-lista {
+                display: grid;
                 grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
             }
         }
         
@@ -816,11 +1076,36 @@
             <div class="codigo-espejo-desc">Tus hábitos regenerativos están sincronizados con esta frecuencia única</div>
         </div>
         
-        <!-- PENTAGRAMA GAIA -->
-        <section class="pentagrama-seccion">
-            <h2 class="pentagrama-titulo">🌍 PENTAGRAMA GAIA - ESTADO PLANETARIO</h2>
+        <!-- PENTAGRAMA GAIA - CON IMPACTO VISUAL MEJORADO -->
+        <section class="pentagrama-seccion" id="pentagrama-seccion">
+            <h2 class="pentagrama-titulo">
+                🌍 PENTAGRAMA GAIA - ESTADO PLANETARIO
+                <span id="estado-planeta" class="estado-planeta estado-critico">CRÍTICO</span>
+            </h2>
             <div class="pentagrama-grid" id="pentagrama-contenido">
                 <div class="cargando">Conectando con telemetría planetaria...</div>
+            </div>
+        </section>
+
+        <!-- NUEVA SECCIÓN: FUENTES DE DATOS -->
+        <section class="fuentes-seccion">
+            <h3 class="fuentes-titulo">🔬 Fuentes de Datos</h3>
+            <div class="fuentes-grid">
+                <div class="fuente-item">
+                    <strong>CO₂ Atmosférico:</strong> <a href="https://gml.noaa.gov/ccgg/trends/" target="_blank" rel="noopener noreferrer">NOAA Global Monitoring Laboratory</a>
+                </div>
+                <div class="fuente-item">
+                    <strong>Temperatura Global:</strong> <a href="https://data.giss.nasa.gov/gistemp/" target="_blank" rel="noopener noreferrer">NASA GISS (GISTEMP v4)</a>
+                </div>
+                <div class="fuente-item">
+                    <strong>Masa de Hielo Ártico:</strong> <a href="https://nsidc.org/arcticseaicenews/" target="_blank" rel="noopener noreferrer">National Snow and Ice Data Center (NSIDC)</a>
+                </div>
+                <div class="fuente-item">
+                    <strong>Nivel del Mar:</strong> <a href="https://sealevel.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA Sea Level Change Team</a>
+                </div>
+                <div class="fuente-item">
+                    <strong>Biodiversidad:</strong> <a href="https://www.worldwildlife.org/publications/living-planet-report-2022" target="_blank" rel="noopener noreferrer">WWF Living Planet Report</a>
+                </div>
             </div>
         </section>
         
@@ -1004,7 +1289,7 @@
                 nombre: "🔋 Ahorro energía consciente", 
                 impacto: 1.5, 
                 adopcion: 55,
-                descripcion: "Consciencia en cada vato, electrodomésticos eficientes",
+                descripcion: "Consciencia en cada vatio, electrodomésticos eficientes",
                 conciencia: "media",
                 ods: [7, 13, 11],
                 mantra: "La energía fluye con propósito"
@@ -1458,7 +1743,7 @@
         }
         
         // ===========================================
-        // PENTAGRAMA GAIA
+        // PENTAGRAMA GAIA - MEJORADO CON IMPACTO VISUAL
         // ===========================================
         
         async function actualizarPentagramaReal() {
@@ -1477,31 +1762,121 @@
                         .order('id', { ascending: true });
                     
                     if (!error && metricas && metricas.length > 0) {
-                        mostrarPentagrama(metricas);
+                        mostrarPentagramaConImpacto(metricas);
                         return;
                     }
                 }
                 
                 // Si falla Supabase o no hay conexión, mostrar datos de respaldo
-                mostrarPentagramaRespaldo();
+                mostrarPentagramaRespaldoConImpacto();
                 
             } catch (error) {
                 console.warn("⚠️ Error en telemetría, usando datos de respaldo:", error.message);
-                mostrarPentagramaRespaldo();
+                mostrarPentagramaRespaldoConImpacto();
             }
         }
         
-        function mostrarPentagrama(metricas) {
-            const contenedor = document.getElementById('pentagrama-contenido');
-            if (!contenedor) return;
+        // ===========================================
+        // NUEVO: FUNCIÓN DE DEPURACIÓN
+        // ===========================================
+        function depurarPentagrama(metricas) {
+            console.log("🔍 DEPURACIÓN DEL PENTAGRAMA:");
+            console.table(metricas); // Muestra los datos en una tabla legible
             
+            metricas.forEach((metrica, index) => {
+                const slug = metrica.slug;
+                const iconoEsperado = obtenerIcono(slug);
+                console.log(`Métrica ${index + 1}: "${metrica.label}"`);
+                console.log(`  -> Slug recibido: "${slug}"`);
+                console.log(`  -> Icono asignado: "${iconoEsperado}"`);
+                console.log('---');
+            });
+        }
+        
+        function mostrarPentagramaConImpacto(metricas) {
+            const contenedor = document.getElementById('pentagrama-contenido');
+            const seccionPentagrama = document.getElementById('pentagrama-seccion');
+            if (!contenedor || !seccionPentagrama) return;
+            
+            // LLAMAR A LA FUNCIÓN DE DEPURACIÓN
+            depurarPentagrama(metricas);
+            
+            // Determinar el estado general del planeta
+            let estadoGeneral = 'precaucion'; // Por defecto
+            let metricasCriticas = 0;
+            let metricasAlerta = 0;
+            
+            // Analizar cada métrica para determinar su estado
+            metricas.forEach(metrica => {
+                if (metrica.slug === 'co2' && parseFloat(metrica.valor_actual) > 420) {
+                    metrica.estado = 'critico';
+                    metricasCriticas++;
+                } else if (metrica.slug === 'temperatura' && parseFloat(metrica.valor_actual) > 1.5) {
+                    metrica.estado = 'critico';
+                    metricasCriticas++;
+                } else if (metrica.slug === 'hielo' && parseFloat(metrica.valor_actual) < -200) {
+                    metrica.estado = 'critico';
+                    metricasCriticas++;
+                } else if (metrica.slug === 'nivel-mar' && parseFloat(metrica.valor_actual) > 4) {
+                    metrica.estado = 'critico';
+                    metricasCriticas++;
+                } else if (metrica.slug === 'biodiversidad' && parseFloat(metrica.valor_actual) < -60) {
+                    metrica.estado = 'critico';
+                    metricasCriticas++;
+                } else if (metrica.tendencia === 'ascendente' && 
+                          (metrica.slug === 'co2' || metrica.slug === 'temperatura' || metrica.slug === 'nivel-mar')) {
+                    metrica.estado = 'alerta';
+                    metricasAlerta++;
+                } else {
+                    metrica.estado = 'precaucion';
+                }
+            });
+            
+            // Determinar el estado general basado en las métricas críticas y de alerta
+            if (metricasCriticas >= 3) {
+                estadoGeneral = 'critico';
+                seccionPentagrama.classList.add('critico');
+            } else if (metricasCriticas >= 1 || metricasAlerta >= 2) {
+                estadoGeneral = 'alerta';
+                seccionPentagrama.classList.remove('critico');
+            } else {
+                estadoGeneral = 'precaucion';
+                seccionPentagrama.classList.remove('critico');
+            }
+            
+            // Actualizar el indicador de estado del planeta
+            const estadoElemento = document.getElementById('estado-planeta');
+            if (estadoElemento) {
+                estadoElemento.className = `estado-planeta estado-${estadoGeneral}`;
+                if (estadoGeneral === 'critico') {
+                    estadoElemento.textContent = 'CRÍTICO';
+                } else if (estadoGeneral === 'alerta') {
+                    estadoElemento.textContent = 'ALERTA';
+                } else {
+                    estadoElemento.textContent = 'PRECAUCIÓN';
+                }
+            }
+            
+            // Generar HTML para las métricas con impacto visual
             let html = '';
             
             metricas.forEach(metrica => {
-                const clase = metrica.slug ? `pentagrama-item ${metrica.slug}-item` : 'pentagrama-item';
+                const clase = `pentagrama-item ${metrica.slug}-item ${metrica.estado}`;
                 const icono = obtenerIcono(metrica.slug);
                 const tendenciaClase = metrica.tendencia === 'ascendente' ? 'tendencia-negativa' : 'tendencia-positiva';
                 const simbolo = metrica.tendencia === 'ascendente' ? '▲' : '▼';
+                
+                // Mensaje de impacto según el estado
+                let mensajeImpacto = '';
+                if (metrica.estado === 'critico') {
+                    mensajeImpacto = `<div class="mensaje-impacto mensaje-critico">
+                        ⚠️ ${obtenerMensajeCritico(metrica.slug)}
+                    </div>`;
+                } else if (metrica.estado === 'alerta') {
+                    mensajeImpacto = `<div class="mensaje-impacto mensaje-alerta">
+                        ⚡ Tendencia alarmante
+                    </div>`;
+                }
                 
                 html += `
                     <div class="${clase}">
@@ -1513,39 +1888,63 @@
                         <div class="pentagrama-tendencia ${tendenciaClase}">
                             <span>${simbolo}</span> ${metrica.tendencia || 'estable'}
                         </div>
+                        
+                        <!-- NUEVO: LÍNEA DE FUENTE -->
+                        <div class="pentagrama-fuente">Fuente: ${metrica.fuente || 'N/A'}</div>
+                        
+                        ${mensajeImpacto}
                     </div>
                 `;
             });
             
             contenedor.innerHTML = html;
-            console.log(`✅ Pentagrama mostrado: ${metricas.length} métricas`);
+            console.log(`✅ Pentagrama mostrado con impacto: ${metricas.length} métricas, estado: ${estadoGeneral}`);
         }
         
-        function mostrarPentagramaRespaldo() {
+        function mostrarPentagramaRespaldoConImpacto() {
             const contenedor = document.getElementById('pentagrama-contenido');
-            if (!contenedor) return;
+            const seccionPentagrama = document.getElementById('pentagrama-seccion');
+            if (!contenedor || !seccionPentagrama) return;
             
             const metricasRespaldo = [
-                { slug: 'co2', label: 'CO₂ ATMOSFÉRICO', valor_actual: '427', unidad: 'ppm', tendencia: 'ascendente' },
-                { slug: 'temperatura', label: 'TEMPERATURA GLOBAL', valor_actual: '+1.2', unidad: '°C', tendencia: 'ascendente' },
-                { slug: 'hielo', label: 'MASA DE HIELO', valor_actual: '-152', unidad: 'Gt/año', tendencia: 'descendente' },
-                { slug: 'nivel-mar', label: 'NIVEL DEL MAR', valor_actual: '+3.7', unidad: 'mm/año', tendencia: 'ascendente' },
-                { slug: 'biodiversidad', label: 'BIODIVERSIDAD', valor_actual: '-68', unidad: '%', tendencia: 'descendente' }
+                { slug: 'co2', label: 'CO₂ ATMOSFÉRICO', valor_actual: '427', unidad: 'ppm', tendencia: 'ascendente', fuente: 'NOAA' },
+                { slug: 'temperatura', label: 'TEMPERATURA GLOBAL', valor_actual: '+1.2', unidad: '°C', tendencia: 'ascendente', fuente: 'NASA GISS' },
+                { slug: 'hielo', label: 'MASA DE HIELO', valor_actual: '-152', unidad: 'Gt/año', tendencia: 'descendente', fuente: 'NSIDC' },
+                { slug: 'nivel-mar', label: 'NIVEL DEL MAR', valor_actual: '+3.7', unidad: 'mm/año', tendencia: 'ascendente', fuente: 'NASA' },
+                { slug: 'biodiversidad', label: 'BIODIVERSIDAD', valor_actual: '-68', unidad: '%', tendencia: 'descendente', fuente: 'WWF' }
             ];
             
-            mostrarPentagrama(metricasRespaldo);
-            console.log("ℹ️ Mostrando datos de respaldo del Pentagrama");
+            mostrarPentagramaConImpacto(metricasRespaldo);
+            console.log("ℹ️ Mostrando datos de respaldo del Pentagrama con impacto visual");
         }
         
+        // ===========================================
+        // FUNCIÓN CORREGIDA PARA ASIGNAR ICONOS
+        // ===========================================
         function obtenerIcono(slug) {
             const iconos = {
-                'co2': '🏭',
-                'temperatura': '🌡️',
-                'hielo': '❄️',
-                'nivel-mar': '🌊',
-                'biodiversidad': '🌿'
+                'co2': '🏭',           // CO₂ ATMOSFÉRICO - Fábrica/Industria
+                'temperatura': '🌡️',   // TEMPERATURA GLOBAL - Termómetro
+                'hielo': '❄️',         // MASA DE HIELO - Copo de nieve/hielo
+                'nivel-mar': '🌊',     // NIVEL DEL MAR - Ola
+                'biodiversidad': '🌿'  // BIODIVERSIDAD - Hoja/planta
             };
-            return iconos[slug] || '📊';
+            
+            // Asegurarse de que el slug esté en minúsculas para evitar problemas de mayúsculas/minúsculas
+            const slugNormalizado = slug ? slug.toLowerCase() : '';
+            
+            return iconos[slugNormalizado] || '📊'; // Icono por defecto si no encuentra coincidencia
+        }
+        
+        function obtenerMensajeCritico(slug) {
+            const mensajes = {
+                'co2': 'Nivel histórico sin precedentes',
+                'temperatura': 'Superando el límite seguro',
+                'hielo': 'Deshielo acelerado',
+                'nivel-mar': 'Amenaza a zonas costeras',
+                'biodiversidad': 'Colapso ecológico inminente'
+            };
+            return mensajes[slug] || 'Situación crítica';
         }
         
         // ===========================================
@@ -1898,96 +2297,96 @@
             return racha;
         }
         
-       // ===========================================
-// 5. CARGAR SISTEMA COMPLETO (Sincronizado)
-// ===========================================
-async function cargarSistemaCompleto() {
-    console.log("🔭 Iniciando sincronización de rituales...");
+        // ===========================================
+        // 5. CARGAR SISTEMA COMPLETO (Sincronizado)
+        // ===========================================
+        async function cargarSistemaCompleto() {
+            console.log("🔭 Iniciando sincronización de rituales...");
 
-    // A. Razonamiento de Identidad: Leer la URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const codigoGuardian = urlParams.get('codigo') || "GPR-AQUA-ZIRIUX-000051";
-    
-    // B. Actualizar el HTML (Borrar "Sincronizando...")
-    const etiqueta = document.getElementById('codigo-guardian');
-    if (etiqueta) etiqueta.innerText = codigoGuardian;
+            // A. Razonamiento de Identidad: Leer la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const codigoGuardian = urlParams.get('codigo') || "GPR-AQUA-ZIRIUX-000051";
+            
+            // B. Actualizar el HTML (Borrar "Sincronizando...")
+            const etiqueta = document.getElementById('codigo-guardian');
+            if (etiqueta) etiqueta.innerText = codigoGuardian;
 
-    try {
-        // C. Validación de conexión
-        if (!gaiaSupabase) {
-            console.warn("⚠️ Esperando conexión con Supabase...");
-            return;
+            try {
+                // C. Validación de conexión
+                if (!gaiaSupabase) {
+                    console.warn("⚠️ Esperando conexión con Supabase...");
+                    return;
+                }
+
+                // D. Consulta a Supabase usando el nombre de variable correcto (gaiaSupabase)
+                // Esto traerá tus rituales reales como el #171
+                const { data: ritualesHoy, error } = await gaiaSupabase
+                    .from('seguimiento')
+                    .select('*')
+                    .eq('codigo_guardian', codigoGuardian)
+                    .gte('fecha_reporte', new Date().toISOString().split('T')[0]); 
+
+                if (error) throw error;
+
+                // E. Actualizar contadores y mostrar hábitos
+                const listaHoy = document.getElementById('habitos-hoy-lista');
+                const contador = document.getElementById('contador-habitos-hoy');
+
+                if (ritualesHoy && ritualesHoy.length > 0) {
+                    console.log(`✅ Ritual detectado para ${codigoGuardian}`);
+                    if (contador) contador.innerText = ritualesHoy.length;
+                    mostrarHabitosConMetadata(ritualesHoy);
+                } else {
+                    console.log("⚠️ Sin rituales hoy para este código");
+                    if (contador) contador.innerText = "0";
+                    if (listaHoy) listaHoy.innerHTML = '<p style="text-align:center; opacity:0.6;">Aún no has registrado rituales hoy.</p>';
+                }
+
+            } catch (err) {
+                console.error("🌀 Error al sincronizar con Gaia:", err);
+            }
         }
 
-        // D. Consulta a Supabase usando el nombre de variable correcto (gaiaSupabase)
-        // Esto traerá tus rituales reales como el #171
-        const { data: ritualesHoy, error } = await gaiaSupabase
-            .from('seguimiento')
-            .select('*')
-            .eq('codigo_guardian', codigoGuardian)
-            .gte('fecha_reporte', new Date().toISOString().split('T')[0]); 
+        // ===========================================
+        // 🔥 INICIALIZACIÓN AUTOMÁTICA (EL ENCENDIDO)
+        // ===========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("🚀 Encendiendo motores del Guardián Gaia...");
+            
+            // 1. Partículas y Conexión
+            inicializarParticulas();
+            inicializarSupabase();
+            
+            // 2. Carga de datos con pequeños retrasos para asegurar conexión
+            setTimeout(() => {
+                actualizarPentagramaReal();
+                cargarHabitos('todos');
+                cargarEstadisticas();
+            }, 500);
 
-        if (error) throw error;
+            setTimeout(() => {
+                cargarSistemaCompleto(); 
+            }, 1500);
+        });
 
-        // E. Actualizar contadores y mostrar hábitos
-        const listaHoy = document.getElementById('habitos-hoy-lista');
-        const contador = document.getElementById('contador-habitos-hoy');
+        // ===========================================
+        // ACTUALIZACIONES AUTOMÁTICAS
+        // ===========================================
+        setInterval(() => {
+            actualizarPentagramaReal();
+        }, 5 * 60 * 1000);
 
-        if (ritualesHoy && ritualesHoy.length > 0) {
-            console.log(`✅ Ritual detectado para ${codigoGuardian}`);
-            if (contador) contador.innerText = ritualesHoy.length;
-            mostrarHabitosConMetadata(ritualesHoy);
-        } else {
-            console.log("⚠️ Sin rituales hoy para este código");
-            if (contador) contador.innerText = "0";
-            if (listaHoy) listaHoy.innerHTML = '<p style="text-align:center; opacity:0.6;">Aún no has registrado rituales hoy.</p>';
-        }
+        setInterval(() => {
+            const elemento = document.getElementById('indicador-conciencia');
+            if (elemento) {
+                let valor = parseFloat(elemento.textContent);
+                valor += Math.random() * 0.05;
+                if (valor > 100) valor = 100;
+                elemento.textContent = valor.toFixed(1) + '%';
+            }
+        }, 30000);
 
-    } catch (err) {
-        console.error("🌀 Error al sincronizar con Gaia:", err);
-    }
-}
-
-// ===========================================
-// 🔥 INICIALIZACIÓN AUTOMÁTICA (EL ENCENDIDO)
-// ===========================================
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("🚀 Encendiendo motores del Guardián Gaia...");
-    
-    // 1. Partículas y Conexión
-    inicializarParticulas();
-    inicializarSupabase();
-    
-    // 2. Carga de datos con pequeños retrasos para asegurar conexión
-    setTimeout(() => {
-        actualizarPentagramaReal();
-        cargarHabitos('todos');
-        cargarEstadisticas();
-    }, 500);
-
-    setTimeout(() => {
-        cargarSistemaCompleto(); 
-    }, 1500);
-});
-
-// ===========================================
-// ACTUALIZACIONES AUTOMÁTICAS
-// ===========================================
-setInterval(() => {
-    actualizarPentagramaReal();
-}, 5 * 60 * 1000);
-
-setInterval(() => {
-    const elemento = document.getElementById('indicador-conciencia');
-    if (elemento) {
-        let valor = parseFloat(elemento.textContent);
-        valor += Math.random() * 0.05;
-        if (valor > 100) valor = 100;
-        elemento.textContent = valor.toFixed(1) + '%';
-    }
-}, 30000);
-
-console.log("✨ Sistema Guardián Gaia V4 integrado y operativo");
-</script>
+        console.log("✨ Sistema Guardián Gaia V4 integrado y operativo");
+    </script>
 </body>
 </html>
