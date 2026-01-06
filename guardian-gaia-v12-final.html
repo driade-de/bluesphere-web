@@ -1881,25 +1881,63 @@
             console.log("✅ Interfaz actualizada.");
         }
 
-        // ===========================================
-        // CARGA INICIAL DEL SISTEMA
+                // ===========================================
+        // CARGA INICIAL DEL SISTEMA (NÚCLEO FUSIONADO)
         // ===========================================
         async function cargarSistemaCompleto() {
-            console.log("🔭 Cargando sistema completo v12.1...");
+            console.log("🔭 Cargando sistema completo v12.1 Final...");
+            
+            // 1. Telemetría Planetaria
             actualizarPentagramaHibrido();
+            
+            // 2. Lista de Hábitos Regenerativos
             cargarHabitos('todos');
             
-            // Carga retrasada para asegurar conexión
+            // 3. Interfaz de Usuario (Carga retrasada para estabilidad)
             setTimeout(() => { actualizarInterfazCompleta(); }, 500);
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        // ===========================================
+        // EVENTO PRINCIPAL (ARRANQUE DEL SISTEMA)
+        // ===========================================
+        document.addEventListener('DOMContentLoaded', async () => {
             console.log("🚀 Encendiendo motores del Guardián Gaia v12.1 Final...");
+            
+            // 1. Iniciar Partículas (Efecto Visual de Fondo)
             inicializarParticulas();
+            
+            // 2. Inicializar Conexión a Supabase (Base de Datos)
             inicializarSupabase();
-            setTimeout(cargarSistemaCompleto, 100);
-        });
 
+            // 3. PROTOCOLO DE PUENTE (Conexión con Módulo de Vuelo)
+            const urlParams = new URLSearchParams(window.location.search);
+            const codigoRecibido = urlParams.get('codigo');
+
+            if (codigoRecibido) {
+                const hoy = new Date().toISOString().split('T')[0];
+                const sesion = {
+                    id: Date.now(),
+                    codigo: decodeURIComponent(codigoRecibido), // Decodificar URL
+                    fecha: hoy,
+                    tipo: 'modulo_vuelo' // Identificador de origen
+                };
+
+                // Guardar en Memoria Compartida (LocalStorage)
+                // Esto es vital para que la función `obtenerEstadoActual()` funcione
+                const listaSesiones = storage.get('gaia_sesiones') || [];
+                listaSesiones.unshift(sesion);
+                storage.set('gaia_sesiones', listaSesiones);
+                
+                console.log(`🌍 Puente activo: Conectado con Módulo de Vuelo (${codigoRecibido})`);
+            } else {
+                console.log("ℹ️ Inicio en modo local (Sin sesión externa)");
+            }
+
+            // 4. Cargar el Núcleo del Sistema (Sincronizar)
+            setTimeout(() => {
+                cargarSistemaCompleto();
+            }, 200);
+        });
     </script>
 </body>
 </html>
