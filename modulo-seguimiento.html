@@ -1405,18 +1405,21 @@ setInterval(actualizarRelojSistema, 1000);
     console.log("🌀 Generando portal a Gaia...");
     console.log("🔑 Código detectado:", codigoActual);
     
-    if (codigoActual && codigoActual.trim().length >= 10) {
-        // Codificación segura para URL
+       if (codigoActual && codigoActual.trim().length >= 10) {
+        // Codificación segura para URL (Preservada)
         const codigoCodificado = encodeURIComponent(codigoActual.trim());
-        const nuevaURL = `guardian-gaia-nuevo.html?codigo=${codigoCodificado}`;
+        
+        // CAMBIO REALIZADO: Redirección a la nueva versión v12 Final
+        const nuevaURL = `guardian-gaia-v12-final.html?codigo=${codigoCodificado}`;
         
         console.log(`🌍 Portal generado: ${nuevaURL}`);
         window.location.href = nuevaURL;
     } else {
         console.warn("⚠️ Modo seguro: No se detectó código válido");
-        window.location.href = "guardian-gaia-nuevo.html";
+        
+        // CAMBIO REALIZADO: Redirección de respaldo a la nueva versión v12 Final
+        window.location.href = "guardian-gaia-v12-final.html";
     }
-}
 
         // ==================== INICIALIZACIÓN FINAL ====================
         console.log(`
