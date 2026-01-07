@@ -1120,7 +1120,122 @@
             <small>Acepta tarjetas internacionales • Monto personalizable</small>
         </p>
     </div>
+    <div class="metodo-pago" style="margin-bottom:40px; text-align: center;">
+    <h3 style="color:#1a5276; display:flex; align-items:center; gap:10px; justify-content: center;">
+        🔗 Blockchain (Transparencia Total)
+    </h3>
+    <div style="margin:25px 0;">
+        <div class="donate-btn crypto-btn" onclick="bluesphereCrypto.openModal()" style="display:inline-block; max-width:350px; padding:20px; cursor:pointer; border-radius:10px; background:linear-gradient(135deg, #f0f9f7, #e3f2fd); border:2px solid #2a9d8f;">
+            🌐 Donar vía Blockchain<br>
+            <span style="font-size:1.1rem; color:#0a3d62; font-weight:600;" id="cryptoBtnText">
+                $20 USD en USDC (puedes ajustar)
+            </span>
+        </div>
+        <div style="margin-top:20px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+            <button onclick="bluesphereCrypto.selectAmount(20)" style="padding:12px 20px; border-radius:8px; border:2px solid #2a9d8f; background:#f0f9f7; color:#1a5276; cursor:pointer; font-weight:600;">
+                🌱 $20 USD
+            </button>
+            <button onclick="bluesphereCrypto.selectAmount(50)" style="padding:12px 20px; border-radius:8px; border:2px solid #2a9d8f; background:#f0f9f7; color:#1a5276; cursor:pointer; font-weight:600;">
+                🌊 $50 USD
+            </button>
+            <button onclick="bluesphereCrypto.selectAmount(100)" style="padding:12px 20px; border-radius:8px; border:2px solid #2a9d8f; background:#f0f9f7; color:#1a5276; cursor:pointer; font-weight:600;">
+                🏔️ $100 USD
+            </button>
+            <button onclick="bluesphereCrypto.selectAmount('custom')" style="padding:12px 20px; border-radius:8px; border:2px solid #2a9d8f; background:#f0f9f7; color:#1a5276; cursor:pointer; font-weight:600;">
+                ✨ Personalizado
+            </button>
+        </div>
+    </div>
+    <div style="margin:20px auto; max-width:600px; background:#f8f9fa; padding:20px; border-radius:10px; border-left:4px solid #2a9d8f;">
+        <p style="margin:0 0 10px 0; color:#1a5276; font-weight:600;">
+            📍 Dirección BlueSphere (Polygon):
+        </p>
+        <div style="display:flex; gap:10px; align-items:center; justify-content:center; margin-bottom:15px;">
+            <code style="flex:1; background:white; padding:12px; border-radius:8px; font-family:monospace; word-break:break-all; border:1px solid #ddd; font-size:0.9rem;">
+                0x6231b3d3B0A740c418ac2Ad867eD9992A063D8c9
+            </code>
+            <button onclick="bluesphereCrypto.copyAddress()" style="padding:12px 20px; background:#2a9d8f; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">
+                📋 Copiar
+            </button>
+        </div>
+        <p style="margin:10px 0; text-align:center;">
+            <a href="https://polygonscan.com/address/0x6231b3d3B0A740c418ac2Ad867eD9992A063D8c9" target="_blank" style="color:#2a9d8f; text-decoration:none; font-weight:600;">
+               🔍 Ver transacciones en vivo (Polygonscan)
+            </a>
+        </p>
+        <div style="font-size:0.85rem; color:#555; margin-top:15px;">
+            <p>✅ <strong>Aceptamos:</strong> USDC (recomendado), MATIC, ETH <em>en red Polygon</em></p>
+            <p>✅ <strong>Transparencia:</strong> 100% público y verificable</p>
+            <p>✅ <strong>Internacional:</strong> Sin fronteras, comisiones bajas</p>
+        </div>
+    </div>
+    <p style="color:#666; font-size:0.9rem; text-align:center; margin-top:20px;">
+        <small>Verificación en tiempo real • Impacto rastreable • Blockchain pública</small>
+    </p>
+</div>
+
+<script>
+// NAMESPACE SEGURO - No colisiona con nada
+const bluesphereCrypto = {
+    selectedAmount: 20,
     
+    selectAmount: function(amount) {
+        this.selectedAmount = amount;
+        const btnText = document.getElementById('cryptoBtnText');
+        if (amount === 'custom') {
+            btnText.innerHTML = 'Monto personalizado en USDC';
+        } else {
+            btnText.innerHTML = `$${amount} USD en USDC (puedes ajustar)`;
+        }
+    },
+    
+    openModal: function() {
+        const amount = this.selectedAmount;
+        const amountText = amount === 'custom' ? 'monto personalizado' : `$${amount} USD`;
+        
+        const modalHTML = `
+            <div id="bluesphereCryptoModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; display:flex; align-items:center; justify-content:center;">
+                <div style="background:white; padding:30px; border-radius:15px; max-width:500px; width:90%; max-height:85vh; overflow-y:auto; box-shadow:0 10px 40px rgba(0,0,0,0.2);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:2px solid #f0f9f7; padding-bottom:15px;">
+                        <h3 style="color:#1a5276; margin:0; font-size:1.5rem;">🌐 Donación vía Blockchain</h3>
+                        <button onclick="document.getElementById('bluesphereCryptoModal').remove()" style="background:none; border:none; font-size:28px; cursor:pointer; color:#666; padding:0; line-height:1;">×</button>
+                    </div>
+                    <div style="line-height:1.6; color:#333;">
+                        <p><strong>Instrucciones para donar ${amountText} en crypto:</strong></p>
+                        <ol style="padding-left:20px; margin:15px 0;">
+                            <li style="margin-bottom:10px;">Envía <strong>USDC</strong> a nuestra dirección:</li>
+                            <div style="background:#f8f9fa; padding:15px; border-radius:8px; margin:10px 0; border:1px solid #ddd;">
+                                <code style="font-family:monospace; font-size:0.9rem; word-break:break-all;">0x6231b3d3B0A740c418ac2Ad867eD9992A063D8c9</code>
+                            </div>
+                            <li style="margin-bottom:10px;">Asegúrate de usar la red: <strong style="color:#8247e5;">Polygon</strong></li>
+                            <li style="margin-bottom:10px;">Después de enviar, llena el formulario para recibir tu código</li>
+                            <li>Verifica tu transacción en Polygonscan</li>
+                        </ol>
+                    </div>
+                    <div style="margin-top:25px; text-align:center;">
+                        <button onclick="navigator.clipboard.writeText('0x6231b3d3B0A740c418ac2Ad867eD9992A063D8c9'); alert('✅ Dirección copiada');" style="padding:14px 35px; background:#2a9d8f; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; font-size:1rem; margin-right:10px;">
+                            📋 Copiar Dirección
+                        </button>
+                        <button onclick="document.getElementById('bluesphereCryptoModal').remove()" style="padding:14px 35px; background:#f0f9f7; color:#1a5276; border:2px solid #2a9d8f; border-radius:8px; cursor:pointer; font-weight:600; font-size:1rem;">
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        const modalDiv = document.createElement('div');
+        modalDiv.innerHTML = modalHTML;
+        document.body.appendChild(modalDiv);
+    },
+    
+    copyAddress: function() {
+        navigator.clipboard.writeText('0x6231b3d3B0A740c418ac2Ad867eD9992A063D8c9').then(() => {
+            alert('✅ Dirección copiada al portapapeles');
+        });
+    }
+};
+</script>
     <!-- TRANSFERENCIA BANCARIA -->
     <div class="metodo-pago" style="margin-bottom:40px; text-align: center;">
         <h3 style="color:#1a5276; display:flex; align-items:center; gap:10px; justify-content: center;">
@@ -1564,6 +1679,7 @@
 
 </body>
 </html>
+
 
 
 
