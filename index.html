@@ -352,20 +352,42 @@
         <!-- GRID DE SENSORES -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px;">
             
-            <!-- CO2 -->
-            <div style="background: #0c1f33; padding: 25px; border-radius: 15px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <span style="font-weight: 700;">💨 DIÓXIDO DE CARBONO</span>
-                    <span style="background: #dc2626; font-size: 0.7rem; padding: 3px 8px; border-radius: 5px;">ALERTA</span>
-                </div>
-                <div style="font-size: 0.75rem; opacity: 0.6;">RESPIRACIÓN PLANETARIA</div>
-                <div style="font-size: 2rem; font-weight: 700; color: #7dd3fc;">424 ppm</div>
-                <div style="font-size: 0.8rem; opacity: 0.6;">LÍMITE: 450 ppm</div>
-                <div style="background: #1e293b; height: 8px; border-radius: 5px; margin: 15px 0; overflow: hidden;">
-                    <div style="width: 85%; height: 100%; background: #dc2626;"></div>
-                </div>
-                <div style="font-size: 0.7rem; opacity: 0.5;">Fuente: NOAA Global Monitoring Laboratory — Mauna Loa</div>
-            </div>
+           <!-- CO2 SENSOR -->
+
+<div class="sensor-card">
+
+<h3>💨 DIÓXIDO DE CARBONO <span class="status alerta">ALERTA</span></h3>
+
+<p class="sensor-label">RESPIRACIÓN PLANETARIA</p>
+
+<div class="sensor-value">424 ppm</div>
+
+<p class="sensor-limit">LÍMITE: 450 ppm</p>
+
+<div class="sensor-bar">
+<div class="sensor-fill" style="width:85%"></div>
+</div>
+
+<!-- NUEVO: explicación -->
+<p class="sensor-description">
+La atmósfera contiene concentraciones de CO₂ no experimentadas por la civilización humana moderna.
+</p>
+
+<!-- NUEVO: tendencia -->
+<p class="sensor-trend">
+Tendencia: incremento sostenido desde la revolución industrial.
+</p>
+
+<!-- NUEVO: impacto -->
+<p class="sensor-impact">
+Impacto sistémico: intensificación del efecto invernadero global.
+</p>
+
+<p class="sensor-source">
+Fuente científica: NOAA Global Monitoring Laboratory — Mauna Loa Observatory
+</p>
+
+</div> 
 
             <!-- Temperatura -->
             <div style="background: #0c1f33; padding: 25px; border-radius: 15px;">
@@ -1443,6 +1465,7 @@ margin-right: auto;
 
 </body>
 </html>
+
 
 
 
