@@ -431,34 +431,51 @@ La reducción del hielo disminuye la capacidad del planeta de reflejar radiació
 
 </div>
 
-            <!-- Nivel del mar -->
-            <div style="background: #0c1f33; padding: 25px; border-radius: 15px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <span style="font-weight: 700;">🌊 NIVEL DEL MAR</span>
-                    <span style="background: #2563eb; font-size: 0.7rem; padding: 3px 8px; border-radius: 5px;">RIESGO</span>
-                </div>
-                <div style="font-size: 0.75rem; opacity: 0.6;">EXPANSIÓN TÉRMICA</div>
-                <div style="font-size: 2rem; font-weight: 700; color: #7dd3fc;">+101 mm</div>
-                <div style="font-size: 0.8rem; opacity: 0.6;">LÍMITE: +110 mm</div>
-                <div style="background: #1e293b; height: 8px; border-radius: 5px; margin: 15px 0; overflow: hidden;">
-                    <div style="width: 91%; height: 100%; background: #2563eb;"></div>
-                </div>
-                <div style="font-size: 0.7rem; opacity: 0.5;">Fuente: NASA Sea Level Change Program</div>
-            </div>
+           <!-- NIVEL DEL MAR -->
 
-            <!-- Agua dulce -->
-            <div style="background: #0c1f33; padding: 25px; border-radius: 15px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <span style="font-weight: 700;">💧 AGUA DULCE</span>
-                    <span style="background: #dc2626; font-size: 0.7rem; padding: 3px 8px; border-radius: 5px;">CRÍTICO</span>
-                </div>
-                <div style="font-size: 0.75rem; opacity: 0.6;">SISTEMA HIDROLÓGICO</div>
-                <div style="font-size: 1.6rem; font-weight: 700; color: #7dd3fc; margin: 5px 0;">DESCENSO CRÍTICO</div>
-                <div style="background: #1e293b; height: 8px; border-radius: 5px; margin: 15px 0; overflow: hidden;">
-                    <div style="width: 88%; height: 100%; background: #dc2626;"></div>
-                </div>
-                <div style="font-size: 0.7rem; opacity: 0.5;">Fuente: UN Environment Programme / WRI</div>
-            </div>
+<div class="sensor-card">
+
+<div class="sensor-header">
+<span class="sensor-icon">🌊</span>
+<span class="sensor-name">NIVEL DEL MAR</span>
+<span class="sensor-status risk">RIESGO</span>
+</div>
+
+<div class="data-label">EXPANSIÓN TÉRMICA</div>
+<div class="data-value">+101 mm</div>
+
+<div class="sensor-bar">
+<div class="bar-fill" data-width="90"></div>
+</div>
+
+<div class="sensor-msg">
+El aumento del nivel del mar refleja expansión térmica y deshielo continental.
+</div>
+
+</div>
+
+<!-- AGUA -->
+
+<div class="sensor-card">
+
+<div class="sensor-header">
+<span class="sensor-icon">💧</span>
+<span class="sensor-name">AGUA DULCE</span>
+<span class="sensor-status alert">CRÍTICO</span>
+</div>
+
+<div class="data-label">SISTEMA HIDROLÓGICO</div>
+<div class="data-value">DESCENSO CRÍTICO</div>
+
+<div class="sensor-bar">
+<div class="bar-fill" data-width="88"></div>
+</div>
+
+<div class="sensor-msg">
+Los sistemas de agua dulce enfrentan presión creciente por sobreexplotación y cambio climático.
+</div>
+
+</div>
 
             <!-- NUEVO SENSOR: BIODIVERSIDAD -->
             <div style="background: #0c1f33; padding: 25px; border-radius: 15px;">
@@ -1478,6 +1495,7 @@ margin-right: auto;
 
 </body>
 </html>
+
 
 
 
