@@ -380,34 +380,56 @@ Fuente científica: NOAA Global Monitoring Laboratory — Mauna Loa Observatory
 
 </div>
 
-            <!-- Temperatura -->
-            <div style="background: #0c1f33; padding: 25px; border-radius: 15px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <span style="font-weight: 700;">🌡️ ANOMALÍA TÉRMICA</span>
-                    <span style="background: #dc2626; font-size: 0.7rem; padding: 3px 8px; border-radius: 5px;">CRÍTICO</span>
-                </div>
-                <div style="font-size: 0.75rem; opacity: 0.6;">FIEBRE DEL PLANETA</div>
-                <div style="font-size: 2rem; font-weight: 700; color: #7dd3fc;">+1.1°C</div>
-                <div style="font-size: 0.8rem; opacity: 0.6;">LÍMITE: +1.5°C</div>
-                <div style="background: #1e293b; height: 8px; border-radius: 5px; margin: 15px 0; overflow: hidden;">
-                    <div style="width: 73%; height: 100%; background: #dc2626;"></div>
-                </div>
-                <div style="font-size: 0.7rem; opacity: 0.5;">Fuente: NASA GISS Surface Temperature Analysis</div>
-            </div>
+            <!-- TEMPERATURA -->
 
-            <!-- Hielo -->
-            <div style="background: #0c1f33; padding: 25px; border-radius: 15px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <span style="font-weight: 700;">🏔️ CAPA DE HIELO</span>
-                    <span style="background: #f59e0b; font-size: 0.7rem; padding: 3px 8px; border-radius: 5px;">DETERIORO</span>
-                </div>
-                <div style="font-size: 0.75rem; opacity: 0.6;">REFLEXIÓN SOLAR (ALBEDO)</div>
-                <div style="font-size: 2rem; font-weight: 700; color: #7dd3fc;">-12.2% / década</div>
-                <div style="background: #1e293b; height: 8px; border-radius: 5px; margin: 15px 0; overflow: hidden;">
-                    <div style="width: 78%; height: 100%; background: #f59e0b;"></div>
-                </div>
-                <div style="font-size: 0.7rem; opacity: 0.5;">Fuente: National Snow and Ice Data Center</div>
-            </div>
+<div class="sensor-card">
+
+<div class="sensor-header">
+<span class="sensor-icon">🌡️</span>
+<span class="sensor-name">ANOMALÍA TÉRMICA</span>
+<span class="sensor-status alert">CRÍTICO</span>
+</div>
+
+<div class="data-label">FIEBRE DEL PLANETA</div>
+<div class="data-value">+1.1°C</div>
+<div class="data-limit">LÍMITE: +1.5°C</div>
+
+<div class="sensor-bar">
+<div class="bar-fill" data-width="73"></div>
+</div>
+
+<div class="sensor-msg">
+El sistema climático acumula energía térmica global.
+</div>
+
+<div class="sensor-source">
+Fuente científica: NASA GISS Surface Temperature Analysis
+</div>
+
+</div>
+
+<!-- HIELO -->
+
+<div class="sensor-card">
+
+<div class="sensor-header">
+<span class="sensor-icon">🏔️</span>
+<span class="sensor-name">CAPA DE HIELO</span>
+<span class="sensor-status warning">DETERIORO</span>
+</div>
+
+<div class="data-label">REFLEXIÓN SOLAR (ALBEDO)</div>
+<div class="data-value">-12.2% / década</div>
+
+<div class="sensor-bar">
+<div class="bar-fill" data-width="78"></div>
+</div>
+
+<div class="sensor-msg">
+La reducción del hielo disminuye la capacidad del planeta de reflejar radiación solar.
+</div>
+
+</div>
 
             <!-- Nivel del mar -->
             <div style="background: #0c1f33; padding: 25px; border-radius: 15px;">
@@ -1456,6 +1478,7 @@ margin-right: auto;
 
 </body>
 </html>
+
 
 
 
