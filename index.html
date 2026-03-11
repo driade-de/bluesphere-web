@@ -228,76 +228,463 @@
 <section class="precision-clock-section">
    <div class="dashboard-container">
     
-    <header style="text-align: center; margin-bottom: 50px;">
-        <h2 style="font-size: 2.2rem; color: #0a3d62; margin-bottom: 10px;">
-            ⏳ Indicadores Planetarios de Referencia
-        </h2>
-        <p style="font-size: 1.1rem; color: #476b82; max-width: 800px; margin: 0 auto 30px;">
-            Observación sistémica de la salud biofísica de la Tierra. <br>
-            <strong>Umbral climático de referencia: +1.5°C</strong> (Consenso científico internacional).
-        </p>
+    }
 
-        <div id="countdown" style="font-size: 1.8rem; font-weight: 800; color: #0a76d3; letter-spacing: 2px; background: white; display: inline-block; padding: 15px 30px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
-            Cargando cronómetro...
-        </div>
-    </header>
+h1{
+text-align:center;
+color:#7dd3fc;
+}
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
-        
-        <div class="sensor-card-v2" style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.04); border-top: 5px solid #dc2626;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <span style="font-weight: 700; color: #0a3d62;">💨 CO₂</span>
-                <span style="background: #fee2e2; color: #dc2626; font-size: 0.7rem; padding: 4px 10px; border-radius: 20px; font-weight: 800;">ALERTA</span>
-            </div>
-            <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase;">Respiración Planetaria</div>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #0f172a; margin: 10px 0;">424 ppm</div>
-            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 15px;">Límite seguro: 350 ppm</div>
-            <div style="background: #f1f5f9; height: 8px; border-radius: 10px; overflow: hidden;">
-                <div style="width: 85%; height: 100%; background: #dc2626; border-radius: 10px;"></div>
-            </div>
-            <p style="font-size: 0.85rem; color: #475569; margin-top: 15px; line-height: 1.5;">Concentraciones químicas no experimentadas por la civilización humana moderna.</p>
-        </div>
+.subtitle{
+text-align:center;
+opacity:0.8;
+margin-bottom:40px;
+}
 
-        <div class="sensor-card-v2" style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.04); border-top: 5px solid #ef4444;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <span style="font-weight: 700; color: #0a3d62;">🌡️ TEMP. GLOBAL</span>
-                <span style="background: #fee2e2; color: #ef4444; font-size: 0.7rem; padding: 4px 10px; border-radius: 20px; font-weight: 800;">CRÍTICO</span>
-            </div>
-            <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase;">Fiebre Planetaria</div>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #0f172a; margin: 10px 0;">+1.1°C</div>
-            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 15px;">Umbral: +1.5°C</div>
-            <div style="background: #f1f5f9; height: 8px; border-radius: 10px; overflow: hidden;">
-                <div style="width: 73%; height: 100%; background: #ef4444; border-radius: 10px;"></div>
-            </div>
-            <p style="font-size: 0.85rem; color: #475569; margin-top: 15px; line-height: 1.5;">El sistema climático acumula energía térmica de forma acelerada.</p>
-        </div>
+.timer{
+text-align:center;
+font-size:26px;
+margin:30px 0;
+}
 
-        <div class="sensor-card-v2" style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.04); border-top: 5px solid #f59e0b;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <span style="font-weight: 700; color: #0a3d62;">🏔️ CAPA DE HIELO</span>
-                <span style="background: #fef3c7; color: #d97706; font-size: 0.7rem; padding: 4px 10px; border-radius: 20px; font-weight: 800;">DETERIORO</span>
-            </div>
-            <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase;">Reflexión Solar (Albedo)</div>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #0f172a; margin: 10px 0;">-12.2% <span style="font-size: 1rem; font-weight: 400;">/ década</span></div>
-            <div style="background: #f1f5f9; height: 8px; border-radius: 10px; overflow: hidden;">
-                <div style="width: 60%; height: 100%; background: #f59e0b; border-radius: 10px;"></div>
-            </div>
-            <p style="font-size: 0.85rem; color: #475569; margin-top: 15px; line-height: 1.5;">La pérdida de hielo reduce la capacidad del planeta de reflejar el calor solar.</p>
-        </div>
+.planet-index{
+text-align:center;
+background:#0b2238;
+padding:25px;
+border-radius:10px;
+margin-top:30px;
+}
 
-    </div>
+.index-value{
+font-size:42px;
+color:#7dd3fc;
+margin-top:10px;
+}
 
-    <div style="margin-top: 60px; background: #0a2a43; color: white; padding: 40px; border-radius: 30px; text-align: center;">
-        <h3 style="color: #7dd3fc; margin-bottom: 20px;">Protocolo de Homeostasis Planetaria</h3>
-        <p style="max-width: 700px; margin: 0 auto 30px; opacity: 0.9; line-height: 1.7;">
-            La homeostasis es la capacidad de la Tierra para autorregular sus signos vitales. Activar este protocolo significa financiar y desarrollar las herramientas de conciencia que permiten restaurar el equilibrio.
-        </p>
-        <button style="background: #3b82f6; color: white; border: none; padding: 18px 40px; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 1.1rem;">
-            Explorar el Protocolo de Homeostasis
-        </button>
-    </div>
+.index-bar{
+background:#1e293b;
+height:10px;
+border-radius:6px;
+margin-top:15px;
+}
+
+.index-fill{
+height:10px;
+width:62%;
+background:#3b82f6;
+border-radius:6px;
+transition:width 2s ease;
+}
+
+.sensors-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+margin-top:40px;
+}
+
+.sensor-card{
+background:#0c1f33;
+padding:20px;
+border-radius:10px;
+}
+
+.sensor-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.sensor-icon{
+font-size:22px;
+}
+
+.sensor-name{
+font-weight:bold;
+}
+
+.sensor-status{
+font-size:12px;
+padding:4px 8px;
+border-radius:6px;
+}
+
+.alert{
+background:#dc2626;
+}
+
+.warning{
+background:#f59e0b;
+}
+
+.risk{
+background:#2563eb;
+}
+
+.data-label{
+opacity:0.7;
+font-size:13px;
+}
+
+.data-value{
+font-size:24px;
+margin-top:5px;
+}
+
+.data-limit{
+font-size:12px;
+opacity:0.6;
+}
+
+.sensor-bar{
+background:#1e293b;
+height:8px;
+border-radius:5px;
+margin:10px 0;
+}
+
+.bar-fill{
+height:8px;
+border-radius:5px;
+background:#3b82f6;
+width:0%;
+transition:width 1.6s ease;
+}
+
+.sensor-msg{
+font-size:13px;
+opacity:0.85;
+line-height:1.5;
+margin-top:6px;
+}
+
+.sensor-source{
+margin-top:10px;
+font-size:12px;
+opacity:0.55;
+line-height:1.4;
+}
+
+.codex{
+margin-top:60px;
+background:#0b2238;
+padding:30px;
+border-radius:10px;
+}
+
+.codex h2{
+color:#7dd3fc;
+}
+
+.methodology{
+margin-top:40px;
+font-size:14px;
+opacity:0.85;
+line-height:1.6;
+}
+
+.homeostasis{
+text-align:center;
+margin-top:50px;
+}
+
+.homeostasis button{
+padding:14px 26px;
+border:none;
+border-radius:8px;
+background:#3b82f6;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Indicadores Planetarios de Referencia</h1>
+
+<p class="subtitle">
+Observación sistémica de la salud biofísica de la Tierra
+</p>
+
+<div class="timer">
+
+Umbral climático de referencia: +1.5°C  
+<br><br>
+
+<span id="countdown"></span>
 
 </div>
+
+<div class="planet-index">
+
+<h2>Índice de Estabilidad Planetaria</h2>
+
+<div class="index-value">62%</div>
+
+<div class="index-bar">
+<div class="index-fill"></div>
+</div>
+
+<p style="opacity:0.75;margin-top:10px;">
+Estimación sistémica del equilibrio biofísico del sistema Tierra
+</p>
+
+</div>
+
+<h2 style="margin-top:50px;">Diagnóstico Biofísico Planetario</h2>
+
+<p>
+El sistema Tierra presenta una <b>fiebre metabólica aproximada de +1.1°C</b>
+respecto al periodo preindustrial.
+Seis sensores vitales permiten observar el estado sistémico del planeta.
+</p>
+
+<div class="sensors-grid">
+
+<!-- CO2 -->
+
+<div class="sensor-card">
+
+<div class="sensor-header">
+<span class="sensor-icon">💨</span>
+<span class="sensor-name">DIÓXIDO DE CARBONO</span>
+<span class="sensor-status alert">ALERTA</span>
+</div>
+
+<div class="data-label">RESPIRACIÓN PLANETARIA</div>
+<div class="data-value">424 ppm</div>
+<div class="data-limit">LÍMITE: 450 ppm</div>
+
+<div class="sensor-bar">
+<div class="bar-fill" data-width="85"></div>
+</div>
+
+<div class="sensor-msg">
+La atmósfera contiene concentraciones de CO₂ no experimentadas por la civilización humana moderna.
+</div>
+
+<div class="sensor-source">
+Fuente científica: NOAA Global Monitoring Laboratory — Mauna Loa Observatory
+</div>
+
+</div>
+
+<!-- TEMPERATURA -->
+
+<div class="sensor-card">
+
+<div class="sensor-header">
+<span class="sensor-icon">🌡️</span>
+<span class="sensor-name">ANOMALÍA TÉRMICA</span>
+<span class="sensor-status alert">CRÍTICO</span>
+</div>
+
+<div class="data-label">FIEBRE DEL PLANETA</div>
+<div class="data-value">+1.1°C</div>
+<div class="data-limit">LÍMITE: +1.5°C</div>
+
+<div class="sensor-bar">
+<div class="bar-fill" data-width="73"></div>
+</div>
+
+<div class="sensor-msg">
+El sistema climático acumula energía térmica global.
+</div>
+
+<div class="sensor-source">
+Fuente científica: NASA GISS Surface Temperature Analysis
+</div>
+
+</div>
+
+<!-- HIELO -->
+
+<div class="sensor-card">
+
+<div class="sensor-header">
+<span class="sensor-icon">🏔️</span>
+<span class="sensor-name">CAPA DE HIELO</span>
+<span class="sensor-status warning">DETERIORO</span>
+</div>
+
+<div class="data-label">REFLEXIÓN SOLAR (ALBEDO)</div>
+<div class="data-value">-12.2% / década</div>
+
+<div class="sensor-bar">
+<div class="bar-fill" data-width="78"></div>
+</div>
+
+<div class="sensor-msg">
+La reducción del hielo disminuye la capacidad del planeta de reflejar radiación solar.
+</div>
+
+</div>
+
+<!-- NIVEL DEL MAR -->
+
+<div class="sensor-card">
+
+<div class="sensor-header">
+<span class="sensor-icon">🌊</span>
+<span class="sensor-name">NIVEL DEL MAR</span>
+<span class="sensor-status risk">RIESGO</span>
+</div>
+
+<div class="data-label">EXPANSIÓN TÉRMICA</div>
+<div class="data-value">+101 mm</div>
+
+<div class="sensor-bar">
+<div class="bar-fill" data-width="90"></div>
+</div>
+
+<div class="sensor-msg">
+El aumento del nivel del mar refleja expansión térmica y deshielo continental.
+</div>
+
+</div>
+
+<!-- AGUA -->
+
+<div class="sensor-card">
+
+<div class="sensor-header">
+<span class="sensor-icon">💧</span>
+<span class="sensor-name">AGUA DULCE</span>
+<span class="sensor-status alert">CRÍTICO</span>
+</div>
+
+<div class="data-label">SISTEMA HIDROLÓGICO</div>
+<div class="data-value">DESCENSO CRÍTICO</div>
+
+<div class="sensor-bar">
+<div class="bar-fill" data-width="88"></div>
+</div>
+
+<div class="sensor-msg">
+Los sistemas de agua dulce enfrentan presión creciente por sobreexplotación y cambio climático.
+</div>
+
+</div>
+
+<!-- OCEANO -->
+
+<div class="sensor-card">
+
+<div class="sensor-header">
+<span class="sensor-icon">🌊</span>
+<span class="sensor-name">OCÉANO GLOBAL</span>
+<span class="sensor-status warning">DETERIORO</span>
+</div>
+
+<div class="data-label">ACIDIFICACIÓN</div>
+<div class="data-value">pH 8.05</div>
+
+<div class="sensor-bar">
+<div class="bar-fill" data-width="82"></div>
+</div>
+
+<div class="sensor-msg">
+El océano absorbe gran parte del calor y del CO₂ del sistema climático.
+</div>
+
+</div>
+
+</div>
+
+<div class="codex">
+
+<h2>CODEX — Interpretación Sistémica</h2>
+
+<p>
+El sistema Tierra presenta múltiples signos de alteración
+en sus parámetros biofísicos principales.
+Varios sensores vitales muestran desviaciones respecto
+a rangos considerados seguros para la estabilidad climática.
+</p>
+
+<ul>
+<li>Estado térmico: fiebre metabólica global</li>
+<li>Estado atmosférico: acumulación de CO₂</li>
+<li>Estado oceánico: calentamiento y acidificación</li>
+<li>Estado criosférico: pérdida de albedo</li>
+<li>Estado hidrológico: presión sobre agua dulce</li>
+</ul>
+
+</div>
+
+<div class="methodology">
+
+<h3>Metodología de referencia científica</h3>
+
+<p>
+Los indicadores presentados en este panel derivan de observaciones
+realizadas por organismos científicos internacionales de monitoreo
+climático y ambiental.
+</p>
+
+</div>
+
+<div class="homeostasis">
+
+<h3>Protocolo de Homeostasis Planetaria</h3>
+
+<p>
+La homeostasis describe la capacidad del sistema Tierra
+de mantener equilibrio entre sus procesos físicos,
+químicos y biológicos.
+</p>
+
+<button>
+Explorar el Protocolo de Homeostasis
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+const targetDate = new Date("2035-01-01");
+
+function updateCountdown(){
+
+const now = new Date();
+
+const diff = targetDate - now;
+
+const days = Math.floor(diff/(1000*60*60*24));
+
+const hours = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+
+const minutes = Math.floor((diff%(1000*60*60))/(1000*60));
+
+const seconds = Math.floor((diff%(1000*60))/1000);
+
+document.getElementById("countdown").innerHTML =
+days+" DÍAS : "+hours+" HRS : "+minutes+" MIN : "+seconds+" SEG";
+
+}
+
+setInterval(updateCountdown,1000);
+
+updateCountdown();
+
+document.querySelectorAll(".bar-fill").forEach(bar=>{
+const width = bar.getAttribute("data-width");
+setTimeout(()=>{bar.style.width = width+"%";},300);
+});
+
+</script>
+
+</body>
+</html>
 
 <script>
     const targetDate = new Date("2035-01-01").getTime();
@@ -1238,6 +1625,7 @@ margin-right: auto;
 
 </body>
 </html>
+
 
 
 
