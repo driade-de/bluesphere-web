@@ -301,111 +301,131 @@
     </p>
 </div>
 
-<section class="precision-clock-section" id="dashboard">
-    <div class="container">
-        <h2 style="text-align:center; font-size: 2.5rem; color: #0a3d62;">Indicadores Planetarios de Referencia</h2>
-        <p style="text-align:center; font-size: 1.1rem; color: #476b82;">Observación sistémica de la salud biofísica de la Tierra</p>
-
-        <div class="timer">
-            Umbral climático de referencia: +1.5°C<br>
-            <span id="countdown">-- DÍAS : -- HRS : -- MIN : -- SEG</span>
-        </div>
-
-        <div class="planet-index">
-            <h3 style="margin-top: 0;">Índice de Estabilidad Planetaria</h3>
-            <div class="index-value">62%</div>
-            <div class="index-bar">
-                <div class="index-fill"></div>
+<section class="precision-clock-section" style="padding: 60px 20px; background: #030b12; color: white;">
+    <div class="container" style="max-width: 1100px; margin: auto;">
+        
+        <header style="text-align: center; margin-bottom: 40px;">
+            <h2 style="color: #7dd3fc; font-size: 2.5rem;">Indicadores Planetarios de Referencia</h2>
+            <p style="opacity: 0.8;">Observación sistémica de la salud biofísica de la Tierra</p>
+            <div style="font-size: 1.5rem; margin: 20px 0;">Umbral climático de referencia: +1.5°C</div>
+            <div id="countdown" style="font-size: 2rem; font-weight: 800; color: #7dd3fc; letter-spacing: 2px;">
+                Cargando...
             </div>
-            <p style="opacity: 0.8; font-size: 0.9rem; margin-top: 15px;">Estimación del equilibrio biofísico global</p>
+        </header>
+
+        <div style="background: rgba(11, 34, 56, 0.6); padding: 30px; border-radius: 15px; text-align: center; margin-bottom: 50px; border: 1px solid rgba(125, 211, 252, 0.2);">
+            <h3>Índice de Estabilidad Planetaria</h3>
+            <div style="font-size: 3rem; font-weight: 800; color: #3b82f6;">62%</div>
+            <div style="background: #1e293b; height: 12px; border-radius: 10px; margin: 15px 0; overflow: hidden;">
+                <div style="width: 62%; height: 100%; background: #3b82f6;"></div>
+            </div>
+            <p style="font-size: 0.9rem; opacity: 0.7;">Estimación sistémica del equilibrio biofísico del sistema Tierra</p>
         </div>
 
-        <div class="sensors-grid">
-            <div class="sensor-card">
-                <div class="sensor-header">
-                    <span>💨 CO₂</span>
-                    <span class="sensor-status alert">ALERTA</span>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px;">
+            
+            <div class="sensor-card" style="background: #0c1f33; padding: 25px; border-radius: 15px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span style="font-weight: 700;">💨 DIÓXIDO DE CARBONO</span>
+                    <span style="background: #dc2626; font-size: 0.7rem; padding: 3px 8px; border-radius: 5px;">ALERTA</span>
                 </div>
-                <div class="data-value">424 ppm</div>
+                <div style="font-size: 0.75rem; opacity: 0.6;">RESPIRACIÓN PLANETARIA</div>
+                <div style="font-size: 2rem; font-weight: 700; color: #7dd3fc;">424 ppm</div>
                 <div style="font-size: 0.8rem; opacity: 0.6;">LÍMITE: 450 ppm</div>
-                <div class="sensor-bar">
-                    <div class="bar-fill" data-width="85" style="background: #dc2626;"></div>
+                <div style="background: #1e293b; height: 8px; border-radius: 5px; margin: 15px 0; overflow: hidden;">
+                    <div style="width: 85%; height: 100%; background: #dc2626;"></div>
                 </div>
+                <div style="font-size: 0.7rem; opacity: 0.5;">Fuente: NOAA Global Monitoring Laboratory — Mauna Loa</div>
             </div>
 
-            <div class="sensor-card">
-                <div class="sensor-header">
-                    <span>🌡️ Temperatura</span>
-                    <span class="sensor-status alert">CRÍTICO</span>
+            <div class="sensor-card" style="background: #0c1f33; padding: 25px; border-radius: 15px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span style="font-weight: 700;">🌡️ ANOMALÍA TÉRMICA</span>
+                    <span style="background: #dc2626; font-size: 0.7rem; padding: 3px 8px; border-radius: 5px;">CRÍTICO</span>
                 </div>
-                <div class="data-value">+1.1°C</div>
-                <div style="font-size: 0.8rem; opacity: 0.6;">UMBRAL: +1.5°C</div>
-                <div class="sensor-bar">
-                    <div class="bar-fill" data-width="73" style="background: #ef4444;"></div>
+                <div style="font-size: 0.75rem; opacity: 0.6;">FIEBRE DEL PLANETA</div>
+                <div style="font-size: 2rem; font-weight: 700; color: #7dd3fc;">+1.1°C</div>
+                <div style="font-size: 0.8rem; opacity: 0.6;">LÍMITE: +1.5°C</div>
+                <div style="background: #1e293b; height: 8px; border-radius: 5px; margin: 15px 0; overflow: hidden;">
+                    <div style="width: 73%; height: 100%; background: #dc2626;"></div>
                 </div>
+                <div style="font-size: 0.7rem; opacity: 0.5;">Fuente: NASA GISS Surface Temperature Analysis</div>
             </div>
 
-            <div class="sensor-card">
-                <div class="sensor-header">
-                    <span>🏔️ Capa de Hielo</span>
-                    <span class="sensor-status warning">DETERIORO</span>
+            <div class="sensor-card" style="background: #0c1f33; padding: 25px; border-radius: 15px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span style="font-weight: 700;">🏔️ CAPA DE HIELO</span>
+                    <span style="background: #f59e0b; font-size: 0.7rem; padding: 3px 8px; border-radius: 5px;">DETERIORO</span>
                 </div>
-                <div class="data-value">-12.2% <small>/ década</small></div>
-                <div class="sensor-bar">
-                    <div class="bar-fill" data-width="78" style="background: #f59e0b;"></div>
+                <div style="font-size: 0.75rem; opacity: 0.6;">REFLEXIÓN SOLAR (ALBEDO)</div>
+                <div style="font-size: 2rem; font-weight: 700; color: #7dd3fc;">-12.2% / década</div>
+                <div style="background: #1e293b; height: 8px; border-radius: 5px; margin: 15px 0; overflow: hidden;">
+                    <div style="width: 78%; height: 100%; background: #f59e0b;"></div>
                 </div>
+                <div style="font-size: 0.7rem; opacity: 0.5;">Fuente: National Snow and Ice Data Center</div>
             </div>
 
-            <div class="sensor-card">
-                <div class="sensor-header">
-                    <span>🌊 Nivel del Mar</span>
-                    <span class="sensor-status risk">RIESGO</span>
+            <div class="sensor-card" style="background: #0c1f33; padding: 25px; border-radius: 15px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span style="font-weight: 700;">🌊 NIVEL DEL MAR</span>
+                    <span style="background: #2563eb; font-size: 0.7rem; padding: 3px 8px; border-radius: 5px;">RIESGO</span>
                 </div>
-                <div class="data-value">+101 mm</div>
-                <div class="sensor-bar">
-                    <div class="bar-fill" data-width="90" style="background: #3b82f6;"></div>
+                <div style="font-size: 0.75rem; opacity: 0.6;">EXPANSIÓN TÉRMICA</div>
+                <div style="font-size: 2rem; font-weight: 700; color: #7dd3fc;">+101 mm</div>
+                <div style="font-size: 0.8rem; opacity: 0.6;">LÍMITE: +110 mm</div>
+                <div style="background: #1e293b; height: 8px; border-radius: 5px; margin: 15px 0; overflow: hidden;">
+                    <div style="width: 91%; height: 100%; background: #2563eb;"></div>
                 </div>
+                <div style="font-size: 0.7rem; opacity: 0.5;">Fuente: NASA Sea Level Change Program</div>
             </div>
 
-            <div class="sensor-card">
-                <div class="sensor-header">
-                    <span>💧 Agua Dulce</span>
-                    <span class="sensor-status alert">CRÍTICO</span>
+            <div class="sensor-card" style="background: #0c1f33; padding: 25px; border-radius: 15px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span style="font-weight: 700;">💧 AGUA DULCE</span>
+                    <span style="background: #dc2626; font-size: 0.7rem; padding: 3px 8px; border-radius: 5px;">CRÍTICO</span>
                 </div>
-                <div class="data-value">DESCENSO</div>
-                <div class="sensor-bar">
-                    <div class="bar-fill" data-width="88" style="background: #0891b2;"></div>
+                <div style="font-size: 0.75rem; opacity: 0.6;">SISTEMA HIDROLÓGICO</div>
+                <div style="font-size: 1.6rem; font-weight: 700; color: #7dd3fc; margin: 5px 0;">DESCENSO CRÍTICO</div>
+                <div style="background: #1e293b; height: 8px; border-radius: 5px; margin: 15px 0; overflow: hidden;">
+                    <div style="width: 88%; height: 100%; background: #dc2626;"></div>
                 </div>
+                <div style="font-size: 0.7rem; opacity: 0.5;">Fuente: UN Environment Programme / WRI</div>
             </div>
 
-            <div class="sensor-card">
-                <div class="sensor-header">
-                    <span>🌀 Océano Global</span>
-                    <span class="sensor-status warning">DETERIORO</span>
+            <div class="sensor-card" style="background: #0c1f33; padding: 25px; border-radius: 15px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span style="font-weight: 700;">🌀 OCÉANO GLOBAL</span>
+                    <span style="background: #f59e0b; font-size: 0.7rem; padding: 3px 8px; border-radius: 5px;">DETERIORO</span>
                 </div>
-                <div class="data-value">pH 8.05</div>
-                <div class="sensor-bar">
-                    <div class="bar-fill" data-width="82" style="background: #6366f1;"></div>
+                <div style="font-size: 0.75rem; opacity: 0.6;">ACIDIFICACIÓN</div>
+                <div style="font-size: 2rem; font-weight: 700; color: #7dd3fc;">pH 8.05</div>
+                <div style="font-size: 0.8rem; opacity: 0.6;">LÍMITE: 8.10</div>
+                <div style="background: #1e293b; height: 8px; border-radius: 5px; margin: 15px 0; overflow: hidden;">
+                    <div style="width: 82%; height: 100%; background: #f59e0b;"></div>
                 </div>
+                <div style="font-size: 0.7rem; opacity: 0.5;">Fuente: NOAA Ocean Acidification Program</div>
             </div>
+
         </div>
 
-        <div class="codex">
-            <h2>CODEX — Interpretación Sistémica</h2>
-            <p>El sistema Tierra presenta múltiples signos de alteración en sus parámetros biofísicos principales:</p>
-            <ul style="line-height: 1.8; font-size: 1.1rem;">
-                <li><strong>Fiebre metabólica global:</strong> Acumulación térmica acelerada.</li>
-                <li><strong>Estado atmosférico:</strong> Concentración de CO₂ fuera de rangos históricos.</li>
-                <li><strong>Estado oceánico:</strong> Acidificación y calentamiento masivo.</li>
-                <li><strong>Estado criosférico:</strong> Pérdida crítica de albedo (reflexión solar).</li>
+        <div style="margin-top: 60px; background: rgba(11, 34, 56, 0.4); padding: 40px; border-radius: 20px;">
+            <h2 style="color: #7dd3fc;">CODEX — Interpretación Sistémica</h2>
+            <ul style="line-height: 2; opacity: 0.9;">
+                <li>Estado térmico: fiebre metabólica global</li>
+                <li>Estado atmosférico: acumulación de CO₂</li>
+                <li>Estado oceánico: calentamiento y acidificación</li>
+                <li>Estado criosférico: pérdida de albedo</li>
+                <li>Estado hidrológico: presión sobre agua dulce</li>
             </ul>
         </div>
 
-        <div class="homeostasis">
+        <div style="text-align: center; margin-top: 50px;">
             <h3>Protocolo de Homeostasis Planetaria</h3>
-            <p style="color: #476b82; margin-bottom: 25px;">Hacia la restauración del equilibrio biológico y climático de la Tierra.</p>
-            <button>Explorar el Protocolo</button>
+            <button style="background: #3b82f6; color: white; border: none; padding: 15px 35px; border-radius: 30px; font-weight: 700; cursor: pointer;">
+                Explorar el Protocolo de Homeostasis
+            </button>
         </div>
+
     </div>
 </section>
 
@@ -1370,6 +1390,7 @@ margin-right: auto;
 
 </body>
 </html>
+
 
 
 
