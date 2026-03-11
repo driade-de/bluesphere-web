@@ -352,42 +352,33 @@
         <!-- GRID DE SENSORES -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px;">
             
-           <!-- CO2 SENSOR -->
+           <!-- CO2 -->
 
 <div class="sensor-card">
 
-<h3>💨 DIÓXIDO DE CARBONO <span class="status alerta">ALERTA</span></h3>
-
-<p class="sensor-label">RESPIRACIÓN PLANETARIA</p>
-
-<div class="sensor-value">424 ppm</div>
-
-<p class="sensor-limit">LÍMITE: 450 ppm</p>
-
-<div class="sensor-bar">
-<div class="sensor-fill" style="width:85%"></div>
+<div class="sensor-header">
+<span class="sensor-icon">💨</span>
+<span class="sensor-name">DIÓXIDO DE CARBONO</span>
+<span class="sensor-status alert">ALERTA</span>
 </div>
 
-<!-- NUEVO: explicación -->
-<p class="sensor-description">
+<div class="data-label">RESPIRACIÓN PLANETARIA</div>
+<div class="data-value">424 ppm</div>
+<div class="data-limit">LÍMITE: 450 ppm</div>
+
+<div class="sensor-bar">
+<div class="bar-fill" data-width="85"></div>
+</div>
+
+<div class="sensor-msg">
 La atmósfera contiene concentraciones de CO₂ no experimentadas por la civilización humana moderna.
-</p>
+</div>
 
-<!-- NUEVO: tendencia -->
-<p class="sensor-trend">
-Tendencia: incremento sostenido desde la revolución industrial.
-</p>
-
-<!-- NUEVO: impacto -->
-<p class="sensor-impact">
-Impacto sistémico: intensificación del efecto invernadero global.
-</p>
-
-<p class="sensor-source">
+<div class="sensor-source">
 Fuente científica: NOAA Global Monitoring Laboratory — Mauna Loa Observatory
-</p>
+</div>
 
-</div> 
+</div>
 
             <!-- Temperatura -->
             <div style="background: #0c1f33; padding: 25px; border-radius: 15px;">
@@ -1465,6 +1456,7 @@ margin-right: auto;
 
 </body>
 </html>
+
 
 
 
