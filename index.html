@@ -1,244 +1,141 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlueSphere Consciousness</title>
-    <style>
-        /* =========================== ESTILO GLOBAL ============================ */
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100vh;
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background: #f4faff;
-            color: #0a2a43;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-        
-        /* NAVBAR */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 24px;
-            z-index: 1000;
-            box-sizing: border-box;
-        }
 
-        .navbar-logo {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #0a3d62;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            line-height: 1;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .nav-logo-img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            filter: drop-shadow(0 2px 4px rgba(10, 118, 211, 0.3));
-            transition: transform 0.3s ease;
-        }
+<title>BlueSphere Consciousness</title>
 
-        .nav-logo-img:hover { transform: scale(1.1); }
+<style>
 
-        .nav-links {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-        }
+/* ================= GLOBAL ================= */
 
-        .nav-links a {
-            margin-left: 18px;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 500;
-            color: #0a3659;
-            padding-bottom: 4px;
-            border-bottom: 2px solid transparent;
-            transition: 0.2s ease;
-            white-space: nowrap;
-        }
+body{
+margin:0;
+font-family: 'Inter','Segoe UI',sans-serif;
+background:#f4faff;
+color:#0a2a43;
+overflow-x:hidden;
+}
 
-        .nav-links a:hover {
-            border-bottom: 2px solid #0a76d3;
-            color: #0a76d3;
-        }
+.container{
+max-width:1100px;
+margin:auto;
+padding:20px;
+}
 
-        /* HERO */
-        .hero {
-            background: #030b12;
-            height: 100vh;
-            width: 100%;
-            text-align: center;
-            position: relative;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        
-        .ocean-bg {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 1;
-            background: radial-gradient(circle at 50% 20%, rgba(60,150,255,0.15), transparent 60%),
-                        radial-gradient(circle at 80% 60%, rgba(0,255,220,0.12), transparent 70%),
-                        linear-gradient(180deg, #0b1f30, #030b12);
-        }
-        
-        .particle {
-            position: absolute;
-            bottom: -10px;
-            background-color: rgba(150, 220, 255, 0.6);
-            border-radius: 50%;
-            animation: rise 12s infinite ease-in;
-            z-index: 2;
-        }
-        
-        @keyframes rise {
-            0% { bottom: -10px; opacity: 0; transform: translateX(0); }
-            40% { opacity: 1; }
-            100% { bottom: 100%; opacity: 0; transform: translateX(-20px); }
-        }
-        
-        .bluesphere-logo-container {
-            position: relative;
-            width: 180px;
-            height: 180px;
-            margin: 0 auto 30px;
-            z-index: 3;
-            animation: floatLogo 6s ease-in-out infinite;
-        }
-        
-        .bluesphere-logo {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 0 30px rgba(79, 195, 247, 0.6)) brightness(1.1);
-            border-radius: 50%;
-        }
+/* ================= NAVBAR ================= */
 
-        @keyframes floatLogo {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
-        
-        h1 {
-            font-size: 3.5rem;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            background: linear-gradient(to right, #ffffff, #7cd3ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            z-index: 3;
-            position: relative;
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            color: #c8ecff;
-            max-width: 850px;
-            margin: 0 auto;
-            line-height: 1.6;
-            z-index: 3;
-            position: relative;
-            padding: 0 20px;
-        }
+.navbar{
+position:fixed;
+top:0;
+width:100%;
+background:rgba(255,255,255,0.9);
+backdrop-filter:blur(12px);
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px 24px;
+box-shadow:0 4px 18px rgba(0,0,0,0.08);
+z-index:1000;
+}
 
-        .transition-wave {
-            width: 100%;
-            height: 120px;
-            background: linear-gradient(180deg, #030b12, #f4faff);
-        }
-        
-        /* Dashboard Placeholder */
-        .precision-clock-section {
-            padding: 60px 20px;
-            background: #f4faff;
-        }
-        .dashboard-container {
-            max-width: 1100px;
-            margin: auto;
-        }
-    </style>
-</head>
-<body>
+.navbar-logo{
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:700;
+color:#0a3d62;
+}
 
-<div class="navbar">
-    <div class="navbar-logo">
-        <img src="bluesphere-logo.png" alt="BlueSphere" class="nav-logo-img">
-        <span>BlueSphere</span>
-    </div>
-    <div class="nav-links">
-        <a href="#inicio">Inicio</a>
-        <a href="#donar">Donar</a>
-        <a href="#camino">15/30 Días</a>
-        <a href="manifiesto.html">Manifiesto</a>
-        <a href="#contacto">Contacto</a>
-    </div>
-</div>
+.nav-logo-img{
+width:32px;
+height:32px;
+border-radius:50%;
+}
 
-<div class="hero" id="inicio">
-    <div class="ocean-bg"></div>
-    
-    <script>
-        for (let i = 0; i < 35; i++) {
-            let p = document.createElement('div');
-            p.className = 'particle';
-            p.style.left = Math.random() * 100 + '%';
-            p.style.width = p.style.height = (Math.random() * 5 + 3) + 'px';
-            p.style.animationDuration = (10 + Math.random() * 10) + 's';
-            p.style.animationDelay = Math.random() * 4 + 's';
-            document.querySelector('.hero').appendChild(p);
-        }
-    </script>
-    
-    <div class="bluesphere-logo-container">
-        <img src="bluesphere-logo.png" alt="BlueSphere Consciousness" class="bluesphere-logo">
-    </div>   
+.nav-links a{
+margin-left:18px;
+text-decoration:none;
+color:#0a3659;
+font-weight:500;
+}
 
-    <h1>BlueSphere Consciousness</h1>
+/* ================= HERO ================= */
 
-    <p class="subtitle">
-        <strong>La conciencia es la nueva civilización.</strong><br><br>
-        BlueSphere es un sistema vivo de participación consciente, donde la comprensión del estado del planeta se transforma en acción colectiva capaz de restaurar el equilibrio entre humanidad y Tierra.<br><br>
-        Su propósito es traducir conocimiento científico, responsabilidad ética y cooperación humana en impacto real para la estabilidad del sistema Tierra.
-    </p>
+.hero{
+height:100vh;
+background:#030b12;
+color:white;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+position:relative;
+overflow:hidden;
+}
 
-</div> <div class="transition-wave"></div>
+.ocean-bg{
+position:absolute;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at 50% 20%, rgba(60,150,255,0.15), transparent 60%),
+linear-gradient(180deg,#0b1f30,#030b12);
+}
 
-<section class="precision-clock-section">
-   <div class="dashboard-container">
-    
-    }
+.particle{
+position:absolute;
+bottom:-10px;
+background:rgba(150,220,255,0.6);
+border-radius:50%;
+animation:rise 12s infinite ease-in;
+}
+
+@keyframes rise{
+0%{bottom:-10px;opacity:0}
+40%{opacity:1}
+100%{bottom:100%;opacity:0}
+}
+
+.logo-container{
+width:160px;
+margin-bottom:30px;
+animation:floatLogo 6s ease-in-out infinite;
+}
+
+.logo-container img{
+width:100%;
+border-radius:50%;
+filter:drop-shadow(0 0 30px rgba(79,195,247,0.6));
+}
+
+@keyframes floatLogo{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-15px)}
+}
 
 h1{
-text-align:center;
-color:#7dd3fc;
+font-size:3rem;
+background:linear-gradient(to right,#fff,#7cd3ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
 .subtitle{
-text-align:center;
-opacity:0.8;
-margin-bottom:40px;
+max-width:800px;
+color:#c8ecff;
+line-height:1.6;
+padding:0 20px;
+}
+
+/* ================= DASHBOARD ================= */
+
+.precision-clock-section{
+padding:80px 20px;
 }
 
 .timer{
@@ -248,17 +145,16 @@ margin:30px 0;
 }
 
 .planet-index{
-text-align:center;
 background:#0b2238;
+color:white;
 padding:25px;
 border-radius:10px;
-margin-top:30px;
+text-align:center;
 }
 
 .index-value{
-font-size:42px;
+font-size:40px;
 color:#7dd3fc;
-margin-top:10px;
 }
 
 .index-bar{
@@ -273,7 +169,6 @@ height:10px;
 width:62%;
 background:#3b82f6;
 border-radius:6px;
-transition:width 2s ease;
 }
 
 .sensors-grid{
@@ -285,6 +180,7 @@ margin-top:40px;
 
 .sensor-card{
 background:#0c1f33;
+color:white;
 padding:20px;
 border-radius:10px;
 }
@@ -292,16 +188,7 @@ border-radius:10px;
 .sensor-header{
 display:flex;
 justify-content:space-between;
-align-items:center;
 margin-bottom:10px;
-}
-
-.sensor-icon{
-font-size:22px;
-}
-
-.sensor-name{
-font-weight:bold;
 }
 
 .sensor-status{
@@ -310,32 +197,9 @@ padding:4px 8px;
 border-radius:6px;
 }
 
-.alert{
-background:#dc2626;
-}
-
-.warning{
-background:#f59e0b;
-}
-
-.risk{
-background:#2563eb;
-}
-
-.data-label{
-opacity:0.7;
-font-size:13px;
-}
-
-.data-value{
-font-size:24px;
-margin-top:5px;
-}
-
-.data-limit{
-font-size:12px;
-opacity:0.6;
-}
+.alert{background:#dc2626}
+.warning{background:#f59e0b}
+.risk{background:#2563eb}
 
 .sensor-bar{
 background:#1e293b;
@@ -346,42 +210,16 @@ margin:10px 0;
 
 .bar-fill{
 height:8px;
-border-radius:5px;
 background:#3b82f6;
-width:0%;
-transition:width 1.6s ease;
-}
-
-.sensor-msg{
-font-size:13px;
-opacity:0.85;
-line-height:1.5;
-margin-top:6px;
-}
-
-.sensor-source{
-margin-top:10px;
-font-size:12px;
-opacity:0.55;
-line-height:1.4;
+border-radius:5px;
 }
 
 .codex{
 margin-top:60px;
 background:#0b2238;
+color:white;
 padding:30px;
 border-radius:10px;
-}
-
-.codex h2{
-color:#7dd3fc;
-}
-
-.methodology{
-margin-top:40px;
-font-size:14px;
-opacity:0.85;
-line-height:1.6;
 }
 
 .homeostasis{
@@ -405,17 +243,59 @@ cursor:pointer;
 
 <body>
 
-<div class="container">
+<!-- NAVBAR -->
 
-<h1>Indicadores Planetarios de Referencia</h1>
+<div class="navbar">
+
+<div class="navbar-logo">
+<img src="bluesphere-logo.png" class="nav-logo-img">
+<span>BlueSphere</span>
+</div>
+
+<div class="nav-links">
+<a href="#inicio">Inicio</a>
+<a href="#dashboard">Planeta</a>
+<a href="#">Manifiesto</a>
+</div>
+
+</div>
+
+<!-- HERO -->
+
+<div class="hero" id="inicio">
+
+<div class="ocean-bg"></div>
+
+<div class="logo-container">
+<img src="bluesphere-logo.png">
+</div>
+
+<h1>BlueSphere Consciousness</h1>
 
 <p class="subtitle">
+<strong>La conciencia es la nueva civilización.</strong><br><br>
+BlueSphere es un sistema vivo donde la comprensión del estado del planeta
+se transforma en acción colectiva capaz de restaurar el equilibrio
+entre humanidad y Tierra.
+</p>
+
+</div>
+
+<!-- DASHBOARD -->
+
+<section class="precision-clock-section" id="dashboard">
+
+<div class="container">
+
+<h2 style="text-align:center">Indicadores Planetarios de Referencia</h2>
+
+<p style="text-align:center">
 Observación sistémica de la salud biofísica de la Tierra
 </p>
 
 <div class="timer">
 
-Umbral climático de referencia: +1.5°C  
+Umbral climático de referencia: +1.5°C
 <br><br>
 
 <span id="countdown"></span>
@@ -424,7 +304,7 @@ Umbral climático de referencia: +1.5°C
 
 <div class="planet-index">
 
-<h2>Índice de Estabilidad Planetaria</h2>
+<h3>Índice de Estabilidad Planetaria</h3>
 
 <div class="index-value">62%</div>
 
@@ -432,166 +312,66 @@ Umbral climático de referencia: +1.5°C
 <div class="index-fill"></div>
 </div>
 
-<p style="opacity:0.75;margin-top:10px;">
-Estimación sistémica del equilibrio biofísico del sistema Tierra
-</p>
-
 </div>
-
-<h2 style="margin-top:50px;">Diagnóstico Biofísico Planetario</h2>
-
-<p>
-El sistema Tierra presenta una <b>fiebre metabólica aproximada de +1.1°C</b>
-respecto al periodo preindustrial.
-Seis sensores vitales permiten observar el estado sistémico del planeta.
-</p>
 
 <div class="sensors-grid">
 
-<!-- CO2 -->
-
 <div class="sensor-card">
 
 <div class="sensor-header">
-<span class="sensor-icon">💨</span>
-<span class="sensor-name">DIÓXIDO DE CARBONO</span>
+<span>💨 CO₂</span>
 <span class="sensor-status alert">ALERTA</span>
 </div>
 
-<div class="data-label">RESPIRACIÓN PLANETARIA</div>
-<div class="data-value">424 ppm</div>
-<div class="data-limit">LÍMITE: 450 ppm</div>
+<div>424 ppm</div>
 
 <div class="sensor-bar">
-<div class="bar-fill" data-width="85"></div>
-</div>
-
-<div class="sensor-msg">
-La atmósfera contiene concentraciones de CO₂ no experimentadas por la civilización humana moderna.
-</div>
-
-<div class="sensor-source">
-Fuente científica: NOAA Global Monitoring Laboratory — Mauna Loa Observatory
+<div class="bar-fill" style="width:85%"></div>
 </div>
 
 </div>
-
-<!-- TEMPERATURA -->
 
 <div class="sensor-card">
 
 <div class="sensor-header">
-<span class="sensor-icon">🌡️</span>
-<span class="sensor-name">ANOMALÍA TÉRMICA</span>
+<span>🌡️ Temperatura</span>
 <span class="sensor-status alert">CRÍTICO</span>
 </div>
 
-<div class="data-label">FIEBRE DEL PLANETA</div>
-<div class="data-value">+1.1°C</div>
-<div class="data-limit">LÍMITE: +1.5°C</div>
+<div>+1.1°C</div>
 
 <div class="sensor-bar">
-<div class="bar-fill" data-width="73"></div>
-</div>
-
-<div class="sensor-msg">
-El sistema climático acumula energía térmica global.
-</div>
-
-<div class="sensor-source">
-Fuente científica: NASA GISS Surface Temperature Analysis
+<div class="bar-fill" style="width:73%"></div>
 </div>
 
 </div>
-
-<!-- HIELO -->
 
 <div class="sensor-card">
 
 <div class="sensor-header">
-<span class="sensor-icon">🏔️</span>
-<span class="sensor-name">CAPA DE HIELO</span>
+<span>🏔️ Hielo</span>
 <span class="sensor-status warning">DETERIORO</span>
 </div>
 
-<div class="data-label">REFLEXIÓN SOLAR (ALBEDO)</div>
-<div class="data-value">-12.2% / década</div>
+<div>-12.2% / década</div>
 
 <div class="sensor-bar">
-<div class="bar-fill" data-width="78"></div>
-</div>
-
-<div class="sensor-msg">
-La reducción del hielo disminuye la capacidad del planeta de reflejar radiación solar.
+<div class="bar-fill" style="width:78%"></div>
 </div>
 
 </div>
-
-<!-- NIVEL DEL MAR -->
 
 <div class="sensor-card">
 
 <div class="sensor-header">
-<span class="sensor-icon">🌊</span>
-<span class="sensor-name">NIVEL DEL MAR</span>
+<span>🌊 Nivel del mar</span>
 <span class="sensor-status risk">RIESGO</span>
 </div>
 
-<div class="data-label">EXPANSIÓN TÉRMICA</div>
-<div class="data-value">+101 mm</div>
+<div>+101 mm</div>
 
 <div class="sensor-bar">
-<div class="bar-fill" data-width="90"></div>
-</div>
-
-<div class="sensor-msg">
-El aumento del nivel del mar refleja expansión térmica y deshielo continental.
-</div>
-
-</div>
-
-<!-- AGUA -->
-
-<div class="sensor-card">
-
-<div class="sensor-header">
-<span class="sensor-icon">💧</span>
-<span class="sensor-name">AGUA DULCE</span>
-<span class="sensor-status alert">CRÍTICO</span>
-</div>
-
-<div class="data-label">SISTEMA HIDROLÓGICO</div>
-<div class="data-value">DESCENSO CRÍTICO</div>
-
-<div class="sensor-bar">
-<div class="bar-fill" data-width="88"></div>
-</div>
-
-<div class="sensor-msg">
-Los sistemas de agua dulce enfrentan presión creciente por sobreexplotación y cambio climático.
-</div>
-
-</div>
-
-<!-- OCEANO -->
-
-<div class="sensor-card">
-
-<div class="sensor-header">
-<span class="sensor-icon">🌊</span>
-<span class="sensor-name">OCÉANO GLOBAL</span>
-<span class="sensor-status warning">DETERIORO</span>
-</div>
-
-<div class="data-label">ACIDIFICACIÓN</div>
-<div class="data-value">pH 8.05</div>
-
-<div class="sensor-bar">
-<div class="bar-fill" data-width="82"></div>
-</div>
-
-<div class="sensor-msg">
-El océano absorbe gran parte del calor y del CO₂ del sistema climático.
+<div class="bar-fill" style="width:90%"></div>
 </div>
 
 </div>
@@ -605,29 +385,16 @@ El océano absorbe gran parte del calor y del CO₂ del sistema climático.
 <p>
 El sistema Tierra presenta múltiples signos de alteración
 en sus parámetros biofísicos principales.
-Varios sensores vitales muestran desviaciones respecto
-a rangos considerados seguros para la estabilidad climática.
 </p>
 
 <ul>
-<li>Estado térmico: fiebre metabólica global</li>
-<li>Estado atmosférico: acumulación de CO₂</li>
-<li>Estado oceánico: calentamiento y acidificación</li>
-<li>Estado criosférico: pérdida de albedo</li>
-<li>Estado hidrológico: presión sobre agua dulce</li>
+
+<li>Fiebre metabólica global</li>
+<li>Acumulación de CO₂</li>
+<li>Calentamiento oceánico</li>
+<li>Pérdida de albedo</li>
+
 </ul>
-
-</div>
-
-<div class="methodology">
-
-<h3>Metodología de referencia científica</h3>
-
-<p>
-Los indicadores presentados en este panel derivan de observaciones
-realizadas por organismos científicos internacionales de monitoreo
-climático y ambiental.
-</p>
 
 </div>
 
@@ -635,40 +402,54 @@ climático y ambiental.
 
 <h3>Protocolo de Homeostasis Planetaria</h3>
 
-<p>
-La homeostasis describe la capacidad del sistema Tierra
-de mantener equilibrio entre sus procesos físicos,
-químicos y biológicos.
-</p>
-
-<button>
-Explorar el Protocolo de Homeostasis
-</button>
+<button>Explorar el Protocolo</button>
 
 </div>
 
 </div>
+
+</section>
 
 <script>
 
-const targetDate = new Date("2035-01-01");
+/* PARTICLES */
+
+for(let i=0;i<30;i++){
+
+let p=document.createElement("div");
+
+p.className="particle";
+
+p.style.left=Math.random()*100+"%";
+
+p.style.width=p.style.height=(Math.random()*4+3)+"px";
+
+p.style.animationDuration=(10+Math.random()*10)+"s";
+
+document.querySelector(".hero").appendChild(p);
+
+}
+
+/* COUNTDOWN */
+
+const targetDate=new Date("2035-01-01").getTime();
 
 function updateCountdown(){
 
-const now = new Date();
+const now=new Date().getTime();
 
-const diff = targetDate - now;
+const diff=targetDate-now;
 
-const days = Math.floor(diff/(1000*60*60*24));
+const days=Math.floor(diff/(1000*60*60*24));
 
-const hours = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+const hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
 
-const minutes = Math.floor((diff%(1000*60*60))/(1000*60));
+const mins=Math.floor((diff%(1000*60*60))/(1000*60));
 
-const seconds = Math.floor((diff%(1000*60))/1000);
+const secs=Math.floor((diff%(1000*60))/1000);
 
-document.getElementById("countdown").innerHTML =
-days+" DÍAS : "+hours+" HRS : "+minutes+" MIN : "+seconds+" SEG";
+document.getElementById("countdown").innerHTML=
+`${days} DÍAS : ${hours} HRS : ${mins} MIN : ${secs} SEG`;
 
 }
 
@@ -676,34 +457,10 @@ setInterval(updateCountdown,1000);
 
 updateCountdown();
 
-document.querySelectorAll(".bar-fill").forEach(bar=>{
-const width = bar.getAttribute("data-width");
-setTimeout(()=>{bar.style.width = width+"%";},300);
-});
-
 </script>
 
 </body>
 </html>
-
-<script>
-    const targetDate = new Date("2035-01-01").getTime();
-
-    function updateCountdown(){
-        const now = new Date().getTime();
-        const diff = targetDate - now;
-        const days = Math.floor(diff/(1000*60*60*24));
-        const hours = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-        const mins = Math.floor((diff%(1000*60*60))/(1000*60));
-        const secs = Math.floor((diff%(1000*60))/1000);
-        
-        document.getElementById("countdown").innerHTML = 
-            `${days} DÍAS : ${hours} HRS : ${mins} MIN : ${secs} SEG`;
-    }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-</script>
 <!-- DONACIONES - VERSIÓN MEJORADA -->
 <section id="donar">
     <div class="card">
@@ -1625,6 +1382,7 @@ margin-right: auto;
 
 </body>
 </html>
+
 
 
 
