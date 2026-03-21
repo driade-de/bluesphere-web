@@ -10,8 +10,9 @@
 <script type="module">
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
+// ===== CONFIG SUPABASE (CORRECTA) =====
 const supabaseUrl = "https://ophicpcbgdgzthjamzoz.supabase.co";
-const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c";
+const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c";
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -58,14 +59,15 @@ document.addEventListener("DOMContentLoaded", async () => {
             .from(tabla)
             .select("*")
             .eq(columna, codigo)
-            .single();
+            .maybeSingle();
 
-        if (error || !data) {
+        // ===== VALIDACIÓN REAL =====
+        if (error || !data || data.estatus === "disponible") {
             estado.innerHTML = "❌ Certificado NO válido";
             return;
         }
 
-        // ✅ CERTIFICADO VÁLIDO
+        // ===== CERTIFICADO VÁLIDO =====
         elNombre.textContent = nombre || "SIN NOMBRE";
         elCodigo.textContent = codigo;
         elFecha.textContent = fecha;
@@ -136,7 +138,8 @@ async function descargarPDF() {
     const pdf = new jsPDF();
     pdf.addImage(imgData, 'PNG', 10, 10, 190, 0);
 
-    pdf.save(`Certificado-${document.getElementById("nombre").textContent}.pdf`);
+    const nombreArchivo = document.getElementById("nombre").textContent || "Certificado";
+    pdf.save(`Certificado-${nombreArchivo}.pdf`);
 }
 </script>
 
