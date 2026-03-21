@@ -318,12 +318,19 @@
                 <strong>Umbral climático de referencia: +1.5°C</strong>
             </div>
 
-            <!-- NUEVO: explicación científica del umbral -->
+            <!-- EXPLICACIÓN -->
             <p style="opacity:0.6; font-size:0.85rem; margin-top:-10px; margin-bottom:15px;">
             Estimación basada en modelos climáticos globales sobre el tiempo aproximado para alcanzar este umbral bajo las condiciones actuales.
             </p>
 
-            <div id="countdown" style="font-size: 2rem; font-weight: 800; color: #7dd3fc; letter-spacing: 2px;">
+            <!-- 🔵 SELECTOR DE ESCENARIOS -->
+            <div style="margin-bottom:15px;">
+                <button onclick="setScenario('optimista')" style="margin:5px; padding:6px 12px; border-radius:6px; border:none; background:#22c55e; color:white; cursor:pointer;">Optimista</button>
+                <button onclick="setScenario('intermedio')" style="margin:5px; padding:6px 12px; border-radius:6px; border:none; background:#eab308; color:black; cursor:pointer;">Intermedio</button>
+                <button onclick="setScenario('critico')" style="margin:5px; padding:6px 12px; border-radius:6px; border:none; background:#ef4444; color:white; cursor:pointer;">Crítico</button>
+            </div>
+
+            <div id="countdown" style="margin-top:10px; font-size: 2rem; font-weight: 800; color: #7dd3fc; letter-spacing: 2px;">
                 Cargando...
             </div>
         </header>
@@ -342,7 +349,6 @@
             Evaluación integrada del estado del sistema Tierra.
             </p>
 
-            <!-- EXPLICACIÓN DEL INDICADOR -->
             <p style="font-size:0.8rem; opacity:0.55; margin-top:8px;">
             Indicador agregado basado en 7 sistemas planetarios clave: atmósfera, temperatura global, criosfera, océanos, nivel del mar, agua dulce y biodiversidad.
             </p>
