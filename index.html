@@ -1552,6 +1552,32 @@ margin-right: auto;
   Concept, narrative and systems under development.<br>
   All rights reserved.
 </footer>
+<script>
+let scenarios = {
+    optimista: 4380,
+    intermedio: 3207,
+    critico: 1825
+};
+
+let currentDays = scenarios.intermedio;
+
+function setScenario(type) {
+    currentDays = scenarios[type];
+    updateCountdown();
+}
+
+function updateCountdown() {
+    let days = currentDays;
+    let hrs = 19;
+    let min = 41;
+    let sec = 27;
+
+    document.getElementById("countdown").innerText =
+        `${days} DÍAS : ${hrs} HRS : ${min} MIN : ${min} MIN : ${sec} SEG`;
+}
+
+updateCountdown();
+</script>            
 
 </body>
 </html>
