@@ -1,1 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Certificado BlueSphere</title>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+body {
+    background:#020b12;
+    color:#8feaff;
+    font-family: Arial;
+    text-align:center;
+}
+
+#certificado {
+    margin:40px auto;
+    padding:40px;
+    width:600px;
+    border:2px solid #00c4ff;
+    border-radius:15px;
+    background: rgba(0,20,40,0.85);
+}
+
+h1 { color:#00ffaa; }
+</style>
+</head>
+
+<body>
+
+<div id="certificado">
+    <h1>Certificado Oficial</h1>
+    <p>Otorgado a:</p>
+    <h2 id="nombre"></h2>
+
+    <p>Código:</p>
+    <h3 id="codigo"></h3>
+
+    <p>Fecha de emisión:</p>
+    <h3 id="fecha"></h3>
+</div>
+
+<button onclick="descargarPDF()">Descargar PDF</button>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+
+const nombre = params.get("nombre") || "SIN NOMBRE";
+const codigo = params.get("codigo") || "SIN CODIGO";
+
+const fecha = new Date().toLocaleDateString("es-MX", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric"
+});
+
+document.getElementById("nombre").textContent = nombre;
+document.getElementById("codigo").textContent = codigo;
+document.getElementById("fecha").textContent = fecha;
+
+async function descargarPDF() {
+    const { jsPDF } = window.jspdf;
+
+    const elemento = document.getElementById("certificado");
+    const canvas = await html2canvas(elemento);
+    const imgData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF();
+    pdf.addImage(imgData, 'PNG', 10, 10, 190, 0);
+
+    pdf.save(`Certificado-${nombre}.pdf`);
+}
+</script>
+
+</body>
+</html>
