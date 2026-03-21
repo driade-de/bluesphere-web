@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>  
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -11,69 +11,73 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const supabaseUrl = "https://ophicpcbgdgzthjamzoz.supabase.co";
-const supabaseAnonKey = "TU_ANON_KEY_AQUI";
+const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c";
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// ===== LEER PARAMETROS =====
-const params = new URLSearchParams(window.location.search);
-const nombre = params.get("nombre");
-const codigo = params.get("codigo");
+document.addEventListener("DOMContentLoaded", async () => {
 
-// ===== ELEMENTOS =====
-const elNombre = document.getElementById("nombre");
-const elCodigo = document.getElementById("codigo");
-const elFecha = document.getElementById("fecha");
-const estado = document.getElementById("estado");
+    // ===== LEER PARAMETROS =====
+    const params = new URLSearchParams(window.location.search);
+    const nombre = params.get("nombre");
+    const codigo = params.get("codigo");
 
-// ===== FECHA =====
-const fecha = new Date().toLocaleDateString("es-MX", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric"
-});
+    // ===== ELEMENTOS =====
+    const elNombre = document.getElementById("nombre");
+    const elCodigo = document.getElementById("codigo");
+    const elFecha = document.getElementById("fecha");
+    const estado = document.getElementById("estado");
 
-// ===== DETECTAR TIPO =====
-let tabla = "";
-let columna = "";
+    // ===== FECHA =====
+    const fecha = new Date().toLocaleDateString("es-MX", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+    });
 
-if (codigo && codigo.startsWith("GPR")) {
-    tabla = "codigos_gpr";
-    columna = "codigo";
-} else {
-    tabla = "codigos_corp";
-    columna = "codigo_completo";
-}
-
-// ===== VALIDAR CONTRA SUPABASE =====
-async function validar() {
+    // ===== VALIDACIÓN PREVIA =====
     if (!codigo) {
         estado.innerHTML = "❌ Código no proporcionado";
         return;
     }
 
-    const { data, error } = await supabase
-        .from(tabla)
-        .select("*")
-        .eq(columna, codigo)
-        .single();
+    // ===== DETECTAR TIPO =====
+    let tabla = "";
+    let columna = "";
 
-    if (error || !data) {
-        estado.innerHTML = "❌ Certificado NO válido";
-        return;
+    if (codigo.startsWith("GPR")) {
+        tabla = "codigos_gpr";
+        columna = "codigo";
+    } else {
+        tabla = "codigos_corp";
+        columna = "codigo_completo";
     }
 
-    // ✅ CERTIFICADO VÁLIDO
-    elNombre.textContent = nombre || "SIN NOMBRE";
-    elCodigo.textContent = codigo;
-    elFecha.textContent = fecha;
+    try {
+        const { data, error } = await supabase
+            .from(tabla)
+            .select("*")
+            .eq(columna, codigo)
+            .single();
 
-    estado.innerHTML = "✅ Certificado verificado en BlueSphere";
-}
+        if (error || !data) {
+            estado.innerHTML = "❌ Certificado NO válido";
+            return;
+        }
 
-// Ejecutar validación
-validar();
+        // ✅ CERTIFICADO VÁLIDO
+        elNombre.textContent = nombre || "SIN NOMBRE";
+        elCodigo.textContent = codigo;
+        elFecha.textContent = fecha;
 
+        estado.innerHTML = "✅ Certificado verificado en BlueSphere";
+
+    } catch (err) {
+        console.error(err);
+        estado.innerHTML = "⚠️ Error de conexión";
+    }
+
+});
 </script>
 
 <style>
