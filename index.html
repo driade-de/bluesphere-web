@@ -1553,32 +1553,69 @@ margin-right: auto;
   All rights reserved.
 </footer>
 <script>
+
+/* ESCENARIOS CON FECHAS REALES */
 let scenarios = {
-    optimista: 4380,
-    intermedio: 3207,
-    critico: 1825
+    optimista: new Date("2038-01-01").getTime(),
+    intermedio: new Date("2035-01-01").getTime(),
+    critico: new Date("2030-01-01").getTime()
 };
 
-let currentDays = scenarios.intermedio;
+let currentTarget = scenarios.intermedio;
 
+/* CAMBIO DE ESCENARIO */
 function setScenario(type) {
-    currentDays = scenarios[type];
+    currentTarget = scenarios[type];
+
+    let indice = document.getElementById("indice");
+    let barra = document.getElementById("barra");
+
+    if(type === "optimista"){
+        indice.innerText = "78%";
+        indice.style.color = "#22c55e";
+
+        barra.style.width = "78%";
+        barra.style.background = "#22c55e";
+    }
+
+    if(type === "intermedio"){
+        indice.innerText = "62%";
+        indice.style.color = "#3b82f6";
+
+        barra.style.width = "62%";
+        barra.style.background = "#3b82f6";
+    }
+
+    if(type === "critico"){
+        indice.innerText = "41%";
+        indice.style.color = "#ef4444";
+
+        barra.style.width = "41%";
+        barra.style.background = "#ef4444";
+    }
+
     updateCountdown();
 }
 
-function updateCountdown() {
-    let days = currentDays;
-    let hrs = 19;
-    let min = 41;
-    let sec = 27;
+/* COUNTDOWN REAL */
+function updateCountdown(){
+    const now = new Date().getTime();
+    const diff = currentTarget - now;
 
-    document.getElementById("countdown").innerText =
-        `${days} DÍAS : ${hrs} HRS : ${min} MIN : ${min} MIN : ${sec} SEG`;
+    const d = Math.floor(diff/(1000*60*60*24));
+    const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+    const m = Math.floor((diff%(1000*60*60))/(1000*60));
+    const s = Math.floor((diff%(1000*60))/1000);
+
+    document.getElementById("countdown").innerHTML =
+        `${d} DÍAS : ${h} HRS : ${m} MIN : ${s} SEG`;
 }
 
+/* LOOP */
+setInterval(updateCountdown, 1000);
 updateCountdown();
-</script>            
 
+</script>
 </body>
 </html>
 
