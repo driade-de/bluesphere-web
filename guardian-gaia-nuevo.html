@@ -1851,13 +1851,13 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
             // Determinar el estado general basado en las métricas críticas y de alerta
             if (metricasCriticas >= 4) {
                 estadoGeneral = 'critico';
-                seccionheptagrama.classList.add('critico');
+                seccionHeptagrama.classList.add('critico');
             } else if (metricasCriticas >= 1 || metricasAlerta >= 2) {
                 estadoGeneral = 'alerta';
-                seccionheptagrama.classList.remove('critico');
+                seccionHeptagrama.classList.remove('critico');
             } else {
                 estadoGeneral = 'precaucion';
-                seccionheptagrama.classList.remove('critico');
+                seccionHeptagrama.classList.remove('critico');
             }
             
             // Actualizar el indicador de estado del planeta
