@@ -1756,8 +1756,8 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
         // PENTAGRAMA GAIA - MEJORADO CON IMPACTO VISUAL
         // ===========================================
         
-        async function actualizarPentagramaReal() {
-            const contenedor = document.getElementById('pentagrama-contenido');
+        async function actualizarHeptagramaReal() {
+            const contenedor = document.getElementById('heptagrama-contenido');
             if (!contenedor) return;
             
             // Mostrar estado de carga
@@ -1804,9 +1804,9 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
         }
         
         function mostrarHeptagramaConImpacto(metricas) {
-            const contenedor = document.getElementById('pentagrama-contenido');
-            const seccionPentagrama = document.getElementById('pentagrama-seccion');
-            if (!contenedor || !seccionPentagrama) return;
+            const contenedor = document.getElementById('heptagrama-contenido');
+            const seccionPentagrama = document.getElementById('heptagrama-seccion');
+            if (!contenedor || !seccionHeptagrama) return;
             
             // LLAMAR A LA FUNCIÓN DE DEPURACIÓN
             depurarHeptagrama(metricas);
