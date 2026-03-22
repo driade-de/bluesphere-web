@@ -4,8 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificado de Compromiso Consciente – BlueSphere</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script type="module">
+        import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+        
+        const supabaseUrl = "https://ophicpcbgdgzthjamzoz.supabase.co";
+        const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c";
+        const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+        window.validarCertificado = async (codigo, nombre) => {
+            const elEstado = document.getElementById("estadoValidacion");
+            let tabla = codigo.startsWith("GPR") ? "codigos_gpr" : "codigos_corp";
+            let columna = codigo.startsWith("GPR") ? "codigo" : "codigo_completo";
+
+            try {
+                const { data, error } = await supabase.from(tabla).select("*").eq(columna, codigo).maybeSingle();
+                if (error || !data || data.estatus === "disponible") {
+                    elEstado.innerHTML = "❌ Certificado No Registrado o Inválido";
+                    elEstado.style.color = "red";
+                    return false;
+                }
+                elEstado.innerHTML = "✅ Autenticidad Verificada por BlueSphere";
+                elEstado.style.color = "var(--verde-musgo)";
+                return true;
+            } catch (err) {
+                console.error(err);
+                return false;
+            }
+        };
+    </script>
+
     <style>
-        /* PALETA INSPIRADA EN GHIBLI (Tonos suaves, terrosos, y naturales) */
         :root {
             --azul-cielo: #a0c4ff;
             --verde-musgo: #6a994e;
@@ -15,348 +45,106 @@
             --sello-dorado: #e0ac42; 
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: 'Georgia', serif;
             background-color: var(--papel-crema); 
-            color: var(--gris-texto);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
         }
         
         .certificado-container {
-            background: #ffffff;
-            width: 100%;
-            max-width: 900px;
-            min-height: 650px;
-            border: 15px solid var(--tierra-suave); 
-            border-radius: 25px;
-            position: relative;
+            background: #ffffff; width: 100%; max-width: 850px;
+            border: 12px double var(--tierra-suave); border-radius: 15px;
+            position: relative; padding: 40px; text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 40px;
-            overflow: hidden;
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cdefs%3E%3Cpattern id='n' width='16' height='16' patternUnits='userSpaceOnUse'%3E%3Ccircle fill='none' stroke='%23dddddd' stroke-width='0.5' cx='8' cy='8' r='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23n)'/%3E%3C/svg%3E");
         }
         
-        .certificado-container::before, .certificado-container::after {
-            content: none;
-        }
+        .titulo-certificado { font-size: 2.5rem; color: var(--gris-texto); margin-bottom: 5px; }
+        .subtitulo-certificado { color: var(--verde-musgo); font-style: italic; margin-bottom: 20px; }
         
-        .header-certificado {
-            text-align: center;
-            margin-bottom: 30px;
-            position: relative;
-        }
-        
-        .logo-space {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
-            background: none; 
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            box-shadow: none;
-        }
-        
-        .titulo-certificado {
-            font-size: 3rem;
-            color: var(--gris-texto);
-            margin-bottom: 10px;
-            font-weight: 500;
-            text-transform: none;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.05); 
-        }
-        
-        .subtitulo-certificado {
-            font-size: 1.4rem;
-            color: var(--verde-musgo);
-            font-style: italic;
-            margin-bottom: 5px;
-        }
-        
-        .numero-certificado {
-            font-size: 1rem;
-            color: white;
-            background: var(--azul-cielo);
-            padding: 5px 15px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-top: 10px;
-            max-width: 90%;
-            word-break: break-all;
-        }
-        
-        .cuerpo-certificado {
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .texto-compromiso {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            margin-bottom: 30px;
-            text-align: center;
-            color: var(--gris-texto);
-        }
-        
-        .compromisos-lista, .compromisos-avanzados {
-            background: rgba(255, 255, 255, 0.7); 
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 5px solid var(--azul-cielo);
-            margin: 25px 0;
-            text-align: left;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        
-        .compromisos-lista h3, .compromisos-avanzados h3 {
-            color: var(--verde-musgo);
-            margin-bottom: 15px;
-            text-align: center;
-            font-size: 1.5rem;
-        }
-        
-        #nombreGuardian {
-            display: inline-block;
-            max-width: 400px;
-            overflow: hidden;
-            white-space: normal;
-            vertical-align: middle;
-            font-size: 1.3rem;
-            font-weight: bold;
+        #nombreGuardian { 
+            font-size: 2rem; color: var(--tierra-suave); 
+            border-bottom: 2px solid var(--tierra-suave); 
+            display: inline-block; padding: 0 20px; margin: 15px 0;
         }
 
-        .sello {
-            position: absolute;
-            bottom: 40px;
-            right: 40px;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--sello-dorado), #f0d592);
-            border: 4px dashed var(--gris-texto);
-            transform: rotate(-10deg);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            z-index: 3;
-        }
-        
-        .sello::before {
-            content: "⭐";
-            font-size: 3.5rem;
-            color: var(--gris-texto);
+        .compromisos-lista {
+            background: rgba(106, 153, 78, 0.05); padding: 20px;
+            border-radius: 10px; text-align: left; margin: 20px 0; font-size: 0.9rem;
         }
 
-        /* --- REGLA CRÍTICA DE AISLAMIENTO PARA PDF (SOLUCIÓN FINAL) --- */
-        @media print {
-            body * { 
-                visibility: hidden; 
-            }
-            .certificado-container, .certificado-container * { 
-                visibility: visible; 
-            }
-            .certificado-container {
-                position: absolute; 
-                left: 0;
-                top: 0;
-                width: 100%;
-                margin: 0;
-                /* Corregimos el padding y la altura para evitar el corte */
-                padding: 20px !important;
-                height: 98vh !important; 
-                page-break-after: avoid !important; 
-                page-break-inside: avoid !important;
-            }
-            body {
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-            .botones-accion {
-                display: none !important; 
-            }
-            .texto-compromiso {
-                font-size: 1.1rem !important; /* Reducimos la fuente para evitar el corte */
-            }
+        .pie-certificado {
+            display: flex; justify-content: space-between; align-items: flex-end; margin-top: 30px;
         }
+
+        #qrcode { background: white; padding: 5px; border: 1px solid #ccc; }
+
+        .botones-accion { margin-top: 20px; }
+        .btn-descargar {
+            background: var(--verde-musgo); color: white; border: none;
+            padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 1rem;
+        }
+
+        @media print { .botones-accion { display: none; } }
     </style>
 </head>
 <body>
+
     <div class="certificado-container" id="certificado">
         <div class="header-certificado">
-            <div class="logo-space" id="logoContainer">
-                <img src="bluesphere-logo.png" alt="Logo de BlueSphere" style="height: 100px; width: auto; max-width: 100%;">
-            </div>
             <h1 class="titulo-certificado">Certificado de Compromiso Consciente</h1>
-            <div class="subtitulo-certificado">La ola que inicia en ti</div>
-<div>— Pacto Azul de BlueSphere —</div>
-            <div class="numero-certificado" id="numeroCertificado">BS-2025-000001</div>
+            <p>— Pacto Azul de BlueSphere —</p>
+            <div class="subtitulo-certificado" id="estadoValidacion">Validando autenticidad...</div>
         </div>
         
         <div class="cuerpo-certificado">
+            <p>Se otorga con honor a:</p>
+            <h2 id="nombreGuardian">Cargando...</h2>
+            
             <div class="texto-compromiso">
-                <strong>Yo, <span id="nombreGuardian">____________________</span>,</strong> como Guardián Consciente de BlueSphere, me comprometo activamente con la preservación 
-                de nuestro planeta y adopto los siguientes hábitos sostenibles como parte de mi 
-                contribución a un futuro más verde y equilibrado.
+                Como Guardián Consciente, asumo la responsabilidad de proteger nuestra biosfera mediante acciones diarias y hábitos sostenibles.
             </div>
-            
+
             <div class="compromisos-lista">
-                <h3>🌿 Mis Compromisos Ambientales Esenciales</h3>
-                <div class="compromiso-item">
-                    <div class="compromiso-emoji">🌊</div>
-                    <div class="compromiso-texto">
-                        <strong>Reducción de Plásticos:</strong> Eliminar el uso de plásticos de un solo uso 
-                        y optar por alternativas reutilizables en mi vida diaria.
-                    </div>
-                </div>
-                <div class="compromiso-item">
-                    <div class="compromiso-emoji">🚲</div>
-                    <div class="compromiso-texto">
-                        <strong>Movilidad Sostenible:</strong> Utilizar transporte público, bicicleta o 
-                        caminar para desplazamientos cortos, reduciendo mi huella de carbono.
-                    </div>
-                </div>
-                <div class="compromiso-item">
-                    <div class="compromiso-emoji">💧</div>
-                    <div class="compromiso-texto">
-                        <strong>Conservación del Agua:</strong> Implementar prácticas de ahorro de agua 
-                        en el hogar y ser consciente de su uso responsable.
-                    </div>
-                </div>
-                <div class="compromiso-item">
-                    <div class="compromiso-emoji">🌱</div>
-                    <div class="compromiso-texto">
-                        <strong>Consumo Responsable:</strong> Elegir productos de empresas sostenibles 
-                        y reducir el consumo innecesario de recursos.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="compromisos-avanzados">
-                <h3>🌟 Mis Compromisos Complementarios</h3>
-                <div class="compromiso-item">
-                    <div class="compromiso-emoji">🍃</div>
-                    <div class="compromiso-texto">
-                        <strong>Alimentación Consciente:</strong> Reducir el consumo de carne e incrementar el consumo de productos locales y de temporada.
-                    </div>
-                </div>
-                <div class="compromiso-item">
-                    <div class="compromiso-emoji">♻️</div>
-                    <div class="compromiso-texto">
-                        <strong>Gestión de Residuos:</strong> Practicar consistentemente el reciclaje y el compostaje de residuos orgánicos.
-                    </div>
-                </div>
-                <div class="compromiso-item">
-                    <div class="compromiso-emoji">📚</div>
-                    <div class="compromiso-texto">
-                        <strong>Educación y Advocacy:</strong> Compartir conocimientos sobre sostenibilidad con mi comunidad y apoyar políticas medioambientales.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="botones-accion">
-                <button class="btn-certificado btn-descargar" onclick="descargarCertificado()" disabled id="btnDescargar">
-                    📄 Descargar Certificado Emitido por el Sistema BlueSphere
-                </button>
-            </div>
-            
-            <div class="hashtag">
-                Únete a la conversación: <span>#GuardiánBluesphere</span>
+                <strong>🌿 Mis Compromisos Esenciales:</strong><br>
+                🌊 Reducción de Plásticos | 🚲 Movilidad Sostenible | 💧 Ahorro de Agua | 🌱 Consumo Local
             </div>
         </div>
         
         <div class="pie-certificado">
-            <div class="fecha-emision" id="fechaEmision">17 de Noviembre de 2025</div>
-            <div class="codigo-qr" id="codigoQR">
-                Código QR<br>Verificación
+            <div class="datos-finales" style="text-align: left;">
+                <p><strong>Fecha:</strong> <span id="fechaEmision"></span></p>
+                <p><strong>ID:</strong> <span id="numeroCertificado"></span></p>
             </div>
-            <div class="codigo-autenticacion">CÓDIGO: <span id="unique-code-footer"></span></div>
-        </div>
-        
-        <div class="sello">
-            <div class="sello-texto">COMPROMISO VERIFICADO</div>
+            <div id="qrcode"></div>
         </div>
     </div>
-    
+
+    <div class="botones-accion">
+        <button class="btn-descargar" onclick="window.print()">📄 Descargar Certificado PDF</button>
+    </div>
+
     <script>
-        // --- 1. FUNCIONES UTILITARIAS ---
-        function obtenerFechaActual() {
-            const ahora = new Date();
-            const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
-            return ahora.toLocaleDateString('es-ES', opciones);
-        }
-
-        // --- 2. CEREBRO AUTOMÁTICO ---
-        document.addEventListener('DOMContentLoaded', function() {
-            
-            // A. Leer la "Mochila" (Datos de la URL que envió el Portal)
+        document.addEventListener('DOMContentLoaded', async function() {
             const params = new URLSearchParams(window.location.search);
-            const nombreURL = params.get('nombre');
-            const codigoURL = params.get('codigo');
+            const nombre = params.get('nombre') || "Guardián Anónimo";
+            const codigo = params.get('codigo') || "BS-TEMP";
 
-            // B. Identificar elementos del Certificado
-            const elNombre = document.getElementById('nombreGuardian');
-            const elNumero = document.getElementById('numeroCertificado');
-            const elFecha = document.getElementById('fechaEmision');
-            const elCodigoFooter = document.getElementById('unique-code-footer');
+            document.getElementById('nombreGuardian').textContent = nombre;
+            document.getElementById('numeroCertificado').textContent = codigo;
+            document.getElementById('fechaEmision').textContent = new Date().toLocaleDateString();
 
-            const btnDescargar = document.getElementById('btnDescargar');
-            
-            // C. Poner Fecha de Hoy
-            elFecha.textContent = obtenerFechaActual();
-
-            // D. Lógica del CÓDIGO
-            if (codigoURL && codigoURL !== "undefined") {
-                elNumero.textContent = codigoURL;
-                elCodigoFooter.textContent = codigoURL;
-            } else {
-                // Si no hay código (entró directo), generamos uno de respaldo
-                const codigoRespaldo = 'BS-2025-' + Math.floor(Math.random() * 10000);
-                elNumero.textContent = codigoRespaldo;
-                elCodigoFooter.textContent = codigoRespaldo;
+            // Validar con Supabase
+            if(window.validarCertificado) {
+                await window.validarCertificado(codigo, nombre);
             }
 
-            // E. Lógica del NOMBRE
-            if (nombreURL && nombreURL !== "null" && nombreURL !== "") {
-                elNombre.textContent = nombreURL;
-                elNombre.style.textTransform = "uppercase"; 
-                
-                // 3. Activar descarga inmediata
-                btnDescargar.disabled = false;
-                btnDescargar.style.opacity = "1";
-                btnDescargar.innerHTML = "📄 Descargar PDF Ahora";
-                
-                document.getElementById('certificado').classList.add('certificado-firmado');
-            } 
+            // Generar QR que apunta a la URL actual
+            new QRCode(document.getElementById("qrcode"), {
+                text: window.location.href,
+                width: 80,
+                height: 80
+            });
         });
-
-        // --- 3. LÓGICA DE DESCARGA (IMPRIMIR PDF) ---
-        function descargarCertificado() {
-            const btn = document.getElementById('btnDescargar');
-            if(btn.disabled) return alert("Firma primero.");
-            
-            // Ocultamos el botón temporalmente
-            const botones = document.querySelector('.botones-accion');
-            botones.style.display = 'none';
-
-            window.print();
-
-            setTimeout(() => {
-                botones.style.display = 'flex';
-            }, 1000);
-        }
     </script>
 </body>
 </html>
