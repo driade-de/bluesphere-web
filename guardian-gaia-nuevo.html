@@ -1081,12 +1081,12 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
         </div>
         
         <!-- PENTAGRAMA GAIA - CON IMPACTO VISUAL MEJORADO -->
-        <section class="pentagrama-seccion" id="pentagrama-seccion">
+        <section class="heptagrama-seccion" id="pentagrama-seccion">
             <h2 class="heptagrama-titulo">
                 🌍 HEPTAGRAMA GAIA - ESTADO PLANETARIO
                 <span id="estado-planeta" class="estado-planeta estado-critico">CRÍTICO</span>
             </h2>
-            <div class="pentagrama-grid" id="pentagrama-contenido">
+            <div class="heptagrama-grid" id="heptagrama-contenido">
                 <div class="cargando">Conectando con telemetría planetaria...</div>
             </div>
         </section>
@@ -2381,7 +2381,7 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
             
             // 2. Carga de datos con pequeños retrasos para asegurar conexión
             setTimeout(() => {
-                actualizarPentagramaReal();
+                actualizarHeptagramaReal();
                 cargarHabitos('todos');
                 cargarEstadisticas();
             }, 500);
@@ -2395,7 +2395,7 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
         // ACTUALIZACIONES AUTOMÁTICAS
         // ===========================================
         setInterval(() => {
-            actualizarheptagramaReal();
+            actualizarHeptagramaReal();
         }, 5 * 60 * 1000);
 
         setInterval(() => {
