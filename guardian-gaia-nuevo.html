@@ -1081,15 +1081,15 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
         </div>
         
         <!-- HEPTAGRAMA GAIA - CON IMPACTO VISUAL MEJORADO -->
-        <section class="Heptagrama-seccion" id="Heptagrama-seccion">
-            <h2 class="heptagrama-titulo">
-                🌍 HEPTAGRAMA GAIA - ESTADO PLANETARIO
-                <span id="estado-planeta" class="estado-planeta estado-critico">CRÍTICO</span>
-            </h2>
-            <div class="Heptagrama-grid" id="heptagrama-contenido">
-                <div class="cargando">Conectando con telemetría planetaria...</div>
-            </div>
-        </section>
+       <section id="Heptagrama-seccion" class="heptagrama-seccion">
+    <h2 class="heptagrama-titulo">
+        🌎 HEPTAGRAMA GAIA - ESTADO PLANETARIO
+        <span id="estado-planeta" class="estado-planeta">SINCRONIZANDO</span>
+    </h2>
+    <div id="Heptagrama-contenido" class="heptagrama-grid">
+        <div class="cargando">Iniciando telemetría de BlueSphere Ziriux...</div>
+    </div>
+</section>
 
         <!-- NUEVA SECCIÓN: FUENTES DE DATOS -->
         <section class="fuentes-seccion">
@@ -1939,22 +1939,22 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
         // ===========================================
         // FUNCIÓN CORREGIDA PARA ASIGNAR ICONOS
         // ===========================================
-        function obtenerIcono(slug) {
-            const iconos = {
-                'co2': '🏭',           // CO₂ ATMOSFÉRICO - Fábrica/Industria
-                'temperatura': '🌡️',   // TEMPERATURA GLOBAL - Termómetro
-                'hielo': '❄️',         // MASA DE HIELO - Copo de nieve/hielo
-                'nivel-mar': '🌊',     // NIVEL DEL MAR - Ola
-                'biodiversidad': '🌿'  // BIODIVERSIDAD - Hoja/planta
-                'oceano': '🌊',         // Icono para el Océano Global
-                'salud-forestal': '🌳', // Icono para Salud Forestal / Biodiversidad
-            };
-            
-            // Asegurarse de que el slug esté en minúsculas para evitar problemas de mayúsculas/minúsculas
-            const slugNormalizado = slug ? slug.toLowerCase() : '';
-            
-            return iconos[slugNormalizado] || '📊'; // Icono por defecto si no encuentra coincidencia
-        }
+       function obtenerIcono(slug) {
+    const iconos = {
+        'co2': '🏭',          // CO2 ATMOSFÉRICO
+        'temperatura': '🌡️',  // TEMPERATURA GLOBAL
+        'hielo': '❄️',         // MASA DE HIELO
+        'nivel-mar': '🌊',    // NIVEL DEL MAR
+        'biodiversidad': '🌿', // BIODIVERSIDAD
+        'oceano': '💧',       // OCÉANO GLOBAL
+        'salud-forestal': '🌳' // SALUD FORESTAL (Asegúrate de que termine en COMILLAS y SIN COMA al ser el último)
+    }; // <-- ESTA LLAVE Y PUNTO Y COMA SON VITALES
+
+    // Asegurarse de que el slug esté en minúsculas
+    const slugNormalizado = slug ? slug.toLowerCase() : '';
+    
+    return iconos[slugNormalizado] || '❓';
+}
         
         function obtenerMensajeCritico(slug) {
             const mensajes = {
