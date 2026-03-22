@@ -1906,11 +1906,16 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
                         </div>
                         
                         <!-- NUEVO: LÍNEA DE FUENTE -->
-                        <div class="heptagrama-fuente">Fuente: ${metrica.fuente || 'N/A'}</div>
-                        
-                        ${mensajeImpacto}
-                    </div>
-                `;
+                       <div class="heptagrama-fuente-container" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 5px;">
+                    <span style="opacity: 0.6; font-size: 0.65rem;">Fuente: </span>
+                    <span style="opacity: 0.9; font-size: 0.65rem; font-weight: bold;">
+                        ${metrica.fuente && metrica.fuente.trim() !== "" ? metrica.fuente : "N/A"}
+                    </span>
+                </div>
+
+                ${mensajeImpacto}
+            </div>
+        `;
             });
             
             contenedor.innerHTML = html;
