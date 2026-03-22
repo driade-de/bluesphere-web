@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificado de Lealtad Consciente – BlueSphere</title>
+    <title>Certificado de Compromiso Consciente – BlueSphere</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root {
@@ -17,97 +17,112 @@
             justify-content: center; align-items: center; padding: 20px;
         }
         .certificado-container {
-            background-color: var(--papel-crema); 
-            width: 100%; max-width: 850px; min-height: 600px;
-            border: 20px solid var(--tierra-suave); border-radius: 15px; 
-            position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            padding: 50px;
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cdefs%3E%3Cpattern id='n' width='16' height='16' patternUnits='userSpaceOnUse'%3E%3Ccircle fill='none' stroke='%23f1eae0' stroke-width='0.5' cx='8' cy='8' r='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23n)'/%3E%3C/svg%3E");
+            background-color: var(--papel-crema); width: 100%; max-width: 850px;
+            border: 15px solid var(--tierra-suave); border-radius: 10px; 
+            position: relative; padding: 40px; text-align: center;
+            background-image: radial-gradient(#e5e0d5 1px, transparent 1px);
+            background-size: 20px 20px;
         }
-        .header { text-align: center; margin-bottom: 30px; }
-        .titulo { font-size: 2.8rem; font-weight: 500; color: var(--gris-texto); margin-bottom: 8px; }
-        .subtitulo { font-size: 1.3rem; color: var(--verde-musgo); font-style: italic; }
-        .numero-certificado {
-            font-size: 0.9rem; color: white; background: var(--azul-cielo);
-            padding: 4px 12px; border-radius: 15px; display: inline-block; margin-top: 10px;
-        }
-        .cuerpo { text-align: center; margin-bottom: 35px; }
-        #nombreGuardian {
-            font-size: 1.5rem; font-weight: bold; color: var(--verde-musgo);
-            border-bottom: 2px dashed var(--tierra-suave); padding: 0 10px;
-        }
-        .compromisos-lista {
-            background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 12px;
-            border-left: 5px solid var(--azul-cielo); margin: 20px 0; text-align: left;
-            line-height: 1.6;
-        }
-        .compromisos-lista p { font-size: 0.9rem; margin-bottom: 8px; }
-        .pie-certificado {
-            display: flex; justify-content: space-between; align-items: flex-end;
-            margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px;
-        }
-        #codigoQR { width: 100px; height: 100px; background: white; padding: 5px; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; }
-        .sello-ziriux {
-            width: 90px; height: 90px; border-radius: 50%; background: var(--sello-dorado);
-            display: flex; align-items: center; justify-content: center; font-size: 0.65rem;
-            font-weight: bold; text-align: center; transform: rotate(-12deg); border: 2px solid white; box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-        }
-        .botones { margin-top: 25px; text-align: center; }
-        .btn-pdf { padding: 10px 20px; background: var(--verde-musgo); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; font-family: 'Georgia', serif; }
-        @media print { .botones { display: none !important; } .certificado-container { box-shadow: none; border-width: 15px; height: 98vh; } }
+        .logo-top { font-size: 0.9rem; letter-spacing: 2px; color: #888; margin-bottom: 10px; }
+        .titulo { font-size: 2.4rem; color: #444; margin-bottom: 5px; }
+        .lema { font-size: 1.2rem; color: var(--verde-musgo); font-style: italic; }
+        .pacto-line { font-size: 1rem; margin: 10px 0; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 5px 0; }
+        .badge-codigo { background: var(--azul-cielo); color: white; padding: 5px 15px; border-radius: 20px; display: inline-block; font-size: 0.8rem; margin: 10px 0; }
+        
+        .texto-introduccion { font-size: 1.05rem; line-height: 1.6; margin: 20px 0; text-align: justify; }
+        #nombreGuardian { font-weight: bold; color: var(--verde-musgo); text-decoration: underline; }
+
+        .seccion-compromisos { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; text-align: left; border: 1px solid #eee; }
+        .seccion-titulo { color: var(--verde-musgo); font-weight: bold; margin-bottom: 15px; display: flex; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        
+        .item-compromiso { display: flex; align-items: flex-start; margin-bottom: 12px; font-size: 0.85rem; }
+        .icon-comp { font-size: 1.4rem; margin-right: 15px; min-width: 30px; text-align: center; }
+        .text-comp b { color: #333; display: block; margin-bottom: 2px; }
+
+        .footer-cert { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
+        .meta-data { text-align: left; font-size: 0.75rem; color: #666; line-height: 1.5; }
+        #codigoQR { width: 90px; height: 90px; border: 1px solid #ddd; padding: 5px; background: white; }
+        .sello-circular { width: 80px; height: 80px; background: var(--sello-dorado); border-radius: 50%; border: 2px dashed #fff; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: bold; transform: rotate(-10deg); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+
+        @media print { .no-print { display: none; } .certificado-container { border-width: 10px; box-shadow: none; } }
     </style>
 </head>
 <body>
-    <div class="certificado-container" id="certificado">
-        <div class="header">
-            <h1 class="titulo">Certificado de Lealtad Consciente</h1>
-            <div class="subtitulo">BlueSphere – Pacto Azul</div>
-            <div class="numero-certificado" id="numeroCertificado">BS-2026-PENDIENTE</div>
-        </div>
-        <div class="cuerpo">
-            <p style="font-size: 1.2rem;"><strong>Yo, <span id="nombreGuardian">____________________</span>,</strong></p>
-            <p style="margin-top: 8px; line-height: 1.6;">reconozco mi rol vital como Guardián de BlueSphere Consciousness. Sello mi compromiso solemne con la Tierra, uniéndome a la red cuántica de regeneración planetaria.</p>
-            <div class="compromisos-lista">
-                <p>🌿 <strong>Hábitos Regenerativos:</strong> Adopción del consumo responsable y reducción de la huella plástica.</p>
-                <p>🚲 <strong>Movilidad Sostenible:</strong> Priorización de transporte no motorizado y tecnologías limpias.</p>
-                <p>💧 <strong>Conservación del Agua:</strong> Uso consciente e integral del recurso hídrico.</p>
-                <p>🌎 <strong>Protección de la Biosfera:</strong> Defensa activa de los ecosistemas locales y globales.</p>
+    <div class="certificado-container">
+        <div class="logo-top">BlueSphere</div>
+        <h1 class="titulo">Certificado de Compromiso Consciente</h1>
+        <p class="lema">La ola que inicia en ti</p>
+        <p class="pacto-line">— Pacto Azul de BlueSphere —</p>
+        <div class="badge-codigo" id="numeroCertificado">BS-2025-1200</div>
+
+        <p class="texto-introduccion">
+            Yo, <span id="nombreGuardian">____________________</span>, como Guardián Consciente de BlueSphere, me comprometo activamente con la preservación de nuestro planeta y adopto los siguientes hábitos sostenibles como parte de mi contribución a un futuro más verde y equilibrado.
+        </p>
+
+        <div class="seccion-compromisos">
+            <div class="seccion-titulo">🌿 Mis Compromisos Ambientales Esenciales</div>
+            <div class="item-compromiso">
+                <div class="icon-comp">🌊</div>
+                <div class="text-comp"><b>Reducción de Plásticos:</b> Eliminar el uso de plásticos de un solo uso y optar por alternativas reutilizables en mi vida diaria.</div>
+            </div>
+            <div class="item-compromiso">
+                <div class="icon-comp">🚲</div>
+                <div class="text-comp"><b>Movilidad Sostenible:</b> Utilizar transporte público, bicicleta o caminar para desplazamientos cortos, reduciendo mi huella de carbono.</div>
+            </div>
+            <div class="item-compromiso">
+                <div class="icon-comp">💧</div>
+                <div class="text-comp"><b>Conservación del Agua:</b> Implementar prácticas de ahorro de agua en el hogar y ser consciente de su uso responsable.</div>
+            </div>
+            <div class="item-compromiso">
+                <div class="icon-comp">🌱</div>
+                <div class="text-comp"><b>Consumo Responsable:</b> Elegir productos de empresas sostenibles y reducir el consumo innecesario de recursos.</div>
             </div>
         </div>
-        <div class="pie-certificado">
-            <div class="info">
-                <div id="fechaEmision"></div>
-                <div style="font-size: 0.7rem; color: var(--tierra-suave); margin-top: 5px;">SISTEMA: BlueSphereConsciousness.org</div>
+
+        <div class="seccion-compromisos" style="border-left: 4px solid var(--sello-dorado);">
+            <div class="seccion-titulo">🌟 Mis Compromisos Complementarios</div>
+            <div class="item-compromiso">
+                <div class="icon-comp">🍃</div>
+                <div class="text-comp"><b>Alimentación Consciente:</b> Reducir el consumo de carne e incrementar el consumo de productos locales y de temporada.</div>
+            </div>
+            <div class="item-compromiso">
+                <div class="icon-comp">♻️</div>
+                <div class="text-comp"><b>Gestión de Residuos:</b> Practicar consistentemente el reciclaje y el compostaje de residuos orgánicos.</div>
+            </div>
+            <div class="item-compromiso">
+                <div class="icon-comp">📚</div>
+                <div class="text-comp"><b>Educación y Advocacy:</b> Compartir conocimientos sobre sostenibilidad con mi comunidad y apoyar políticas medioambientales.</div>
+            </div>
+        </div>
+
+        <div class="footer-cert">
+            <div class="meta-data">
+                <div id="fechaHoy">21 de marzo de 2026</div>
+                <div><b>Verificación:</b> BlueSphereConsciousness.org</div>
+                <div style="margin-top:5px; font-style: italic;">#GuardiánBluesphere</div>
             </div>
             <div id="codigoQR"></div>
-            <div class="sello-ziriux">COMPROMISO<br>VALIDADO</div>
+            <div class="sello-circular">COMPROMISO<br>VERIFICADO</div>
         </div>
-        <div class="botones">
-            <button class="btn-pdf" onclick="window.print()">📄 Guardar como PDF</button>
+
+        <div class="no-print" style="margin-top: 20px;">
+            <button onclick="window.print()" style="padding: 10px 20px; background: var(--verde-musgo); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">📄 Descargar Certificado</button>
         </div>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // A. Capturar datos de la URL
             const params = new URLSearchParams(window.location.search);
-            const nombre = params.get('nombre') || "Guardián de BlueSphere";
-            const codigo = params.get('codigo') || "BS-PENDIENTE";
+            const nombre = params.get('nombre') || "ZIRIUX PRUEBA";
+            const codigo = params.get('codigo') || "BS-2025-1200";
 
-            // B. Llenar el texto
             document.getElementById('nombreGuardian').textContent = nombre;
             document.getElementById('numeroCertificado').textContent = codigo;
-            document.getElementById('fechaEmision').textContent = "Emitido: " + new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById('fechaHoy').textContent = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 
-            // 2. EL CÓDIGO QUE GENERA EL QR REAL
-            // Borramos el texto previo si existe
-            document.getElementById("codigoQR").innerHTML = ""; 
             new QRCode(document.getElementById("codigoQR"), {
                 text: `https://www.bluesphereconsciousness.org/?validar=${codigo}`,
-                width: 100,
-                height: 100,
-                colorDark : "#333333",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
+                width: 80, height: 80
             });
         });
     </script>
