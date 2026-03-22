@@ -1081,12 +1081,12 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
         </div>
         
         <!-- HEPTAGRAMA GAIA - CON IMPACTO VISUAL MEJORADO -->
-       <section id="Heptagrama-seccion" class="heptagrama-seccion">
+       <section id="heptagrama-seccion" class="heptagrama-seccion">
     <h2 class="heptagrama-titulo">
         🌎 HEPTAGRAMA GAIA - ESTADO PLANETARIO
         <span id="estado-planeta" class="estado-planeta">SINCRONIZANDO</span>
     </h2>
-    <div id="Heptagrama-contenido" class="heptagrama-grid">
+    <div id="heptagrama-contenido" class="heptagrama-grid">
         <div class="cargando">Iniciando telemetría de BlueSphere Ziriux...</div>
     </div>
 </section>
@@ -1805,7 +1805,7 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
         
         function mostrarHeptagramaConImpacto(metricas) {
             const contenedor = document.getElementById('heptagrama-contenido');
-            const seccionHeptagrama = document.getElementById('Heptagrama-seccion');
+            const seccionHeptagrama = document.getElementById('heptagrama-seccion');
             if (!contenedor || !seccionHeptagrama) return;
             
             // LLAMAR A LA FUNCIÓN DE DEPURACIÓN
