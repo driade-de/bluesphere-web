@@ -1920,17 +1920,17 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
         function mostrarHeptagramaRespaldoConImpacto() {
             const contenedor = document.getElementById('Heptagrama-contenido');
             const seccionHeptagrama = document.getElementById('Heptagrama-seccion');
-            if (!contenedor || !seccionheptagrama) return;
+            if (!contenedor || !seccionHeptagrama) return;
             
             const metricasRespaldo = [
-                { slug: 'co2', label: 'CO₂ ATMOSFÉRICO', valor_actual: '427', unidad: 'ppm', tendencia: 'ascendente', fuente: 'NOAA' },
-                { slug: 'temperatura', label: 'TEMPERATURA GLOBAL', valor_actual: '+1.2', unidad: '°C', tendencia: 'ascendente', fuente: 'NASA GISS' },
-                { slug: 'hielo', label: 'MASA DE HIELO', valor_actual: '-152', unidad: 'Gt/año', tendencia: 'descendente', fuente: 'NSIDC' },
-                { slug: 'nivel-mar', label: 'NIVEL DEL MAR', valor_actual: '+3.7', unidad: 'mm/año', tendencia: 'ascendente', fuente: 'NASA' },
-                { slug: 'biodiversidad', label: 'BIODIVERSIDAD', valor_actual: '-68', unidad: '%', tendencia: 'descendente', fuente: 'WWF' }
-                { slug: 'oceano', label: 'OCÉANO GLOBAL', valor_actual: '+1.6', unidad: 'mm/año', tendencia: 'ascendente', fuente: 'NOAA' },
-                { slug: 'salud-forestal', label: 'SALUD FORESTAL', valor_actual: '68', unidad: '%', tendencia: 'descendente', fuente: 'GFW' }
-            ];
+        { slug: 'co2', label: 'CO2 ATMOSFÉRICO', valor_actual: '427', unidad: 'ppm', tendencia: 'ascendente', fuente: 'NOAA' },
+        { slug: 'temperatura', label: 'TEMPERATURA GLOBAL', valor_actual: '+1.2', unidad: '°C', tendencia: 'ascendente', fuente: 'NASA GISS' },
+        { slug: 'hielo', label: 'MASA DE HIELO', valor_actual: '-152', unidad: 'Gt/año', tendencia: 'descendente', fuente: 'NSIDC' },
+        { slug: 'nivel-mar', label: 'NIVEL DEL MAR', valor_actual: '+3.7', unidad: 'mm/año', tendencia: 'ascendente', fuente: 'NASA' },
+        { slug: 'biodiversidad', label: 'BIODIVERSIDAD', valor_actual: '-68', unidad: '%', tendencia: 'descendente', fuente: 'WWF' },
+        { slug: 'oceano', label: 'OCÉANO GLOBAL', valor_actual: '+1.6', unidad: 'mm/año', tendencia: 'ascendente', fuente: 'NOAA' },
+        { slug: 'salud-forestal', label: 'SALUD FORESTAL', valor_actual: '68', unidad: '%', tendencia: 'descendente', fuente: 'GFW' }
+    ]; // <-- El cierre DEBE ir aquí, después de los 7 elementos.
             
             mostrarHeptagramaConImpacto(metricasRespaldo);
             console.log("ℹ️ Mostrando datos de respaldo del Heptagrama con impacto visual");
