@@ -7,62 +7,47 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root {
-            --azul-cielo: #a0c4ff;
-            --verde-musgo: #6a994e;
-            --tierra-suave: #bc8f8f; 
-            --papel-crema: #f7f3e8;
-            --gris-texto: #333333;
-            --sello-dorado: #e0ac42; 
+            --azul-cielo: #a0c4ff; --verde-musgo: #6a994e; --tierra-suave: #bc8f8f; 
+            --papel-crema: #f7f3e8; --gris-texto: #333333; --sello-dorado: #e0ac42; 
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Georgia', serif;
-            background-color: var(--papel-crema); 
-            color: var(--gris-texto);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            font-family: 'Georgia', serif; background-color: var(--papel-crema); 
+            color: var(--gris-texto); min-height: 100vh; display: flex;
+            justify-content: center; align-items: center; padding: 20px;
         }
         .certificado-container {
-            background: #ffffff;
-            width: 100%;
-            max-width: 900px;
-            min-height: 650px;
-            border: 15px solid var(--tierra-suave); 
-            border-radius: 25px;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 40px;
+            background: #ffffff; width: 100%; max-width: 850px; min-height: 600px;
+            border: 15px solid var(--tierra-suave); border-radius: 25px; position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 40px;
             background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cdefs%3E%3Cpattern id='n' width='16' height='16' patternUnits='userSpaceOnUse'%3E%3Ccircle fill='none' stroke='%23dddddd' stroke-width='0.5' cx='8' cy='8' r='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23n)'/%3E%3C/svg%3E");
         }
-        .header-certificado { text-align: center; margin-bottom: 30px; }
-        .titulo-certificado { font-size: 2.8rem; margin-bottom: 10px; }
-        .subtitulo-certificado { font-size: 1.3rem; color: var(--verde-musgo); font-style: italic; }
+        .header-certificado { text-align: center; margin-bottom: 25px; }
+        .titulo-certificado { font-size: 2.6rem; color: var(--gris-texto); margin-bottom: 5px; }
+        .subtitulo-certificado { font-size: 1.2rem; color: var(--verde-musgo); font-style: italic; }
         .numero-certificado {
             font-size: 0.9rem; color: white; background: var(--azul-cielo);
-            padding: 5px 15px; border-radius: 20px; display: inline-block; margin-top: 10px;
+            padding: 5px 15px; border-radius: 20px; display: inline-block; margin-top: 8px;
         }
-        .cuerpo-certificado { text-align: center; margin-bottom: 40px; }
-        #nombreGuardian { font-size: 1.5rem; font-weight: bold; color: var(--verde-musgo); border-bottom: 2px dashed var(--tierra-suave); }
+        .cuerpo-certificado { text-align: center; margin-bottom: 30px; }
+        #nombreGuardian { font-size: 1.4rem; font-weight: bold; color: var(--verde-musgo); border-bottom: 2px dashed var(--tierra-suave); }
         .compromisos-lista {
             background: rgba(255, 255, 255, 0.7); padding: 20px; border-radius: 15px;
-            border-left: 5px solid var(--azul-cielo); margin: 20px 0; text-align: left;
+            border-left: 5px solid var(--azul-cielo); margin: 20px 0; text-align: left; font-size: 0.9rem;
         }
         .pie-certificado {
             display: flex; justify-content: space-between; align-items: flex-end;
-            margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;
+            margin-top: 25px; border-top: 1px solid #eee; padding-top: 15px;
         }
         #codigoQR { width: 100px; height: 100px; background: white; padding: 5px; border: 1px solid #ddd; }
         .sello {
             width: 100px; height: 100px; border-radius: 50%; background: var(--sello-dorado);
-            display: flex; align-items: center; justify-content: center; font-size: 0.7rem;
+            display: flex; align-items: center; justify-content: center; font-size: 0.6rem;
             font-weight: bold; text-align: center; transform: rotate(-10deg); border: 3px double white;
         }
         .botones-accion { margin-top: 20px; text-align: center; }
         .btn-descargar { padding: 10px 20px; background: var(--verde-musgo); color: white; border: none; border-radius: 20px; cursor: pointer; }
-        @media print { .botones-accion { display: none !important; } }
+        @media print { .botones-accion { display: none !important; } body { background: white; } }
     </style>
 </head>
 <body>
@@ -70,10 +55,10 @@
         <div class="header-certificado">
             <h1 class="titulo-certificado">Certificado de Lealtad Consciente</h1>
             <div class="subtitulo-certificado">BlueSphere – Pacto Azul</div>
-            <div class="numero-certificado" id="numeroCertificado">Verificando...</div>
+            <div class="numero-certificado" id="numeroCertificado">BS-2026-PENDIENTE</div>
         </div>
         <div class="cuerpo-certificado">
-            <p><strong>Yo, <span id="nombreGuardian">____________________</span>,</strong> como Guardián Consciente, sello mi compromiso con la preservación planetaria.</p>
+            <p><strong>Yo, <span id="nombreGuardian">____________________</span>,</strong> reconozco mi rol como Guardián de BlueSphere y sello mi compromiso con la Tierra.</p>
             <div class="compromisos-lista">
                 <p>🌊 Reducción de Plásticos | 🚲 Movilidad Sostenible | 💧 Conservación del Agua</p>
             </div>
@@ -81,26 +66,26 @@
         <div class="pie-certificado">
             <div class="info">
                 <div id="fechaEmision"></div>
-                <div style="font-size: 0.7rem; color: var(--tierra-suave); margin-top: 5px;">SISTEMA: BlueSphereConsciousness.org</div>
+                <div style="font-size: 0.7rem; color: #777; margin-top: 5px;">SISTEMA: BlueSphereConsciousness.org</div>
             </div>
             <div id="codigoQR"></div>
-            <div class="sello">COMPROMISO<br>VERIFICADO</div>
+            <div class="sello">COMPROMISO VERIFICADO</div>
         </div>
         <div class="botones-accion">
-            <button class="btn-descargar" onclick="window.print()">📄 Guardar Certificado</button>
+            <button class="btn-descargar" onclick="window.print()">📄 Descargar PDF</button>
         </div>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const params = new URLSearchParams(window.location.search);
             const nombre = params.get('nombre') || "Guardián de BlueSphere";
-            const codigo = params.get('codigo') || "BS-TEST";
+            const codigo = params.get('codigo') || "BS-TEST-999";
 
             document.getElementById('nombreGuardian').textContent = nombre;
             document.getElementById('numeroCertificado').textContent = codigo;
             document.getElementById('fechaEmision').textContent = "Emitido: " + new Date().toLocaleDateString();
 
-            // QR APUNTANDO A TU WEB OFICIAL
+            // GENERAR EL QR APUNTANDO A TU WEB OFICIAL
             new QRCode(document.getElementById("codigoQR"), {
                 text: `https://www.bluesphereconsciousness.org/?validar=${codigo}`,
                 width: 90, height: 90, colorDark : "#333333", colorLight : "#ffffff"
