@@ -183,9 +183,9 @@
         }
         
         /* =========================================== */
-        /* PENTAGRAMA GAIA - ESTILOS MEJORADOS CON IMPACTO */
+        /* HEPTAGRAMA GAIA - ESTILOS MEJORADOS CON IMPACTO */
         /* =========================================== */
-        .pentagrama-seccion {
+        .heptagrama-seccion {
             background: rgba(10, 10, 22, 0.9);
             border-radius: 20px;
             padding: 25px;
@@ -197,7 +197,7 @@
         }
         
         /* Fondo sutil de planeta enfermo */
-        .pentagrama-seccion::before {
+        .heptagrama-seccion::before {
             content: '';
             position: absolute;
             top: 0;
@@ -210,7 +210,7 @@
         }
         
         /* Efecto de distorsión para métricas críticas */
-        .pentagrama-seccion.critico::after {
+        .heptagrama-seccion.critico::after {
             content: '';
             position: absolute;
             top: 0;
@@ -227,7 +227,7 @@
             100% { opacity: 0.2; transform: scale(1.02); }
         }
         
-        .pentagrama-titulo {
+        .heptagrama-titulo {
             color: var(--verde-gaia);
             text-align: center;
             margin-bottom: 25px;
@@ -274,13 +274,13 @@
             box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
         }
         
-        .pentagrama-grid {
+        .heptagrama-grid {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
         
-        .pentagrama-item {
+        .heptagrama-item {
             padding: 18px;
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.05);
@@ -291,7 +291,7 @@
         }
         
         /* Efecto de onda para métricas críticas */
-        .pentagrama-item::before {
+        .heptagrama-item::before {
             content: '';
             position: absolute;
             top: 50%;
@@ -304,25 +304,25 @@
             transition: width 0.6s, height 0.6s;
         }
         
-        .pentagrama-item:hover::before {
+        .heptagrama-item:hover::before {
             width: 300px;
             height: 300px;
         }
         
-        .pentagrama-item:hover {
+        .heptagrama-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
         
         /* Estados críticos con efectos visuales potentes */
-        .pentagrama-item.critico {
+        .heptagrama-item.critico {
             border-color: var(--alerta-critica);
             background: linear-gradient(135deg, rgba(255, 23, 68, 0.15), rgba(255, 87, 34, 0.1));
             animation: pulso-critico-item 3s infinite;
             position: relative;
         }
         
-        .pentagrama-item.critico::after {
+        .heptagrama-item.critico::after {
             content: '⚠️';
             position: absolute;
             top: 10px;
@@ -351,7 +351,7 @@
             100% { transform: rotate(360deg); }
         }
         
-        .pentagrama-item.alerta {
+        .heptagrama-item.alerta {
             border-color: var(--alerta-alta);
             background: linear-gradient(135deg, rgba(255, 87, 34, 0.1), rgba(255, 152, 0, 0.05));
             animation: pulso-alerta-item 4s infinite;
@@ -363,19 +363,19 @@
             100% { box-shadow: 0 0 5px rgba(255, 87, 34, 0.3); }
         }
         
-        .pentagrama-item.precaucion {
+        .heptagrama-item.precaucion {
             border-color: var(--alerta-media);
             background: rgba(255, 193, 7, 0.1);
         }
         
-        .pentagrama-icono {
+        .heptagrama-icono {
             font-size: 2rem;
             text-align: center;
             margin-bottom: 10px;
             filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
         }
         
-        .pentagrama-item.critico .pentagrama-icono {
+        .heptagrama-item.critico .pentagrama-icono {
             filter: drop-shadow(0 0 10px rgba(255, 23, 68, 0.7));
             animation: temblor-icono 0.5s infinite;
         }
@@ -386,7 +386,7 @@
             75% { transform: translateX(2px); }
         }
         
-        .pentagrama-nombre {
+        .heptagrama-nombre {
             font-weight: bold;
             text-align: center;
             margin-bottom: 8px;
@@ -396,11 +396,11 @@
             color: #e0e0e0;
         }
         
-        .pentagrama-item.critico .pentagrama-nombre {
+        .heptagrama-item.critico .pentagrama-nombre {
             color: #ffccdd;
         }
         
-        .pentagrama-valor {
+        .heptagrama-valor {
             font-size: 1.5rem;
             text-align: center;
             margin: 12px 0;
@@ -408,18 +408,18 @@
             color: var(--dorado-cuantico);
         }
         
-        .pentagrama-item.critico .pentagrama-valor {
+        .heptagrama-item.critico .pentagrama-valor {
             color: #ff5252;
             text-shadow: 0 0 10px rgba(255, 23, 68, 0.5);
         }
         
-        .pentagrama-unidad {
+        .heptagrama-unidad {
             font-size: 0.75rem;
             opacity: 0.8;
             margin-left: 3px;
         }
         
-        .pentagrama-tendencia {
+        .heptagrama-tendencia {
             font-size: 0.85rem;
             text-align: center;
             display: flex;
@@ -432,7 +432,7 @@
         .tendencia-negativa { color: #ff6b6b; }
         
         /* NUEVO: ESTILOS PARA LA FUENTE DE DATOS */
-        .pentagrama-fuente {
+        .heptagrama-fuente {
             font-size: 0.7rem;
             color: #888;
             text-align: center;
@@ -441,7 +441,7 @@
             opacity: 0.7;
         }
 
-        .pentagrama-item.critico .pentagrama-fuente {
+        .heptagrama-item.critico .pentagrama-fuente {
             color: #ff9999;
         }
         
@@ -959,7 +959,7 @@
         /* RESPONSIVE */
         /* =========================================== */
         @media (min-width: 768px) {
-            .pentagrama-grid {
+            .heptagrama-grid {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
                 gap: 20px;
@@ -979,7 +979,7 @@
         }
         
         @media (min-width: 1024px) {
-            .pentagrama-grid {
+            .heptagrama-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
             
@@ -1050,7 +1050,7 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
         
         <header class="cabecera-gaia">
             <h1 class="titulo-principal">🌍 GUARDIÁN GAIA</h1>
-            <p class="subtitulo">Pentagrama Planetario - Sistema de Seguimiento</p>
+            <p class="subtitulo">Heptagrama Planetario - Sistema de Seguimiento</p>
             
             <div class="indicadores">
                 <div class="indicador">
