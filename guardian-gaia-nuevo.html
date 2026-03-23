@@ -1928,13 +1928,13 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
             if (!contenedor || !seccionHeptagrama) return;
             
             const metricasRespaldo = [
-        { slug: 'co2', label: 'CO2 ATMOSFÉRICO', valor_actual: '427', unidad: 'ppm', tendencia: 'ascendente', fuente: 'NOAA' },
+        { slug: 'aire', label: 'DIÓXIDO DE CARBONO', valor_actual: '427', unidad: 'ppm', tendencia: 'ascendente', fuente: 'NOAA' },
         { slug: 'temperatura', label: 'TEMPERATURA GLOBAL', valor_actual: '+1.2', unidad: '°C', tendencia: 'ascendente', fuente: 'NASA GISS' },
-        { slug: 'hielo', label: 'MASA DE HIELO', valor_actual: '-152', unidad: 'Gt/año', tendencia: 'descendente', fuente: 'NSIDC' },
+        { slug: 'hielo_antartida', label: 'MASA DE HIELO ANTÁRTICA', valor_actual: '-152', unidad: 'Gt/año', tendencia: 'descendente', fuente: 'NSIDC' },
         { slug: 'nivel-mar', label: 'NIVEL DEL MAR', valor_actual: '+3.7', unidad: 'mm/año', tendencia: 'ascendente', fuente: 'NASA' },
-        { slug: 'biodiversidad', label: 'BIODIVERSIDAD', valor_actual: '-68', unidad: '%', tendencia: 'descendente', fuente: 'WWF' },
+        { slug: 'hielo_artico', label: 'EXTENSIÓN HIELO ÁRTICO', valor_actual: '-68', unidad: '%', tendencia: 'descendente', fuente: 'WWF' },
         { slug: 'oceano', label: 'OCÉANO GLOBAL', valor_actual: '+1.6', unidad: 'mm/año', tendencia: 'ascendente', fuente: 'NOAA' },
-        { slug: 'salud-forestal', label: 'SALUD FORESTAL', valor_actual: '68', unidad: '%', tendencia: 'descendente', fuente: 'GFW' }
+        { slug: 'biodiversidad', label: 'BIODIVERSIDAD PLANETARIA', valor_actual: '68', unidad: '%', tendencia: 'descendente', fuente: 'GFW' }
     ]; // <-- El cierre DEBE ir aquí, después de los 7 elementos.
             
             mostrarHeptagramaConImpacto(metricasRespaldo);
