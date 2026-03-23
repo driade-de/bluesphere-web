@@ -1836,7 +1836,7 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
                     } else if (metrica.slug === 'oceano' && parseFloat(metrica.valor_actual) > 2.1) { 
     metrica.estado = 'critico';
     metricasCriticas++;
-} else if (metrica.slug === 'biodiversidad' && parseFloat(metrica.valor_actual) < -73) {
+} else if (metrica.slug === 'biodiversidad' && parseFloat(metrica.valor_actual) <= -73 ) {
     metrica.estado = 'critico';
     metricasCriticas++;
              } else if (metrica.tendencia === 'ascendente' && 
