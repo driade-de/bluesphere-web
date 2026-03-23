@@ -1839,13 +1839,22 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
 } else if (metrica.slug === 'biodiversidad' && parseFloat(metrica.valor_actual) < -73) {
     metrica.estado = 'critico';
     metricasCriticas++;
-               } else if (metrica.tendencia === 'ascendente' && 
-                          (metrica.slug === 'aire' || metrica.slug === 'temperatura' || metrica.slug === 'nivel_mar')) {
-                    metrica.estado = 'alerta';
-                    metricasAlerta++;
-                } else {
-                    metrica.estado = 'precaucion';
-                }
+             } else if (metrica.tendencia === 'ascendente' && 
+              (metrica.slug === 'aire' || 
+               metrica.slug === 'temperatura' || 
+               metrica.slug === 'nivel_mar' || 
+               metrica.slug === 'oceano')) {
+        metrica.estado = 'alerta';
+        metricasAlerta++;
+    } else if (metrica.tendencia === 'descendente' && 
+              (metrica.slug === 'hielo_antartida' || 
+               metrica.slug === 'hielo_artico' || 
+               metrica.slug === 'biodiversidad')) {
+        metrica.estado = 'alerta';
+        metricasAlerta++;
+    } else {
+        metrica.estado = 'precaucion';
+    }
             });
             
             // Determinar el estado general basado en las métricas críticas y de alerta
