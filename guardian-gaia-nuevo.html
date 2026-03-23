@@ -1840,7 +1840,7 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
     metrica.estado = 'critico';
     metricasCriticas++;
                 } else if (metrica.tendencia === 'ascendente' && 
-                          (metrica.slug === 'co2' || metrica.slug === 'temperatura' || metrica.slug === 'nivel-mar')) {
+                          (metrica.slug === 'aire' || metrica.slug === 'temperatura' || metrica.slug === 'nivel_mar')) {
                     metrica.estado = 'alerta';
                     metricasAlerta++;
                 } else {
