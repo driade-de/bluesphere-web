@@ -1818,25 +1818,25 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
             
             // Analizar cada métrica para determinar su estado
             metricas.forEach(metrica => {
-                if (metrica.slug === 'aire' && parseFloat(metrica.valor_actual) > 429) {
+                if (metrica.slug === 'aire' && parseFloat(metrica.valor_actual) >= 429) {
                     metrica.estado = 'critico';
                     metricasCriticas++;
-                } else if (metrica.slug === 'temperatura' && parseFloat(metrica.valor_actual) > 1.1) {
+                } else if (metrica.slug === 'temperatura' && parseFloat(metrica.valor_actual) >= 1.1) {
                     metrica.estado = 'critico';
                     metricasCriticas++;
-                } else if (metrica.slug === 'hielo_antartida' && parseFloat(metrica.valor_actual) < -150) {
+                } else if (metrica.slug === 'hielo_antartida' && parseFloat(metrica.valor_actual) <= -150) {
                     metrica.estado = 'critico';
                     metricasCriticas++;
-                } else if (metrica.slug === 'nivel_mar' && parseFloat(metrica.valor_actual) > 104.5) {
+                } else if (metrica.slug === 'nivel_mar' && parseFloat(metrica.valor_actual) >= 104.5) {
                     metrica.estado = 'critico';
                     metricasCriticas++;
-                } else if (metrica.slug === 'hielo_artico' && parseFloat(metrica.valor_actual) < 4.3) {
+                } else if (metrica.slug === 'hielo_artico' && parseFloat(metrica.valor_actual) <= 4.3) {
                     metrica.estado = 'critico';
                     metricasCriticas++;
-                    } else if (metrica.slug === 'oceano' && parseFloat(metrica.valor_actual) > 2.1) { 
+                    } else if (metrica.slug === 'oceano' && parseFloat(metrica.valor_actual) >= 2.1) { 
     metrica.estado = 'critico';
     metricasCriticas++;
-} else if (metrica.slug === 'biodiversidad' && parseFloat(metrica.valor_actual) <= -73 ) {
+} else if (metrica.slug === 'biodiversidad' && parseFloat(metrica.valor_actual) <= -73) {
     metrica.estado = 'critico';
     metricasCriticas++;
              } else if (metrica.tendencia === 'ascendente' && 
