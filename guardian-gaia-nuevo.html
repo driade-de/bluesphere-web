@@ -1962,20 +1962,22 @@ style="width:130px; filter: drop-shadow(0 0 15px #00e0ff); animation: flotacion-
 }
         
         function obtenerMensajeCritico(slug) {
-            const mensajes = {
-                'aire': 'CO2 excediendo el umbral de regeneración planetaria',
-                'temperatura': 'Anomalía térmica global: Superando límite de seguridad',
-                'hielo_antartida': 'Inestabilidad crítica en el casquete polar antártico',
-                'hielo_artico': 'Pérdida de Albedo: Reducción del escudo térmico ártico',
-                'nivel_mar': 'Expansión oceánica detectada por telemetría Ziriux',
-                'oceano': 'Acidificación crítica: Amenaza a la estabilidad trófica',
-                'biodiversidad': 'Colapso ecosistémico: Tasa de extinción en nivel rojo crítico '
-            };
-            
-            // Usamos slugNormalizado para asegurar que coincida con las llaves de arriba
-            const slugNormalizado = slug ? slug.toLowerCase().trim() : '';
-            return mensajes[slugNormalizado] || 'Monitoreo de Homeostasis: Situación Crítica';
-        }
+    // Normalizamos: quitamos espacios, acentos y pasamos a minúsculas
+    const slugNormalizado = slug ? slug.toLowerCase().trim().replace('á', 'a').replace('í', 'i') : '';
+
+    const mensajes = {
+        'aire': 'CO2 excediendo el umbral de regeneración planetaria',
+        'temperatura': 'Anomalía térmica global: Superando límite de seguridad',
+        'hielo_antartida': 'Inestabilidad crítica en el casquete polar antártico',
+        'hielo_antartica': 'Inestabilidad crítica en el casquete polar antártico', // DOBLE LLAVE PARA EVITAR ERROR C/D
+        'hielo_artico': 'Pérdida de Albedo: Reducción del escudo térmico ártico',
+        'nivel_mar': 'Expansión oceánica detectada por telemetría Ziriux',
+        'oceano': 'Acidificación crítica: Amenaza a la estabilidad trófica',
+        'biodiversidad': 'Colapso ecosistémico: Tasa de extinción en nivel rojo crítico'
+    };
+    
+    return mensajes[slugNormalizado] || 'Monitoreo de Homeostasis: Situación Crítica';
+}
         // ===========================================
         // SISTEMA DE 18 HÁBITOS REGENERATIVOS
         // ===========================================
