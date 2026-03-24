@@ -1639,53 +1639,46 @@ function updateCountdown(){
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <script>
-    // Usamos 'load' para asegurar que TODO (incluyendo la librería y los IDs) ya existe
     window.addEventListener('load', async function() {
-        console.log("Ziriux: Iniciando comunicación con Gaia...");
+        // Esperamos un segundo extra para asegurar que la librería se registre en memoria
+        setTimeout(async () => {
+            console.log("Ziriux: Iniciando comunicación con Gaia...");
 
-        const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
-        
-        // Verificación de seguridad
-        if (typeof supabase === 'undefined') {
-            console.error("Error: La librería de Supabase no se detecta.");
-            return;
-        }
-
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        const { data, error } = await _supabase
-            .from('heptagrama_gaia_metrics')
-            .select('*');
-
-        if (error) {
-            console.error("Error al obtener datos:", error);
-            return;
-        }
-
-        data.forEach(metrica => {
-            // Actualizar el Texto
-            const elValor = document.getElementById(`valor-${metrica.slug}`);
-            if (elValor) {
-                elValor.textContent = isNaN(metrica.valor_actual) 
-                    ? metrica.valor_actual 
-                    : `${metrica.valor_actual}${metrica.unidad || ''}`;
+            const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+            
+            // Verificamos si la palabra 'supabase' ya existe
+            if (typeof supabase === 'undefined') {
+                console.error("Ziriux: Reintentando conexión...");
+                return; 
             }
 
-            // Actualizar la Barra
-            const laBarra = document.getElementById(`barra-${metrica.slug}`);
-            if (laBarra) {
-                let porcentaje = isNaN(metrica.valor_actual) 
-                    ? 85 
-                    : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
-                laBarra.style.width = `${Math.min(porcentaje, 100)}%`;
-            }
-        });
+            const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            const { data, error } = await _supabase.from('heptagrama_gaia_metrics').select('*');
 
-        console.log("Ziriux: Panel Biofísico actualizado con datos reales.");
+            if (error) {
+                console.error("Error en Gaia:", error);
+                return;
+            }
+
+            data.forEach(metrica => {
+                const elValor = document.getElementById(`valor-${metrica.slug}`);
+                if (elValor) {
+                    elValor.textContent = isNaN(metrica.valor_actual) 
+                        ? metrica.valor_actual 
+                        : `${metrica.valor_actual}${metrica.unidad || ''}`;
+                }
+                const laBarra = document.getElementById(`barra-${metrica.slug}`);
+                if (laBarra) {
+                    let porcentaje = isNaN(metrica.valor_actual) ? 85 : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
+                    laBarra.style.width = `${Math.min(porcentaje, 100)}%`;
+                }
+            });
+            console.log("Ziriux: Panel Sincronizado.");
+        }, 500); // Pequeño retraso de seguridad
     });
 </script>
 </body>
