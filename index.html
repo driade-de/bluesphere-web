@@ -1639,47 +1639,53 @@ function updateCountdown(){
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script>
+/**
+ * Ziriux: Inyección Dinámica de Conexión Gaia
+ * Este método fuerza la carga de Supabase ignorando bloqueos del navegador.
+ */
+(function inyectarZiriux() {
+    const script = document.createElement('script');
+    script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+    script.async = true;
 
-<script>
-    window.addEventListener('load', async function() {
-        // Esperamos un segundo extra para asegurar que la librería se registre en memoria
-        setTimeout(async () => {
-            console.log("Ziriux: Iniciando comunicación con Gaia...");
+    script.onload = async () => {
+        console.log("🧬 Ziriux: Sistema nervioso conectado. Sincronizando...");
+        
+        const URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+        const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+        
+        const _supabase = supabase.createClient(URL, KEY);
+        const { data, error } = await _supabase.from('heptagrama_gaia_metrics').select('*');
 
-            const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
-            
-            // Verificamos si la palabra 'supabase' ya existe
-            if (typeof supabase === 'undefined') {
-                console.error("Ziriux: Reintentando conexión...");
-                return; 
+        if (error) {
+            console.error("❌ Error Gaia:", error);
+            return;
+        }
+
+        data.forEach(metrica => {
+            // Actualizar Texto (ej: valor-aire)
+            const elValor = document.getElementById(`valor-${metrica.slug}`);
+            if (elValor) {
+                elValor.textContent = isNaN(metrica.valor_actual) 
+                    ? metrica.valor_actual 
+                    : `${metrica.valor_actual}${metrica.unidad || ''}`;
             }
 
-            const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-            const { data, error } = await _supabase.from('heptagrama_gaia_metrics').select('*');
-
-            if (error) {
-                console.error("Error en Gaia:", error);
-                return;
+            // Actualizar Barra (ej: barra-aire)
+            const laBarra = document.getElementById(`barra-${metrica.slug}`);
+            if (laBarra) {
+                let porcentaje = isNaN(metrica.valor_actual) 
+                    ? 85 
+                    : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
+                laBarra.style.width = `${Math.min(porcentaje, 100)}%`;
             }
+        });
+        console.log("✅ Ziriux: Panel Actualizado con Éxito.");
+    };
 
-            data.forEach(metrica => {
-                const elValor = document.getElementById(`valor-${metrica.slug}`);
-                if (elValor) {
-                    elValor.textContent = isNaN(metrica.valor_actual) 
-                        ? metrica.valor_actual 
-                        : `${metrica.valor_actual}${metrica.unidad || ''}`;
-                }
-                const laBarra = document.getElementById(`barra-${metrica.slug}`);
-                if (laBarra) {
-                    let porcentaje = isNaN(metrica.valor_actual) ? 85 : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
-                    laBarra.style.width = `${Math.min(porcentaje, 100)}%`;
-                }
-            });
-            console.log("Ziriux: Panel Sincronizado.");
-        }, 500); // Pequeño retraso de seguridad
-    });
+    document.head.appendChild(script);
+})();
 </script>
 </body>
 </html>
