@@ -375,7 +375,7 @@
 </div>
 
 <div class="data-label">RESPIRACIÓN PLANETARIA</div>
-<div class="data-value">429 ppm</div>
+<div id="valor-aire" class="data-value">429 ppm</div>
 <div class="data-limit">LÍMITE: 450 ppm</div>
 
 <div class="sensor-bar">
@@ -403,7 +403,7 @@ Fuente científica: NOAA Global Monitoring Laboratory — Mauna Loa Observatory
 </div>
 
 <div class="data-label">FIEBRE DEL PLANETA</div>
-<div class="data-value">+1.1°C</div>
+<div id="valor-temperatura" class="data-value">+1.1°C</div>
 <div class="data-limit">LÍMITE: +1.5°C</div>
 
 <div class="sensor-bar">
@@ -431,7 +431,7 @@ Fuente científica: NASA GISS Surface Temperature Analysis
 </div>
 
 <div class="data-label">REFLEXIÓN SOLAR (ALBEDO)</div>
-<div class="data-value">-12.2% / década</div>
+<div id="valor-hielo_artico" class="data-value">-12.2% / década</div>
 
 <div class="sensor-bar">
 <div class="bar-fill" data-width="78"></div>
@@ -452,10 +452,12 @@ La reducción del hielo disminuye la capacidad del planeta de reflejar radiació
     </div>
 
     <div class="data-label">EXPANSIÓN TÉRMICA</div>
-    <div class="data-value">+104.5 mm</div>
-    <div class="data-limit">LÍMITE: +110 mm</div> <div class="sensor-bar">
-        <div class="bar-fill" data-width="91"></div>
-    </div>
+<div id="valor-nivel_mar" class="data-value">+104.5 mm</div>
+<div class="data-limit">LÍMITE: +110 mm</div> 
+
+<div class="sensor-bar">
+    <div id="barra-nivel_mar" class="bar-fill" data-width="91"></div>
+</div>
 
     <div class="sensor-msg">
         El aumento del nivel del mar refleja expansión térmica y deshielo continental.
@@ -475,10 +477,10 @@ La reducción del hielo disminuye la capacidad del planeta de reflejar radiació
 </div>
 
 <div class="data-label">SISTEMA HIDROLÓGICO</div>
-<div class="data-value">DESCENSO CRÍTICO</div>
+<div id="valor-agua_dulce" class="data-value">DESCENSO CRÍTICO</div>
 
 <div class="sensor-bar">
-<div class="bar-fill" data-width="88"></div>
+    <div id="barra-agua_dulce" class="bar-fill" data-width="88"></div>
 </div>
 
 <div class="sensor-msg">
@@ -499,10 +501,10 @@ Los sistemas de agua dulce enfrentan presión creciente por sobreexplotación y 
 </div>
 
 <div class="data-label">ACIDIFICACIÓN</div>
-<div class="data-value">pH 8.05</div>
+<div id="valor-oceano" class="data-value">pH 8.05</div>
 
 <div class="sensor-bar">
-<div class="bar-fill" data-width="82"></div>
+    <div id="barra-oceano" class="bar-fill" data-width="82"></div>
 </div>
 
 <div class="sensor-msg">
@@ -521,9 +523,9 @@ El océano absorbe gran parte del calor y del CO₂ del sistema climático.
                 <span style="background: #dc2626; font-size: 0.7rem; padding: 3px 8px; border-radius: 5px; color: white; font-weight: 800;">CRÍTICO</span>
             </div>
 
-            <div style="font-size: 0.75rem; opacity: 0.6; color: white;">ESTABILIDAD ECOLÓGICA</div>
-            <div style="font-size: 2rem; font-weight: 700; color: #7dd3fc; margin: 5px 0;">-73%</div>
-            <div style="font-size: 0.8rem; opacity: 0.6; color: white;">POBLACIONES DE FAUNA (DESDE 1970)</div>
+          <div style="font-size: 0.75rem; opacity: 0.6; color: white;">ESTABILIDAD ECOLÓGICA</div>
+<div id="valor-biodiversidad" style="font-size: 2rem; font-weight: 700; color: #7dd3fc; margin: 5px 0;">-73%</div>
+<div style="font-size: 0.8rem; opacity: 0.6; color: white;">POBLACIONES DE FAUNA (DESDE 1970)</div>
 
             <div style="background: #1e293b; height: 8px; border-radius: 5px; margin: 15px 0; overflow: hidden;">
                 <div style="width: 92%; height: 100%; background: #dc2626;"></div>
