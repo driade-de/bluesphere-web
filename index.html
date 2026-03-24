@@ -527,10 +527,9 @@ El océano absorbe gran parte del calor y del CO₂ del sistema climático.
 <div id="valor-biodiversidad" style="font-size: 2rem; font-weight: 700; color: #7dd3fc; margin: 5px 0;">-73%</div>
 <div style="font-size: 0.8rem; opacity: 0.6; color: white;">POBLACIONES DE FAUNA (DESDE 1970)</div>
 
-            <div style="background: #1e293b; height: 8px; border-radius: 5px; margin: 15px 0; overflow: hidden;">
-                <div style="width: 92%; height: 100%; background: #dc2626;"></div>
-            </div>
-
+           <div style="background: #1e293b; height: 8px; border-radius: 5px; margin: 15px 0; overflow: hidden;">
+    <div id="barra-biodiversidad" style="width: 92%; height: 100%; background: #dc2626;"></div>
+</div>
             <p style="font-size: 0.9rem; opacity: 0.8; color: white; line-height: 1.4; margin: 0;">
                 La sexta extinción masiva altera la red de la vida que sostiene la homeostasis planetaria.
             </p>
@@ -1641,37 +1640,53 @@ setInterval(updateCountdown, 1000);
 updateCountdown();
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-    // 1. Definimos la lógica primero
-    async function iniciarConexionZiriux() {
-        console.log("Sincronizando con la Red Gaia...");
+
+<script>
+    // Usamos 'load' para asegurar que TODO (incluyendo la librería y los IDs) ya existe
+    window.addEventListener('load', async function() {
+        console.log("Ziriux: Iniciando comunicación con Gaia...");
+
         const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
         
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        const { data, error } = await _supabase.from('heptagrama_gaia_metrics').select('*');
+        // Verificación de seguridad
+        if (typeof supabase === 'undefined') {
+            console.error("Error: La librería de Supabase no se detecta.");
+            return;
+        }
 
-        if (error) return;
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const { data, error } = await _supabase
+            .from('heptagrama_gaia_metrics')
+            .select('*');
+
+        if (error) {
+            console.error("Error al obtener datos:", error);
+            return;
+        }
 
         data.forEach(metrica => {
+            // Actualizar el Texto
             const elValor = document.getElementById(`valor-${metrica.slug}`);
             if (elValor) {
                 elValor.textContent = isNaN(metrica.valor_actual) 
                     ? metrica.valor_actual 
                     : `${metrica.valor_actual}${metrica.unidad || ''}`;
             }
+
+            // Actualizar la Barra
             const laBarra = document.getElementById(`barra-${metrica.slug}`);
             if (laBarra) {
-                let porcentaje = isNaN(metrica.valor_actual) ? 85 : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
+                let porcentaje = isNaN(metrica.valor_actual) 
+                    ? 85 
+                    : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
                 laBarra.style.width = `${Math.min(porcentaje, 100)}%`;
             }
         });
-    }
-</script>
 
-<script 
-    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" 
-    onload="iniciarConexionZiriux()">
+        console.log("Ziriux: Panel Biofísico actualizado con datos reales.");
+    });
 </script>
 </body>
 </html>
