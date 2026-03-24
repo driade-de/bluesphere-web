@@ -1644,9 +1644,11 @@ updateCountdown();
 <script>
     const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     async function sincronizarZiriux() {
+        // Creamos el cliente AQUÍ adentro para asegurar que la librería ya cargó
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
         const { data, error } = await _supabase
             .from('heptagrama_gaia_metrics')
             .select('*');
@@ -1654,7 +1656,6 @@ updateCountdown();
         if (error) return;
 
         data.forEach(metrica => {
-            // Actualiza los valores numéricos
             const elValor = document.getElementById(`valor-${metrica.slug}`);
             if (elValor) {
                 elValor.textContent = isNaN(metrica.valor_actual) 
@@ -1662,7 +1663,6 @@ updateCountdown();
                     : `${metrica.valor_actual}${metrica.unidad || ''}`;
             }
 
-            // Actualiza las barras de progreso
             const laBarra = document.getElementById(`barra-${metrica.slug}`);
             if (laBarra) {
                 let porcentaje = isNaN(metrica.valor_actual) ? 88 : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
