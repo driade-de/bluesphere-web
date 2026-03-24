@@ -1642,50 +1642,37 @@ updateCountdown();
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Función CORREGIDA - el nombre debe coincidir exactamente
-        async function iniciarConexionZiriux() {
-            console.log("🌿 Sincronizando con la Red Gaia...");
-            
-            const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
-            
-            try {
-                const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-                const { data, error } = await _supabase.from('heptagrama_gaia_metrics').select('*');
-                
-                if (error) {
-                    console.error("❌ Error Supabase:", error);
-                    return;
-                }
-                
-                if (data && data.length > 0) {
-                    data.forEach(metrica => {
-                        const elValor = document.getElementById(`valor-${metrica.slug}`);
-                        if (elValor) {
-                            elValor.textContent = isNaN(metrica.valor_actual) 
-                                ? metrica.valor_actual 
-                                : `${metrica.valor_actual}${metrica.unidad || ''}`;
-                        }
-                        const laBarra = document.getElementById(`barra-${metrica.slug}`);
-                        if (laBarra && metrica.valor_limite && !isNaN(metrica.valor_actual)) {
-                            let porcentaje = Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
-                            laBarra.style.width = `${Math.min(porcentaje, 100)}%`;
-                        }
-                    });
-                    console.log("✅ Datos actualizados desde Supabase");
-                }
-            } catch (err) {
-                console.error("💥 Error:", err);
-            }
-        }
+    // 1. Definimos la lógica primero
+    async function iniciarConexionZiriux() {
+        console.log("Sincronizando con la Red Gaia...");
+        const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
         
-        // Esperar a que todo esté cargado
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', iniciarConexionZiriux);
-        } else {
-            iniciarConexionZiriux();
-        }
-    </script>
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const { data, error } = await _supabase.from('heptagrama_gaia_metrics').select('*');
+
+        if (error) return;
+
+        data.forEach(metrica => {
+            const elValor = document.getElementById(`valor-${metrica.slug}`);
+            if (elValor) {
+                elValor.textContent = isNaN(metrica.valor_actual) 
+                    ? metrica.valor_actual 
+                    : `${metrica.valor_actual}${metrica.unidad || ''}`;
+            }
+            const laBarra = document.getElementById(`barra-${metrica.slug}`);
+            if (laBarra) {
+                let porcentaje = isNaN(metrica.valor_actual) ? 85 : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
+                laBarra.style.width = `${Math.min(porcentaje, 100)}%`;
+            }
+        });
+    }
+</script>
+
+<script 
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" 
+    onload="iniciarConexionZiriux()">
+</script>
 </body>
 </html>
 
