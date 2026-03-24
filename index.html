@@ -1641,30 +1641,41 @@ setInterval(updateCountdown, 1000);
 updateCountdown();
 
    <script>
-    // 1. Definimos la lógica primero
     async function iniciarConexionZiriux() {
         console.log("Sincronizando con la Red Gaia...");
+        
+        // Pequeña pausa para asegurar que el DOM esté listo
+        if (document.readyState !== 'complete' && document.readyState !== 'interactive') {
+            await new Promise(resolve => {
+                document.addEventListener('DOMContentLoaded', resolve);
+            });
+        }
+        
         const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
         
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        const { data, error } = await _supabase.from('heptagrama_gaia_metrics').select('*');
-
-        if (error) return;
-
-        data.forEach(metrica => {
-            const elValor = document.getElementById(`valor-${metrica.slug}`);
-            if (elValor) {
-                elValor.textContent = isNaN(metrica.valor_actual) 
-                    ? metrica.valor_actual 
-                    : `${metrica.valor_actual}${metrica.unidad || ''}`;
-            }
-            const laBarra = document.getElementById(`barra-${metrica.slug}`);
-            if (laBarra) {
-                let porcentaje = isNaN(metrica.valor_actual) ? 85 : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
-                laBarra.style.width = `${Math.min(porcentaje, 100)}%`;
-            }
-        });
+        try {
+            const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            const { data, error } = await _supabase.from('heptagrama_gaia_metrics').select('*');
+            
+            if (error) throw error;
+            
+            data.forEach(metrica => {
+                const elValor = document.getElementById(`valor-${metrica.slug}`);
+                if (elValor) {
+                    elValor.textContent = isNaN(metrica.valor_actual) 
+                        ? metrica.valor_actual 
+                        : `${metrica.valor_actual}${metrica.unidad || ''}`;
+                }
+                const laBarra = document.getElementById(`barra-${metrica.slug}`);
+                if (laBarra && metrica.valor_limite) {
+                    let porcentaje = isNaN(metrica.valor_actual) ? 85 : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
+                    laBarra.style.width = `${Math.min(porcentaje, 100)}%`;
+                }
+            });
+        } catch (error) {
+            console.error("Error:", error);
+        }
     }
 </script>
 
