@@ -1640,30 +1640,17 @@ function updateCountdown(){
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script 
-    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
-    onload="iniciarConexionZiriux()">
-</script>
-
-<script>
-    const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
-
+   <script>
+    // 1. Definimos la lógica primero
     async function iniciarConexionZiriux() {
-        console.log("Librería detectada. Sincronizando Gaia...");
+        console.log("Sincronizando con la Red Gaia...");
+        const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
         
-        // Ahora sí, supabase existe garantizado por el 'onload'
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
-        const { data, error } = await _supabase
-            .from('heptagrama_gaia_metrics')
-            .select('*');
+        const { data, error } = await _supabase.from('heptagrama_gaia_metrics').select('*');
 
-        if (error) {
-            console.error("Error en Supabase:", error);
-            return;
-        }
+        if (error) return;
 
         data.forEach(metrica => {
             const elValor = document.getElementById(`valor-${metrica.slug}`);
@@ -1672,14 +1659,18 @@ updateCountdown();
                     ? metrica.valor_actual 
                     : `${metrica.valor_actual}${metrica.unidad || ''}`;
             }
-
             const laBarra = document.getElementById(`barra-${metrica.slug}`);
             if (laBarra) {
-                let porcentaje = isNaN(metrica.valor_actual) ? 88 : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
+                let porcentaje = isNaN(metrica.valor_actual) ? 85 : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
                 laBarra.style.width = `${Math.min(porcentaje, 100)}%`;
             }
         });
     }
+</script>
+
+<script 
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" 
+    onload="iniciarConexionZiriux()">
 </script>
 </body>
 </html>
