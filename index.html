@@ -379,7 +379,7 @@
 <div class="data-limit">LÍMITE: 450 ppm</div>
 
 <div class="sensor-bar">
-<div class="bar-fill" data-width="95"></div>
+    <div id="barra-aire" class="bar-fill" data-width="95"></div>
 </div>
 
 <div class="sensor-msg">
@@ -407,7 +407,7 @@ Fuente científica: NOAA Global Monitoring Laboratory — Mauna Loa Observatory
 <div class="data-limit">LÍMITE: +1.5°C</div>
 
 <div class="sensor-bar">
-<div class="bar-fill" data-width="73"></div>
+    <div id="barra-temperatura" class="bar-fill" data-width="73"></div>
 </div>
 
 <div class="sensor-msg">
@@ -434,7 +434,7 @@ Fuente científica: NASA GISS Surface Temperature Analysis
 <div id="valor-hielo_artico" class="data-value">-12.2% / década</div>
 
 <div class="sensor-bar">
-<div class="bar-fill" data-width="78"></div>
+    <div id="barra-hielo_artico" class="bar-fill" data-width="78"></div>
 </div>
 
 <div class="sensor-msg">
@@ -1640,6 +1640,38 @@ function updateCountdown(){
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function sincronizarZiriux() {
+        const { data, error } = await _supabase
+            .from('heptagrama_gaia_metrics')
+            .select('*');
+
+        if (error) return;
+
+        data.forEach(metrica => {
+            // Actualiza los valores numéricos
+            const elValor = document.getElementById(`valor-${metrica.slug}`);
+            if (elValor) {
+                elValor.textContent = isNaN(metrica.valor_actual) 
+                    ? metrica.valor_actual 
+                    : `${metrica.valor_actual}${metrica.unidad || ''}`;
+            }
+
+            // Actualiza las barras de progreso
+            const laBarra = document.getElementById(`barra-${metrica.slug}`);
+            if (laBarra) {
+                let porcentaje = isNaN(metrica.valor_actual) ? 88 : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
+                laBarra.style.width = `${Math.min(porcentaje, 100)}%`;
+            }
+        });
+    }
+    document.addEventListener('DOMContentLoaded', sincronizarZiriux);
+</script>
 </script>
 </body>
 </html>
