@@ -1635,11 +1635,7 @@ function updateCountdown(){
         `${d} DÍAS : ${h} HRS : ${m} MIN : ${s} SEG`;
 }
 
-/* LOOP */
-setInterval(updateCountdown, 1000);
-updateCountdown();
-
-  <script>
+<script>
         setInterval(updateCountdown, 1000);
         updateCountdown();
     </script>
@@ -1647,40 +1643,48 @@ updateCountdown();
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-        async function sincronizarZiriux() {
-            const URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
-            const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
-            
-            if (typeof supabase === 'undefined') return;
+        (function() {
+            async function sincronizarZiriux() {
+                const URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+                const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+                
+                if (typeof supabase === 'undefined') return;
 
-            const _supabase = supabase.createClient(URL, KEY);
-            const { data, error } = await _supabase.from('heptagrama_gaia_metrics').select('*');
+                const _supabase = supabase.createClient(URL, KEY);
+                const { data, error } = await _supabase.from('heptagrama_gaia_metrics').select('*');
 
-            if (error) return;
-
-            data.forEach(metrica => {
-                const elValor = document.getElementById(`valor-${metrica.slug}`);
-                if (elValor) {
-                    elValor.textContent = isNaN(metrica.valor_actual) 
-                        ? metrica.valor_actual 
-                        : `${metrica.valor_actual}${metrica.unit || metrica.unidad || ''}`;
+                if (error || !data) {
+                    console.log("Ziriux: Esperando datos...");
+                    return;
                 }
-                const laBarra = document.getElementById(`barra-${metrica.slug}`);
-                if (laBarra) {
-                    let porcentaje = isNaN(metrica.valor_actual) ? 88 : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
-                    laBarra.style.width = `${Math.min(porcentaje, 100)}%`;
-                }
-            });
-            console.log("✅ Gaia Sincronizada");
-        }
 
-        // Usamos esto para evitar el error de "not defined"
-        window.addEventListener('load', sincronizarZiriux);
+                data.forEach(metrica => {
+                    // Sincronizar texto
+                    const elValor = document.getElementById(`valor-${metrica.slug}`);
+                    if (elValor) {
+                        elValor.textContent = isNaN(metrica.valor_actual) 
+                            ? metrica.valor_actual 
+                            : `${metrica.valor_actual}${metrica.unidad || ''}`;
+                    }
+
+                    // Sincronizar barra
+                    const laBarra = document.getElementById(`barra-${metrica.slug}`);
+                    if (laBarra) {
+                        let porcentaje = isNaN(metrica.valor_actual) 
+                            ? 62 
+                            : Math.abs((metrica.valor_actual / metrica.valor_limite) * 100);
+                        laBarra.style.width = `${Math.min(porcentaje, 100)}%`;
+                    }
+                });
+                console.log("✅ Ziriux: Heptagrama Gaia Sincronizado.");
+            }
+
+            // Esperamos a que todo cargue para evitar el error 404
+            window.addEventListener('load', sincronizarZiriux);
+        })();
     </script>
 </body>
 </html>
-
-
 
 
 
