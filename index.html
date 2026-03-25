@@ -546,6 +546,7 @@ El océano absorbe gran parte del calor y del CO₂ del sistema climático.
             Protegen costas y sostienen civilizaciones invisibles.
         </p>
     </div>
+    </div>
 </div> <div class="homeostasis" style="text-align: center; margin-top: 50px; background: #e0f2fe; padding: 40px; border-radius: 30px; margin-bottom: 50px;">
     <h3 style="color: #0a3d62; margin-bottom: 15px;">Protocolo de Homeostasis Planetaria</h3>
     <p style="color: #0a3d62; max-width: 700px; margin: 0 auto 25px; line-height: 1.6;">
@@ -559,7 +560,33 @@ El océano absorbe gran parte del calor y del CO₂ del sistema climático.
 </section>
 
 <script>
-    /* PARTICLES Y FUNCIONES */
+    /* 1. RELOJ COUNTDOWN */
+    const targetDate = new Date("2035-01-01T00:00:00").getTime();
+    
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+            if(document.getElementById("countdown")) document.getElementById("countdown").innerHTML = "TIEMPO AGOTADO";
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+        if(document.getElementById("days")) document.getElementById("days").innerText = days.toString().padStart(2, '0');
+        if(document.getElementById("hours")) document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+        if(document.getElementById("minutes")) document.getElementById("minutes").innerText = mins.toString().padStart(2, '0');
+        if(document.getElementById("seconds")) document.getElementById("seconds").innerText = secs.toString().padStart(2, '0');
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    /* 2. PARTICLES Y FUNCIONES (Lo que ya tenías) */
     const hero = document.querySelector(".hero");
     if(hero) {
         for(let i=0; i<35; i++){
