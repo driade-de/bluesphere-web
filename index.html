@@ -600,7 +600,11 @@ climático y ambiental.
     </div>
 
 <script>
-    /* 1. RELOJ COUNTDOWN */
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =========================
+       1. RELOJ COUNTDOWN
+    ========================== */
     const targetDate = new Date("2035-01-01T00:00:00").getTime();
     
     function updateCountdown() {
@@ -608,7 +612,9 @@ climático y ambiental.
         const diff = targetDate - now;
 
         if (diff <= 0) {
-            if(document.getElementById("countdown")) document.getElementById("countdown").innerHTML = "TIEMPO AGOTADO";
+            if(document.getElementById("countdown")){
+                document.getElementById("countdown").innerHTML = "TIEMPO AGOTADO";
+            }
             return;
         }
 
@@ -617,16 +623,71 @@ climático y ambiental.
         const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const secs = Math.floor((diff % (1000 * 60)) / 1000);
 
+        // Sistema por bloques (panel biofísico)
         if(document.getElementById("days")) document.getElementById("days").innerText = days.toString().padStart(2, '0');
         if(document.getElementById("hours")) document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
         if(document.getElementById("minutes")) document.getElementById("minutes").innerText = mins.toString().padStart(2, '0');
         if(document.getElementById("seconds")) document.getElementById("seconds").innerText = secs.toString().padStart(2, '0');
+
+        // Sistema fallback (si solo existe countdown)
+        if(document.getElementById("countdown") && !document.getElementById("days")){
+            document.getElementById("countdown").innerHTML =
+                `${days} DÍAS : ${hours} HRS : ${mins} MIN : ${secs} SEG`;
+        }
     }
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    /* 2. PARTICLES Y FUNCIONES (Lo que ya tenías) */
+
+    /* =========================
+       2. ESCENARIOS + BARRA
+    ========================== */
+    let scenarios = {
+        optimista: new Date("2038-01-01").getTime(),
+        intermedio: new Date("2035-01-01").getTime(),
+        critico: new Date("2030-01-01").getTime()
+    };
+
+    let currentTarget = scenarios.intermedio;
+
+    window.setScenario = function(type) {
+        currentTarget = scenarios[type];
+
+        let indice = document.getElementById("indice");
+        let barra = document.getElementById("barra");
+
+        if(!indice || !barra) return;
+
+        if(type === "optimista"){
+            indice.innerText = "78%";
+            indice.style.color = "#22c55e";
+            barra.style.width = "78%";
+            barra.style.background = "#22c55e";
+        }
+
+        if(type === "intermedio"){
+            indice.innerText = "62%";
+            indice.style.color = "#3b82f6";
+            barra.style.width = "62%";
+            barra.style.background = "#3b82f6";
+        }
+
+        if(type === "critico"){
+            indice.innerText = "41%";
+            indice.style.color = "#ef4444";
+            barra.style.width = "41%";
+            barra.style.background = "#ef4444";
+        }
+    }
+
+    // Activar por defecto
+    setScenario("intermedio");
+
+
+    /* =========================
+       3. PARTICLES
+    ========================== */
     const hero = document.querySelector(".hero");
     if(hero) {
         for(let i=0; i<35; i++){
@@ -639,8 +700,9 @@ climático y ambiental.
             hero.appendChild(p);
         }
     }
-</script>
 
+});
+</script>
 </body>
 </html>
 <!-- DONACIONES - VERSIÓN MEJORADA -->
