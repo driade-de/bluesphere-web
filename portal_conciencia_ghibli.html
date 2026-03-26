@@ -58,5 +58,47 @@
         setInterval(updateClock, 1000);
         updateClock();
     </script>
+    // --- INTEGRACIÓN SUPABASE BLUESPHERE ---
+const SUPABASE_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+
+async function conectarGaia() {
+    try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/metricas_globales?select=*&order=created_at.desc&limit=1`, {
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization": `Bearer ${SUPABASE_KEY}`
+            }
+        });
+        const data = await response.json();
+        
+        if (data && data.length > 0) {
+            const metrica = data[0];
+            
+            // Actualización de Sensores (IDs correspondientes a tu HTML)
+            if(document.getElementById("co2-val")) 
+                document.getElementById("co2-val").innerText = `${metrica.co2_ppm} PPM`;
+            
+            if(document.getElementById("bioma-val")) 
+                document.getElementById("bioma-val").innerText = `${metrica.salud_bioma}%`;
+            
+            if(document.getElementById("hielo-val")) 
+                document.getElementById("hielo-val").innerText = `${metrica.masa_glaciar} GT`;
+            
+            // Actualización de Estabilidad Central
+            const estabilidadTexto = document.querySelector(".stability-percentage");
+            if(estabilidadTexto) 
+                estabilidadTexto.innerText = `${metrica.estabilidad_global}%`;
+            
+            console.log("Sincronización BlueSphere exitosa.");
+        }
+    } catch (error) {
+        console.error("Error en el Sistema Nervioso Planetario:", error);
+    }
+}
+
+// Sincronizar cada 10 segundos
+setInterval(conectarGaia, 10000);
+conectarGaia();
 </body>
 </html>
