@@ -56,9 +56,9 @@ body {
 /* SENSORES */
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 15px;
-  max-width: 400px;
+  max-width: 500px;
   margin: 40px auto;
 }
 
@@ -110,31 +110,22 @@ button {
 <div class="core">
   <div class="circle">
     <div>
-      <div class="percent">62%</div>
+      <div class="percent">--%</div>
       <div class="label">CONSCIENCIA PLANETARIA</div>
     </div>
   </div>
 
-  <div class="timer">TIEMPO DE GRACIA: 3202 DÍAS</div>
+  <div class="timer">TIEMPO DE GRACIA: -- DÍAS</div>
 </div>
 
 <div class="grid">
-  <div class="card">
-    <div>CO2</div>
-    <div class="value">421 ppm</div>
-  </div>
-  <div class="card">
-    <div>BIOMA</div>
-    <div class="value">78%</div>
-  </div>
-  <div class="card">
-    <div>HIELO</div>
-    <div class="value">-12%</div>
-  </div>
-  <div class="card">
-    <div>ENERGÍA</div>
-    <div class="value">0.34</div>
-  </div>
+  <div class="card"><div>AIRE</div><div class="value">--</div></div>
+  <div class="card"><div>TEMP</div><div class="value">--</div></div>
+  <div class="card"><div>ANTÁRTIDA</div><div class="value">--</div></div>
+  <div class="card"><div>NIVEL MAR</div><div class="value">--</div></div>
+  <div class="card"><div>ÁRTICO</div><div class="value">--</div></div>
+  <div class="card"><div>OCÉANO</div><div class="value">--</div></div>
+  <div class="card"><div>BIODIV.</div><div class="value">--</div></div>
 </div>
 
 <div class="membership">
@@ -160,6 +151,7 @@ button {
     </div>
   </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 <script>
@@ -169,53 +161,78 @@ const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJl
 const supabaseClient = supabase.createClient(S_URL, S_KEY);
 
 // -------- CARGA DE DATOS --------
-async function cargarDatos() {
+async function cargardatos() {
   const { data, error } = await supabaseClient
-    .from('planet_status')
+    .from('heptagram_gaia_metrics')
     .select('*')
     .order('created_at', { ascending: false })
     .limit(1)
     .single();
 
   if (error) {
-    console.error('Error cargando datos:', error);
+    console.error('error:', error);
     return;
   }
 
-  // Núcleo
-  document.querySelector('.percent').innerText = data.conciencia + '%';
-  document.querySelector('.timer').innerText =
-    'TIEMPO DE GRACIA: ' + data.dias_restantes + ' DÍAS';
+  console.log('data:', data);
 
-  // Sensores
+  // sensores reales
+  const sensores = [
+    data.aire,
+    data.temperatura,
+    data.hielo_antartida,
+    data.nivel_mar,
+    data.hielo_artico,
+    data.oceano,
+    data.biodiversidad
+  ];
+
+  // calcular conciencia si no existe
+  let conciencia = data.conciencia_global;
+
+  if (!conciencia) {
+    const suma = sensores.reduce((a, b) => a + b, 0);
+    conciencia = suma / sensores.length;
+  }
+
+  document.querySelector('.percent').innerText =
+    Number(conciencia).toFixed(1) + '%';
+
+  // días (si existe)
+  if (data.dias_restantes) {
+    document.querySelector('.timer').innerText =
+      'TIEMPO DE GRACIA: ' + data.dias_restantes + ' DÍAS';
+  }
+
+  // pintar sensores
   const valores = document.querySelectorAll('.value');
 
-  if (valores.length >= 4) {
-    valores[0].innerText = data.co2 + ' ppm';
-    valores[1].innerText = data.bioma + '%';
-    valores[2].innerText = data.hielo + '%';
-    valores[3].innerText = data.energia;
-  }
+  valores.forEach((el, i) => {
+    if (sensores[i] !== undefined) {
+      el.innerText = sensores[i];
+    }
+  });
 }
 
 // -------- REALTIME --------
 function activarRealtime() {
   supabaseClient
-    .channel('planet-live')
+    .channel('heptagram-live')
     .on('postgres_changes', {
       event: '*',
       schema: 'public',
-      table: 'planet_status'
+      table: 'heptagram_gaia_metrics'
     }, payload => {
-      console.log('Cambio detectado:', payload);
-      cargarDatos();
+      console.log('cambio:', payload);
+      cargardatos();
     })
     .subscribe();
 }
 
-// -------- INICIALIZACIÓN --------
-cargarDatos();
+// -------- INIT --------
+cargardatos();
 activarRealtime();
 </script>
+
 </body>
 </html>
