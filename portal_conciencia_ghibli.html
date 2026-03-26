@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlueSphere | Cámara de Conciencia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon-cyan: #00f2ff; --space-dark: #050a14; --ghibli-green: #4a7c59; }
+        body { margin: 0; background: radial-gradient(circle at center, #0a192f 0%, var(--space-dark) 100%); color: white; font-family: 'Montserrat', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
+        
+        .main-title { font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--neon-cyan); text-shadow: 0 0 15px rgba(0, 242, 255, 0.4); margin-top: 50px; letter-spacing: 5px; text-align: center; }
+        
+        /* Oráculo Central */
+        .oracle-center { position: relative; width: 320px; height: 320px; margin: 40px auto; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid rgba(0, 242, 255, 0.3); border-radius: 50%; background: rgba(0, 242, 255, 0.02); box-shadow: inset 0 0 40px rgba(0, 242, 255, 0.1); animation: pulse 6s infinite ease-in-out; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); border-color: var(--neon-cyan); } }
+        
+        .stability-percentage { font-family: 'Orbitron', sans-serif; font-size: 5rem; font-weight: 700; background: linear-gradient(to bottom, #fff, var(--neon-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Sensores */
+        .sensor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; width: 90%; max-width: 1100px; margin-top: 30px; padding-bottom: 50px; }
+        .sensor-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 25px; border-radius: 20px; backdrop-filter: blur(10px); text-align: center; transition: 0.3s; }
+        .sensor-card:hover { border-color: var(--neon-cyan); transform: translateY(-5px); background: rgba(0, 242, 255, 0.05); }
+        
+        .label-tag { font-size: 0.7rem; color: var(--neon-cyan); letter-spacing: 3px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; display: block; }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">SISTEMA NERVIOSO PLANETARIO</h1>
+    
+    <div class="oracle-center">
+        <span class="label-tag">Estabilidad</span>
+        <span class="stability-percentage">62%</span>
+        <span style="font-size: 0.8rem; opacity: 0.6; margin-top: 10px;">HOMEOSTASIS GLOBAL</span>
+    </div>
+
+    <div class="sensor-grid">
+        <div class="sensor-card"><span class="label-tag">Atmósfera</span><h3>CO2</h3><p style="color: var(--neon-cyan); font-family: 'Orbitron';">SYNC...</p></div>
+        <div class="sensor-card"><span class="label-tag">Biosfera</span><h3>BIOMA</h3><p style="color: var(--neon-cyan); font-family: 'Orbitron';">MEASURING...</p></div>
+        <div class="sensor-card"><span class="label-tag">Criosfera</span><h3>GLACIARES</h3><p style="color: var(--neon-cyan); font-family: 'Orbitron';">MONITORING...</p></div>
+    </div>
+</body>
+</html>
