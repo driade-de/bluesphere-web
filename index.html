@@ -698,23 +698,6 @@ document.addEventListener("DOMContentLoaded", function () {
             p.style.animationDuration = (8 + Math.random() * 12) + "s";
             p.style.animationDelay = Math.random() * 5 + "s";
             hero.appendChild(p);
-
-        }
-    }
-    /* =========================
-   4. BARRAS DE SENSORES (CRÍTICO)
-========================= */
-document.querySelectorAll('.bar-fill').forEach(bar => {
-    const width = bar.getAttribute('data-width');
-    
-    if (width) {
-        // Forzar inicio en 0 para animación
-        bar.style.width = "0%";
-
-        // Pequeño delay para animar correctamente
-        setTimeout(() => {
-            bar.style.width = width + "%";
-        }, 200);
     }
 
 }
