@@ -1665,7 +1665,7 @@ function updateCountdown(){
             const client = supabase.createClient(URL, KEY);
 
             const response = await client
-                .from('heptagrama_gaia_metrics')
+                .from('heptagram_gaia_metrics')
                 .select('*');
 
             if (response.error) {
@@ -1703,7 +1703,7 @@ function updateCountdown(){
 
             });
 
-            console.log("✅ Ziriux: Heptagrama Gaia sincronizado correctamente.");
+            console.log("✅ Ziriux: Heptagram Gaia sincronizado correctamente.");
 
         } catch (err) {
             console.error("Ziriux: fallo crítico del sistema ->", err);
