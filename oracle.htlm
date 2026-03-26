@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>BlueSphere Oráculo</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at center, #0A1120, #05070A);
+  color: white;
+  text-align: center;
+}
+
+/* NÚCLEO */
+.core {
+  margin-top: 80px;
+}
+
+.circle {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 1px solid #00F0FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  animation: pulse 4s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.percent {
+  font-size: 48px;
+  color: #00F0FF;
+}
+
+.label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  opacity: 0.6;
+}
+
+.timer {
+  margin-top: 20px;
+  color: #00F0FF;
+  font-family: monospace;
+}
+
+/* SENSORES */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  max-width: 400px;
+  margin: 40px auto;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 15px;
+}
+
+.card .value {
+  color: #00F0FF;
+  font-size: 20px;
+}
+
+/* MEMBRESÍAS */
+.membership {
+  margin-top: 60px;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.plan {
+  width: 220px;
+  padding: 20px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.05);
+}
+
+button {
+  margin-top: 15px;
+  padding: 10px;
+  border: none;
+  background: rgba(0,240,255,0.2);
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="core">
+  <div class="circle">
+    <div>
+      <div class="percent">62%</div>
+      <div class="label">CONSCIENCIA PLANETARIA</div>
+    </div>
+  </div>
+
+  <div class="timer">TIEMPO DE GRACIA: 3202 DÍAS</div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <div>CO2</div>
+    <div class="value">421 ppm</div>
+  </div>
+  <div class="card">
+    <div>BIOMA</div>
+    <div class="value">78%</div>
+  </div>
+  <div class="card">
+    <div>HIELO</div>
+    <div class="value">-12%</div>
+  </div>
+  <div class="card">
+    <div>ENERGÍA</div>
+    <div class="value">0.34</div>
+  </div>
+</div>
+
+<div class="membership">
+  <h3>ACTIVACIÓN DE GUARDIÁN</h3>
+
+  <div class="cards">
+    <div class="plan">
+      <h4>INICIAL</h4>
+      <p>$10 USD</p>
+      <button>ACTIVAR</button>
+    </div>
+
+    <div class="plan">
+      <h4>ACTIVO</h4>
+      <p>$25 USD</p>
+      <button>ACTIVAR</button>
+    </div>
+
+    <div class="plan">
+      <h4>GÉNESIS</h4>
+      <p>$100 USD</p>
+      <button>ACTIVAR</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
