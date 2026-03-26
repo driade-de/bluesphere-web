@@ -160,6 +160,62 @@ button {
     </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
+<script>
+const S_URL = 'https://ophicpcbgdgzthjamzoz.supabase.co';
+const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9waGljcGNiZ2RnenRoamFtem96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MjgwMzUsImV4cCI6MjA4MDMwNDAzNX0.K55Tk-cdbAFDOtGrIMN7vYFaJAccrsD6UdOrARt1P5c';
+
+const supabaseClient = supabase.createClient(S_URL, S_KEY);
+
+// -------- CARGA DE DATOS --------
+async function cargarDatos() {
+  const { data, error } = await supabaseClient
+    .from('planet_status')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  if (error) {
+    console.error('Error cargando datos:', error);
+    return;
+  }
+
+  // Núcleo
+  document.querySelector('.percent').innerText = data.conciencia + '%';
+  document.querySelector('.timer').innerText =
+    'TIEMPO DE GRACIA: ' + data.dias_restantes + ' DÍAS';
+
+  // Sensores
+  const valores = document.querySelectorAll('.value');
+
+  if (valores.length >= 4) {
+    valores[0].innerText = data.co2 + ' ppm';
+    valores[1].innerText = data.bioma + '%';
+    valores[2].innerText = data.hielo + '%';
+    valores[3].innerText = data.energia;
+  }
+}
+
+// -------- REALTIME --------
+function activarRealtime() {
+  supabaseClient
+    .channel('planet-live')
+    .on('postgres_changes', {
+      event: '*',
+      schema: 'public',
+      table: 'planet_status'
+    }, payload => {
+      console.log('Cambio detectado:', payload);
+      cargarDatos();
+    })
+    .subscribe();
+}
+
+// -------- INICIALIZACIÓN --------
+cargarDatos();
+activarRealtime();
+</script>
 </body>
 </html>
