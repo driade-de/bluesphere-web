@@ -1706,15 +1706,14 @@
     </header>
 
     <main class="main-container">
-        <!-- Sección Hero -->
-        <section class="hero-section">
+       <section class="hero-section">
             <div class="hero-subtitle">Observación Sistémica de la Salud Biofísica</div>
             <h1 class="hero-title">
                 Indicadores Planetarios de Referencia <span class="highlight">+1.5°C</span>
             </h1>
             <p class="hero-description">
-                Marco inspirado en modelos científicos de estabilidad del sistema Tierra y los límites planetarios. 
-                Estimación basada en condiciones actuales para alcanzar el umbral crítico.
+                Interfaz de monitoreo en tiempo real basada en los límites planetarios. 
+                El Núcleo Ziriux procesa las desviaciones de los umbrales críticos de estabilidad.
             </p>
             
             <div class="scenario-buttons">
@@ -1724,7 +1723,6 @@
             </div>
         </section>
 
-        <!-- Countdown -->
         <div class="countdown-container">
             <div class="countdown" id="countdown">
                 <div class="countdown-item">
@@ -1747,106 +1745,83 @@
                     <div class="countdown-label">Segundos</div>
                 </div>
             </div>
+            <div class="countdown-legend">
+                Tiempo estimado para alcanzar el umbral crítico de calentamiento global
+            </div>
         </div>
 
-        <!-- LEYENDA DEL COUNTDOWN -->
-        <div class="countdown-legend">
-            Tiempo estimado para alcanzar el umbral crítico de +1.5°C
-        </div>
+        <section class="ziriux-system">
+            <svg class="neural-network" viewBox="0 0 1400 700">
+                <line class="connection-line" x1="700" y1="350" x2="700" y2="70"></line>
+                <line class="connection-line" x1="700" y1="350" x2="1190" y2="154"></line>
+                <line class="connection-line" x1="700" y1="350" x2="1260" y2="490"></line>
+                <line class="connection-line" x1="700" y1="350" x2="1050" y2="630"></line>
+                <line class="connection-line" x1="700" y1="350" x2="350" y2="630"></line>
+                <line class="connection-line" x1="700" y1="350" x2="140" y2="490"></line>
+                <line class="connection-line" x1="700" y1="350" x2="210" y2="154"></line>
+            </svg>
 
-       <section class="ziriux-system">
-    <svg class="neural-network" viewBox="0 0 1400 700">
-        <line class="connection-line" x1="700" y1="350" x2="700" y2="70"></line>   <line class="connection-line" x1="700" y1="350" x2="1190" y2="154"></line> <line class="connection-line" x1="700" y1="350" x2="1260" y2="490"></line> <line class="connection-line" x1="700" y1="350" x2="1050" y2="630"></line> <line class="connection-line" x1="700" y1="350" x2="350" y2="630"></line>  <line class="connection-line" x1="700" y1="350" x2="140" y2="490"></line>  <line class="connection-line" x1="700" y1="350" x2="210" y2="154"></line>  </svg>
+            <div class="ziriux-core">
+                <img src="ziriux-logo.png" class="ziriux-image" alt="Ziriux Core">
+                <div class="ziriux-ring"></div>
+            </div>
 
-    <div class="ziriux-core">
-    <img src="ziriux-logo.png" class="ziriux-image" alt="Ziriux Core">
-    <div class="ziriux-ring"></div>
-</div>
+            <div class="system-node node-co2">
+                <div class="node-circle critical"><div class="node-orbit"></div>💨</div>
+                <div class="node-info">
+                    <div class="node-value">429ppm</div>
+                    <div class="node-label">Aire (CO2)</div>
+                </div>
+            </div>
 
-    <div class="system-node node-co2">
-        <div class="node-circle critical">
-            <div class="node-orbit"></div>
-            💨
-        </div>
-        <div class="node-info">
-            <div class="node-value">429ppm</div>
-            <div class="node-label">Aire (CO2)</div>
-            <div class="node-status critico">CRÍTICO</div>
-        </div>
-    </div>
+            <div class="system-node node-temperatura">
+                <div class="node-circle warning"><div class="node-orbit"></div>🌡️</div>
+                <div class="node-info">
+                    <div class="node-value">+1.1°C</div>
+                    <div class="node-label">Temperatura</div>
+                </div>
+            </div>
 
-    <div class="system-node node-temperatura">
-        <div class="node-circle warning">
-            <div class="node-orbit"></div>
-            🌡️
-        </div>
-        <div class="node-info">
-            <div class="node-value">+1.1°C</div>
-            <div class="node-label">Temperatura</div>
-            <div class="node-status advertencia">ALERTA</div>
-        </div>
-    </div>
+            <div class="system-node node-hielo">
+                <div class="node-circle warning"><div class="node-orbit"></div>🧊</div>
+                <div class="node-info">
+                    <div class="node-value">4.3M km²</div>
+                    <div class="node-label">Hielo Ártico</div>
+                </div>
+            </div>
 
-    <div class="system-node node-hielo">
-        <div class="node-circle warning">
-            <div class="node-orbit"></div>
-            🧊
-        </div>
-        <div class="node-info">
-            <div class="node-value">4.3M km²</div>
-            <div class="node-label">Hielo Ártico</div>
-            <div class="node-status advertencia">ALERTA</div>
-        </div>
-    </div>
+            <div class="system-node node-nivel">
+                <div class="node-circle stable"><div class="node-orbit"></div>📊</div>
+                <div class="node-info">
+                    <div class="node-value">+104.5mm</div>
+                    <div class="node-label">Nivel del Mar</div>
+                </div>
+            </div>
 
-    <div class="system-node node-nivel">
-        <div class="node-circle stable">
-            <div class="node-orbit"></div>
-            📊
-        </div>
-        <div class="node-info">
-            <div class="node-value">+104.5mm</div>
-            <div class="node-label">Nivel del Mar</div>
-            <div class="node-status estable">RIESGO</div>
-        </div>
-    </div>
+            <div class="system-node node-ph">
+                <div class="node-circle warning"><div class="node-orbit"></div>🌊</div>
+                <div class="node-info">
+                    <div class="node-value">2.1 pH</div>
+                    <div class="node-label">Océano (pH)</div>
+                </div>
+            </div>
 
-    <div class="system-node node-ph">
-        <div class="node-circle warning">
-            <div class="node-orbit"></div>
-            🌊
-        </div>
-        <div class="node-info">
-            <div class="node-value">2.1 pH</div>
-            <div class="node-label">Océano (pH)</div>
-            <div class="node-status advertencia">DETERIORO</div>
-        </div>
-    </div>
+            <div class="system-node node-biodiversidad">
+                <div class="node-circle critical"><div class="node-orbit"></div>🌿</div>
+                <div class="node-info">
+                    <div class="node-value">-73%</div>
+                    <div class="node-label">Biodiversidad</div>
+                </div>
+            </div>
 
-    <div class="system-node node-biodiversidad">
-        <div class="node-circle critical">
-            <div class="node-orbit"></div>
-            🌿
-        </div>
-        <div class="node-info">
-            <div class="node-value">-73%</div>
-            <div class="node-label">Biodiversidad</div>
-            <div class="node-status critico">CRÍTICO</div>
-        </div>
-    </div>
-
-    <div class="system-node node-agua">
-        <div class="node-circle critical">
-            <div class="node-orbit"></div>
-            💧
-        </div>
-        <div class="node-info">
-            <div class="node-value">Descenso</div>
-            <div class="node-label">Agua Dulce</div>
-            <div class="node-status critico">CRÍTICO</div>
-        </div>
-    </div>
-</section>
+            <div class="system-node node-agua">
+                <div class="node-circle critical"><div class="node-orbit"></div>💧</div>
+                <div class="node-info">
+                    <div class="node-value">Descenso</div>
+                    <div class="node-label">Agua Dulce</div>
+                </div>
+            </div>
+        </section>
 
         <!-- Grid de Sensores Detallados -->
         <section class="sensors-section">
