@@ -1759,9 +1759,9 @@
         <line class="connection-line" x1="700" y1="350" x2="700" y2="70"></line>   <line class="connection-line" x1="700" y1="350" x2="1190" y2="154"></line> <line class="connection-line" x1="700" y1="350" x2="1260" y2="490"></line> <line class="connection-line" x1="700" y1="350" x2="1050" y2="630"></line> <line class="connection-line" x1="700" y1="350" x2="350" y2="630"></line>  <line class="connection-line" x1="700" y1="350" x2="140" y2="490"></line>  <line class="connection-line" x1="700" y1="350" x2="210" y2="154"></line>  </svg>
 
     <div class="ziriux-core">
-        <img src="tu_archivo_nuevo_transparente.png" class="ziriux-image" alt="Ziriux Core">
-        <div class="ziriux-ring"></div>
-    </div>
+    <img src="ziriux-logo.png" class="ziriux-image" alt="Ziriux Core">
+    <div class="ziriux-ring"></div>
+</div>
 
     <div class="system-node node-co2">
         <div class="node-circle critical">
