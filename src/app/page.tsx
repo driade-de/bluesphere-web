@@ -13,7 +13,7 @@ export default function BlueSphereOSV2() {
 
       <div className="pt-28 pb-12 px-6 max-w-[1600px] mx-auto space-y-12">
         
-        {/* 2. Sección Superior: El Viaje (Los 7 pasos) */}
+        {/* 2. Sección Superior: El Viaje */}
         <section className="animate-in fade-in slide-in-from-top-4 duration-1000">
           <GuardianJourney />
         </section>
@@ -54,7 +54,7 @@ export default function BlueSphereOSV2() {
 
       </div>
 
-      {/* Identidad Visual de Marca en el fondo */}
+      {/* Identidad Visual de Marca */}
       <div className="fixed bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-emerald-500 to-red-600 opacity-30" />
     </main>
   );
